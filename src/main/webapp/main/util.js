@@ -563,9 +563,6 @@ jQuery(document).ready(function ($) {
 			$(".button-collapse").sideNav("hide");
 		});
 		
-		boxservice.util.startWait();
-		selectMenu(linkSelection+":first");
-		
 	};
 	
 	

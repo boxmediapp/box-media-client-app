@@ -36,6 +36,7 @@ jQuery(document).ready(function ($) {
 		   
 		   $(".button-collapse").sideNav();
 		   
+		   boxservice.episode.show();
 		  
 		  
 	   };
