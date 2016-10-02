@@ -6,5 +6,5 @@ git merge develop
 git push home
 git tag -a $1 -m "release $1"
 git checkout develop
-ssh ec2-user@boxnetwork.co.uk 'cd bdocker && git pull origin'
+ssh ec2-user@boxnetwork.co.uk 'cd box-media-client-app && git pull origin'
 

@@ -5,7 +5,7 @@ git checkout master
 git merge develop
 git push home
 git checkout develop
-ssh ec2-user@be.boxnetwork.co.uk 'cd bdocker && git pull origin'
+ssh ec2-user@be.boxnetwork.co.uk 'cd box-media-client-app && git pull origin'
 
 
 
