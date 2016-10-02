@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
 				   if(boxservice.appinfo && boxservice.appinfo.appconfig && boxservice.appinfo.appconfig.visibilityCategory){
 					   $("body").addClass(boxservice.appinfo.appconfig.visibilityCategory);
 				   }
-				   
+				   boxservice.episode.show();
 			   }).fail(function(){
 				   $("#nav-wrapper .signinorout a").html("Sign In");			   
 			   });       
@@ -36,7 +36,7 @@ jQuery(document).ready(function ($) {
 		   
 		   $(".button-collapse").sideNav();
 		   
-		   boxservice.episode.show();
+		   
 		  
 		  
 	   };
