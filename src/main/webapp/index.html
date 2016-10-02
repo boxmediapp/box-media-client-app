@@ -39,12 +39,16 @@
 
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 			   
-				<li class="navItem box-specific"> <a template="import/import.html" call="boxservice.import.show"> Import</a></li>
+				
 				<li class="navItem"><a  call="boxservice.episode.show">Episodes</a></li>
 				<li class="navItem"><a  call="boxservice.series.show">Series</a></li>
 				<li class="navItem"><a  call="boxservice.seriesgroup.show">Series Groups</a></li>
 				<li class="navItem"><a template="s3/list.html" call="boxservice.s3.show">S3 Storage</a></li>
 				<li class="navItem"><a template="schedules/list.html" call="boxservice.schedule.show">Schedules</a></li>
+				
+				
+				<li class="navItem box-specific"> <a template="import/import.html" call="boxservice.import.show"> Import</a></li>
+				
 				<li class="navItem"><a template="admin/main.html" call="boxservice.admin.main">Admin</a></li>
 
 				<li class="navItem signinorout"><a template="help/main.html" call="boxservice.signinout">Sign In</a></li>
@@ -52,13 +56,15 @@
 
 			</ul>
 			<ul id="mobile-menu" class="side-nav">
-				<li class="navItem box-specific"> <a href="#" template="import/import.html" call="boxservice.import.show"> Import</a></li>
+				
 				<li class="navItem"><a href="#" call="boxservice.episode.show">Episodes</a></li>
 				<li class="navItem"><a href="#" template="series/list.html" call="boxservice.series.show">Series</a></li>
 				<li class="navItem"><a href="#" template="seriesgroup/list.html" call="boxservice.seriesgroup.show">Series Groups</a></li>
 
 				<li class="navItem"><a href="#" template="s3/list.html" call="boxservice.s3.show">S3 Storage</a></li>
 				<li class="navItem"><a href="#" template="schedules/list.html" call="boxservice.schedule.show">Schedules</a></li>
+				<li class="navItem box-specific"> <a href="#" template="import/import.html" call="boxservice.import.show"> Import</a></li>
+				
 				<li class="navItem"><a href="#" template="admin/main.html" call="boxservice.admin.main">Admin</a></li>
 
 				<li class="navItem signinorout"><a template="help/main.html" call="boxservice.signinout">Sign In</a></li>
