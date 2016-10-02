@@ -1,0 +1,160 @@
+<h4>Series Editor</h4>
+
+
+
+<div id="seriesEditor">
+
+	<div id="controllers">
+		 <a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>      
+	     <a id="saveSeries" class="waves-effect waves-light btn">Save</a>
+	     <a id="cancelSaveSeries" class="waves-effect waves-light btn">Cancel</a>   
+	     <a id="deleteSeries" class="waves-effect waves-light btn">Delete this series</a>  
+	</div>
+
+
+
+    <div class="row">
+		    <div class="input-field col s12">
+		    	<input  id="seriesName" type="text">
+          		<label for="seriesName">Series Title</label>		    
+		    </div>    			    	
+	</div>
+
+	<div class="row">
+		    <div class="input-field col s12">
+		    	<textarea  id="seriesSynopsis" class="materialize-textarea"></textarea> 
+          		<label for="seriesSynopsis">Series Synopsis</label>		    
+		    </div>    		
+	</div>
+	 <div class="row">
+	   	    <div class="input-field col s4">
+		    	<input  id="contractNumber" type="text">
+          		<label for="contractNumber">Contract Number</label>		    
+		    </div>
+		    <div class="input-field col s4">
+		    	<input  id="seriesNumber" type="text">
+          		<label for="seriesNumber">Series Number</label>		    
+		    </div>    			   		
+		    <div class="input-field col s4">
+				<select id="seriesTags" multiple>		    	        		    	        		    			
+			    	</select>
+				<label for="seriesTags">Tags</label>
+			</div>
+	 </div>
+	   
+	   
+	 <div  class="row">
+			<div class="input-field col s4">
+				<input  id="seriesGroupTitle" type="text" disabled>
+		     	<label for="seriesGroupTitle">Series Group Title</label>
+		     </div>
+     		<div class="col s4">
+     			<a id="editSeriesGroup" class="waves-effect waves-light btn">Edit series group</a>
+     		</div>
+     		<div class="col s4 tooltip">
+     			<a id="switchSeriesGroup" class="waves-effect waves-light btn">Switch Series Group</a>
+     			<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					Click on the button to specify the title of the series group that the series belongs to.
+					If such an series group exist, it will attach the series to the series group, otherwise, it will create an a new series group.
+				</div>
+     		</div>     
+     </div>			
+	   
+	 <div class="row">
+		<div class="col 3">
+			<a id="uploadImageFile" class="waves-effect waves-light btn">Upload Image</a>
+		</div>
+		
+		<div class="col s1 tooltip">		
+						<i class="material-icons">help_outline</i>
+						<div class="tooltiptext z-depth-2">
+							You can upload a image file from your local disk, and directly attached it to this series. you can also upload the images
+							directly to to he s3 buckets, and the application will automatically pick up the images and attached them to the series based on the naming convention.
+							
+						</div>
+		</div>		
+		<div class="input-field col s3">
+				  	<input  id="imageURL" type="text">
+		            <label for="imageURL" class="tooltip">Series level Image
+		            		<i class="material-icons">help_outline</i>
+							<div class="tooltiptext z-depth-2">
+								This field will be automatically filled in when a matching image is uploaded to the s3 bucket. 
+								     So you do not need to fill in this field unless you know you would like to specify the URL to the master Image manually. 
+								     The naming convention for the image file is:
+								        &lt;contract-number&gt;.&lt;ext&gt; In order to make the image easier to understanding you can prefix the image with the web-safe title			       
+							</div>		            
+		            </label>
+	    </div>	
+		<div class="input-field col s1">
+				<a id="viewImage" class="waves-effect waves-light btn">View Images</a>
+	   </div>
+		
+		
+	</div>
+	   
+	   
+				 
+
+
+
+    
+         
+    <div class="editsection">        
+              <h5>Episodes in this series</h5>       
+               <table class="bordered">
+			       <thead>
+			          <th>Title</th>
+			          <th>Programme Number</th>
+			           <th>Number</th>           
+			           <th>Metadata Status</th>
+			           <th>Video status</th>
+			       </thead>
+			       <tbody id="episodelistContainer">
+			       </tbody>
+			 </table>
+    </div>
+              
+            
+            
+        
+  
+  <div class="row">
+ 				<a id="addNewEpisodeToSeries" class="waves-effect waves-light btn">Add New Episode</a>
+ </div>
+ 
+ 
+ 
+ <div id="uploadFileNameDialog" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="filennameForUpload" type="text">
+					<label for="filennameForUpload">Target file name for Upload</label>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="modal-footer">
+			<a class="confirm  btn-flat waves-effect waves-green">Use this file name</a>
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+		</div>
+	</div>
+ 
+<div id="fileUploaderDialog" class="modal">
+		<div class="modal-content">
+
+			<div class="fileuploader">Upload local files</div>
+
+
+		</div>
+		<div class="modal-footer">
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</button>	       
+	   </div>
+</div>
+
+   
+     
+
+

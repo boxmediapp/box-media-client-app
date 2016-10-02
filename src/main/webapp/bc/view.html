@@ -1,0 +1,85 @@
+<h1>
+<a href="https://studio.brightcove.com/products/videocloud/media/videos/${id}" target="_blank">
+${name}
+</a>
+</h1>
+<img src="${images.poster.src}"/>
+
+
+<table>
+<tr>
+<td>ID:</td>
+<td>${id}</td>
+</tr>
+
+
+<tr>
+<td>Long Description:</td>
+<td>${long_description}</td>
+</tr>
+<tr>
+<td>Original Filename:</td>
+<td>${original_filename}</td>
+</tr>
+
+
+
+
+<tr>
+<td>State</td>
+<td>${state}</td>
+</tr>
+
+<tr>
+<td>economics</td>
+<td>${economics}</td>
+</tr>
+
+<tr>
+<td>reference_id</td>
+<td>${reference_id}</td>
+</tr>
+
+<tr>
+<td>tags</td>
+<td>${tags}</td>
+</tr>
+
+<tr>
+<td>Available From </td>
+<td>${schedule.starts_at}</td>
+</tr>
+
+<tr>
+<td>Available To </td>
+<td>${schedule.ends_at}</td>
+</tr>
+
+<tr>
+<td>Updated At</td>
+<td>${updated_at}</td>
+</tr>
+
+</table>
+
+
+<div id="cuepointContainer">
+<div class="subheader"> <h3>Cue points</h3></div>
+   
+   <table class="datatable">
+   <tr>
+     <th>Name</th>
+     <th>Type</th>
+     <th>Time</th>
+     <th>Metadata</th>
+   </tr>
+   <tbody id="cuepointlist">
+	   
+   
+   </tbody>
+   
+        
+   </table>
+
+
+</div>

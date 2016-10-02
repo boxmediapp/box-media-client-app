@@ -1,0 +1,709 @@
+
+
+
+<div id="episodeEditor" class="publishedStatus">
+
+					<h4>Episode Editor</h4>
+	
+
+<div id="controllers">
+    <a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>
+    
+	<a id="saveEpisode" class="waves-effect waves-light btn">Save</a>
+	<a id="cancelEditEpisode" class="waves-effect waves-light btn">Cancel</a>
+	
+	<a id="publishToBC" class="waves-effect waves-light btn">Create a new place holder</a>
+	<a id="updateToBC" class="waves-effect waves-light btn">Push the metadata changes</a>
+	<a id="unpublishFromBC" class="waves-effect waves-light btn">Delete the media entry</a>
+	<a id="deleteEpisode" class="waves-effect waves-light btn">Delete the episode</a>
+	<a id="transcodeMedia" class="waves-effect waves-light btn">Start transcode</a>
+	<a id="playSourceVideo" class="waves-effect waves-light btn">Play Source Video</a>
+	<a id="viewInBrightcove" class="waves-effect waves-light btn">View in Brightcove</a>
+</div>
+
+
+
+
+ <div class="card grey lighten-5 episodeEditCard">
+    <div class="row">
+    	<div class="input-field col s3">
+    	            <div class="row">
+					    	<div class="input-field col s6 complianceStatus statusAction">
+								    	<table><tr><td>
+						    		<div class="trafficLight"/>
+								     <div class="actionMenuContent">
+							  			  <a href="#" class="approve">Approve</a>
+							    		  <a href="#" class="disapprove">Disapprove</a>
+							    		  <a href="#" class="approveinprogress">Approve In progress</a>							    		  
+							  		 </div>
+						    
+						            </td><td>
+						            <img src="img/s-note.png" class="editorNoteIcon"/>
+						    		</td></tr></table>	 
+						    
+					    	</div>    	
+					    	<div class="input-field col s6 publishedStatus statusAction">
+					    		<div class="trafficLight"/>
+						    	 <div class="actionMenuContent">
+					  			  <a href="#" class="activate">Activate</a>
+					    		  <a href="#" class="deactivate">Deactivate</a>    			
+					  		 	</div>
+					    	</div>
+    					</div>    	
+    	</div>
+    	<div id="statusArea" class="input-field col s9">
+    	</div>    	
+    </div>
+    
+ 
+  </div>
+	<div class="card grey lighten-5 episodeEditCard">
+
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="episodeTitle" type="text">
+				<label for="episodeTitle">EPG Title</label>
+			</div>
+			
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<textarea id="episodeSynopsis" class="materialize-textarea"></textarea>
+				<label for="episodeSynopsis">Episode Synopsis</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s4">
+				<input id="episodeNumber" type="text">
+				<label for="episodeNumber">Episode Number</label>
+			</div>
+			<div class="input-field col s4">
+				<input id="episodeSequenceNumber" type="text">
+				<label for="episodeSequenceNumber">Episode Sequence Number</label>
+			</div>
+			<div class="input-field col s4">
+				<input id="programmeNumber" type="text">
+				<label for="programmeNumber">Programme Number (Contract/episode)</label>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div class="card grey lighten-5 episodeEditCard">
+		<div class="row">
+			<div class="input-field col s3">
+				<input id="seriesTitle" type="text" disabled>
+				<label for="seriesTitle" class="tooltip">Series Title  <i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+			You can edit the series information in the Series Editor by clicking on the "Edit" button on the right after you have saved
+			your changes in the current episode editor.
+					</div>
+			
+			</label>
+
+			</div>
+			<div class="col s3">
+				<a id="editSeries" class="waves-effect waves-light btn">Edit Series</a>
+			</div>
+
+			<div class="col s3 tooltip">
+				<a id="switchSeries" class="waves-effect waves-light btn">Switch Series</a>
+				<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					Click on the button to specify the contract number that the episode belongs to. If the such an series exists, it will attach
+					the current episode to that series. 
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+
+	<div class="card grey lighten-5 episodeEditCard">
+		<div class="row">
+			<div class="input-field col s4">
+				<select id="episodeContentType">
+			    	        <option value="" disabled>Choose the content type</option>
+			    			<option value="Entertainment">Entertainment</option>
+					      	<option value="Music & Charts">Music & Charts</option>
+					      	<option value="Shorts">Shorts</option>
+			    	</select>
+				<label for="episodeContentType">Content Type</label>
+			</div>
+			<div class="input-field col s4">
+				<select id="txChannel">
+		    	        <option value="" disabled>Choose the TX Channels</option>
+		    	        <option value="4Music">4Music</option>
+				        <option value="BeBox">BeBox</option>
+				        <option value="Box Hits">Box Hits</option>
+				        <option value="Box Plus">Box Plus</option>
+				        <option value="Box Upfront">Box Upfront</option>
+				        <option value="Kerrang">Kerrang</option>
+				        <option value="Kiss">Kiss</option>
+				        <option value="Magic">Magic</option>				        
+				        <option value="The Box">The Box</option>
+				        <option value="None">None</option>
+		    			
+		    	</select>
+				<label for="txChannel">TX Channel</label>
+			</div>
+			<div class="input-field col s4">
+				<input id="firstTXDate" type="datetime-local" class="datepicker">
+				<label for="firstTXDate" class="active">First TX Date</label>
+			</div>
+		</div>
+
+		<div class="row">
+
+			<div class="input-field col s4">
+				<input id="supplier" type="text">
+				<label for=supplier class="tooltip">Supplier
+					
+					 <i class="material-icons">help_outline</i>
+					 <div class="tooltiptext z-depth-2">
+					If this field takes the value of "Box TV Network", the ingestProfile will be automatcally set to "box-plus-network-DRM-profile" if not set.
+					This result in the video is transcoded with DRM and the DRM flag will be set to true.
+					
+					
+					</div>
+					
+					
+					
+					</label>
+
+			</div>
+
+
+			<div class="input-field col s4">
+				<input id="showType" type="text">
+				<label for="showType">Show Type</label>
+			</div>
+
+
+			<div class="input-field col s4">
+				<input id="recordedAt" type="datetime-local" class="datepicker">
+				<label for="recordedAt" class="active tooltip">Recorded At
+				 <i class="material-icons">help_outline</i>
+					 <div class="tooltiptext z-depth-2">
+					   RCS fields for recording date and time values						
+					</div>
+				
+				
+				</label>
+			</div>
+
+
+
+		</div>
+
+		<div class="row">
+
+			<div class="input-field col s6">
+				<select id="certType">
+				    	        <option value="" disabled>Choose the Certification Type</option>
+				    	        <option value="ALL_TIMES">All Times</option>
+								<option value="POST_WATERSHED">Post Watershed</option>		    			
+				    	</select>
+				<label for="" certType "">Certification</label>
+			</div>
+
+			<div class="input-field col s6">
+				<input id="warningText" type="text">
+				<label for="warningText">Warning Text</label>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card grey lighten-5 episodeEditCard">
+		<div class="row">
+
+			<div class="input-field col s4">
+				<select id="episodeTags" multiple>		    	        		    	        		    			
+		    	</select>
+				<label for="episodeTags">Tags</label>
+			</div>
+			<div class="col s2">
+				<a id="admintags" class="waves-effect waves-light btn">Admin Tags</a>
+			</div>
+
+			<div class="col s1 tooltip">
+				<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					You can select multiple tags from the list for this episode, if the tags that you want are not in the list, you can add new
+					tags by click on the "Add" button on the left. The added new tags will be selected automatically for this episode and
+					will be added to the global list which is available to select when you are editing the other episodes.
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<div class="card grey lighten-5 episodeEditCard">
+
+
+
+
+		<div class="row">
+			<div class="input-field col s4">
+				<select id="adsupport">
+			    	        <option value="" disabled>Select Ad Supported option</option>
+						    <option value="FREE">Free</option>
+						    <option value="AD_SUPPORTED">Ad Supported</option>
+			    	</select>
+				<label for="adsupport">Ad supported</label>
+			</div>
+
+
+			<div class="input-field col s4">
+				<input id="numberOfAdsPerBreak" type="text">
+				<label for="numberOfAdsPerBreak" class="tooltip">Number of Ads per break
+			
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			This is the default value for the number of Ads per break when you you have not specified for each Ad break in the Cue points
+			editor.
+			</div>
+			
+			
+			
+			</label>
+			</div>
+
+
+			<div class="col s3 tooltip">
+				<a id="showCueEditor" class="waves-effect waves-light btn">View/Add/Modify Cue Points</a>
+				<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					Click on the button to go to the Cue points editor to to view/modify the cue points for this episode.
+				</div>
+
+			</div>
+			<div class="col s1 ">
+
+
+			</div>
+
+
+
+
+
+
+		</div>
+
+
+
+	</div>
+
+
+
+
+
+
+
+	<div class="card grey lighten-5 episodeEditCard">
+		<div class="row">
+			<div class="input-field col s4">
+				<input id="materialId" type="text">
+				<label for="materialId" class="tooltip">Material Id
+				 <i class="material-icons">help_outline</i>
+		   		<div class="tooltiptext z-depth-2">				
+						You can specify the significant part of the material id, that is used to match the video file uploaded to the s3 bucket.
+				For example, the value "232/23" will match any video file that starts with "V_232_23". In the case of multiple match,
+				the latest version will be selected. If you leave this field blank, the value of the programme number will be imported.		
+					</div>
+				
+				
+				</label>
+			</div>
+			<div class="input-field col s4">
+				<input id="prAuk" type="text">
+				<label for="prAuk">prAuk</label>
+			</div>
+			<div class="input-field col s4">
+				<input id="brightcoveId" type="text">
+				<label for="brightcoveId" class="tooltip">Brightcove ID
+					<i class="material-icons">help_outline</i>
+							<div class="tooltiptext z-depth-2">
+					This field will be automatically filled in when you have created the place holder in the Brightcove, which you can do it
+					by clicking on "Create Place Holder" button located on the top of the page. If the place holder is already created in
+					the brightcove manually and you wish to attach the episode to the existing place holder in the brightcove, you can copy
+					the brightcove id from the brightcove studio, and paste it in the field. After saving it, you can confirm the established
+					link by clicking on the "View in Brightcove" button located on the top of the page.
+							</div>
+							
+					
+					</label>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div class="card grey lighten-5 episodeEditCard">
+
+		<div class="row">
+
+			<div class="col s3">
+				<a id="uploadVideoFile" class="waves-effect waves-light btn">Upload video</a>
+			</div>
+			<div class="col s1 tooltip">
+				<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					You can upload a video file from your local disk, and directly attached it to this episode. Note that this is not suitable
+					if the size of the video is bigger than 2GB. If you have a video file bigger than 2GB, better to use AWS CLI or any
+					other free or commercial S3 uploader tools.
+				</div>
+			</div>
+
+			<div class="input-field col s8">
+				<input id="ingestSource" type="text">
+				<label for="ingestSource" class="tooltip">Ingest Source
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+				This field will be automatically filled in when a matching video is uploaded to the s3 bucket. So you do not need to fill
+				in this field unless you know what you are doing. The naming convention for the video file is V_&lt;material id&gt;.&lt;ext&gt.
+				the '/' character in material id field will be replaced with '_'.
+				
+			</div>
+			
+			</label>
+			</div>
+
+		</div>
+
+
+
+
+		<div class="row">
+
+			<div class="input-field col s4">
+				<select id="ingestProfile">
+					<option value="" disabled>Choose the ingest profile</option>
+		    	        <option value="box-plus-network-1080p-profile">box-plus-network-1080p-profile</option>
+				        <option value="box-plus-network-720p-profile">box-plus-network-720p-profile</option>
+				        <option value="box-plus-network-DRM-profile">box-plus-network-DRM-profile</option>
+				        <option value="high-resolution">high-resolution</option>
+				        				        
+		    	</select>
+				<label for="ingestProfile" class="tooltip">
+			Ingest Profile
+			<i class="material-icons">help_outline</i>
+	   		<div class="tooltiptext z-depth-2">				
+					This field is needed when you start the transcode process, which you can do it by clicking on the "Start Transcode" button
+			located on the top of the page. The "Start transcode" button along with the buttons will not be available during the editing
+			process.		
+				</div>
+			
+			</label>
+			</div>
+
+
+			<div class="input-field col s4">
+				<input id="durationScheduled" type="text">
+				<label for="durationScheduled" class="tooltip">Duration Scheduled
+			<i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+						This specifies the expected duration of the video. It is used for QCing the video file uploaded. You can leave it blank if
+						you would not like to use this feature
+					</div>
+			
+			</label>
+			</div>
+			
+			
+			<div class="input-field col s4">
+				<input id="durationUploaded" type="text">
+				<label for="durationUploaded" class="tooltip">Duration Uploaded
+			<i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+						This specifies the duration of the video thay is uploaded. When a video is uploaded, its duration will be inspected and the value will be set into this field automatically.
+						So the value in this field should be the same as in the Duration Scheduled.
+					</div>
+			
+			</label>
+			</div>
+
+
+		</div>
+
+	</div>
+
+
+
+	<div class="card grey lighten-5 episodeEditCard">
+		<div class="row">
+			<div class="col 3">
+				<a id="uploadImageFile" class="waves-effect waves-light btn">Upload Image</a>
+			</div>
+			<div class="col 1 tooltip">
+				<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					You can upload a image file from your local disk, and directly attached it to this episode. you can also upload the images
+					directly to to he s3 buckets, and the application will automatically pick up the images and attached them to the episodes,
+					series and series groups based on the naming conventions.
+
+				</div>
+			</div>
+			<div class="input-field col s3">
+				<input id="imageURL" type="text">
+				<label for="imageURL" class="tooltip">Episode Level Image
+			
+			 <i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+			This field will be automatically filled in when a matching image is uploaded to the s3 bucket. So you do not need to fill
+			in this field unless you know you would like to specify the URL to the master Image manually. The naming convention for
+			the image file is &lt;contract-number&gt;_&lt;episode-number&gt;.&lt;ext&gt;
+			In order to make the image name user friendly, you can prefix the file name with the websafe title.
+					</div>
+			
+			
+			</label>
+			</div>
+			<div class="input-field col s3">
+				<a id="viewImage" class="waves-effect waves-light btn">View Images</a>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="input-field col s3 tooltip">
+				<a id="importImageFromBC" class="waves-effect waves-light btn">Import Image From Brightcove</a>
+				<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					This will import image from the Brightcove. In order to do this, you have to first attach this episode to an media item in
+					the brightcove. This can be done either by clicking on "Create Place holder" button and then "Start Transcode" or if
+					your media item already exist in the Brightcove, you can copy paste the Brightcove media item id into the Brightcove
+					ID field and click on "Save" button. Then you will be able to imported the generatd image in the Brightcove
+				</div>
+
+
+
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="card grey lighten-5 episodeEditCard">
+		<div class="row">
+			<div class="input-field col s6">
+				<input id="excludeddevices" type="text">
+				<label for="excludeddevices" class="tooltip">Excluded devices
+			 
+			 <i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+			the comma separate device names list that specifies which devices that the episode should not be available.
+					</div>
+			
+			
+			
+			</label>
+			</div>
+			<div class="input-field col s6">
+				<input id="geoAllowedCountries" type="text">
+				<label for="geoAllowedCountries" class="tooltip">Countries
+			
+			 <i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+			Comma separate countries codes, which specifies in which countries the episode should be available to view.
+					</div>
+			
+			</label>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="card grey lighten-5 episodeEditCard">
+
+		<div class="row">
+			<div class="col s3">
+				<a id="addModifyAvailabilityWindows" class="waves-effect waves-light btn">Add/Modify Availability Windows</a>
+				<table id="striped">
+					<thead>
+						<th data-field="start">Start</th>
+						<th data-field="type">End</th>
+					</thead>
+					<tbody id="availabilitylist">
+					</tbody>
+				</table>
+			</div>
+			<div class="col s1 tooltip">
+
+				<i class="material-icons">help_outline</i>
+				<div class="tooltiptext z-depth-2">
+					Click on the button to go to the Availability Windows Editor to modify the availability windows. Note that this is a separate
+					entities from the schedule events which are used for the same purposes. If you have not specified any availability window,
+					the linear schedule events will be used to set the availability window in the brightcove. If you specify the availability
+					windows here, the schedule events will not used. You can specify the multiple available windows. In this case, the most
+					appropriate availability window will be selected based on the current time and will be pushed to the brightcove to set
+					the availability window there. This is because brightcove only supports a single ailability window.
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="card grey lighten-5 episodeEditCard">
+		<h5>Schedules</h5>
+		<div class="row">
+			<div class="col s12" id="scheduleslist">
+
+			</div>
+		</div>
+	</div>
+
+	<div class="card grey lighten-5 episodeEditCard">
+
+		<h5>Compliance Information</h5>
+
+
+		<div class="row">
+			<div class="input-field col s12">
+				<textarea id="editorNotes" class="materialize-textarea"></textarea>
+				<label for="episodeSynopsis">Compliance Notes</label>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col s12" id="complianceInformation">
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<div id="notificationDialog" title="Ingest Notification" class="modal">
+		<div>Job created
+			<a href="/mule/boxtv/bc/notification" target="_blank"><span id="ingestJobId"></span>.
+		   Notifications arrives <a hred="/mule/boxtv/bc/notification" target="_blank"> here</a> on completion
+
+
+			</a>
+		</div>
+		<div id="ingestNotificationList">
+
+		</div>
+	</div>
+
+
+	<div id="playVideoDialog" title="Play Source Video" class="modal fixed-footer">
+		<div class="modal-content">
+			<video width="900" height="500" class="responsive-video" controls>
+				<source type="video/mp4">
+			</video>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+		</div>
+
+
+	</div>
+
+	<div id="deleteEpisodeDialog" class="modal">
+		<div class="modal-content">
+			<h4>Delete episode</h4>
+			<p class="message"></p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="confirm modal-action modal-close waves-effect waves-red btn-flat">Delete</a>
+			<a href="#" class="cancel modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+		</div>
+	</div>
+
+	
+	<div id="createNewTagsDialog" class="modal">
+		<div class="modal-content">
+			<h4>Create new tags</h4>
+			<p>
+
+				<div class="row">
+					<div class="input-field col s6">
+						<input id="newtags" type="text">
+						<label for="newtags">Comma separated new tags</label>
+					</div>
+				</div>
+			</p>
+		</div>
+		<div class="modal-footer">
+			<a id="confirmCreateNewTag" href="#" class="confirm modal-action modal-close waves-effect waves-red btn-flat">Create</a>
+			<a href="#" class="cancel modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+		</div>
+	</div>
+
+
+
+	<div id="fileSelectDialog" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<form action="#" id="fileToSelect">
+
+			</form>
+		</div>
+		<div class="modal-footer">
+			<a class="okButton btn-flat waves-effect waves-green modal-close">Select</a>
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+		</div>
+	</div>
+
+	<div id="uploadFileNameDialog" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="filennameForUpload" type="text">
+					<label for="filennameForUpload">Target file name for Upload</label>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="modal-footer">
+			<a class="confirm  modal-close btn-flat waves-effect waves-green">Use this file name</a>
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+		</div>
+	</div>
+
+	<div id="fileUploaderDialog" class="modal">
+		<div class="modal-content">
+
+			<div class="fileuploader">Upload local files</div>
+
+
+		</div>
+		<div class="modal-footer">
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</button>	       
+	   </div>
+</div>
+
+
+<div class="row">
+			<div class="col s4">
+				<a href="#" id="jsonview" class="waves-effect waves-light btn"> JSON view</a>
+			</div>
+			<div class="col s4">
+				<a href="#" id="soundMouseHeaderview" class="waves-effect waves-light btn">Soundmouse header file</a>
+			</div>
+			<div class="col s4">
+				<a href="#" id="soundMouseSmurfview" class="waves-effect waves-light btn">Soundmouse Smurf file</a>
+			</div>
+			
+			<div class="col s4">
+				<a href="#" id="bcAnalycsData" class="waves-effect waves-light btn">BC Analytics Data</a>
+			</div>
+		</div>
+		
+
+  
+	</div>
+	
+	
+	

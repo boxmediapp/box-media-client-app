@@ -1,0 +1,1 @@
+rsync -azvv ./src/main/webapp/   /var/www-allow/default/

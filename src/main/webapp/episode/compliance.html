@@ -1,0 +1,44 @@
+<table class="bordered">
+	  <tr> <td>Issue number:</td><td>${issueNumber}</td> </tr>
+	  <tr> <td>Material Id:</td><td>${materialId}</td> </tr>
+	  <tr> <td>Programme Version Certification:</td><td>${programmeVersionCertification}</td> </tr>
+	  <tr> <td>Transmission date:</td><td>${transmissionDate}</td> </tr>
+	  <tr> <td>Asset Id:</td><td>${assetId}</td> </tr>
+	  <tr> <td>Viewer user key:</td><td>${viewerUserKey}</td> </tr>
+	  <tr> <td>certification finished:</td><td>${certificationFinished}</td> </tr>
+	  <tr> <td>edited on:</td><td>${editedOn}</td> </tr>
+	  <tr> <td>Programme Certification:<td>
+	  <td>
+	      <table>
+	      <tr>  <td>Certification date:</td><td>${programmeCertification.certificationDate}</td></tr>
+	      <tr>  <td>Certification End Date:</td><td>${programmeCertification.certificationEndDate}</td></tr>
+	      <tr>  <td>Compliance Observation Id:</td><td>${programmeCertification.complianceObservationId}</td></tr>
+	      <tr>  <td>Modified On:</td><td>${programmeCertification.modifiedOn}</td></tr>
+	      <tr>  <td>certificationType:</td><td>
+	              <table>
+	                <tr><td>CliKey:</td><td>${programmeCertification.certificationType.cliKey}</td></tr>
+	                <tr><td>Code:</td><td>${programmeCertification.certificationType.code}</td></tr>
+	                <tr><td>Description:</td><td>${programmeCertification.certificationType.description}</td></tr>
+	                <tr><td>Certification Category:</td><td>
+	                      <table>
+	                        <tr><td>Description:</td><td>${programmeCertification.certificationType.certificationCategory.description}</td></tr>
+	                        <tr><td>Name:</td><td>${programmeCertification.certificationType.certificationCategory.name}</td></tr>
+	                      </table>
+	                
+	                
+	                
+	                </td></tr>
+	              </table>
+	        
+	      
+	      </td></tr>
+	      	      
+	      
+	      </table>
+	  
+	        
+	  </td>
+	  
+	  </tr>
+	  
+	</table>

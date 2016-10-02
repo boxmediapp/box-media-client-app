@@ -1,0 +1,65 @@
+<h3>User Management</h3>
+ <table class="highlight">
+ <thead>
+ <th>User name</th> <th></th>
+ </thead>
+<tbody id="userlist">
+ 
+
+</tbody>
+
+
+</table>
+
+
+
+
+<div id="addNewUserDialog" class="modal">	 
+  <div class="modal-content">
+       <h4>Add New User</h4>
+       <div  class="row">   
+		   <div class="input-field col s6">
+				    	<input  id="newUserUsername" type="text">
+		          		<label for="newUserUsername">Username</label>		    
+		   </div>
+		</div>
+		<div  class="row">   
+		   <div class="input-field col s6">
+				    	<input  id="newUserPassword" type="password">
+		          		<label for="newUserPassword">Password</label>		    
+		   </div>
+		</div>		       
+  </div>
+	<div class="modal-footer">
+      <a href="#" class="add confirm modal-action modal-close waves-effect waves-red btn">Add</a>      
+    </div>    	   
+</div>	   
+
+
+<div id="changePasswordDialog" class="modal">	 
+  <div class="modal-content">
+       <h4>Change Password</h4>
+       <div  class="row">   
+		   <div class="input-field col s6">
+				    	<input  id="usernameForChangePassword" type="text">
+		          		<label for="usernameForChangePassword">Username</label>		    
+		   </div>
+		</div>
+		<div  class="row">   
+		   <div class="input-field col s6">
+				    	<input  id="passwordForChangePassword" type="password">
+		          		<label for="passwordForChangePassword">Password</label>		    
+		   </div>
+		</div>		       
+  </div>
+	<div class="modal-footer">
+      <a href="#" class="changePassword modal-action modal-close waves-effect waves-red btn">Change</a>
+      <a href="#" class="cancel modal-action modal-close waves-effect waves-red btn">Cancel</a>      
+    </div>    	   
+</div>	   
+
+
+
+<a id="addNewUser" class="waves-effect waves-red btn">Add new user</a>
+
+

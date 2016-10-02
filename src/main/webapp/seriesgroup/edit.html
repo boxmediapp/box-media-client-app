@@ -1,0 +1,131 @@
+
+
+<div id="seriesGroupEditor">
+
+<h4>Series Group Editor</h4>
+<div id="controllers">
+     <a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>
+     <a id="saveSeriesGroup" class="waves-effect waves-light btn">Save</a>
+     <a id="cancelSaveSeriesGroup" class="waves-effect waves-light btn">Cancel</a>
+     <a id="deleteSeriesGroup" class="waves-effect waves-light btn">Delete this series group</a>     
+</div>
+
+
+	<div class="row">
+		    <div class="input-field col s12">
+		    	<input  id="seriesGroupTitle" type="text">
+          		<label for="seriesGroupTitle">Series Group Title</label>		    
+		    </div>    			    	
+	</div>
+
+	<div class="row">
+		    <div class="input-field col s12">
+		    	<textarea  id="seriesGroupSynopsis" class="materialize-textarea"></textarea> 
+          		<label for="seriesGroupSynopsis">Series Group Synopsis</label>		    
+		    </div>    		
+	</div>
+
+	<div class="row">
+		<div class="input-field col s4">
+					<select id="seriesGroupTags" multiple>		    	        		    	        		    			
+				    	</select>
+					<label for="seriesGroupTags">Tags</label>
+				</div>
+	</div>
+
+		
+<div class="row">
+		<div class="col 3">
+			<a id="uploadImageFile" class="waves-effect waves-light btn">Upload Image</a>
+		</div>
+		<div class="col s1 tooltip">
+	
+			<i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+			You can upload a image file from your local disk, and directly attached it to this series group. you can also upload the images
+			directly to to he s3 buckets, and the application will automatically pick up the images and attached them to the series group based on the naming convention.
+			The web safe title of the series group title will be used for naming the image uploaded.			
+
+					</div>					
+		</div>
+		
+			<div class="input-field col s3">
+				  	<input  id="imageURL" type="text">
+		            <label for="imageURL" class="tooltip">Series Group Level Image
+		<i class="material-icons">help_outline</i>
+					<div class="tooltiptext z-depth-2">
+			 This field will be automatically filled in when a matching image is uploaded to the s3 bucket. 
+			     So you do not need to fill in this field unless you know you would like to specify the URL to the master Image manually. 
+			     The naming convention for the image file is &lt;web-safe-title&gt.&lt;ext&lt;
+			        You can also choose to upload your image	
+					</div>
+		            
+		            
+		            </label>
+			</div>	
+		<div class="input-field col s2">
+				<a id="viewImage" class="waves-effect waves-light btn">View Images</a>
+			</div>
+		
+		
+	</div>
+	   
+	   
+	
+
+
+<div> <h5>The below is the list of series that belongs to the series group that you are editing</h5></div>
+
+
+<table>
+  <thead>
+   <th>Series title</th><th>Contract number</th>
+  </thead>
+   <tbody id="serieslist">
+		   
+   
+   </tbody>
+</table>	
+
+
+</div>
+
+
+
+
+<div id="controllers2">
+ <a id="addNewSeriesToSeriesGroup" class="waves-effect waves-light btn">Add New Series</a>
+ </div>
+ 
+ 
+ 
+ 
+ <div id="uploadFileNameDialog" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="filennameForUpload" type="text">
+					<label for="filennameForUpload">Target file name for Upload</label>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="modal-footer">
+			<a class="confirm  btn-flat waves-effect waves-green">Use this file name</a>
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+		</div>
+	</div>
+
+	<div id="fileUploaderDialog" class="modal">
+		<div class="modal-content">
+
+			<div class="fileuploader">Upload local files</div>
+
+
+		</div>
+		<div class="modal-footer">
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</button>	       
+	   </div>
+</div>
+ 

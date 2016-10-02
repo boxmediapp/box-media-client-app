@@ -1,0 +1,272 @@
+<table class="responsive-table">
+
+<tr>
+   <td>Series Title: </td> <td>${name}</td>
+</tr>
+
+<tr>
+				   <td>Series Synopsis: </td> <td>${synopsis}</td>
+</tr>
+
+	
+<tr>
+   <td>Contract Number: </td> <td>${contractNumber}</td>
+</tr>
+
+<tr>
+   <td>Series group: </td> <td>${seriesGroup.title}</td>
+</tr>
+
+</table>
+
+<div class="subheader"> <h3>New Episode in this series</h3></div>
+
+			 
+   <div  id="episodeEditor">
+   			
+	<div class="row">
+		    <div class="input-field col s12">
+		    	<input  id="episodeTitle" type="text">
+          		<label for="episodeTitle">Episode Title</label>		    
+		    </div>    		
+		</div>
+		
+		<div class="row">
+		    <div class="input-field col s6">
+		    	<input  id="episodeNumber" type="text">
+          		<label for="episodeNumber">Episode Number</label>		    
+		    </div>
+		    <div class="input-field col s6">
+		    	<input  id="programmeNumber" type="text">
+          		<label for="programmeNumber">Programme Number (Contract/episode)</label>		    
+		    </div>    		
+		</div>
+			
+		
+		
+		
+		<div class="row">
+		    <div class="input-field col s12">
+		    	<textarea  id="episodeSynopsis" class="materialize-textarea"></textarea> 
+          		<label for="episodeSynopsis">Episode Synopsis</label>		    
+		    </div>    		
+		</div>
+		   
+		 
+		 <div class="row">
+		    <div class="input-field col s6">
+		    	<select  id="episodeContentType">
+		    	        <option value="" disabled>Choose the content type</option>
+		    			<option value="Entertainment">Entertainment</option>
+				      	<option value="Music & Charts">Music & Charts</option>
+				      	<option value="Shorts">Shorts</option>
+		    	</select>
+          		<label for="episodeContentType">Content Type</label>		    
+		    </div>
+		    <div class="input-field col s6">
+		    	<select  id="txChannel">
+		    	        <option value="" disabled>Choose the TX Channels</option>
+		    	        <option value="4Music">4Music</option>
+				        <option value="BeBox">BeBox</option>
+				        <option value="Box Hits (SmashHits)">Box Hits (SmashHits)</option>
+				        <option value="Box Plus">Box Plus</option>
+				        <option value="Box Upfront (Heat)">Box Upfront (Heat)</option>
+				        <option value="Kerrang">Kerrang</option>
+				        <option value="Kiss">Kiss</option>
+				        <option value="Magic">Magic</option>				        
+				        <option value="The Box">The Box</option>
+		    			
+		    	</select>
+          		<label for="txChannel">TX Channel</label>
+          				    
+		    </div>
+		    
+		    <div  id="row">
+				    <div class="input-field col s6">
+				          <input id="supplier" type="text">
+							<label for=supplier class="tooltip">Supplier
+							
+							 <i class="material-icons">help_outline</i>
+							 <div class="tooltiptext z-depth-2">
+							If this field takes the value of "Box TV Network", the ingestProfile will be automatcally set to "box-plus-network-DRM-profile" if not set.
+							This result in the video is transcoded with DRM and the DRM flag will be set to true.
+							
+							
+							</div>
+							
+							
+							
+							</label>
+				
+						</div>
+			</div>	    
+		    
+		    
+		    
+		    
+		    
+		    
+		        		
+		</div>  
+		
+		
+	<div class="hidden-section">
+		
+		
+		
+		<div class="row">
+			<div class="input-field col s6">
+		    	<select  id="certType">
+		    	        <option value="" disabled>Choose the Certification Type</option>
+		    	        <option value="ALL_TIMES">All Times</option>
+						<option value="POST_WATERSHED">Post Watershed</option>		    			
+		    	</select>
+          	    <label for=""certType"">Certification</label>          				    
+		    </div>
+		</div>
+		
+		<div class="row">
+		    <div class="input-field col s12">
+		    	<input  id="warningText" type="text">
+          		<label for="warningText">Warning Text</label>		    
+		    </div>    		
+       </div>
+		
+		
+		
+		   
+		   
+		   
+	
+  <div  class="row">
+       <div class="input-field col s6">
+		    	<select  id="adsupport">
+		    	        <option value="" disabled>Select Ad Supported option</option>
+					    <option value="FREE">Free</option>
+					    <option value="AD_SUPPORTED">Ad Supported</option>
+		    	</select>
+          		<label for="adsupport">Ad supported</label>		    
+		</div>
+		
+		<div class="input-field col s6">
+		    	<input  id="showType" type="text">
+          		<label for="showType">Show Type</label>		    
+		    </div>
+		
+			
+  
+  </div>	   
+  
+  
+  <div class="row">
+		    <div class="input-field col s6">
+		    	<select  id="episodeTags" multiple>		    	        		    	        		    			
+		    	</select>
+          	    <label for=""episodeTags"">Tags</label>          				    
+		    </div>    		
+		    <div class="col s6">		    	
+		    	<a id="createtags" class="waves-effect waves-light btn-flattenned">Create tags</a>          	              				    
+		    </div>    		
+		    
+		    
+		</div>
+  
+  
+  
+		   
+  <div  class="row">	   
+	    <div class="input-field col s2">
+		    	<select  id="ingestProfile">
+		    	        <option value="box-plus-network-1080p-profile">box-plus-network-1080p-profile</option>
+				        <option value="box-plus-network-720p-profile">box-plus-network-720p-profile</option>
+				        <option value="box-plus-network-DRM-profile">box-plus-network-DRM-profile</option>				        
+		    	</select>
+          		<label for="ingestProfile">Ingest Profile</label>		    
+		</div>	 
+		<div class="input-field col s4">
+		  	<input  id="ingestSource" type="text">
+            <label for="ingestSource" class="active">Ingest Source</label>
+		</div>	
+		<div class="col s1">
+			<a id="selectS3Files" class="waves-effect waves-light btn-flattenned">Select from S3</a>		
+		</div>
+					
+  </div>			
+ 			
+ <div  class="row">
+ 		<div class="input-field col s2">
+		    	<input  id="durationScheduled" type="text">
+          		<label for="durationScheduled">Duration Scheduled</label>		    
+		</div>
+		<div class="input-field col s2">
+		    	<input  id="prAuk" type="text">
+          		<label for="prAuk">prAuk</label>		    
+		</div>
+		<div class="input-field col s2">
+		    	<input  id="materialId" type="text">
+          		<label for="materialId">Material Id</label>		    
+		</div>   
+ </div>		
+<div  class="row">
+   <div class="input-field col s2">
+		    	<input  id="excludeddevices" type="text">
+          		<label for="excludeddevices">Excluded devices</label>		    
+   </div>
+   <div class="input-field col s2">
+		    	<input  id="geoAllowedCountries" type="text">
+          		<label for="geoAllowedCountries">Geo allowed countries (comma separated)</label>		    
+   </div>
+</div>	
+
+	<div id="row">
+			<div class="input-field col s2">
+		    	<input  id="brightcoveId" type="text" disabled>
+          		<label for="brightcoveId">Brightcove ID</label>		    
+		    </div>	
+   </div>
+    
+  </div> 
+ 
+ 
+ 
+ </div>
+			
+
+Please edit the rest of the fields via the Episode Editor after you have created the Episode
+<div id="createNewEpisode">
+     <a class="create waves-effect waves-light btn">Create</a>
+     <a class="cancel waves-effect waves-light btn">Cancel</a>          
+</div>
+
+<div id="createNewTagsDialog" class="modal">
+	<div class="modal-content">
+      <h4>Create new tags</h4>
+      <p>
+      
+         <div class="row">
+		    <div class="input-field col s6">
+		    	<input  id="newtags" type="text">
+          		<label for="newtags">Comma separated new tags</label>		    
+		    </div>    		
+		</div>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <a id="confirmCreateNewTag" href="#" class="confirm modal-action modal-close waves-effect waves-red btn-flat">Create</a>
+      <a href="#" class="cancel modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+    </div>
+</div>	   
+
+<div id="fileSelectDialog" class="modal modal-fixed-footer">	   
+	   <div  class="modal-content">
+	    		<form action="#" id="fileToSelect">
+	    		 
+	    		</form>
+	   </div>
+	   <div class="modal-footer">
+	       <a class="okButton btn-flat waves-effect waves-green modal-close">Select</a>
+	   </div>
+</div>
+
+
+

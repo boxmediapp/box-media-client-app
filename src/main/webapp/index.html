@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Box Media Application</title>
+	<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">-->
+	<link rel="stylesheet" href="materialize/css/materialize.min.css">
+
+	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<link href="/jQuery-Upload-File/uploadfile.css" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="main/stylesheet.css">
+
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+
+
+	
+
+</head>
+
+<body>
+
+
+	<nav>
+		<div id="nav-wrapper">
+			<img src="img/BOX _Logo_RGB.png" class="brand-logo-img">
+			<span class="brand-logo-text">
+			
+			<span class="brand-logo-text box-specific">Box</span> <span class="brand-logo-text bebox-specific">BeBox</span>  Media Application
+			
+			
+			</span>
+			
+		
+			<a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
+
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+			   
+				<li class="navItem box-specific"> <a template="import/import.html" call="boxservice.import.show"> Import</a></li>
+				<li class="navItem"><a  call="boxservice.episode.show">Episodes</a></li>
+				<li class="navItem"><a  call="boxservice.series.show">Series</a></li>
+				<li class="navItem"><a  call="boxservice.seriesgroup.show">Series Groups</a></li>
+				<li class="navItem"><a template="s3/list.html" call="boxservice.s3.show">S3 Storage</a></li>
+				<li class="navItem"><a template="schedules/list.html" call="boxservice.schedule.show">Schedules</a></li>
+				<li class="navItem"><a template="admin/main.html" call="boxservice.admin.main">Admin</a></li>
+
+				<li class="navItem signinorout"><a template="help/main.html" call="boxservice.signinout">Sign In</a></li>
+				<li class="navItem active"><a template="help/main.html" call="boxservice.help">Help</a></li>
+
+			</ul>
+			<ul id="mobile-menu" class="side-nav">
+				<li class="navItem box-specific"> <a href="#" template="import/import.html" call="boxservice.import.show"> Import</a></li>
+				<li class="navItem"><a href="#" call="boxservice.episode.show">Episodes</a></li>
+				<li class="navItem"><a href="#" template="series/list.html" call="boxservice.series.show">Series</a></li>
+				<li class="navItem"><a href="#" template="seriesgroup/list.html" call="boxservice.seriesgroup.show">Series Groups</a></li>
+
+				<li class="navItem"><a href="#" template="s3/list.html" call="boxservice.s3.show">S3 Storage</a></li>
+				<li class="navItem"><a href="#" template="schedules/list.html" call="boxservice.schedule.show">Schedules</a></li>
+				<li class="navItem"><a href="#" template="admin/main.html" call="boxservice.admin.main">Admin</a></li>
+
+				<li class="navItem signinorout"><a template="help/main.html" call="boxservice.signinout">Sign In</a></li>
+				<li class="navItem"><a template="help/main.html" call="boxservice.help">Help</a></li>
+
+			</ul>
+
+		</div>
+
+
+	</nav>
+
+
+
+	<div id="content">
+
+	</div>
+
+	<div id="loaderPage">
+
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+
+			<div class="spinner-layer spinner-red">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+
+			<div class="spinner-layer spinner-yellow">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+
+			<div class="spinner-layer spinner-green">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="messageDialog" class="modal">
+		<div class="modal-content">
+			<div id="dialogMessage"></div>
+			<div class="modal-footer">
+				<a class="btn-flat waves-effect waves-light modal-close">Close</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="loginUSerDialog" class="modal">
+		<div class="modal-content">
+			<h4>Login</h4>
+			<p>
+
+				<table>
+					<tr>
+						<td>User name: </td>
+						<td><input type="text" name="username" class="phrase" value=""></td>
+					</tr>
+					<tr>
+						<td>Password: </td>
+						<td><input type="password" name="password" class="phrase" value=""></td>
+					</tr>
+					<tr>
+						<td> </td>
+						<td><button class="login confirm modal-action modal-close waves-effect waves-green btn-flat">Login</button></td>
+					</tr>
+
+				</table>
+
+			</p>
+
+		</div>
+	</div>
+
+
+ 
+<script src="//code.jquery.com/jquery-3.1.0.min.js" crossorigin="anonymous"></script>
+<!-- 
+    <script src="jquery/jquery.min.js" crossorigin="anonymous"></script>
+     -->
+	<script src="/jQuery-Upload-File/jquery.uploadfile.min.js"></script>
+
+	 
+	<script src="materialize/js/materialize.min.js"></script>
+ 	
+
+	<script src="main/util.js"></script>
+	<script src="main/api.js"></script>
+	<script src="dialogs/main.js"></script>
+
+	<script src="episode/main.js"></script>
+	<script src="episode/edit.js"></script>
+	<script src="cue/main.js"></script>
+	<script src="availability/main.js"></script>
+
+	<script src="import/main.js"></script>
+	<script src="bc/main.js"></script>
+	<script src="s3/main.js"></script>
+	<script src="schedules/main.js"></script>
+	<script src="series/main.js"></script>
+	<script src="seriesgroup/main.js"></script>
+	<script src="admin/main.js"></script>
+	<script src="image-viewer/main.js"></script>
+	<script src="main/main.js"></script>
+
+</body>
+
+</html>

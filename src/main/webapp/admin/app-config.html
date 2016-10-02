@@ -1,0 +1,98 @@
+<h4>Application Configuration Editor</h4>
+
+<div id="controllers">
+	<a class="save  waves-effect waves-light btn">Save</a>
+	<a class="cancel waves-effect waves-light btn">Cancel</a>	
+</div>
+
+<div id="configEditor">
+
+	<div class="row">
+		<div class="input-field col s3">
+			<input id="recordLimit" type="text">
+			<label for="recordLimit" class="tooltip">Number of records per batch
+			
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			    This is for only for system adminstration. Number of records per batch retrieve from the database, the rest will be fetch on the end of scroll.
+			</div>
+			</label>
+		</div>
+		
+		<div class="input-field col s3">
+			<input id="visibilityCategory" type="text">
+			<label for="visibilityCategory" class="tooltip">Visibility categories
+			
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			    This field is the category of the application instance. It can be used to customise the application 
+			</div>
+			</label>
+		</div>
+		
+		
+	</div>
+	
+	
+	<div class="row">
+		<div class="input-field col s12">
+			<input id="imagetemplateurl" type="text">
+			<label for="imagetemplateurl" class="tooltip">Image Template URL
+			
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			    This is the URL template for retrieving different size of images. 
+			</div>
+			</label>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="input-field col s4">
+			<select id="brightcoveStatus">		    	        
+		    	        <option value="true">Auto</option>
+				        <option value="false">Manual</option>
+		    </select>		    	
+			<label for="brightcoveStatus" class="tooltip">
+			   Update brightcove
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			   When it is Auto, changes will be pushed to the Brightcove on changes.
+			   When it is manual, the records will be marked NEEDS_PUSH_CHANGES_TO_BRIGHTCOVE and you can do batch or selective manual update.			    
+			</div>
+			</label>
+		</div>
+		<div class="input-field col s4">
+			<select id="convertImage">		    	        
+		    	        <option value="true">Create</option>
+				        <option value="false">Do not create</option>
+		    </select>		    	
+			<label for="convertImage" class="tooltip">
+			    Create Images
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			   When "Created" is selecred, the system will automatically create different sizes of images when an master image is updated to the s3 bucket.
+			   And also when the master image is deleted, the generated images will also be deleted.			    
+			</div>
+			</label>
+		</div>
+		
+		<div class="input-field col s4">
+			<select id="sendUpdateToSoundMouse">		    	        
+		    	        <option value="true">Send</option>
+				        <option value="false">Do not send</option>
+		    </select>		    	
+			<label for="convertImage" class="tooltip">
+			    Send Update to Soundmouse
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			   If this fied is true, whenever e episode is created or updated, the update will be sent to the Soundmouse 			    
+			</div>
+			</label>
+		</div>
+		
+		
+		
+	</div>
+
+</div>

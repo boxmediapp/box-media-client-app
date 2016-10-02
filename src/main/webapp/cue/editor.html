@@ -1,0 +1,146 @@
+<div id="cuePointsEditor">
+<a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>
+
+
+<div class="row cueEditorContainer">
+
+<h4>Cue Editor</h4>
+
+
+    <div class="col s6">
+			<div id="videoplayer">
+				<video width="700" height="500" controls>
+			    	  <source  type="video/mp4">
+				</video>
+			</div>
+			
+			
+			<div id="cueEditor">
+			    <div id="controllers">
+			    	<div class="row">
+						<div class="col s2">
+						    	<a id="addNewCue" class="waves-effect waves-light btn">Add</a>				    
+						</div>
+						<div  class="col s2">
+						    	<a id="updateCue" class="waves-effect waves-light btn">Update</a>
+						</div>
+						<div  class="col s2">
+						    	<a id="cancelCue" class="waves-effect waves-light btn">Cancel</a>
+						</div>
+						<div  class="col s2">
+						    	<a id="ffFrame" class="waves-effect waves-light btn">FF Frame</a>
+						</div>
+						<div  class="col s2">
+						    	<a id="rwFrame" class="waves-effect waves-light btn">RW Frame</a>
+						</div>
+						
+					</div>
+				</div>	    	
+				<div class="row">
+						<div class="input-field col s3">
+					    	<input  id="cueTime" type="number" value="0">
+			          		<label for="cueTime" class="activ">Time</label>		    
+					    </div>
+					    <div class="input-field col s3">
+					    	 <select  id="cueType">		    	        
+					    			<option value="AD" checked>AD</option>
+							      	<option value="CODE">CODE</option>				      	
+							</select>				         
+							<label for="cueType">Type</label> 				    
+					    </div>		    
+				</div>
+				<div class="row">
+				        <div class="input-field col s3">
+					    	<input  id="numberOfAds" type="number">
+			          		<label for="numberOfAds">Number of Ads</label>		    
+					    </div>
+					    <div class="input-field col s4">
+					    	<input  id="cueName" type="text">
+			          		<label for="cueName">Name</label>		    
+					    </div>
+				</div>
+				<div class="row">	    		    
+					    <div class="input-field col s3">
+					    	<input  id="cueCode" type="text">
+			          		<label for="cueCode">Code</label>		    
+					    </div>
+					    <div class="input-field col s3">
+					    	<select  id="corceStop">
+					    	        <option value="" disabled>Choose the option</option>
+					    			<option value="true">True</option>
+							      	<option value="false">False</option>				      	
+							</select>
+			          		<label for=""corceStop"">Force Stop</label>		    
+					    </div>
+					    <div class="input-field col s3">
+					    	<input  id="mediaType" type="text">
+			          		<label for="mediaType">Media Type</label>		    
+					    </div>
+					    <div class="input-field col s3">
+					    	<input  id="cueDuration" type="text">
+			          		<label for="cueDuration">Duration</label>		    
+					    </div>		
+				</div>
+				<div class="row">
+						<div class="input-field col s3">
+					    	<input  id="artist" type="text">
+			          		<label for="artist">Artist</label>		    
+					    </div>
+					    <div class="input-field col s3">
+					    	<input  id="cueTrack" type="text">
+			          		<label for="cueTrack">Track</label>		    
+					    </div>
+					    <div class="input-field col s3">
+					    	<input  id="certification" type="text">
+			          		<label for="certification">Certification</label>		    
+					    </div>
+				</div>
+			
+			
+			    <div class="row">
+			          <div class="input-field col s3">
+					    	<input  id="materiaId" type="text">
+			          		<label for="materiaId">Material Id</label>		    
+					    </div>
+					    
+			    </div>
+			</div>
+				 
+
+			
+					
+    </div>
+	<div class="col s6 cuepointlistContainer">	
+	
+				<table class="bordered">
+			       <thead>
+			       	   <th></th>
+			       	   <th></th>
+			          <th data-field="time">Time</th>
+			          <th data-field="type">Type</th>
+			           <th data-field="name">Name</th>
+			           <th data-field="code">Code</th>
+			           <th data-field="materialId">Material Id</th>
+			           <th data-field="mediaType">MediaType Type</th>
+			           <th data-field="duration">Duration</th>
+			           <th data-field="numberOfAds">Number of Ads</th>
+			           <th data-field="artist">Artist</th>
+			           <th data-field="track">Track</th>
+			           <th data-field="cert">Cert</th>
+			                      
+			       </thead>
+			       <tbody id="cuepointlist">
+			       		
+			       	
+			       </tbody>
+			   </table>
+			   
+			
+	
+	
+   </div>
+</div>
+
+
+</div>
+
