@@ -252,7 +252,7 @@ jQuery(document).ready(function ($) {
    boxservice.episode.list=function(episodes, search,start){
 	   if(!start)
 		   start=0;
-	   boxservice.util.finishWait();
+	   //boxservice.util.finishWait();
 	   
 	   if(start==0){
 		   $("#episodelistContainer").empty();
