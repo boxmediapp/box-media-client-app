@@ -183,9 +183,10 @@ jQuery(document).ready(function ($) {
    };
 	
 	boxservice.episode.show=function(search){
+		boxservice.util.startWait();
 		boxservice.episode.search=search;
 		var showPage=function(search, htmlContent){
-			boxservice.util.startWait();				
+							
 		 	$("#content").html(htmlContent);		 			 	
 		    boxservice.api.episode.list(search, 0).done(function(episodes){		    	
 		    	  boxservice.episode.list(episodes,0);
@@ -252,7 +253,7 @@ jQuery(document).ready(function ($) {
    boxservice.episode.list=function(episodes, search,start){
 	   if(!start)
 		   start=0;
-	   //boxservice.util.finishWait();
+	   boxservice.util.finishWait();
 	   
 	   if(start==0){
 		   $("#episodelistContainer").empty();
