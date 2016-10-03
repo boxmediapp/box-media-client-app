@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
 	   };
 	   
 	   boxservice.setupMenu();
-	   boxservice.util.finishWait(); 
+	    
 	   
 	   $("#loginUSerDialog .login").click(function(){
 		   var username=$("#loginUSerDialog input[name=username]").val().trim();
