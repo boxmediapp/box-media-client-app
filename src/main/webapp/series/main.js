@@ -246,7 +246,7 @@ var seUpSeriesSortable=function(series){
 					return false;
 				});
 				$("#deleteMasterImage").click(function(){					   
-					      $("#deleteMasterImage .confirm").off("click").on("click", function(){						      
+					      $("#confirmDeleteImageDialog .confirm").off("click").on("click", function(){						      
 							  boxservice.api.masterimage.deleteSeriesImage(series.id,series.imageURL).done(function(){
 								  boxservice.series.edit(series.id,deferred);								  
 							  });
