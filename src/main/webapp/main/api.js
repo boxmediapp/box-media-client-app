@@ -331,6 +331,10 @@ jQuery(document).ready(function ($) {
 	     var path=apipath+"/box-images/master/series/"+seriesid+"/"+imagefile;		 
 		 return boxservice.api.ajax("DELETE",path);
   };
+  boxservice.api.masterimage.deleteEpisodeImage=function(episodeid,imagefile){
+	     var path=apipath+"/box-images/master/episode/"+episodeid+"/"+imagefile;		 
+		 return boxservice.api.ajax("DELETE",path);
+  };
 
   
   boxservice.api.boxvideo.presginedurl=function(url){		

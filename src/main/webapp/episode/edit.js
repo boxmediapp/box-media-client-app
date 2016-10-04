@@ -207,7 +207,17 @@ jQuery(document).ready(function ($) {
 			});
 			return false;
 		});
-		
+		$("#deleteMasterImage").click(function(){					   
+		      $("#confirmDeleteImageDialog .confirm").off("click").on("click", function(){						      
+				  boxservice.api.masterimage.deleteEpisodeImage(episode.id,episode.imageURL).done(function(){
+					  boxservice.episode.edit(episode.id,deferred);								  
+				  });
+				  return false;
+			  });
+		    $("#confirmDeleteImageDialog .filennameToDelete").val(episode.imageURL);
+			$("#confirmDeleteImageDialog").openModal();						
+			return false;
+		});
 		
 		$("#saveEpisode").click(function () {			
 			boxservice.episode.editpage.doneEditing();
