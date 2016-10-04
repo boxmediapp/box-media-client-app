@@ -156,7 +156,7 @@ var seUpSeriesSortable=function(series){
 			$("#addNewEpisodeToSeries").hide();
 			$("#editSeriesGroup").hide();
 			$("#viewImage").hide();
-			$("#deletCurrentImage").hide();
+			$("#deleteMasterImage").hide();
 			
     	}
     	else{
@@ -177,11 +177,11 @@ var seUpSeriesSortable=function(series){
 			$("#addNewEpisodeToSeries").show();
 			if(series.imageURL){
 				  $("#viewImage").show();
-				  $("#deletCurrentImage").show();
+				  $("#deleteMasterImage").show();
 			  }
 			  else{
 				  $("#viewImage").hide();
-				  $("#deletCurrentImage").hide();
+				  $("#deleteMasterImage").hide();
 			  }
     	}
     	
