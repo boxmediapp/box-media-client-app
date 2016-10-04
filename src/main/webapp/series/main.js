@@ -245,7 +245,7 @@ var seUpSeriesSortable=function(series){
 					});
 					return false;
 				});
-				$("#deletMasterImage").click(function(){
+				$("#deleteMasterImage").click(function(){
 						$("#confirmDeleteImageDialog").openModal();
 						return false;
 				});
