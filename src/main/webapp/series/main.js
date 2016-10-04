@@ -156,6 +156,7 @@ var seUpSeriesSortable=function(series){
 			$("#addNewEpisodeToSeries").hide();
 			$("#editSeriesGroup").hide();
 			$("#viewImage").hide();
+			$("#deletCurrentImage").hide();
 			
     	}
     	else{
@@ -175,7 +176,8 @@ var seUpSeriesSortable=function(series){
 			}
 			$("#addNewEpisodeToSeries").show();
 			if(series.imageURL){
-				  $("#viewImage").show();					  
+				  $("#viewImage").show();
+				  $("#deletCurrentImage").show();
 			  }
 			  else{
 				  $("#viewImage").hide();
