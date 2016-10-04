@@ -245,8 +245,15 @@ var seUpSeriesSortable=function(series){
 					});
 					return false;
 				});
-				$("#deleteMasterImage").click(function(){
-						$("#confirmDeleteImageDialog").openModal();
+				$("#deleteMasterImage").click(function(){					   
+					      $("#deleteMasterImage .confirm").off("click").on("click", function(){						      
+							  boxservice.api.masterimage.deleteSeriesImage(series.id,series.imageURL).done(function(){
+								  boxservice.series.edit(series.id,deferred);								  
+							  });
+							  return false;
+						  });
+					    $("#confirmDeleteImageDialog .filennameToDelete").val(series.imageURL);
+						$("#confirmDeleteImageDialog").openModal();						
 						return false;
 				});
 			   

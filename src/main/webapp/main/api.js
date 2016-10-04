@@ -327,7 +327,10 @@ jQuery(document).ready(function ($) {
 		 return boxservice.api.ajax("GET",path);
 		 
   };
-  
+  boxservice.api.masterimage.deleteSeriesImage=function(seriesid,imagefile){
+	  var path=apipath+"/box-images/master/series/"+seriesid;		 
+		 return boxservice.api.ajax("DELETE",path);
+  };
 
   
   boxservice.api.boxvideo.presginedurl=function(url){		
