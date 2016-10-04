@@ -245,6 +245,10 @@ var seUpSeriesSortable=function(series){
 					});
 					return false;
 				});
+				$("#deletMasterImage").click(function(){
+						$("#confirmDeleteImageDialog").openModal();
+						return false;
+				});
 			   
 				$("#editSeriesGroup").click(function(){
 					var seriesgroupid=series.seriesGroup.id;
