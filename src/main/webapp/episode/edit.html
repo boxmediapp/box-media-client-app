@@ -469,6 +469,9 @@
 			<div class="input-field col s3">
 				<a id="viewImage" class="waves-effect waves-light btn">View Images</a>
 			</div>
+			<div class="input-field col s3">
+				<a id="deleteMasterImage" class="waves-effect waves-light btn">Delete</a>
+	   		</div>
 
 		</div>
 		<div class="row">
@@ -671,6 +674,21 @@
 			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
 		</div>
 	</div>
+	
+	<div id="confirmDeleteImageDialog" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<div class="input-field col s12">
+					Are you sure you would like to delete the episode image:<input class="filennameToDelete" type="text" disabled>					
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a class="confirm  modal-action modal-close btn-flat waves-effect waves-green">Delete</a>
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+		</div>
+	</div>
+	
 
 	<div id="fileUploaderDialog" class="modal">
 		<div class="modal-content">

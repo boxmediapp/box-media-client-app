@@ -468,6 +468,7 @@ jQuery(document).ready(function ($) {
 			 $("#editSeries").hide();
 			 $("#showCueEditor").hide();	
 			 $("#viewImage").hide();
+			 $("#deleteMasterImage").hide();
 			 $("#importImageFromBC").hide();
 			 
 			 
@@ -528,10 +529,12 @@ jQuery(document).ready(function ($) {
 			      }
 			      $("#showCueEditor").show();
 				  if(episode.imageURL){
-					  $("#viewImage").show();					  
+					  $("#viewImage").show();	
+					  $("#deleteMasterImage").show();
 				  }
 				  else{
 					  $("#viewImage").hide();
+					  $("#deleteMasterImage").hide();
 				  }
 		 }
 		 
