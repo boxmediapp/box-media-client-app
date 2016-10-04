@@ -181,6 +181,7 @@ var seUpSeriesSortable=function(series){
 			  }
 			  else{
 				  $("#viewImage").hide();
+				  $("#deletCurrentImage").hide();
 			  }
     	}
     	
