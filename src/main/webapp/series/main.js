@@ -15,7 +15,7 @@ jQuery(document).ready(function ($) {
 		var imagefileName = series.contractNumber.replace(/\//g, "_").replace(/ /g, "-");
 		console.log("checking the exitence of the image:" + imagefileName);
 		boxservice.util.startWait();
-		boxservice.api.masterimage.listFiles(imagefileName).done(function (imageData) {
+		boxservice.api.masterimage.listFiles(imagefileName+".").done(function (imageData) {
 			boxservice.util.finishWait();
 			if (imageData.files.length) {
 				boxservice.util.openDialog("Matching image is already exist in the bucket:" + imageData.files[0].file+":"+imagefileName);
