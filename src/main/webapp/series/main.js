@@ -18,7 +18,7 @@ jQuery(document).ready(function ($) {
 		boxservice.api.masterimage.listFiles(imagefileName).done(function (imageData) {
 			boxservice.util.finishWait();
 			if (imageData.files.length) {
-				boxservice.util.openDialog("Matching image is already exist in the bucket:" + JSON.stringify(imageData.files[0].file));
+				boxservice.util.openDialog("Matching image is already exist in the bucket:" + imageData.files[0].file+":"+imagefileName);
 			}
 			else {
 				$("#filennameForUpload").val(imagefileName + ".png");		
