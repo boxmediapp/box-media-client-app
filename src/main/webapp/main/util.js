@@ -749,7 +749,7 @@ jQuery(document).ready(function ($) {
    			boxservice.util.openDialog("file name has to have extension");
    			return;
    		}
-   		onListS3files(basefileName).done(function (imageData) {
+   		onListS3files(basefileName+".").done(function (imageData) {
    			boxservice.util.finishWait();
    			if (imageData.files.length) {
    				boxservice.util.openDialog("There is already a matching file in the s3:" + imageData.files[0].file);
