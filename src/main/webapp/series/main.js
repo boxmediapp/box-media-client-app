@@ -411,6 +411,23 @@ var seUpSeriesSortable=function(series){
 			   
 			   $("#importEpisodeFromBrightcove").click(function(){
 				   boxservice.util.resetInput();
+				   $("#importEpisodeFromBCDialog .confirm").off("click").on("click",function(){
+					   var brigtcoveid=$("#brightcoveIdToImport").val();
+					   if(!brigtcoveid){
+						   var episodeNumber=$("#episodeNumberForImport").val();
+						   var command={
+									 command:"import-brightcove-episode",
+									 contractNumber:series.contractNumber,
+									 brightcoveId:brigtcoveid,
+									 episodeNumber:episodeNumber
+							 };
+							 boxservice.util.startWait();
+							 boxservice.api.command(command).done(function(){
+								 boxservice.util.finishWait();
+								 boxservice.series.edit(series.id,deferred);							 
+							 }).fail(boxservice.util.onError);
+					   }
+				   });
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
 			   
