@@ -173,17 +173,21 @@
 <div id="importEpisodeFromBCDialog" class="modal">
 		<div class="modal-content">
 			<div class="row">
-				<div class="input-field col s12">
+				<div class="input-field col s8">
 					<input id="brightcoveIdToImport" type="text">
-					<label for="brightcoveIdToImport">Target file name for Upload</label>
+					<label for="brightcoveIdToImport">Brightcove ID for import</label>
+				</div>
+				<div class="input-field col s4">
+					<input id="episodeNumberForImport" type="text">
+					<label for="episodeNumberForImport">Episode number</label>
 				</div>
 			</div>
 
 
 		</div>
 		<div class="modal-footer">
-			<a class="confirm  btn-flat waves-effect waves-green">Use this file name</a>
-			<a class="modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+			<a class="confirm  btn-flat waves-effect waves-green">Import</a>
+			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
 		</div>
 	</div>
 
