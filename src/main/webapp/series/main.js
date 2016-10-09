@@ -408,6 +408,11 @@ var seUpSeriesSortable=function(series){
 				   }).fail(boxservice.util.onError);
 				   
 			   });
+			   
+			   $("#importEpisodeFromBrightcove").click(function(){
+				   $("#importEpisodeFromBCDialog").openModal();
+			   });
+			   
 			   boxservice.util.pageForEachRecord("series/episode-row.html",series.episodes,"#episodelistContainer").done(function(){
 				      $("#episodelistContainer .episodelink a").click(function(){
 						  var episodeid=$(this).attr("href");						  
