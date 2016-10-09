@@ -410,6 +410,7 @@ var seUpSeriesSortable=function(series){
 			   });
 			   
 			   $("#importEpisodeFromBrightcove").click(function(){
+				   boxservice.util.resetInput();
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
 			   
