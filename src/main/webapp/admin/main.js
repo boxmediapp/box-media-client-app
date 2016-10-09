@@ -44,7 +44,13 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#imagetemplateurl"}, data:{value:["imagetemplateurl"]}},
 		       	  		               {input:{selection:"#brightcoveStatus"}, data:{value:["brightcoveStatus"], type:"boolean"}},
 		       	  		               {input:{selection:"#convertImage"}, data:{value:["convertImage"], type:"boolean"}},
-		       	  		               {input:{selection:"#sendUpdateToSoundMouse"}, data:{value:["sendUpdateToSoundMouse"], type:"boolean"}},		       	  		       
+		       	  		               {input:{selection:"#sendUpdateToSoundMouse"}, data:{value:["sendUpdateToSoundMouse"], type:"boolean"}},
+		       	  		               {input:{selection:"#s3videoURL"}, data:{value:["s3videoURL"]}},
+		       	  		               {input:{selection:"#videoBucket"}, data:{value:["videoBucket"]}},
+		       	  		               {input:{selection:"#imageBucket"}, data:{value:["imageBucket"]}},
+		       	  		               {input:{selection:"#imageMasterFolder"}, data:{value:["imageMasterFolder"]}},
+		       	  		               {input:{selection:"#imagePublicFolder"}, data:{value:["imagePublicFolder"]}},
+		       	  		               {input:{selection:"#s3imagesURL"}, data:{value:["s3imagesURL"]}}	       	  			       	  		               
 		       	  		            ];
 		boxservice.util.form.initInputFields(boxservice.appinfo.appconfig,boxservice.admin.configFields);
 		boxservice.util.resetInput();
