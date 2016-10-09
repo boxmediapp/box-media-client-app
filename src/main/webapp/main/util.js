@@ -612,7 +612,7 @@ jQuery(document).ready(function ($) {
       boxservice.util.page.load=function(page){    	    
       	return $.ajax({
   		    type: "GET",
-  		    url: page+"?version=94",
+  		    url: page+"?version=95",
   		    dataType: "html"				    
   		   });
       };
