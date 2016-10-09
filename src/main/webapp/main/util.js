@@ -316,7 +316,39 @@ jQuery(document).ready(function ($) {
 	  }			  		  				  	  
 };
   
-
+boxservice.util.isArrayDifferent=function(array1, array2){
+	   if(array1.length!=array2.length){
+		   return true;
+	   }
+	   var isDifferent=false;
+	   for(var i=0;i<array1.length;i++){
+		   if(boxservice.util.valueHaschanged(array1[i],array2[i],null)){
+			   isDifferent=true;
+		   }
+	   }
+	   if(!isDifferent)
+		   return false;
+	   if(array1.length<=1){
+		   return true;
+	   }
+	   for(var i=0;i<array1.length;i++){
+		   var a=array1[i];
+		   var found=false;
+		   for(var k=0;k<array2.length;k++){
+			   if(!boxservice.util.valueHaschanged(a,array2[k],null)){
+				   found=true;
+				   array2.splice(k,1);
+				   break;
+			   }
+		   }
+		   if(!found){
+			   return true;
+		   }
+		   
+	   }
+	   
+	
+};
 /* orgValye and input value are different */	
   boxservice.util.valueHaschanged=function(orgvalue, inputvalue,datatype){
 	   
@@ -334,17 +366,7 @@ jQuery(document).ready(function ($) {
 		    return true;
 	   }
 	   else if("array"==datatype){
-		   if(orgvalue.length!=inputvalue.length){
-			   return true;
-		   }
-		   var hasChanged=false;
-		   for(var i=0;i<orgvalue.length;i++){
-			   if(boxservice.util.valueHaschanged(orgvalue[i],inputvalue[i],null)){
-				   hasChanged=true;
-			   }
-		   }
-		   
-		   return hasChanged;
+		   return boxservice.util.isArrayDifferent(orgvalue,inputvalue);		   
 	   }
 	   else if(orgvalue && inputvalue && orgvalue.constructor== Array && inputvalue.constructor ==Array){
 		   if(inputvalue.length!=orgvalue.length){
