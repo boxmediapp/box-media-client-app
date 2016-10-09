@@ -346,6 +346,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		   }
 		   
 	   }
+	   return false;
 	   
 	
 };
