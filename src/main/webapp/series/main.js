@@ -413,7 +413,7 @@ var seUpSeriesSortable=function(series){
 				   boxservice.util.resetInput();
 				   $("#importEpisodeFromBCDialog .confirm").off("click").on("click",function(){
 					   var brigtcoveid=$("#brightcoveIdToImport").val();
-					   if(!brigtcoveid){
+					   if(brigtcoveid){
 						   var episodeNumber=$("#episodeNumberForImport").val();
 						   var command={
 									 command:"import-brightcove-episode",
