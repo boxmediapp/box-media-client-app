@@ -108,7 +108,18 @@
 	</div>
 	
 	<div class="row">
-	   <div class="input-field col s4">
+	    <div class="input-field col s4">
+			<input id="awsRegion" type="text">
+			<label for="awsRegion" class="tooltip">AWS region
+			
+			 <i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			    The AWS region for s3 bucket etc. 
+			</div>
+			</label>
+		</div>
+		
+		<div class="input-field col s4">
 			<input id="videoBucket" type="text">
 			<label for="videoBucket" class="tooltip">S3 video bucket
 			
@@ -118,6 +129,9 @@
 			</div>
 			</label>
 		</div>
+	</div>
+	<div class="row">
+	   
 		<div class="input-field col s4">
 			<input id="imageBucket" type="text">
 			<label for="imageBucket" class="tooltip">S3 image bucket

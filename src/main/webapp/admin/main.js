@@ -47,6 +47,7 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#sendUpdateToSoundMouse"}, data:{value:["sendUpdateToSoundMouse"], type:"boolean"}},
 		       	  		               {input:{selection:"#s3videoURL"}, data:{value:["s3videoURL"]}},
 		       	  		               {input:{selection:"#videoBucket"}, data:{value:["videoBucket"]}},
+		       	  		               {input:{selection:"#awsRegion"}, data:{value:["awsRegion"]}},
 		       	  		               {input:{selection:"#imageBucket"}, data:{value:["imageBucket"]}},
 		       	  		               {input:{selection:"#imageMasterFolder"}, data:{value:["imageMasterFolder"]}},
 		       	  		               {input:{selection:"#imagePublicFolder"}, data:{value:["imagePublicFolder"]}},
