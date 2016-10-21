@@ -13,6 +13,7 @@ jQuery(document).ready(function ($) {
 		};
 		boxservice.loadAppInfo=function(){	   
 				boxservice.api.task.appinfo().done(function(appconfig){
+					
 				   $("#nav-wrapper .signinorout a").html("Sign Out");
 				   boxservice.appinfo=appconfig;
 				   console.log("******appinfo:"+JSON.stringify( boxservice.appinfo));
@@ -21,7 +22,9 @@ jQuery(document).ready(function ($) {
 				   }
 				   boxservice.episode.show();
 			   }).fail(function(){
-				   $("#nav-wrapper .signinorout a").html("Sign In");			   
+				   boxservice.util.finishWait();
+				   $("#nav-wrapper .signinorout a").html("Sign In");
+				   
 			   });       
       
 		};
