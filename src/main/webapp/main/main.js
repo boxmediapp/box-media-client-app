@@ -21,8 +21,9 @@ jQuery(document).ready(function ($) {
 					   $("body").addClass(boxservice.appinfo.appconfig.visibilityCategory);
 				   }
 				   boxservice.episode.show();
-			   }).fail(function(){
+			   }).fail(function(err){				   
 				   boxservice.util.finishWait();
+				   boxservice.util.onError(err);
 				   $("#nav-wrapper .signinorout a").html("Sign In");
 				   
 			   });       
