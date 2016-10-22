@@ -45,6 +45,10 @@ jQuery(document).ready(function ($) {
 		$("#content").html(htmlContent);
 		boxservice.util.resetInput();
 		boxservice.util.tooltip();
+		$("#controllers .cancel").click(function () {
+			  boxservice.admin.inputDirty = false;
+			  boxservice.admin.main();
+		 });
 	};
 	
 	boxservice.admin.config=function(htmlContent){
