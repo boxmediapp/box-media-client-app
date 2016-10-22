@@ -60,7 +60,13 @@ jQuery(document).ready(function ($) {
 			  boxservice.util.startWait();
 			  boxservice.api.bc.importcsv(importContent).done(function(content){
 				  boxservice.util.finishWait();
-				  boxservice.util.openDialog(content);
+				  if(!content){
+					  boxservice.util.openDialog("Import successfull");
+				  }
+				  else{
+					  boxservice.util.openDialog("<pre>"+content+"</pre>");
+				  }
+				  
 				  boxservice.admin.main();
 			  }).fail(boxservice.util.onError);
 			  
