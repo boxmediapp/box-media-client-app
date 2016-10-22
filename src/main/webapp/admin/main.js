@@ -17,6 +17,11 @@ jQuery(document).ready(function ($) {
 			$("#appConfig").click(function(){			
 				boxservice.util.page.load("admin/app-config.html").done(boxservice.admin.config).fail(boxservice.util.onError);
 			});
+			$("#importFromBrightcove").click(function(){			
+				boxservice.util.page.load("admin/import-from-bc.html").done(boxservice.admin.importFromBC).fail(boxservice.util.onError);
+			});
+			
+			
 			$("#adminTags").click(function(){			
 					boxservice.admin.tags().done(function(){
 					boxservice.admin.main();
@@ -34,6 +39,12 @@ jQuery(document).ready(function ($) {
 			});
 		}
 		
+	};
+	
+	boxservice.admin.importFromBC=function(htmlContent){		
+		$("#content").html(htmlContent);
+		boxservice.util.resetInput();
+		boxservice.util.tooltip();
 	};
 	
 	boxservice.admin.config=function(htmlContent){
