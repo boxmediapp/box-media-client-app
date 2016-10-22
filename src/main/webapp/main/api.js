@@ -310,7 +310,7 @@ jQuery(document).ready(function ($) {
   };
   
   boxservice.api.bc.importcsv=function(csvContent){				
-	  return boxservice.api.ajax("POST",apipath+"/bc/import/csv",csvContent);
+	  
 	  return $.ajax({
   		type: "POST",
   		url: apipath+"/bc/import/csv",
