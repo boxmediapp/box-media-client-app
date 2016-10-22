@@ -313,8 +313,7 @@ jQuery(document).ready(function ($) {
 	  
 	  return $.ajax({
   		type: "POST",
-  		url: apipath+"/bc/import/csv",
-  		dataType: "text/plain",	
+  		url: apipath+"/bc/import/csv",  			
   		contentType:"txt/plain",
   		data:csvContent,
   		beforeSend: function (xhr) {
