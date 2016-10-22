@@ -59,6 +59,7 @@ jQuery(document).ready(function ($) {
 			  }
 			  boxservice.util.startWait();
 			  boxservice.api.bc.importcsv(importContent).done(function(){
+				  boxservice.util.finishWait();
 				  boxservice.util.openDialog("The csv content sent to the server");
 				  boxservice.admin.main();
 			  }).fail(boxservice.util.onError);
