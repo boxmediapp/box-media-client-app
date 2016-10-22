@@ -309,6 +309,10 @@ jQuery(document).ready(function ($) {
 	  return boxservice.api.ajax("POST",apipath+"/bc/ingest",ingestRequest);	       
   };
   
+  boxservice.api.bc.importcsv=function(csvContent){				
+	  return boxservice.api.ajax("POST",apipath+"/bc/import/csv",csvContent);	       
+  };
+  
   
   boxservice.api.boxvideo.listFiles=function(prefix){			
 	  var path=apipath+"/box-video";
