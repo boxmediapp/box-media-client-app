@@ -310,7 +310,20 @@ jQuery(document).ready(function ($) {
   };
   
   boxservice.api.bc.importcsv=function(csvContent){				
-	  return boxservice.api.ajax("POST",apipath+"/bc/import/csv",csvContent);	       
+	  return boxservice.api.ajax("POST",apipath+"/bc/import/csv",csvContent);
+	  return $.ajax({
+  		type: "POST",
+  		url: apipath+"/bc/import/csv",
+  		dataType: "text/plain",	
+  		contentType:"txt/plain",
+  		data:csvContent,
+  		beforeSend: function (xhr) {
+      	    if(boxservice.api.username&& boxservice.api.password){
+      	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(boxservice.api.username+":"+boxservice.api.password));
+      	    }
+      	}
+  		});
+	  
   };
   
   
