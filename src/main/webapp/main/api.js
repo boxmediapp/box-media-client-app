@@ -21,7 +21,7 @@ jQuery(document).ready(function ($) {
 
 	var apipath="/mule/boxtv";
 	
-	apipath="http://localhost:9081"+apipath;
+	//apipath="http://localhost:9081"+apipath;
 	boxservice.api.bc.getNotificationURL=function(episode){
 		return apipath+"/bc/notification/"+episode.episodeStatus.transcodeJobId;
 	};
