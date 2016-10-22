@@ -45,9 +45,19 @@ jQuery(document).ready(function ($) {
 		$("#content").html(htmlContent);
 		boxservice.util.resetInput();
 		boxservice.util.tooltip();
-		$("#controllers .cancel").click(function () {
-			  boxservice.admin.inputDirty = false;
+		$("#controllers .cancel").click(function () {			  
 			  boxservice.admin.main();
+		 });
+		$("#controllers .import").click(function () {
+			  var importContent=$("#importCSVContractMapping").val();
+			  if(!importContent){
+				  return;				  
+			  }
+			  importContent=importContent.trim();
+			  if(!importContent){
+				  return;				  
+			  }
+			  console.log(importContent);
 		 });
 	};
 	
