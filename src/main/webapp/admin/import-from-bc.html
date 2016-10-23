@@ -1,4 +1,4 @@
-<h4>Build Import From Brightcove</h4>
+<h4>Bulk Import From Brightcove</h4>
 
 <div id="controllers">
 	<a class="import  waves-effect waves-light btn">Start Import</a>
@@ -10,7 +10,17 @@
         <div class="row">
 			<div class="input-field col s12">
 				<textarea id="importCSVContractMapping" class="materialize-textarea"></textarea>
-				<label for="episodeSynopsis">CSV content for media id, contract and episode number</label>
+				<label for="episodeSynopsis" class="tooltip">CSV content for media id, contract and episode number
+				<i class="material-icons">help_outline</i>
+			 <div class="tooltiptext z-depth-2">
+			    The CSV should contains the header row, and should only containst two columns. 
+			    The first column is the media id that you can  get from the brightcove studio.
+			    The second column is the programmeid, which is contractNumber/epsiodeNumber
+			     
+			</div>
+				
+				
+				</label>
 			</div>
 		</div>
 
