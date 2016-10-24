@@ -88,6 +88,7 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#imageBucket"}, data:{value:["imageBucket"]}},
 		       	  		               {input:{selection:"#imageMasterFolder"}, data:{value:["imageMasterFolder"]}},
 		       	  		               {input:{selection:"#imagePublicFolder"}, data:{value:["imagePublicFolder"]}},
+		       	  		               {input:{selection:"#imageUrlAliases"}, data:{value:["imageUrlAliases"]}},		       	  		          
 		       	  		               {input:{selection:"#s3imagesURL"}, data:{value:["s3imagesURL"]}}	       	  			       	  		               
 		       	  		            ];
 		boxservice.util.form.initInputFields(boxservice.appinfo.appconfig,boxservice.admin.configFields);
