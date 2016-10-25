@@ -455,7 +455,9 @@ body.bebox  li.bebox-specific{
 }
 .published_ACTIVE .publishedStatus .trafficLight{
 	background-color: green;
-	background-image: url("/images/active.png")
+	background-image: url("/images/active.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .published_INACTIVE  .publishedStatus .trafficLight{
