@@ -150,6 +150,14 @@ jQuery(document).ready(function ($) {
     		else  
     			return 0;
     	});
+    	setUpSortEpisode(".availability-status",function(a,b){
+    		if (a.episodeStatus.currentAvailabilityStatus < b.episodeStatus.currentAvailabilityStatus)
+    		    return -1;
+    		else if (a.episodeStatus.currentAvailabilityStatus > b.episodeStatus.currentAvailabilityStatus)
+    		    return 1;
+    		else  
+    			return 0;
+    	});
     	
     	
     	boxservice.util.menu.resetSort();
