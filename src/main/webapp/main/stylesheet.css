@@ -449,10 +449,19 @@ body.bebox  li.bebox-specific{
 
 .published_NOT_APPROVED  .publishedStatus .trafficLight{
 	background-color: red;
+	background-color: red;
+	background-image: url("/images/inactive.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .published_APPROVED  .publishedStatus .trafficLight{
+	
 	background-color: red;
+	background-color: red;
+	background-image: url("/images/inactive.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 .published_ACTIVE .publishedStatus .trafficLight{
 	background-color: green;
