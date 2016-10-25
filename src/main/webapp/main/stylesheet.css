@@ -415,11 +415,12 @@ body.bebox  li.bebox-specific{
 	   cursor:pointer;
 }
 .trafficLight.twostate{ 
-	   width:100px;
-	   height:25px;
-	   border-radius:25px;	   	   
-	   margin-left:25px;	   	   
-	   cursor:pointer;
+	   width: 65px;
+	    height: 25px;
+    	border-radius: 5px;
+    	margin-left: 25px;
+    	cursor: pointer;
+
 }
 
 .active .actionMenuContent{
