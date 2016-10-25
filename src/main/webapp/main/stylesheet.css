@@ -407,6 +407,21 @@ body.bebox  li.bebox-specific{
 	   cursor:pointer;
 }
 
+.trafficLight{ 
+	   width:25px;
+	   height:25px;
+	   border-radius:25px;	   	   
+	   margin-left:25px;	   	   
+	   cursor:pointer;
+}
+.trafficLight.twostate{ 
+	   width:100px;
+	   height:25px;
+	   border-radius:25px;	   	   
+	   margin-left:25px;	   	   
+	   cursor:pointer;
+}
+
 .active .actionMenuContent{
 	display: block;
 }
