@@ -440,6 +440,7 @@ body.bebox  li.bebox-specific{
 }
 .published_ACTIVE .publishedStatus .trafficLight{
 	background-color: green;
+	background-image: images/active.png
 }
 
 .published_INACTIVE  .publishedStatus .trafficLight{
