@@ -1,4 +1,4 @@
- <tr class="episoderow published_${episodeStatus.publishedStatus}  video_${episodeStatus.videoStatus}" id="episode_${id}" episodeid="${id}"> 
+ <tr class="episoderow published_${episodeStatus.publishedStatus}  video_${episodeStatus.videoStatus}  availability_${currentAvailabilityStatus}" id="episode_${id}" episodeid="${id}"> 
 	 <td> <a class="episodlink" href="${id}">${title}</a></td>
 	 <td>${programmeNumber}</td>
 	 <td>${episodeStatus.metadataStatus}</td>
@@ -28,7 +28,7 @@
 	 </td>
 	 
 	 
-	 <td class="availabilityStatus ${currentAvailabilityStatus}">	   
+	 <td class="availabilityStatus">	   
 	         <div class="trafficLight twostate"/>	    	 	   	   
 	 </td>
 	 
