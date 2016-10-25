@@ -482,6 +482,12 @@ body.bebox  li.bebox-specific{
 	background-repeat: no-repeat;
 	background-position: center;
 }
+.availability_NOT_AVAILABLE  .availabilityStatus .trafficLight{
+	background-color: red;
+	background-image: url("/images/not-available.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
 
 
 
