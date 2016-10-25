@@ -463,10 +463,16 @@ body.bebox  li.bebox-specific{
 
 .published_INACTIVE  .publishedStatus .trafficLight{
 	background-color: red;
+	background-image: url("/images/inactive.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .published_IN_PROGRESS .publishedStatus .trafficLight{
 	background-color: red;
+	background-image: url("/images/inactive.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .published_APPROVED .approve{
