@@ -122,14 +122,16 @@ jQuery(document).ready(function ($) {
 			
 			
 		});
-		$("#addModifyAvailabilityWindows").click(function () {
+		var addModifyAvailabilityWindows=function () {
 			
 			boxservice.availability.show(episode).done(function(){
 				boxservice.episode.edit(episode.id, deferred);
 			}).fail(function(){
 				boxservice.episode.edit(episode.id, deferred);
 			});
-		});
+		};
+		$("#addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
+        $(".addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
 		$("#uploadVideoFile").click(function () {
 			boxservice.episode.editpage.checkS3WithmaterialId(episode, boxservice.episode.editpage.videoFileName,boxservice.api.boxvideo.listFiles,function(fileNamebase){								
 													
