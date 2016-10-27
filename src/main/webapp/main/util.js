@@ -635,7 +635,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
       boxservice.util.page.load=function(page){    	    
       	return $.ajax({
   		    type: "GET",
-  		    url: page+"?version=102",
+  		    url: page+"?version=103",
   		    dataType: "html"				    
   		   });
       };
