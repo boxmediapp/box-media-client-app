@@ -132,6 +132,7 @@ jQuery(document).ready(function ($) {
 		};
 		$("#addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
         $(".addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
+        
 		$("#uploadVideoFile").click(function () {
 			boxservice.episode.editpage.checkS3WithmaterialId(episode, boxservice.episode.editpage.videoFileName,boxservice.api.boxvideo.listFiles,function(fileNamebase){								
 													
