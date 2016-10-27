@@ -62,7 +62,8 @@ jQuery(document).ready(function ($) {
 	  
 	  
 	  boxservice.util.setupDropdownMenu($(".trafficLight"));
-		
+	   
+	  $(".availabilityStatus").addClass("availability_"+episode.currentAvailabilityStatus);
 		
 		
 		boxservice.episode.editpage.intPlayVideo(episode);
