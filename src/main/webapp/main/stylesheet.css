@@ -537,3 +537,7 @@ body.bebox  li.bebox-specific{
 .hasEditorNote .editorNoteIcon{
 	display:block;
 }
+."versionNumberHolder"{
+	
+	margin-left: 10px;
+}
