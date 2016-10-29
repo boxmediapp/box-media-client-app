@@ -13,7 +13,10 @@ jQuery(document).ready(function ($) {
     };
     boxservice.episode.getAvailabilityClassName=function(status){    	
   	  return    "availability_"+status;    	  	          	
-   };
+    };
+    boxservice.episode.getRequiredFieldStatusClassName=function(status){    	
+    	  return    "requiredFieldsStatus_"+status;    	  	          	
+      };
     boxservice.episode.setPublishedClassName=function(statusContainer,publishedStatus){    	
     	  statusContainer.removeClass(boxservice.episode.getPublishedClassName("ACTIVE"));
     	  statusContainer.removeClass(boxservice.episode.getPublishedClassName("INACTIVE"));
@@ -30,6 +33,14 @@ jQuery(document).ready(function ($) {
   	  
   	  if(availabilityStatus){
   		  statusContainer.addClass(boxservice.episode.getAvailabilityClassName(availabilityStatus));
+  	  }
+  };
+  boxservice.episode.setRequiredFieldClassName=function(statusContainer,requiredFieldStatus){    	
+  	  statusContainer.removeClass(boxservice.episode.getRequiredFieldStatusClassName("COMPLETE"));
+  	  statusContainer.removeClass(boxservice.episode.getRequiredFieldStatusClassName("NOT_COMPLETE"));
+  	  
+  	  if(requiredFieldStatus){
+  		  statusContainer.addClass(boxservice.episode.getRequiredFieldStatusClassName(availabilityStatus));
   	  }
   };
     
