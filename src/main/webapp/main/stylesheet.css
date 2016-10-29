@@ -542,3 +542,8 @@ body.bebox  li.bebox-specific{
 	
 	margin-left: 10px;
 }
+.requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus{
+
+	  background-image: url("/images/warning.png");		
+		
+}
