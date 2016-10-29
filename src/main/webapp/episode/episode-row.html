@@ -1,13 +1,7 @@
  <tr class="episoderow published_${episodeStatus.publishedStatus}  video_${episodeStatus.videoStatus}  availability_${currentAvailabilityStatus} requiredFieldsStatus_${requiredFieldsStatus}" id="episode_${id}" episodeid="${id}"> 
 	 <td> <a class="episodlink" href="${id}">${title}</a></td>
 	 <td>${programmeNumber}</td>
-	 <td>${episodeStatus.metadataStatus}
-	 <span class="requiredFieldsStatus">
-	 </span>
-	 
-	 
-	 
-	 </td>
+	 <td>${episodeStatus.metadataStatus}</td>
 	 <td>${episodeStatus.videoStatus}</td>
 	 <td class="complianceStatus statusAction">
 	    <table><tr><td>
@@ -38,7 +32,11 @@
 	         <div class="trafficLight twostate"/>	    	 	   	   
 	 </td>
 	 
+	 <td >
+	 <div class="requiredFieldsStatus">
+	 </div>
 	 
+	 </td>
 	 
  </tr>
  
