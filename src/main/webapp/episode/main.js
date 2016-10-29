@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
   	  statusContainer.removeClass(boxservice.episode.getRequiredFieldStatusClassName("NOT_COMPLETE"));
   	  
   	  if(requiredFieldStatus){
-  		  statusContainer.addClass(boxservice.episode.getRequiredFieldStatusClassName(availabilityStatus));
+  		  statusContainer.addClass(boxservice.episode.getRequiredFieldStatusClassName(requiredFieldStatus));
   	  }
   };
     
