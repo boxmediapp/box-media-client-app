@@ -82,6 +82,10 @@ jQuery(document).ready(function ($) {
     		}    		
     	}
     	else if(publishedStatus=="ACTIVE"){
+    		if(episode.requiredFieldsStatus=="NOT_COMPLETE"){
+    			boxservice.util.openDialog("Missing required fields to activate");
+    			return false;
+    		}
     		if(episode.episodeStatus.publishedStatus=="ACTIVE"){    			
     			return false;
     		}
