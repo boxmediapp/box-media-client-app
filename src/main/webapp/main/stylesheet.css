@@ -545,6 +545,10 @@ body.bebox  li.bebox-specific{
 .requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus{
       width:20px;
       height:20px;
-	  background-image: url("/images/warning.png");		
+	  background-image: url("/images/warning.png");
+	  visibility: visible;		
 		
+}
+.requiredFieldsStatus_COMPLETE .requiredFieldsStatus{      
+	  visibility: hidden;				
 }
