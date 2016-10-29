@@ -315,6 +315,7 @@ jQuery(document).ready(function ($) {
 				  boxservice.episode.switchPublishedStatus($(this),"IN_PROGRESS",episodes);
 				  return false;
 			 });
+			 // $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus img")
 			  
 			  var addNote=function(target){
 				  
