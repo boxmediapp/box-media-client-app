@@ -511,6 +511,10 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		if(optionsValues==null||optionsValues.length==0){
 			return;
 		}
+		$(targetSelection).append($('<option>', { 
+	        value: null,
+	        text : "" 
+	    }));
 		for(var i=0;i<optionsValues.length;i++){			
 			$(targetSelection).append($('<option>', { 
 		        value: optionsValues[i],
