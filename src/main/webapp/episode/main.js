@@ -336,12 +336,14 @@ jQuery(document).ready(function ($) {
 				  $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").removeClass("active");
 			  });
 			  $(".addModifyAvailabilityWindows").click(function () {
-					
+				    var episodeid=$(this).attr("href");
+				    var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);
 					boxservice.availability.show(episode).done(function(){
 						 boxservice.episode.reload();
 					}).fail(function(){
-						 boxservice.episode.reload();
+						boxservice.episode.reload();
 					});
+					return false;
 			  });
 				
 			  var addNote=function(target){
