@@ -555,7 +555,7 @@ body.bebox  li.bebox-specific{
 }
 
 .requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus.active .hovershowtext{      
-    position: absolute;    
+    position: static;    
     visibility: visible;
     background-color: #FFFF99;
     color:black;
