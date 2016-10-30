@@ -335,7 +335,15 @@ jQuery(document).ready(function ($) {
 			  }, function(){
 				  $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").removeClass("active");
 			  });
-			  
+			  $(".addModifyAvailabilityWindows").click(function () {
+					
+					boxservice.availability.show(episode).done(function(){
+						 boxservice.episode.reload();
+					}).fail(function(){
+						 boxservice.episode.reload();
+					});
+			  });
+				
 			  var addNote=function(target){
 				  
 				  recordContainer=target.parents(".episoderow");
