@@ -66,7 +66,8 @@ jQuery(document).ready(function ($) {
 	  
 	  boxservice.episode.setAvailabilityClassName($("#episodeEditor"),episode.currentAvailabilityStatus);
 	  boxservice.episode.setRequiredFieldClassName($("#episodeEditor"),episode.requiredFieldsStatus);
-		
+	  
+	  $(".requiredFieldsStatus .tooltiptext").Text(episode.requiredFieldsMissing);	
 		boxservice.episode.editpage.intPlayVideo(episode);
 		$("#transcodeMedia").click(function () {
 			boxservice.episode.startTranscodeMedia(episode);
