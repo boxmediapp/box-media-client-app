@@ -352,7 +352,23 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 };
 /* orgValye and input value are different */	
   boxservice.util.valueHaschanged=function(orgvalue, inputvalue,datatype){
-	   
+	  if(orgvalue ==undefined || orgvalue =="" || orgvalue==null){
+		  if(inputvalue ==undefined || inputvalue =="" || inputvalue==null){
+			  return false;
+		  }
+		  else{
+			  return true;
+		  }
+	  }
+	  else if(inputvalue ==undefined || inputvalue =="" || inputvalue==null){
+		  if(orgvalue ==undefined || orgvalue =="" || orgvalue==null){
+			  return false;
+		  }
+		  else{
+			  return true;
+		  }
+	  }
+	  
 	  if(orgvalue==inputvalue){
 		  return false;
 	  }
