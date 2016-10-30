@@ -302,9 +302,8 @@ td.cueEditorContainer{
 	z-index: 1000;
 	overflow: scroll;
 	opacity:1;
-	
-	
 }
+
 
 .episodeEditCard {
 	margin: 9px;
@@ -550,4 +549,7 @@ body.bebox  li.bebox-specific{
 }
 .requiredFieldsStatus_COMPLETE .requiredFieldsStatus{      
 	  visibility: hidden;				
+}
+.hovershowtext{
+	visibility: hidden;
 }
