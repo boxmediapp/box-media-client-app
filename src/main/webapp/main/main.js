@@ -12,7 +12,12 @@ jQuery(document).ready(function ($) {
 			boxservice.loadAppInfo();			
 		};
 		boxservice.loadAppInfo=function(){	   
-				boxservice.api.task.appinfo().done(function(appconfig){
+			if((!boxservice.api) || (!boxservice.api.task)){
+				console.error("loading error, failed to load api.js");
+				boxservice.util.openDialog("failed to load the js file, try to reload again");
+				return;
+			}	
+			boxservice.api.task.appinfo().done(function(appconfig){
 					
 				   $("#nav-wrapper .signinorout a").html("Sign Out");
 				   boxservice.appinfo=appconfig;
