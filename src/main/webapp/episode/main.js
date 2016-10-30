@@ -339,9 +339,13 @@ jQuery(document).ready(function ($) {
 				    var episodeid=$(this).attr("href");
 				    var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);
 					boxservice.availability.show(episode).done(function(){
-						 boxservice.episode.reload();
+						boxservice.episode.edit(episodeid).done(function(){
+							  boxservice.episode.reload();
+						  });
 					}).fail(function(){
-						boxservice.episode.reload();
+						boxservice.episode.edit(episodeid).done(function(){
+							  boxservice.episode.reload();
+						  });
 					});
 					return false;
 			  });
