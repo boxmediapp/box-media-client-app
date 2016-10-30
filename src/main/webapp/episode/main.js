@@ -330,7 +330,11 @@ jQuery(document).ready(function ($) {
 				  boxservice.episode.switchPublishedStatus($(this),"IN_PROGRESS",episodes);
 				  return false;
 			 });
-			 // $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus img")
+			  $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus img").hover(function(){
+				  $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").addClass("active");
+			  }, function(){
+				  $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").removeClass("active");
+			  });
 			  
 			  var addNote=function(target){
 				  
