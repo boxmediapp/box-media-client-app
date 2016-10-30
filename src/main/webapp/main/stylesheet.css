@@ -566,6 +566,5 @@ body.bebox  li.bebox-specific{
 	font-size: 100%;
 	z-index: 1000;
 	overflow: scroll;
-	opacity:1;
-	float: right;
+	opacity:1;	
 }
