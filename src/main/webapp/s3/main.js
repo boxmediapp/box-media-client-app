@@ -123,7 +123,7 @@ jQuery(document).ready(function ($) {
 				boxservice.util.startWait();
 			    
 				
-			    boxservice.util.search(search).done(function(search){		    		
+			    boxservice.util.search().done(function(search){		    		
 			    			showS3Files(search);
 	        	 });
 			    
