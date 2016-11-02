@@ -113,9 +113,9 @@ jQuery(document).ready(function ($) {
 					boxservice.api.boxvideo.listFiles(search).done(function(s3files){
 				    	boxservice.s3.baseUrl=s3files.baseUrl;	    	
 				    	var initiaSort=function(a,b){
-				    		if (a.lastModifidDate < b.lastModifidDate)
+				    		if (a.lastModifidDate > b.lastModifidDate)
 				    		    return -1;
-				    		else if (a.lastModifidDate > b.lastModifidDate)
+				    		else if (a.lastModifidDate < b.lastModifidDate)
 				    		    return 1;
 				    		  return 0;
 				    	};
