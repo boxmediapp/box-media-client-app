@@ -238,7 +238,8 @@ td.cueEditorContainer{
 	position: absolute;
 	margin-left: 10px;
 	top: 15px;
-	left: 160px;
+	left: 130px;
+	font-size: 10px;
 	
 }
 
