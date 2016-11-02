@@ -233,10 +233,14 @@ td.cueEditorContainer{
 	margin-right:7px;
 	vertical-align:top;
 }
-.versionNumberHolder {
+
+.versionNumberHolder{
+	position: absolute;
+	margin-left: 10px;
+	top: 10px;
+	left: 10px;
 	
 }
-
 
 #loaderPage{
 	margin:0;
@@ -540,10 +544,7 @@ body.bebox  li.bebox-specific{
 	display:block;
 }
 
-.versionNumberHolder{
-	
-	margin-left: 10px;
-}
+
 .requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus{
       width:20px;
       height:20px;
