@@ -112,6 +112,15 @@ jQuery(document).ready(function ($) {
 				var showS3Files=function(search){
 					boxservice.api.boxvideo.listFiles(search).done(function(s3files){
 				    	boxservice.s3.baseUrl=s3files.baseUrl;	    	
+				    	var initiaSort=function(a,b){
+				    		if (a.lastModifidDate < b.lastModifidDate)
+				    		    return -1;
+				    		else if (a.lastModifidDate > b.lastModifidDate)
+				    		    return 1;
+				    		  return 0;
+				    	};
+				    	s3files.files.sort(initiaSort);
+				    	
 				    	seUpS3Sortable(s3files.files);
 				    	boxservice.s3.list(s3files.files);
 				    	
