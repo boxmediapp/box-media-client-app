@@ -107,15 +107,26 @@ jQuery(document).ready(function ($) {
 					 boxservice.s3.show(htmlContent);
 				 });
 			 }
-			
 				$("#content").html(htmlContent);
+				
+				var showS3Files=function(search){
+					boxservice.api.boxvideo.listFiles(search).done(function(s3files){
+				    	boxservice.s3.baseUrl=s3files.baseUrl;	    	
+				    	seUpS3Sortable(s3files.files);
+				    	boxservice.s3.list(s3files.files);
+				    	
+				    	boxservice.util.finishWait();
+				    }).fail(boxservice.util.onError);
+				};
+				
+				showS3Files();
 				boxservice.util.startWait();
-			    boxservice.api.boxvideo.listFiles().done(function(s3files){
-			    	boxservice.s3.baseUrl=s3files.baseUrl;	    	
-			    	seUpS3Sortable(s3files.files);
-			    	boxservice.s3.list(s3files.files);
-			    	boxservice.util.finishWait();
-			    }).fail(boxservice.util.onError);
+			    
+				
+			    boxservice.util.search(search).done(function(search){		    		
+			    			showS3Files(search);
+	        	 });
+			    
 		
          };
 	
