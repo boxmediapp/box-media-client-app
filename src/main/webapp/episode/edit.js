@@ -142,7 +142,7 @@ jQuery(document).ready(function ($) {
 					$("#uploadFileNameDialog .confirm").unbind("click").click(function (uploadFilename) {
 						boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.boxvideo.listFiles, function(uploadFilename){
 							
-							boxservice.episode.editpage.showDragAndDropUploadDialog(episode, boxservice.api.boxvideo.uploadfileurl(),uploadFilename);
+							boxservice.episode.editpage.showDragAndDropUploadDialog(episode, boxservice.api.boxvideo.uploadfileurl(),uploadFilename,deferred);
 						});
 					});
 					boxservice.util.resetInput();
@@ -163,7 +163,7 @@ jQuery(document).ready(function ($) {
 					$("#filennameForUpload").val(fileNamebase + ".png");
 					$("#uploadFileNameDialog .confirm").unbind("click").click(function (uploadFilename) {
 						boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.masterimage.listFiles, function(uploadFilename){
-							boxservice.episode.editpage.showDragAndDropUploadDialog(episode, boxservice.api.masterimage.uploadfileurl(),uploadFilename);								
+							boxservice.episode.editpage.showDragAndDropUploadDialog(episode, boxservice.api.masterimage.uploadfileurl(),uploadFilename,deferred);								
 						});
 					});
 					boxservice.util.resetInput();					
@@ -371,12 +371,12 @@ jQuery(document).ready(function ($) {
 		return "V_" + videofileName;
 	};
 	
-	boxservice.episode.editpage.showDragAndDropUploadDialog=function(episode, uploadapiurl,uploadFilename){
+	boxservice.episode.editpage.showDragAndDropUploadDialog=function(episode, uploadapiurl,uploadFilename,deferred){
 		$("#uploadFileNameDialog").closeModal();
 		$("#fileUploaderDialog").openModal({
 			dismissible: true,
 			complete: function () {
-				boxservice.episode.edit(episode.id);
+				boxservice.episode.edit(episode.id,deferred);
 			}
 		});
 
