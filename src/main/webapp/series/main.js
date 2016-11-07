@@ -327,14 +327,24 @@ var seUpSeriesSortable=function(series){
 			   $("#addNewEpisodeToSeries").click(function(){
 				   
 				   boxservice.util.page.load("series/add-new-episode.html").done(function(htmlContent){
-					
+				   var getNextEpisodeNumber=function(){
+				       var episodeNumber=series.nextEpisodeNumber+1;
+				       if(episodeNumber<10){
+				           return "00"+episodeNumber;
+				       }
+				       else if(episodeNumber<100){
+				           return "0"+episodeNumber;
+				       }
+				       else
+				           return ""+episodeNumber;
+				   };        
 					   
 					   
 					   var episode={
 					    		title:"",
 					    		number:"1",
 					    		synopsis:"",
-					    		programmeNumber:"",
+					    		programmeNumber:series.contractNumber+"/"+getNextEpisodeNumber(),
 					    		warningText:"",
 					    		txChannel:"Box Plus",
 					    		certType:"ALL_TIMES",
