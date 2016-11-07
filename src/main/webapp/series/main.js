@@ -356,7 +356,9 @@ var seUpSeriesSortable=function(series){
 					    		}
 					    };
 					   var htContent=boxservice.util.replaceVariables(htmlContent,series);
+					   
 					   $("#content").html(htContent);
+					   $("#programmeNumber").val(episode.programmeNumber);
 					   
 					   boxservice.util.resetInput();
 					   
