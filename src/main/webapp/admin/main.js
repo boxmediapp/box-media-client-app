@@ -90,6 +90,7 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#imagePublicFolder"}, data:{value:["imagePublicFolder"]}},
 		       	  		               {input:{selection:"#imageUrlAliases"}, data:{value:["imageUrlAliases"]}},
 		       	  		               {input:{selection:"#requiredFields"}, data:{value:["requiredFields"]}},
+		       	  		               {input:{selection:"#autoYearsAvailability"}, data:{value:["autoYearsAvailability"]}},
 		       	  		               {input:{selection:"#s3imagesURL"}, data:{value:["s3imagesURL"]}}	       	  			       	  		               
 		       	  		            ];
 		boxservice.util.form.initInputFields(boxservice.appinfo.appconfig,boxservice.admin.configFields);
