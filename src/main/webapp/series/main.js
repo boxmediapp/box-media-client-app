@@ -350,7 +350,7 @@ var seUpSeriesSortable=function(series){
 					    		certType:"ALL_TIMES",
 					    		adsupport:"FREE",
 					    		ingestProfile:"box-plus-network-1080p-profile",
-					    		contentType:"Entertainment",
+					    		contentType:boxservice.appinfo.appconfig.autoSetContentType,
 					    		series:{
 					    			id:series.id										    					    			
 					    		}
@@ -359,7 +359,7 @@ var seUpSeriesSortable=function(series){
 					   
 					   $("#content").html(htContent);
 					   $("#programmeNumber").val(episode.programmeNumber);
-					   
+					   $("#episodeContentType").val(boxservice.appinfo.appconfig.autoSetContentType);
 					   boxservice.util.resetInput();
 					   
 					   var tagspromise=boxservice.api.tags.list();
