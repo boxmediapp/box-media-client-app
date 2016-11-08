@@ -346,7 +346,7 @@ var seUpSeriesSortable=function(series){
 					    		synopsis:"",
 					    		programmeNumber:series.contractNumber+"/"+getNextEpisodeNumber(),
 					    		warningText:"",
-					    		txChannel:"Box Plus",
+					    		txChannel:boxservice.appinfo.appconfig.autoSetTxChannel,
 					    		certType:"ALL_TIMES",
 					    		adsupport:"FREE",
 					    		ingestProfile:"box-plus-network-1080p-profile",
