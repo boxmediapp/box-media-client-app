@@ -359,7 +359,8 @@ var seUpSeriesSortable=function(series){
 					   
 					   $("#content").html(htContent);
 					   $("#programmeNumber").val(episode.programmeNumber);
-					   $("#episodeContentType").val(boxservice.appinfo.appconfig.autoSetContentType);
+					   $("#episodeContentType").val(episode.contentType);
+					   $("#txChannel").val(episode.txChannel);
 					   boxservice.util.resetInput();
 					   
 					   var tagspromise=boxservice.api.tags.list();

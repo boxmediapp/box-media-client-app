@@ -93,6 +93,7 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#autoYearsAvailability"}, data:{value:["autoYearsAvailability"]}},
 		       	  		               {input:{selection:"#autoSetGeoAllowedCountries"}, data:{value:["autoSetGeoAllowedCountries"]}},
 		       	  		               {input:{selection:"#autoSetContentType"}, data:{value:["autoSetContentType"]}},
+		       	  		               {input:{selection:"#autoSetTxChannel"}, data:{value:["autoSetTxChannel"]}},
 		       	  		               {input:{selection:"#s3imagesURL"}, data:{value:["s3imagesURL"]}}	       	  			       	  		               
 		       	  		            ];
 		boxservice.util.form.initInputFields(boxservice.appinfo.appconfig,boxservice.admin.configFields);
