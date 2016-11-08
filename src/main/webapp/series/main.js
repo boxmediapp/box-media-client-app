@@ -328,7 +328,7 @@ var seUpSeriesSortable=function(series){
 				   
 				   boxservice.util.page.load("series/add-new-episode.html").done(function(htmlContent){
 				   var getNextEpisodeNumber=function(){
-				       var episodeNumber=series.nextEpisodeNumber+1;
+				       var episodeNumber=series.nextEpisodeNumber;
 				       if(episodeNumber<10){
 				           return "00"+episodeNumber;
 				       }
