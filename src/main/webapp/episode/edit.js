@@ -140,9 +140,17 @@ jQuery(document).ready(function ($) {
 													
 					$("#filennameForUpload").val(fileNamebase + ".mp4");
 					$("#uploadFileNameDialog .confirm").unbind("click").click(function (uploadFilename) {
+					    
 						boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.boxvideo.listFiles, function(uploadFilename){
+						    var videoURL=boxservice.appinfo.appconfig.s3videoURL+"/"+uploadFilename;
+						    console.log("**going to upload to:"+videoURL);						   
+						    boxservice.api.boxvideo.presginedurl(videoURL,"POST").done(function (data) {
+			                                if (data && data.file) {
+			                                    boxservice.episode.editpage.showDragAndDropUploadDialog(episode, data.file,uploadFilename,deferred);
+			                                }
+			                            });
+						    
 							
-							boxservice.episode.editpage.showDragAndDropUploadDialog(episode, boxservice.api.boxvideo.uploadfileurl(),uploadFilename,deferred);
 						});
 					});
 					boxservice.util.resetInput();
