@@ -411,8 +411,7 @@ jQuery(document).ready(function ($) {
             });
 
             $("#fileUploaderDialog .fileuploader").uploadFile({
-                    url: data.url,
-                    fileName:data.key
+                    url: data.url                    
             });
 
       };
