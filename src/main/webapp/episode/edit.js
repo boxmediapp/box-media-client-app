@@ -405,8 +405,7 @@ jQuery(document).ready(function ($) {
                         "key":data.path,
                         "AWSAccessKeyId":data.key,
                         "signature":data.signature,
-                        "acl":"private", 
-                        "policy":"YOUR_POLICY_DOCUMENT_BASE64_ENCODED",
+                        "acl":"private",    
                         "Content-Type":"video/mp4"
                     } 
             });
