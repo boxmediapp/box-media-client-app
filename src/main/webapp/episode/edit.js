@@ -146,7 +146,7 @@ jQuery(document).ready(function ($) {
 						    console.log("**going to upload to:"+videoURL);						   
 						    boxservice.api.boxvideo.presginedurl(videoURL,"POST").done(function (data) {
 			                                if (data && data.file) {
-			                                    boxservice.episode.editpage.showDragAndDropUploadDialog(episode, data.file,uploadFilename,deferred);
+			                                    boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);			                                    
 			                                }
 			                            });
 						    
@@ -394,5 +394,28 @@ jQuery(document).ready(function ($) {
 		});
 
 	};
+	boxservice.episode.editpage.showS3UploadUploadDialog=function(episode, data,deferred){
+            $("#uploadFileNameDialog").closeModal();
+            $("#fileUploaderDialog").openModal({
+                    dismissible: true,
+                    complete: function () {
+                            boxservice.episode.edit(episode.id,deferred);
+                    },
+                    formData:{
+                        "key":data.path,
+                        "AWSAccessKeyId":data.key,
+                        "signature":data.signature,
+                        "acl":"private", 
+                        "policy":"YOUR_POLICY_DOCUMENT_BASE64_ENCODED",
+                        "Content-Type":"video/mp4"
+                    } 
+            });
+
+            $("#fileUploaderDialog .fileuploader").uploadFile({
+                    url: data.url                    
+            });
+
+      };
+
 	
 });
