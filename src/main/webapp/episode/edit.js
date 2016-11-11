@@ -405,6 +405,8 @@ jQuery(document).ready(function ($) {
                         "key":data.path,
                         "AWSAccessKeyId":data.key,
                         "signature":data.signature,
+                        "success_action_redirect":"http://localhost/",
+                        "policy":data.policy,
                         "acl":"private",    
                         "Content-Type":"video/mp4"
                     } 
