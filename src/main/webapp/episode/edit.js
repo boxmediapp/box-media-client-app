@@ -404,6 +404,7 @@ jQuery(document).ready(function ($) {
                     formData:{
                         "key":data.path,
                         "AWSAccessKeyId":data.key,
+                        "Policy":data.plocy,                        
                         "signature":data.signature,                        
                         "acl":"private",    
                         "Content-Type":"video/mp4"
