@@ -403,30 +403,19 @@ jQuery(document).ready(function ($) {
                     }
                      
             });
-            function onS3Done(e, data) {
-                var s3Url = $(data.jqXHR.responseXML).find('Location').text();
-                var s3Key = $(data.jqXHR.responseXML).find('Key').text();
-              };
-              function s3add(e, data) {
-                  var filename = data.files[0].name;
-                  var params = [];
-                  
-                      data.formData = {
-                              "key":data.path,
-                              "AWSAccessKeyId":data.accessKey,
-                              "Policy":data.policy,                        
-                              "signature":data.signature,                        
-                              "acl":data.acl
-                              
-                          };
-                      data.submit();
-              }  
-              
+
             $("#fileUploaderDialog .fileuploader").uploadFile({
                     url: data.baseURL,
-                    paramName:"file", 
-                    add: s3add,
-                    done:onS3Done
+                    paramName:"dilshat",
+                    filename: data.path,                   
+                    formData:{
+                        "key":data.path,
+                        "AWSAccessKeyId":data.accessKey,
+                        "Policy":data.policy,                        
+                        "signature":data.signature,                        
+                        "acl":data.acl,
+                        
+                    }
             });
 
       };
