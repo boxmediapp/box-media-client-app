@@ -405,16 +405,14 @@ jQuery(document).ready(function ($) {
             });
             
             var formData={
-                "key":data.path,                        
-                "AWSAccessKeyId":data.accessKey,
-                "Policy":data.policy,                        
-                "Signature":data.xamzSignature,                        
-                "acl":data.acl,    
-                "Content-Type":"video/mp4",
-                "success_action_status":data.successActionStatus,
-                "X-Amz-Credential":data.xamzCredential,
+                "key":data.path,
+                "acl":data.acl,
+                "success_action_status":data.successActionStatus,                
+                "policy":data.policy,                                        
                 "x-amz-algorithm":data.xamzAlgorithm,
-                "x-amz-date":data.xamzDate
+                "x-amz-credential":data.xamzCredential,                
+                "x-amz-date":data.xamzDate,
+                "x-amz-signature":data.xamzSignature,
             };
             console.log("formData:"+JSON.stringify(formData));
             
