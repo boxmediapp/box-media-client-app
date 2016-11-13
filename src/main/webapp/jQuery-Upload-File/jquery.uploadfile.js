@@ -691,7 +691,6 @@
 
 
         function ajaxFormSubmit(form, s, pd, fileArray, obj, file) {
-            console.log("****************file uplad:"+JSON.stringify(form));            
             var currentXHR = null;
             var options = {
                 cache: false,
