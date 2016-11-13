@@ -403,9 +403,8 @@ jQuery(document).ready(function ($) {
                     }
                      
             });
-            $("#fileupload").attr("")
-            $("#fileupload").fileupload({
-                    url: data.url,
+            $("#fileupload").attr("data-url",data.baseURL);            
+            $("#fileupload").fileupload({                    
                     formData:{
                         "key":data.path,
                         "AWSAccessKeyId":data.path,
