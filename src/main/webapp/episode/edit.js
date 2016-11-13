@@ -382,9 +382,16 @@ jQuery(document).ready(function ($) {
                         }
                 });
 
-                $("#fileUploaderDialog .fileuploader").uploadFile({
+                $("#fileUploaderDialog .fileuploader").fileupload({
                         url: uploadapiurl,
-                        fileName: uploadFilename
+                        fileName: uploadFilename,
+                        progressall: function (e, data) {
+                            var progress = parseInt(data.loaded / data.total * 100, 10);
+                            $('#progress .bar').css(
+                                'width',
+                                progress + '%'
+                            );
+                        }
                 });
 
         };
