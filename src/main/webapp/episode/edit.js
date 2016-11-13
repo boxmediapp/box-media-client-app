@@ -413,8 +413,9 @@ jQuery(document).ready(function ($) {
                         window.onbeforeunload = function() {
                             return 'You have unsaved changes.';
                         };
-                        // Submit
-                        data.submit();
+                        console.log(JSON.stringify(data));
+                        
+                        //data.submit();
                     },
                     end: function(e, data) {
                         // onSend
