@@ -403,19 +403,23 @@ jQuery(document).ready(function ($) {
                     }
                      
             });
+            
+            var formData={
+                "key":data.path,                        
+                "AWSAccessKeyId":data.accessKey,
+                "Policy":data.policy,                        
+                "Signature":data.xamzSignature,                        
+                "acl":data.acl,    
+                "Content-Type":"video/mp4",
+                "success_action_redirect":data.successActionRedirect,
+                "X-Amz-Credential":data.xamzCredential
+            };
+            console.log("formData:"+JSON.stringify(formData));
+            
+            
             $("#fileupload").attr("data-url",data.baseURL);            
             $("#fileupload").fileupload({                    
-                    formData:{
-                        "key":data.path,
-                        
-                        "AWSAccessKeyId":data.accessKey,
-                        "Policy":data.policy,                        
-                        "Signature":data.xamzSignature,                        
-                        "acl":data.acl,    
-                        "Content-Type":"video/mp4",
-                        "success_action_redirect":data.successActionRedirect,
-                        "X-Amz-Credential":data.xamzCredential
-                    }
+                    formData:formData
             });
 
       };
