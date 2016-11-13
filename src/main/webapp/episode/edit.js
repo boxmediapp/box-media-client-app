@@ -141,8 +141,13 @@ jQuery(document).ready(function ($) {
                                         $("#filennameForUpload").val(fileNamebase + ".mp4");
                                         $("#uploadFileNameDialog .confirm").unbind("click").click(function (uploadFilename) {
                                                 boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.boxvideo.listFiles, function(uploadFilename){
-                                                        
+                                                    if(true){
+                                                        boxservice.episode.editpage.showS3UploadDialog(episode, boxservice.api.boxvideo.uploadfileurl(),uploadFilename,deferred);
+                                                    }
+                                                    else{
                                                         boxservice.episode.editpage.showDragAndDropUploadDialog(episode, boxservice.api.boxvideo.uploadfileurl(),uploadFilename,deferred);
+                                                    }
+                                                        
                                                 });
                                         });
                                         boxservice.util.resetInput();
@@ -386,5 +391,16 @@ jQuery(document).ready(function ($) {
                 });
 
         };
+        boxservice.episode.editpage.showS3UploadDialog=function(episode, uploadapiurl,uploadFilename,deferred){
+            $("#uploadFileNameDialog").closeModal();
+            
+
+            $("#fileUploaderDialog .fileuploader").uploadFile({
+                    url: uploadapiurl,
+                    fileName: uploadFilename
+            });
+
+    };
+
         
 });
