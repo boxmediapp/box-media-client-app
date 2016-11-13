@@ -407,10 +407,10 @@ jQuery(document).ready(function ($) {
             $("#fileupload").fileupload({                    
                     formData:{
                         "key":data.path,
-                        "AWSAccessKeyId":data.path,
+                        "AWSAccessKeyId":data.accessKey,
                         "Policy":data.policy,                        
                         "signature":data.signature,                        
-                        "acl":"private",    
+                        "acl":data.acl,    
                         "Content-Type":"video/mp4"
                     }
             });
