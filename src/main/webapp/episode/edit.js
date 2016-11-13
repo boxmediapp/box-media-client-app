@@ -403,7 +403,7 @@ jQuery(document).ready(function ($) {
                     }
                      
             });
-            
+            $("#fileupload").attr("")
             $("#fileupload").fileupload({
                     url: data.url,
                     formData:{
