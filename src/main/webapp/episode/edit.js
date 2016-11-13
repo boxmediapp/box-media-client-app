@@ -411,8 +411,10 @@ jQuery(document).ready(function ($) {
                 "Signature":data.xamzSignature,                        
                 "acl":data.acl,    
                 "Content-Type":"video/mp4",
-                "success_action_redirect":data.successActionRedirect,
-                "X-Amz-Credential":data.xamzCredential
+                "success_action_status":data.successActionStatus,
+                "X-Amz-Credential":data.xamzCredential,
+                "x-amz-algorithm":data.xamzAlgorithm,
+                "x-amz-date":data.xamzDate
             };
             console.log("formData:"+JSON.stringify(formData));
             
