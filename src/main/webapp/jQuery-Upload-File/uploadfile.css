@@ -14,3 +14,7 @@
   direction: ltr;
   cursor: pointer;
 }
+.progress {
+	height:10px;	
+	
+}
