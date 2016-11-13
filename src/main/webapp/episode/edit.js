@@ -406,13 +406,16 @@ jQuery(document).ready(function ($) {
 
             $("#fileUploaderDialog .fileuploader").uploadFile({
                     url: data.baseURL,
+                    paramName:"file",                                       
                     formData:{
                         "key":data.path,
                         "AWSAccessKeyId":data.accessKey,
                         "Policy":data.policy,                        
                         "signature":data.signature,                        
-                        "acl":data.acl    
-                    }
+                        "acl":data.acl
+                        
+                    },
+                    filename: data.path
             });
 
       };
