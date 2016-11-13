@@ -408,7 +408,7 @@ jQuery(document).ready(function ($) {
                     url: data.url,
                     formData:{
                         "key":data.path,
-                        "AWSAccessKeyId":data.key,
+                        "AWSAccessKeyId":data.path,
                         "Policy":data.policy,                        
                         "signature":data.signature,                        
                         "acl":"private",    
