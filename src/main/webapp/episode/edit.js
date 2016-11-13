@@ -400,7 +400,12 @@ jQuery(document).ready(function ($) {
                     dismissible: true,
                     complete: function () {
                             boxservice.episode.edit(episode.id,deferred);
-                    },
+                    }
+                     
+            });
+
+            $("#fileUploaderDialog .fileuploader").uploadFile({
+                    url: data.url,
                     formData:{
                         "key":data.path,
                         "AWSAccessKeyId":data.key,
@@ -408,11 +413,7 @@ jQuery(document).ready(function ($) {
                         "signature":data.signature,                        
                         "acl":"private",    
                         "Content-Type":"video/mp4"
-                    } 
-            });
-
-            $("#fileUploaderDialog .fileuploader").uploadFile({
-                    url: data.url                    
+                    }
             });
 
       };
