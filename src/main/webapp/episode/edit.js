@@ -409,9 +409,10 @@ jQuery(document).ready(function ($) {
                         "key":data.path,
                         "AWSAccessKeyId":data.accessKey,
                         "Policy":data.policy,                        
-                        "signature":data.signature,                        
+                        "Signature":data.xamzSignature,                        
                         "acl":data.acl,    
-                        "Content-Type":"video/mp4"
+                        "Content-Type":"video/mp4",
+                        
                     }
             });
 
