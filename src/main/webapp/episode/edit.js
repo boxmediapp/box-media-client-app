@@ -383,7 +383,7 @@ jQuery(document).ready(function ($) {
                 });
                 $("#fileUploaderDialog .fileuploader .fileupload").attr("data-url",uploadapiurl);
                 
-                $("#fileUploaderDialog .fileuploader").fileupload({                        
+                $("#fileUploaderDialog .fileuploader .fileupload").fileupload({                        
                        progressall: function (e, data) {
                             var progress = parseInt(data.loaded / data.total * 100, 10);
                             $('#fileUploaderDialog .fileuploader .progress .bar').css(
@@ -391,6 +391,7 @@ jQuery(document).ready(function ($) {
                                 progress + '%'
                             );
                         }
+                        
                 });
 
         };
