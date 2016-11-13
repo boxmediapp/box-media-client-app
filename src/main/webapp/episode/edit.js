@@ -381,9 +381,9 @@ jQuery(document).ready(function ($) {
                                 boxservice.episode.edit(episode.id,deferred);
                         }
                 });
-                $("#fileUploaderDialog .fileuploader .fileupload").attr("data-url",uploadapiurl);
+                $("#fileupload").attr("data-url",uploadapiurl);
                 
-                $("#fileUploaderDialog .fileuploader .fileupload").fileupload({                        
+                $("#fileupload").fileupload({                        
                        progressall: function (e, data) {
                             var progress = parseInt(data.loaded / data.total * 100, 10);
                             $('#fileUploaderDialog .fileuploader .progress .bar').css(
