@@ -710,7 +710,13 @@
 	<div id="fileUploaderDialog" class="modal">
 		<div class="modal-content">
 
-			<div class="fileuploader">Upload local files</div>
+			<div class="fileuploader">
+			     <div>Upload local files</div>
+			     <input class="fileupload" type="file" name="files[]" data-url="" multiple>
+			     <div class="progress">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+			</div>
 
 
 		</div>
