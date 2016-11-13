@@ -405,14 +405,13 @@ jQuery(document).ready(function ($) {
             });
 
             $("#fileUploaderDialog .fileuploader").uploadFile({
-                    url: data.url,
+                    url: data.baseURL,
                     formData:{
                         "key":data.path,
-                        "AWSAccessKeyId":data.path,
+                        "AWSAccessKeyId":data.accessKey,
                         "Policy":data.policy,                        
                         "signature":data.signature,                        
-                        "acl":"private",    
-                        "Content-Type":"video/mp4"
+                        "acl":data.acl    
                     }
             });
 
