@@ -419,6 +419,9 @@ jQuery(document).ready(function ($) {
             if(data.xamzAlgorithm){
                 formData["x-amz-algorithm"]=data.xamzAlgorithm;                
             }
+            if(data.xamzServerSideeEcryption){
+                formData["x-amz-server-side-encryption"]=data.xamzServerSideeEcryption;
+            }
             if(data.xamzCredential){
                 formData["x-amz-credential"]=data.xamzCredential;                
             }
