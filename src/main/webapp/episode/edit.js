@@ -145,7 +145,7 @@ jQuery(document).ready(function ($) {
                                                     var videoURL=boxservice.appinfo.appconfig.s3videoURL+"/"+uploadFilename;
                                                     console.log("**going to upload to:"+videoURL);                                                 
                                                     boxservice.api.boxvideo.presginedurl(videoURL,"POST").done(function (data) {
-                                                        if (data && data.file) {
+                                                        if (data) {
                                                             boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
                                                         }
                                                     });
