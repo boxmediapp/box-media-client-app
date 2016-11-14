@@ -430,7 +430,7 @@ jQuery(document).ready(function ($) {
             }
             console.log("formData:"+JSON.stringify(formData));
             
-            logger.info("endpoint:"+data.baseURL);
+            console.log("endpoint:"+data.baseURL);
             $("#fileupload").attr("data-url",data.baseURL);            
             $("#fileupload").fileupload({                    
                     formData:formData,
