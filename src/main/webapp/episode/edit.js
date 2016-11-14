@@ -405,28 +405,28 @@ jQuery(document).ready(function ($) {
             });
             var formData={};
             if(data.path){
-                data["key"]=data.path;                
+                formData["key"]=data.path;                
             }
             if(data.acl){
-                data["acl"]=data.acl;                
+                formData["acl"]=data.acl;                
             }
             if(data.successActionStatus){
-                data["success_action_status"]=data.successActionStatus;                
+                formData["success_action_status"]=data.successActionStatus;                
             }
             if(data.policy){
-                data["policy"]=data.policy;                
+                formData["policy"]=data.policy;                
             }
             if(data.xamzAlgorithm){
-                data["x-amz-algorithm"]=data.xamzAlgorithm;                
+                formData["x-amz-algorithm"]=data.xamzAlgorithm;                
             }
             if(data.xamzCredential){
-                data["x-amz-credential"]=data.xamzCredential;                
+                formData["x-amz-credential"]=data.xamzCredential;                
             }
             if(data.xamzDate){
-                data["x-amz-date"]=data.xamzDate;                
+                formData["x-amz-date"]=data.xamzDate;                
             }
             if(data.xamzSignature){
-                data["x-amz-signature"]=data.xamzSignature;                
+                formData["x-amz-signature"]=data.xamzSignature;                
             }
             console.log("formData:"+JSON.stringify(formData));
             
