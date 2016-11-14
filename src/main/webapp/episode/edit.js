@@ -433,7 +433,11 @@ jQuery(document).ready(function ($) {
             
             $("#fileupload").attr("data-url",data.baseURL);            
             $("#fileupload").fileupload({                    
-                    formData:formData
+                    formData:formData,
+                    paramName:"file",
+                    url:data.baseURL,
+                    dataType:"video/mp4",
+                    acceptFileTypes:"/.*/i;"
             });
 
       };
