@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
                                 }; 
                                 boxservice.api.upload(uploadRequest).done(function (data) {
                                     if (data) {
-                                        boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
+                                        boxservice.episode.editpage.showS3UploadUploadDialog(series,data,deferred);                                                            
                                     }
                                 });
 
