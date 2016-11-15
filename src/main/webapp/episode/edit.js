@@ -441,7 +441,18 @@ jQuery(document).ready(function ($) {
                     paramName:"file",
                     url:data.baseURL,
                     dataType:"video/mp4",
-                    acceptFileTypes:"/.*/i;"
+                    acceptFileTypes:"/.*/i;",
+                    progressall: function (e, data) {
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        $('.progress .bar').css(
+                            'width',
+                            progress + '%'
+                        );
+                    },
+                    done: function (e, data) {
+                        $("#fileUploaderDialog").closeModal();
+                    }
+            
             });
 
       };
