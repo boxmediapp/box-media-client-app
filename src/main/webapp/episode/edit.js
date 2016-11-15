@@ -406,7 +406,7 @@ jQuery(document).ready(function ($) {
                 });
 
         };
-        boxservice.episode.editpage.showS3UploadUploadDialog=function(episode, data,deferred){
+        boxservice.episode.editpage.showS3UploadUploadDialog=function(metadata, data,deferred){
             $("#uploadFileNameDialog").closeModal();
             $("#fileUploaderDialog").openModal({
                     dismissible: true,
@@ -459,6 +459,12 @@ jQuery(document).ready(function ($) {
                         if(data.loaded>=data.total){
                             setTimeout(function(){
                                 $("#fileUploaderDialog").closeModal();
+                                if(metadata.series){
+                                    boxservice.episode.edit(metadata.id,deferred);
+                                }
+                                else{
+                                    boxservice.series.edit(metadata.id,deferred);
+                                }
                             }, 2000);
                             
                         }
@@ -468,7 +474,7 @@ jQuery(document).ready(function ($) {
                         console.log("**** completed download.....");
                         $("#fileUploaderDialog").closeModal();
                     }
-            
+                    
             });
 
       };
