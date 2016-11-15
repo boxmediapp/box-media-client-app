@@ -465,7 +465,7 @@ jQuery(document).ready(function ($) {
                                 else{
                                     boxservice.series.edit(metadata.id,deferred);
                                 }
-                            }, 2000);
+                            }, 5000);
                             
                         }
                         
