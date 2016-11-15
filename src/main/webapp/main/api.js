@@ -353,10 +353,13 @@ jQuery(document).ready(function ($) {
   };
 
   
-  boxservice.api.boxvideo.presginedurl=function(url){		
-	   return boxservice.api.ajax("GET",apipath+"/presigned?url="+url);			
+  boxservice.api.boxvideo.presginedurl=function(url){       
+           return boxservice.api.ajax("GET",apipath+"/presigned?url="+url);
   };		
   
+  boxservice.api.upload=function(uploadRequest){      
+       return boxservice.api.ajax("POST",apipath+"/presigned", uploadRequest);       
+  };            
   
   
   

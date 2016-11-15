@@ -377,6 +377,7 @@
 					other free or commercial S3 uploader tools.
 				</div>
 			</div>
+			
 
 			<div class="input-field col s8">
 				<input id="ingestSource" type="text">
@@ -706,18 +707,7 @@
 	</div>
 	
 
-	<div id="fileUploaderDialog" class="modal">
-		<div class="modal-content">
-
-			<div class="fileuploader">Upload local files</div>
-
-
-		</div>
-		<div class="modal-footer">
-			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</button>	       
-	   </div>
-</div>
-
+	
 
 <div class="row">
 			<div class="col s4">
@@ -739,5 +729,22 @@
   
 	</div>
 	
+	<div id="fileUploaderDialog" class="modal">
+        <div class="modal-content">
+
+            <div class="fileuploader">
+                 <div>Upload local files</div>
+                 <input id="fileupload" type="file" name="file" data-url="/" multiple>
+                 <div class="progress">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</button>          
+       </div>
+</div>
 	
 	

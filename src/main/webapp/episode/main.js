@@ -872,8 +872,7 @@ jQuery(document).ready(function ($) {
 		  			window.open(url,"_blank");
 		  			return false;
 		  		});
-		  		$("#bcAnalycsData").click(function(){
-		  			
+		  		$("#bcAnalycsData").click(function(){		  			
 		  			var url=boxservice.api.episode.bcAnalysticsUrl(episode.brightcoveId);
 		  			window.open(url,"_blank");
 		  			return false;
