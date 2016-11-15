@@ -175,7 +175,15 @@ jQuery(document).ready(function ($) {
                                         $("#filennameForUpload").val(fileNamebase + ".png");
                                         $("#uploadFileNameDialog .confirm").unbind("click").click(function (uploadFilename) {
                                                 boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.masterimage.listFiles, function(uploadFilename){
-                                                        boxservice.episode.editpage.showDragAndDropUploadDialog(episode, boxservice.api.masterimage.uploadfileurl(),uploadFilename,deferred);                                                           
+                                                    var uploadRequest={
+                                                            file:boxservice.appinfo.appconfig.imageMasterFolder+"/"+uploadFilename,
+                                                            bucket:boxservice.appinfo.appconfig.imageBucket                                                            
+                                                    }; 
+                                                    boxservice.api.boxvideo.upload(uploadRequest).done(function (data) {
+                                                        if (data) {
+                                                            boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
+                                                        }
+                                                    });
                                                 });
                                         });
                                         boxservice.util.resetInput();                                   
@@ -406,7 +414,7 @@ jQuery(document).ready(function ($) {
                             boxservice.episode.edit(episode.id,deferred);
                     }
                      
-            });
+            });             
             var formData={};
             if(data.file){
                 formData["key"]=data.file;                
@@ -454,7 +462,7 @@ jQuery(document).ready(function ($) {
                             }, 2000);
                             
                         }
-                        console.log(data.loaded+":"+data.total);
+                        
                     },
                     done: function (e, data) {
                         console.log("**** completed download.....");
