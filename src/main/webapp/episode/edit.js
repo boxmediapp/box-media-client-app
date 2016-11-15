@@ -448,6 +448,12 @@ jQuery(document).ready(function ($) {
                             'width',
                             progress + '%'
                         );
+                        if(data.loaded>=data.total){
+                            setTimeout(function(){
+                                $("#fileUploaderDialog").closeModal();
+                            }, 2000);
+                            
+                        }
                         console.log(data.loaded+":"+data.total);
                     },
                     done: function (e, data) {
