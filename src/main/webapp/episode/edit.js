@@ -408,7 +408,7 @@ jQuery(document).ready(function ($) {
                      
             });
             var formData={};
-            if(data.path){
+            if(data.file){
                 formData["key"]=data.file;                
             }
             if(data.acl){
