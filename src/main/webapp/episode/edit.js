@@ -143,8 +143,12 @@ jQuery(document).ready(function ($) {
                                             
                                                 boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.boxvideo.listFiles, function(uploadFilename){
                                                     var videoURL=boxservice.appinfo.appconfig.s3videoURL+"/"+uploadFilename;
-                                                    console.log("**going to upload to:"+videoURL);                                                 
-                                                    boxservice.api.boxvideo.presginedurl(videoURL,"POST").done(function (data) {
+                                                    console.log("**going to upload to:"+videoURL);
+                                                    var uploadRequest={
+                                                            file:uploadFilename,
+                                                            bucket:boxservice.appinfo.appconfig.videoBucket                                                            
+                                                    };                                                    
+                                                    boxservice.api.boxvideo.upload(uploadRequest).done(function (data) {
                                                         if (data) {
                                                             boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
                                                         }
@@ -405,7 +409,7 @@ jQuery(document).ready(function ($) {
             });
             var formData={};
             if(data.path){
-                formData["key"]=data.path;                
+                formData["key"]=data.file;                
             }
             if(data.acl){
                 formData["acl"]=data.acl;                
