@@ -148,7 +148,7 @@ jQuery(document).ready(function ($) {
                                                             file:uploadFilename,
                                                             bucket:boxservice.appinfo.appconfig.videoBucket                                                            
                                                     };                                                    
-                                                    boxservice.api.boxvideo.upload(uploadRequest).done(function (data) {
+                                                    boxservice.api.upload(uploadRequest).done(function (data) {
                                                         if (data) {
                                                             boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
                                                         }
@@ -179,7 +179,7 @@ jQuery(document).ready(function ($) {
                                                             file:boxservice.appinfo.appconfig.imageMasterFolder+"/"+uploadFilename,
                                                             bucket:boxservice.appinfo.appconfig.imageBucket                                                            
                                                     }; 
-                                                    boxservice.api.boxvideo.upload(uploadRequest).done(function (data) {
+                                                    boxservice.boxvideo.upload(uploadRequest).done(function (data) {
                                                         if (data) {
                                                             boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
                                                         }

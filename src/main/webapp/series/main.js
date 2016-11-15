@@ -24,6 +24,17 @@ jQuery(document).ready(function ($) {
 				$("#filennameForUpload").val(imagefileName + ".png");		
 				$("#uploadFileNameDialog").openModal();
 				boxservice.util.resetInput();
+				var uploadRequest={
+                                         file:boxservice.appinfo.appconfig.imageMasterFolder+"/"+imagefileName + ".png",
+                                         bucket:boxservice.appinfo.appconfig.imageBucket                                                            
+                                }; 
+                                boxservice.api.upload(uploadRequest).done(function (data) {
+                                    if (data) {
+                                        boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
+                                    }
+                                });
+
+				
 			}
 
 		}).fail(boxservice.util.onError);

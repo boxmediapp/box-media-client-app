@@ -357,7 +357,7 @@ jQuery(document).ready(function ($) {
            return boxservice.api.ajax("GET",apipath+"/presigned?url="+url);
   };		
   
-  boxservice.api.boxvideo.upload=function(uploadRequest){      
+  boxservice.api.upload=function(uploadRequest){      
        return boxservice.api.ajax("POST",apipath+"/presigned", uploadRequest);       
   };            
   
