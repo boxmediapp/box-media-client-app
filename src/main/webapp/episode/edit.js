@@ -448,6 +448,7 @@ jQuery(document).ready(function ($) {
                             'width',
                             progress + '%'
                         );
+                        console.log(data.loaded+":"+data.total);
                     },
                     done: function (e, data) {
                         console.log("**** completed download.....");
