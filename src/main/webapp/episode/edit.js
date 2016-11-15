@@ -450,6 +450,7 @@ jQuery(document).ready(function ($) {
                         );
                     },
                     done: function (e, data) {
+                        console.log("**** completed download.....");
                         $("#fileUploaderDialog").closeModal();
                     }
             
