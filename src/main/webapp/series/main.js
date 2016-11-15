@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
 	boxservice.series={};
 	
 	
-	boxservice.series.uploadImageFile = function (series) {
+	boxservice.series.uploadImageFile = function (series,originalDeferred) {
 		if (boxservice.series.inputDirty) {
 			boxservice.util.openDialog("Please save it first: click on the 'save' button");
 			return;
@@ -30,6 +30,7 @@ jQuery(document).ready(function ($) {
                                 }; 
                                 boxservice.api.upload(uploadRequest).done(function (data) {
                                     if (data) {
+                                        var deferred = originalDeferred?originalDeferred:$.Deferred();
                                         boxservice.episode.editpage.showS3UploadUploadDialog(series,data,deferred);                                                            
                                     }
                                 });
