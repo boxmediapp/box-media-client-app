@@ -299,7 +299,7 @@ jQuery(document).ready(function ($) {
                     }
                 }
                 console.log(missingField+" ---> "+inutSelection);
-                $(inutSelection).addClass("requiredFieldMissing");
+                $(inutSelection).parent().addClass("requiredFieldMissing");
             }
         };
         boxservice.episode.editpage.intPlayVideo = function (episode) {
