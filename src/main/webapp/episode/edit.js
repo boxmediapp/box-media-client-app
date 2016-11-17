@@ -291,8 +291,8 @@ jQuery(document).ready(function ($) {
                     missingField= missingField.substring(ib+1); 
                 }
                 var inutSelection=null;
-                for(var i=0;i<boxservice.episode.editFields.length;i++){
-                    var inp=boxservice.episode.editFields[i];
+                for(var k=0;k<boxservice.episode.editFields.length;k++){
+                    var inp=boxservice.episode.editFields[k];
                     if(inp.data.value[0]==missingField){
                         inutSelection=inp.input.selection;
                         break;
