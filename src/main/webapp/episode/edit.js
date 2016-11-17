@@ -276,7 +276,21 @@ jQuery(document).ready(function ($) {
                 var iconText = "<i class=\"material-icons\">help_outline</i>";
                 $(".help").prepend(iconText);
                 */
-                boxservice.util.tooltip();              
+                boxservice.util.tooltip();  
+                if(episode.requiredFieldsStatus=="NOT_COMPLETE"){
+                    boxservice.episode.editpage.markMissingFields(episode);                    
+                }
+                
+                
+        };
+        boxservice.episode.editpage.markMissingFields=function(episode){
+            if(episode.requiredFieldsStatus=="NOT_COMPLETE"){
+                return;                    
+            }
+            var missingFields=episode.requiredFieldsMissing.split(",");
+            for(var i=0;i<missingFields.length;i++){
+                console.log("***:"+missingFields[i]);
+            }
         };
         boxservice.episode.editpage.intPlayVideo = function (episode) {
                 $("#playSourceVideo").click(function () {
