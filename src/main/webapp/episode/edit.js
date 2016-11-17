@@ -432,7 +432,9 @@ jQuery(document).ready(function ($) {
             $("#fileUploaderDialog").openModal({
                     dismissible: true,
                     complete: function () {
-                            boxservice.episode.edit(episode.id,deferred);
+                          if(episode){
+                              boxservice.episode.edit(episode.id,deferred);  
+                          }                            
                     }
                      
             });             
