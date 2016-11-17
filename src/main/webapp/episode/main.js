@@ -43,7 +43,21 @@ jQuery(document).ready(function ($) {
   		  statusContainer.addClass(boxservice.episode.getRequiredFieldStatusClassName(requiredFieldStatus));
   	  }
   };
-    
+    boxservice.episode.getMissingFields=function(episode){
+        if(episode.requiredFieldsStatus!="NOT_COMPLETE"){
+            return null;                    
+        }        
+        var missingFields=episode.requiredFieldsMissing.split(",");
+        for(var i=0;i<missingFields.length;i++){
+            var missingField=missingFields[i];
+            var ib=missingField.indexOf(".");
+            if(ib!=-1){
+                missingField= missingField.substring(ib+1); 
+            }
+            missingFields[i]=missingField;  
+        }
+        return missingFields;
+    }
     boxservice.episode.checkRule=function(episode,publishedStatus){
     	if(!episode){				
 			boxservice.util.openDialog("Unable to update the status:"+episodeid);
@@ -83,7 +97,7 @@ jQuery(document).ready(function ($) {
     	}
     	else if(publishedStatus=="ACTIVE"){
     		if(episode.requiredFieldsStatus=="NOT_COMPLETE"){
-    			boxservice.util.openDialog("Missing required fields to activate");
+    			boxservice.util.openDialog("Missing required fields to activate:"+boxservice.episode.getMissingFields(episode));
     			return false;
     		}
     		if(episode.episodeStatus.publishedStatus=="ACTIVE"){    			

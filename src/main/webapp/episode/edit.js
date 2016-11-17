@@ -279,17 +279,14 @@ jQuery(document).ready(function ($) {
                 boxservice.util.tooltip();  
                 boxservice.episode.editpage.markMissingFields(episode);
         };
+        
         boxservice.episode.editpage.markMissingFields=function(episode){
-            if(episode.requiredFieldsStatus!="NOT_COMPLETE"){
+            var missingFields=boxservice.episode.getMissingFields(episode);            
+            if(!missingFields){
                 return;                    
-            }
-            var missingFields=episode.requiredFieldsMissing.split(",");
+            }            
             for(var i=0;i<missingFields.length;i++){
-                var missingField=missingFields[i];
-                var ib=missingField.indexOf(".");
-                if(ib!=-1){
-                    missingField= missingField.substring(ib+1); 
-                }
+                var missingField=missingFields[i];                
                 var inutSelection=null;
                 for(var k=0;k<boxservice.episode.editFields.length;k++){
                     var inp=boxservice.episode.editFields[k];
