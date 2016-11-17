@@ -277,11 +277,7 @@ jQuery(document).ready(function ($) {
                 $(".help").prepend(iconText);
                 */
                 boxservice.util.tooltip();  
-                if(episode.requiredFieldsStatus=="NOT_COMPLETE"){
-                    boxservice.episode.editpage.markMissingFields(episode);                    
-                }
-                
-                
+                boxservice.episode.editpage.markMissingFields(episode);
         };
         boxservice.episode.editpage.markMissingFields=function(episode){
             if(episode.requiredFieldsStatus=="NOT_COMPLETE"){
