@@ -280,7 +280,7 @@ jQuery(document).ready(function ($) {
                 boxservice.episode.editpage.markMissingFields(episode);
         };
         boxservice.episode.editpage.markMissingFields=function(episode){
-            if(episode.requiredFieldsStatus=="NOT_COMPLETE"){
+            if(episode.requiredFieldsStatus!="NOT_COMPLETE"){
                 return;                    
             }
             var missingFields=episode.requiredFieldsMissing.split(",");
