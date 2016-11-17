@@ -574,3 +574,6 @@ body.bebox  li.bebox-specific{
 	opacity:1;	
 	right: -200px;
 }
+.requiredFieldMissing{
+	border:1px solid red;
+}
