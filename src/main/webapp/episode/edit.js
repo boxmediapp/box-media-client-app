@@ -290,8 +290,15 @@ jQuery(document).ready(function ($) {
                 if(ib!=-1){
                     missingField= missingField.substring(ib+1); 
                 }
-                console.log("***:"+missingField);
-                
+                var inutSelection=null;
+                for(var i=0;i<boxservice.episode.editFields.length;i++){
+                    var inp=boxservice.episode.editFields[i];
+                    if(inp.data.value[0]==missingField){
+                        inutSelection=inp.input.selection;
+                        break;
+                    }
+                }
+                console.log(missingField+" ---> "+inutSelection);
             }
         };
         boxservice.episode.editpage.intPlayVideo = function (episode) {
