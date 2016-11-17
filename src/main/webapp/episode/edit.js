@@ -285,7 +285,13 @@ jQuery(document).ready(function ($) {
             }
             var missingFields=episode.requiredFieldsMissing.split(",");
             for(var i=0;i<missingFields.length;i++){
-                console.log("***:"+missingFields[i]);
+                var missingField=missingFields[i];
+                var ib=missingField.indexOf(".");
+                if(ib!=-1){
+                    missingField= missingField.substring(ib+1); 
+                }
+                console.log("***:"+missingField);
+                
             }
         };
         boxservice.episode.editpage.intPlayVideo = function (episode) {
