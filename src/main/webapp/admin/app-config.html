@@ -86,7 +86,10 @@
         </div>
 	
 	</div>
-	       <div class="input-field col s3">
+	      
+	
+	<div class="row">
+	    <div class="input-field col s3">
             <input id="autoSetPublishedStatus" type="text">
             <label for="autoSetPublishedStatus" class="tooltip">Auto Set PublishedStatus
             
@@ -96,9 +99,20 @@
             </div>
             </label>
           </div>
-	
-	<div class="row">
-	
+          
+          <div class="input-field col s4">
+            <select id="autoCreatePlaceHolder">                        
+                        <option value="true">Create</option>
+                        <option value="false">Do not create</option>
+            </select>               
+            <label for="autoCreatePlaceHolder" class="tooltip">
+                Auto Create Place holder
+             <i class="material-icons">help_outline</i>
+             <div class="tooltiptext z-depth-2">
+               If this fied is true, the place holder is created immediately on creating the episode.               
+            </div>
+            </label>
+          </div>
 	</div>
 	
 	<div class="row">
