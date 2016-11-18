@@ -95,7 +95,7 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#autoSetContentType"}, data:{value:["autoSetContentType"]}},
 		       	  		               {input:{selection:"#autoSetTxChannel"}, data:{value:["autoSetTxChannel"]}},
 		       	  		               {input:{selection:"#autoSetPublishedStatus"}, data:{value:["autoSetPublishedStatus"]}},
-		       	  		               {input:{selection:"#autoCreatePlaceHolder"}, data:{value:["autoCreatePlaceHolder"],, type:"boolean"}},
+		       	  		               {input:{selection:"#autoCreatePlaceHolder"}, data:{value:["autoCreatePlaceHolder"], type:"boolean"}},
 		       	  		               {input:{selection:"#s3imagesURL"}, data:{value:["s3imagesURL"]}}	       	  			       	  		               
 		       	  		            ];
 		boxservice.util.form.initInputFields(boxservice.appinfo.appconfig,boxservice.admin.configFields);
