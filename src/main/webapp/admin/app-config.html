@@ -113,6 +113,20 @@
             </div>
             </label>
           </div>
+          <div class="input-field col s4">
+            <select id="brightcoveStatus">                      
+                        <option value="true">Auto</option>
+                        <option value="false">Manual</option>
+            </select>               
+            <label for="brightcoveStatus" class="tooltip">
+               Update brightcove
+             <i class="material-icons">help_outline</i>
+             <div class="tooltiptext z-depth-2">
+               When it is Auto, changes will be pushed to the Brightcove on changes.
+               When it is manual, the records will be marked NEEDS_PUSH_CHANGES_TO_BRIGHTCOVE and you can do batch or selective manual update.              
+            </div>
+            </label>
+        </div>
 	</div>
 	
 	<div class="row">
@@ -129,20 +143,7 @@
 	</div>
 	
 	<div class="row">
-		<div class="input-field col s4">
-			<select id="brightcoveStatus">		    	        
-		    	        <option value="true">Auto</option>
-				        <option value="false">Manual</option>
-		    </select>		    	
-			<label for="brightcoveStatus" class="tooltip">
-			   Update brightcove
-			 <i class="material-icons">help_outline</i>
-			 <div class="tooltiptext z-depth-2">
-			   When it is Auto, changes will be pushed to the Brightcove on changes.
-			   When it is manual, the records will be marked NEEDS_PUSH_CHANGES_TO_BRIGHTCOVE and you can do batch or selective manual update.			    
-			</div>
-			</label>
-		</div>
+		
 		<div class="input-field col s4">
 			<select id="convertImage">		    	        
 		    	        <option value="true">Create</option>
