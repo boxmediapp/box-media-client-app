@@ -95,6 +95,8 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#autoSetContentType"}, data:{value:["autoSetContentType"]}},
 		       	  		               {input:{selection:"#autoSetTxChannel"}, data:{value:["autoSetTxChannel"]}},
 		       	  		               {input:{selection:"#autoSetPublishedStatus"}, data:{value:["autoSetPublishedStatus"]}},
+		       	  		               {input:{selection:"#transcodeSourceBucket"}, data:{value:["transcodeSourceBucket"]}},
+		       	  		               {input:{selection:"#transcodeDestFileNamePrefix"}, data:{value:["transcodeDestFileNamePrefix"]}},
 		       	  		               {input:{selection:"#autoCreatePlaceHolder"}, data:{value:["autoCreatePlaceHolder"], type:"boolean"}},
 		       	  		               {input:{selection:"#s3imagesURL"}, data:{value:["s3imagesURL"]}}	       	  			       	  		               
 		       	  		            ];
