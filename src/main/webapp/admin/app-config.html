@@ -292,11 +292,24 @@
 	<div class="row">
         <div class="input-field col s3">
             <input id="transcodeSourceBucket" type="text">
-            <label for="transcodeSourceBucket" class="tooltip">Transcode bucket
+            <label for="transcodeSourceBucket" class="tooltip">Transcode  source bucket
             
              <i class="material-icons">help_outline</i>
              <div class="tooltiptext z-depth-2">
-                This is the watch bucket, where source video file is dropped for transcode        
+                This is the watch bucket, where source video file is dropped for transcode process. 
+                transcode process is necessary when the ingest file needs to be pre-processed before ingesting into the brightcove
+                       
+            </div>
+            </label>
+        </div>
+        <div class="input-field col s3">
+            <input id="transcodeDestBucket" type="text">
+            <label for="transcodeDestBucket" class="tooltip">Transcode dest bucket
+            
+             <i class="material-icons">help_outline</i>
+             <div class="tooltiptext z-depth-2">
+                This is the destination bucket for output of the transcode process.        
+                this can be the bucket where the brightcove can pickup the video for ingesting.
             </div>
             </label>
         </div>
@@ -306,7 +319,8 @@
             
              <i class="material-icons">help_outline</i>
              <div class="tooltiptext z-depth-2">
-                This is the file name prefix used for prefxing the transcoded files, this can be used spcified the output folder.        
+                This is the file name prefix used for prefxing the transcoded files, this can be used spcified the output folder.
+                For example, if the file received as the input the transcode does not contaons "V_" prefix, it can be added as file name prefix here                        
             </div>
             </label>
         </div>
