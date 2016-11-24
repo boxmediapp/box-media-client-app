@@ -417,7 +417,12 @@ jQuery(document).ready(function ($) {
                 $("#fileUploaderDialog").openModal({
                         dismissible: true,
                         complete: function () {
-                                boxservice.episode.edit(episode.id,deferred);
+                            $("#fileUploaderDialog .statusMessage").text("Upload complete");    
+                            //boxservice.episode.edit(episode.id,deferred);                                
+                        },
+                        add: function (e, data) {
+                            $("#fileUploaderDialog .statusMessage").text("uploading....");
+                            data.submit();
                         }
                 });
 
