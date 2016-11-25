@@ -400,5 +400,10 @@ jQuery(document).ready(function ($) {
 	            });
 		};
 		
-		
+		boxservice.api.report.get=function(){
+                    return $.ajax({
+                        type: "GET",
+                        url: apipath+"/reports"                        
+                    });
+                };
 });
