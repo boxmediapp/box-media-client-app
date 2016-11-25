@@ -18,6 +18,8 @@ jQuery(document).ready(function ($) {
 	boxservice.api.task={};
 	boxservice.api.episode={};
 	boxservice.api.availability={};
+	boxservice.api.report={};
+	
 
 	var apipath="/mule/boxtv";
 	
@@ -398,5 +400,9 @@ jQuery(document).ready(function ($) {
 	        });
 		};
 		
-			  	
+		boxservice.api.report.get=function(){
+		    return $.ajax({
+                        type: "GET",
+                        url: apipath+"/reports"                        
+		}			  	
 });

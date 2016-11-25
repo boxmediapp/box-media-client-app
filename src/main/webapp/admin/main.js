@@ -20,7 +20,15 @@ jQuery(document).ready(function ($) {
 			$("#importFromBrightcove").click(function(){			
 				boxservice.util.page.load("admin/import-from-bc.html").done(boxservice.admin.importFromBC).fail(boxservice.util.onError);
 			});
-			
+			$("#reports").click(function(){
+			    boxservice.util.page.load("admin/reports.html").done(function(htmlContent){
+	                              boxservice.api.report.get().done(function(report){	                                 
+	                                  htmlContent=boxservice.util.replaceVariables(htmlContent,report);	                                  
+	                                  $("#content").html(htmlContent);	                                  
+	                              }).fail(boxservice.util.onError);;
+			        
+			    }).fail(boxservice.util.onError);;
+			});
 			
 			$("#adminTags").click(function(){			
 					boxservice.admin.tags().done(function(){
