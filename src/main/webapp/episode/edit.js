@@ -173,7 +173,7 @@ jQuery(document).ready(function ($) {
                         
                         boxservice.episode.editpage.checkS3WithmaterialId(episode, filenameConstructor,boxservice.api.masterimage.listFiles,function(fileNamebase){                                                                     
                                         $("#filennameForUpload").val(fileNamebase + ".png");
-                                        $("#uploadFileNameDialog .confirm").unbind("click").click(function (uploadFilename) {
+                                        
                                                 boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.masterimage.listFiles, function(uploadFilename){
                                                     var uploadRequest={
                                                             file:boxservice.appinfo.appconfig.imageMasterFolder+"/"+uploadFilename,
@@ -185,7 +185,7 @@ jQuery(document).ready(function ($) {
                                                         }
                                                     });
                                                 });
-                                        });
+                                       
                                         boxservice.util.resetInput();                                   
                                         $("#uploadFileNameDialog").openModal();
                                         
@@ -424,14 +424,7 @@ jQuery(document).ready(function ($) {
 
                 $("#fileUploaderDialog .fileuploader").uploadFile({
                         url: uploadapiurl,
-                        fileName: uploadFilename,
-                        done:function(e,data){
-                             $("#fileUploaderDialog .statusMessage").text("Upload complete");
-                             },
-                        add: function (e, data) {
-                            $("#fileUploaderDialog .statusMessage").text("uploading....");
-                            data.submit();
-                        }
+                        fileName: uploadFilename                        
                 });
 
         };
