@@ -136,11 +136,8 @@ jQuery(document).ready(function ($) {
         $(".addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
         
                 $("#uploadVideoFile").click(function () {
-                        boxservice.episode.editpage.checkS3WithmaterialId(episode, boxservice.episode.editpage.videoFileName,boxservice.api.boxvideo.listFiles,function(fileNamebase){                                                          
-                                                                                                        
+                        boxservice.episode.editpage.checkS3WithmaterialId(episode, boxservice.episode.editpage.videoFileName,boxservice.api.boxvideo.listFiles,function(fileNamebase){
                                         $("#filennameForUpload").val(fileNamebase + ".mp4");
-                                        $("#uploadFileNameDialog .confirm").unbind("click").click(function (uploadFilename) {
-                                            
                                                 boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.boxvideo.listFiles, function(uploadFilename){
                                                     var videoURL=boxservice.appinfo.appconfig.s3videoURL+"/"+uploadFilename;
                                                     console.log("**going to upload to:"+videoURL);
@@ -155,14 +152,7 @@ jQuery(document).ready(function ($) {
                                                     });
                                                     
                                                         
-                                                });
-                                        });
-                                        boxservice.util.resetInput();
-                                        $("#uploadFileNameDialog").openModal();
-                                        
-                                        
-                                        
-                                        
+                                                });                                        
                                         
                         });
                 });
