@@ -397,13 +397,8 @@ jQuery(document).ready(function ($) {
 	        	beforeSend: function (xhr) {
 	        	    xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
 	        	}
-	        });
+	            });
 		};
 		
-		boxservice.api.report.get=function(){
-		    return $.ajax({
-                        type: "GET",
-                        url: apipath+"/reports"                        
-		    };
-		};
+		
 });
