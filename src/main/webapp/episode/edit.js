@@ -184,18 +184,10 @@ jQuery(document).ready(function ($) {
                                                             boxservice.episode.editpage.showS3UploadUploadDialog(episode,data,deferred);                                                            
                                                         }
                                                     });
-                                                });
-                                       
-                                        boxservice.util.resetInput();                                   
-                                        $("#uploadFileNameDialog").openModal();
-                                        
-                                        
+                                                });                                                                                                             
                         });
                 });
-                $("#uploadFileNameDialog .cancel").click(function () {
-
-                });
-                
+                                
                 $("#importImageFromBC").click(function () {
                         var filenameConstructor=function(episode){
                                 return episode.materialId.replace(/\//g, "_").replace(/ /g, "-");
