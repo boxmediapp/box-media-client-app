@@ -22,8 +22,6 @@ jQuery(document).ready(function ($) {
 			}
 			else {
 				$("#filennameForUpload").val(imagefileName + ".png");		
-				$("#uploadFileNameDialog").openModal();
-				boxservice.util.resetInput();
 				var uploadRequest={
                                          file:boxservice.appinfo.appconfig.imageMasterFolder+"/"+imagefileName + ".png",
                                          bucket:boxservice.appinfo.appconfig.imageBucket                                                            
