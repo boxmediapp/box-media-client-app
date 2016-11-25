@@ -404,5 +404,6 @@ jQuery(document).ready(function ($) {
 		    return $.ajax({
                         type: "GET",
                         url: apipath+"/reports"                        
-		}			  	
+		    }
+		};
 });
