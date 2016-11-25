@@ -416,19 +416,22 @@ jQuery(document).ready(function ($) {
                 $("#uploadFileNameDialog").closeModal();
                 $("#fileUploaderDialog").openModal({
                         dismissible: true,
-                        complete: function () {
-                            $("#fileUploaderDialog .statusMessage").text("Upload complete");    
-                            //boxservice.episode.edit(episode.id,deferred);                                
-                        },
-                        add: function (e, data) {
-                            $("#fileUploaderDialog .statusMessage").text("uploading....");
-                            data.submit();
+                        complete: function () {                                
+                            boxservice.episode.edit(episode.id,deferred);                                
                         }
+                        
                 });
 
                 $("#fileUploaderDialog .fileuploader").uploadFile({
                         url: uploadapiurl,
-                        fileName: uploadFilename
+                        fileName: uploadFilename,
+                        done:function(e,data){
+                             $("#fileUploaderDialog .statusMessage").text("Upload complete");
+                             },
+                        add: function (e, data) {
+                            $("#fileUploaderDialog .statusMessage").text("uploading....");
+                            data.submit();
+                        }
                 });
 
         };
