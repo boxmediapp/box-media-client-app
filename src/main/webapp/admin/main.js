@@ -106,6 +106,7 @@ jQuery(document).ready(function ($) {
 		       	  		               {input:{selection:"#transcodeSourceBucket"}, data:{value:["transcodeSourceBucket"]}},
 		       	  		               {input:{selection:"#transcodeDestFileNamePrefix"}, data:{value:["transcodeDestFileNamePrefix"]}},
 		       	  		               {input:{selection:"#autoCreatePlaceHolder"}, data:{value:["autoCreatePlaceHolder"], type:"boolean"}},
+		       	  		               {input:{selection:"#autoTranscode"}, data:{value:["autoTranscode"], type:"boolean"}},
 		       	  		               {input:{selection:"#transcodeDestBucket"}, data:{value:["transcodeDestBucket"]}},		       	  		      
 		       	  		               {input:{selection:"#s3imagesURL"}, data:{value:["s3imagesURL"]}}	       	  			       	  		               
 		       	  		            ];

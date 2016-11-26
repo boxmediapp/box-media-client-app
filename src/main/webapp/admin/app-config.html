@@ -130,6 +130,26 @@
 	</div>
 	
 	<div class="row">
+	    <div class="input-field col s4">
+            <select id="autoTranscode">                        
+                        <option value="true">Auto transcode</option>
+                        <option value="false">Do not auto transcode</option>
+            </select>               
+            <label for="autoTranscode" class="tooltip">
+                Auto Transcode video file
+             <i class="material-icons">help_outline</i>
+             <div class="tooltiptext z-depth-2">
+               If this fied is true, the video will be automatically ingested into brightcove for transcode and delivery when a video is received in the s3 bucket.                               
+            </div>
+            </label>
+          </div>
+	   
+	   
+	   
+	</div>
+	
+	
+	<div class="row">
 		<div class="input-field col s12">
 			<input id="imagetemplateurl" type="text">
 			<label for="imagetemplateurl" class="tooltip">Image Template URL
