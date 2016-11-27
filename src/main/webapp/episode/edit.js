@@ -229,17 +229,18 @@ jQuery(document).ready(function ($) {
                 });
                 
                 $("#deleteSourceVideo").click(function(){                                          
-                    $("#confirmDeleteVideoDialog .confirm").off("click").on("click", function(){                                                    
-//                                boxservice.api.masterimage.deleteEpisodeImage(episode.id,episode.imageURL).done(function(){
-//                                        boxservice.episode.edit(episode.id,deferred);                                                           
-//                                });
-                                return false;
-                        });
                     var videofilename=episode.ingestSource;
                     var ib=videofilename.lastIndexOf("/");
                     if(ib!=-1){
                         videofilename=videofilename.substring(ib+1);
                     }
+                    $("#confirmDeleteVideoDialog .confirm").off("click").on("click", function(){                                                    
+                        boxservice.api.boxvideo.deleteEpisodeVideoFile(episode.id,videofilename).done(function(){
+                                        boxservice.episode.edit(episode.id,deferred);                                                 
+                                });
+                                return false;
+                        });
+                    
                     if(videofilename.length>0){
                         $("#confirmDeleteVideoDialog .filennameToDelete").val(videofilename);
                         $("#confirmDeleteVideoDialog").openModal();    
