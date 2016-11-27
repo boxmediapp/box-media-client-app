@@ -454,7 +454,7 @@ var seUpSeriesSortable=function(series){
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
 			   
-			   boxservice.util.pageForEachRecord("series/episode-row.html",series.episodes,"#episodelistContainer").done(function(){
+			   boxservice.util.pageForEachRecord("episode/episode-row.html",series.episodes,"#episodelistContainer").done(function(){
 				      $("#episodelistContainer .episodelink a").click(function(){
 						  var episodeid=$(this).attr("href");						  
 						  boxservice.episode.edit(episodeid).done(function(){
