@@ -379,19 +379,31 @@
 			</div>
 			
 
-			<div class="input-field col s8">
+			<div class="input-field col s6">
 				<input id="ingestSource" type="text">
 				<label for="ingestSource" class="tooltip">Ingest Source
-			 <i class="material-icons">help_outline</i>
-			 <div class="tooltiptext z-depth-2">
-				This field will be automatically filled in when a matching video is uploaded to the s3 bucket. So you do not need to fill
-				in this field unless you know what you are doing. The naming convention for the video file is V_&lt;material id&gt;.&lt;ext&gt.
-				the '/' character in material id field will be replaced with '_'.
+				 <i class="material-icons">help_outline</i>
+				 <div class="tooltiptext z-depth-2">
+					This field will be automatically filled in when a matching video is uploaded to the s3 bucket. So you do not need to fill
+					in this field unless you know what you are doing. The naming convention for the video file is V_&lt;material id&gt;.&lt;ext&gt.
+					the '/' character in material id field will be replaced with '_'.
+					
+				</div>
 				
+				</label>
 			</div>
 			
-			</label>
-			</div>
+			
+			<div class="col s3">
+                <a id="deleteSourceVideo" class="waves-effect waves-light btn">Delete Source Video</a>
+            </div>
+            <div class="col s1 tooltip">
+                <i class="material-icons">help_outline</i>
+                <div class="tooltiptext z-depth-2">
+                    This will permanently delete the source video from the S3 bucket. Note that this action is irreversible, please click on this button only if you know what you are doing!                    
+                </div>
+            </div>
+			
 
 		</div>
 
@@ -705,6 +717,22 @@
 			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
 		</div>
 	</div>
+	
+	
+	<div id="confirmDeleteVideoDialog" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="input-field col s12">                   
+                    Are you sure you would like to delete this video from the S3 bucket:<input class="filennameToDelete" type="text" disabled>                   
+                    Note that this action is irreversible unless you have backup of this video! Please continue only if you know what you are doing!                                       
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="confirm  modal-action modal-close btn-flat waves-effect waves-green">Delete</a>
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+        </div>
+    </div>
 	
 
 	
