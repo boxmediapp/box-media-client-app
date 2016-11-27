@@ -242,7 +242,7 @@ jQuery(document).ready(function ($) {
                     }
                     if(videofilename.length>0){
                         $("#confirmDeleteVideoDialog .filennameToDelete").val(videofilename);
-                        $("#confirmDeleteImageDialog").openModal();    
+                        $("#confirmDeleteVideoDialog").openModal();    
                     }  
                                              
                       return false;
