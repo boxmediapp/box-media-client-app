@@ -238,7 +238,7 @@ jQuery(document).ready(function ($) {
                     var videofilename=episode.ingestSource;
                     var ib=videofilename.lastIndexOf("/");
                     if(ib!=-1){
-                        videofilename=videofilename.substring)ib+1);
+                        videofilename=videofilename.substring(ib+1);
                     }
                     if(videofilename.length>0){
                         $("#confirmDeleteVideoDialog .filennameToDelete").val(videofilename);
