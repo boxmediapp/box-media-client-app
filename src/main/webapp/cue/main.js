@@ -123,7 +123,7 @@ jQuery(document).ready(function ($) {
 							});							
 						});
 						$("#captureImage").click(function(){
-						    var timeAt=secondsAt:$("#cueTime").value();
+						    var timeAt=$("#cueTime").value();
 						    
 						    var mediaCommand={
 						            command:"capture_image_from_video",
