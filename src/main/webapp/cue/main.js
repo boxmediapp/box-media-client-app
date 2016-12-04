@@ -123,14 +123,14 @@ jQuery(document).ready(function ($) {
 							});							
 						});
 						$("#captureImage").click(function(){
-						    var timeAt=$("#cueTime").value();
+						    var timeAt=$("#cueTime").val();
 						    var mediaCommand={
                                                             command:"capture_image_from_video",
                                                             episodeid:episode.id,
                                                             timeAt:timeAt
                                                     };
 						    boxservice.util.startWait();
-						    boxservice.api.command(mediaCommand);
+						    boxservice.api.command(mediaCommand).done(function(){}).fail(function(){});
 						});
 						$("#cancelCue").click(function(){
 							boxservice.cue.editingcue=null;
