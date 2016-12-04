@@ -123,18 +123,8 @@ jQuery(document).ready(function ($) {
 							});							
 						});
 						$("#captureImage").click(function(){
-						    var timeAt=$("#cueTime").value();
 						    
-						    var mediaCommand={
-						            command:"capture_image_from_video",
-						            episodeid:episode.id,
-						            timeAt:timeAt
-						    }
-						    boxservice.util.startWait();
-						    boxservice.api.command(mediaCommand).done(function(updated){
-						        boxservice.util.finishWait();
-						        boxservice.util.openDialog("Image captured from the video at the specified position");
-						    }).fail(boxservice.util.onError);
+						});
 						$("#cancelCue").click(function(){
 							boxservice.cue.editingcue=null;
 							$("#cancelCue").hide();
