@@ -130,7 +130,11 @@ jQuery(document).ready(function ($) {
                                                             timeAt:timeAt
                                                     };
 						    boxservice.util.startWait();
-						    boxservice.api.command(mediaCommand).done(function(){}).fail(function(){});
+						    boxservice.api.command(mediaCommand).done(function(){
+	                                                  boxservice.util.finishWait();
+	                                                  boxservice.util.openDialog("Image captured from the video at the specified position");
+
+						    }).fail(boxservice.util.onError);
 						});
 						$("#cancelCue").click(function(){
 							boxservice.cue.editingcue=null;
