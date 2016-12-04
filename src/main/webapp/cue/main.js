@@ -123,18 +123,34 @@ jQuery(document).ready(function ($) {
 							});							
 						});
 						$("#captureImage").click(function(){
-						    var secondsAt=$("#cueTime").val();
-						    var mediaCommand={
-                                                            command:"capture_image_from_video",
-                                                            episodeid:episode.id,
-                                                            secondsAt:secondsAt
-                                                    };
-						    boxservice.util.startWait();
-						    boxservice.api.command(mediaCommand).done(function(){
-	                                                  boxservice.util.finishWait();
-	                                                  boxservice.util.openDialog("Image captured from the video at the specified position");
+						    var filenameConstructor=function(episode){
+			                                return episode.materialId.replace(/\//g, "_").replace(/ /g, "-");
+			                            };
+			                            var searchFilename=filenameConstructor(episode);
+						    boxservice.api.masterimage.listFiles(searchFilename).done(function (mediafiles) {
+				                        boxservice.util.finishWait();
+				                        if (mediafiles.files.length) {
+				                                boxservice.util.openDialog("Matching image is already exist in the bucket:" + JSON.stringify(mediafiles.files[0].file) +" You need to either delete the file from the s3 if you do not want it or you can change the material id to different value and save it");
+				                        }
+				                        else {
+				                            var secondsAt=$("#cueTime").val();
+	                                                    var mediaCommand={
+	                                                            command:"capture_image_from_video",
+	                                                            episodeid:episode.id,
+	                                                            secondsAt:secondsAt
+	                                                    };
+	                                                    boxservice.util.startWait();
+	                                                    boxservice.api.command(mediaCommand).done(function(){
+	                                                          boxservice.util.finishWait();
+	                                                          boxservice.util.openDialog("Image captured from the video at the specified position");
 
-						    }).fail(boxservice.util.onError);
+	                                                    }).fail(boxservice.util.onError);                                       
+				                        }
+
+				                     }).fail(boxservice.util.onError);
+
+						    
+						    
 						});
 						$("#cancelCue").click(function(){
 							boxservice.cue.editingcue=null;
