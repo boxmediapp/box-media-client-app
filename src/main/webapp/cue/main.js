@@ -123,11 +123,11 @@ jQuery(document).ready(function ($) {
 							});							
 						});
 						$("#captureImage").click(function(){
-						    var timeAt=$("#cueTime").val();
+						    var secondsAt=$("#cueTime").val();
 						    var mediaCommand={
                                                             command:"capture_image_from_video",
                                                             episodeid:episode.id,
-                                                            timeAt:timeAt
+                                                            secondsAt:secondsAt
                                                     };
 						    boxservice.util.startWait();
 						    boxservice.api.command(mediaCommand).done(function(){
