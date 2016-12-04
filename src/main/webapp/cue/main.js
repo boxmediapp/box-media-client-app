@@ -123,7 +123,14 @@ jQuery(document).ready(function ($) {
 							});							
 						});
 						$("#captureImage").click(function(){
-						    
+						    var timeAt=$("#cueTime").value();
+						    var mediaCommand={
+                                                            command:"capture_image_from_video",
+                                                            episodeid:episode.id,
+                                                            timeAt:timeAt
+                                                    };
+						    boxservice.util.startWait();
+						    boxservice.api.command(mediaCommand);
 						});
 						$("#cancelCue").click(function(){
 							boxservice.cue.editingcue=null;
