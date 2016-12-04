@@ -156,6 +156,7 @@ jQuery(document).ready(function ($) {
 							
 						});
 						boxservice.util.resetInput();
+						window.scrollTo(0,0);
 				});	
 	    	  	return deferred.promise(); 
 	};
