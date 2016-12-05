@@ -50,7 +50,7 @@ jQuery(document).ready(function ($) {
 					width:boxservice.images.availableSizes[i].width,
 					height:boxservice.images.availableSizes[i].height
 						};
-			image.cndurl=boxservice.images.getImageUrl(image);
+			image.cdnurl=boxservice.images.getImageUrl(image);
 			image.s3url=boxservice.images.getS3ImageUrl(image.cndurl);
 			images.push(image);			
 		}
