@@ -51,7 +51,7 @@ jQuery(document).ready(function ($) {
 					height:boxservice.images.availableSizes[i].height
 						};
 			image.cdnurl=boxservice.images.getImageUrl(image);
-			image.s3url=boxservice.images.getS3ImageUrl(image.cndurl);
+			image.s3url=boxservice.images.getS3ImageUrl(image.cdnurl);
 			images.push(image);			
 		}
 		return images;
