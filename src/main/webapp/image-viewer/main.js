@@ -27,7 +27,19 @@ jQuery(document).ready(function ($) {
 		imageurl=imageurl.replace("{height}",image.height);
 		imageurl=imageurl.replace("{ext}",ext);
 		return imageurl;
-   };
+        };
+        boxservice.images.getS3ImageUrl=function(cdnURL){
+            var ib=cdnURL.indexOf("//");
+            if(ib<=0){
+                return cdnURL;
+            }
+            ib+=2;            
+            int ie=cdnURL.indexOf("/",ib);
+            if(ie<=(ib+1)){
+                return cdnURL;
+            }
+            return boxservice.appinfo.appconfig.s3imagesURL+cdnURL.substring(ie);            
+      };
 	
 	
 	boxservice.images.getAllAvailableImages=function(imagename){
@@ -38,7 +50,8 @@ jQuery(document).ready(function ($) {
 					width:boxservice.images.availableSizes[i].width,
 					height:boxservice.images.availableSizes[i].height
 						};
-			image.url=boxservice.images.getImageUrl(image);
+			image.cndurl=boxservice.images.getImageUrl(image);
+			image.s3url=boxservice.images.getS3ImageUrl(image.cndurl);
 			images.push(image);			
 		}
 		return images;

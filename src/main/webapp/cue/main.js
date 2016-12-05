@@ -132,7 +132,7 @@ jQuery(document).ready(function ($) {
 				                        
 				                        if (mediafiles.files.length) {
 				                            boxservice.util.finishWait();
-				                                boxservice.util.openDialog("Matching image is already exist in the bucket:" + JSON.stringify(mediafiles.files[0].file) +" You need to either delete the file from the s3 if you do not want it or you can change the material id to different value and save it");
+				                            boxservice.util.openDialog("Matching image is already exist in the bucket:" + JSON.stringify(mediafiles.files[0].file) +" You need to either delete the file from the s3 if you do not want it or you can change the material id to different value and save it");
 				                                
 				                        }
 				                        else {
