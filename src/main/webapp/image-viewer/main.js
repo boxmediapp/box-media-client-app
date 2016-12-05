@@ -34,7 +34,7 @@ jQuery(document).ready(function ($) {
                 return cdnURL;
             }
             ib+=2;            
-            int ie=cdnURL.indexOf("/",ib);
+            var ie=cdnURL.indexOf("/",ib);
             if(ie<=(ib+1)){
                 return cdnURL;
             }
