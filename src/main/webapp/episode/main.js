@@ -437,7 +437,7 @@ jQuery(document).ready(function ($) {
                              start=parseInt(start);
                      }
                      boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);
-                     
+                     boxservice.util.startWait();
                      boxservice.api.episode.list(search, start+boxservice.appinfo.appconfig.recordLimit).done(function(episodes){                                            
                              boxservice.episode.list(episodes,search, start+boxservice.appinfo.appconfig.recordLimit);
                              
