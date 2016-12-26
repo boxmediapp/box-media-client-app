@@ -235,7 +235,7 @@ jQuery(document).ready(function ($) {
    };
 	
 	boxservice.episode.show=function(search){
-		
+	        boxservice.episode.completedRecordsLoaded=false;	        
 		boxservice.episode.search=search;
 		var showPage=function(search, htmlContent){
 			boxservice.util.startWait();
@@ -424,7 +424,12 @@ jQuery(document).ready(function ($) {
                  
                 
                  boxservice.util.resetInput();
-                 boxservice.util.scrollPaging("#episodelistContainer", episodes,function(){
+                 boxservice.util.scrollPaging("#episodelistContainer", episodes,function(scroller){
+                     if(scroller.isEnd){
+                         console.log("*****scroll reached the end");
+                         boxservice.episode.completedRecordsLoaded=true;
+                         return;
+                     }
                      if(!start){
                              start=0;
                      }
@@ -434,9 +439,10 @@ jQuery(document).ready(function ($) {
                      boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);
                      
                      boxservice.api.episode.list(search, start+boxservice.appinfo.appconfig.recordLimit).done(function(episodes){                                            
+                             boxservice.episode.list(episodes,search, start+boxservice.appinfo.appconfig.recordLimit);
                              
-                             boxservice.episode.list(episodes,search, start+boxservice.appinfo.appconfig.recordLimit);                                                                                                                        
                     }).fail(boxservice.util.onError);
+                     
                  });
                 
                  

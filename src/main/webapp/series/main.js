@@ -90,7 +90,10 @@ var seUpSeriesSortable=function(series){
 		   
 	   });
 	  boxservice.util.scrollPaging("#serieslistContainer",series,function(){
-		  
+	      if(scroller.isEnd){
+                  console.log("scroll reached the end");
+                  return;
+              }
 		  if(!startIndex){
 			  startIndex=0;
 	    	 }
@@ -104,6 +107,7 @@ var seUpSeriesSortable=function(series){
 	    	 boxservice.api.series.list(search, startIndex+boxservice.appinfo.appconfig.recordLimit).done(function(series){			    			 
 	    		 boxservice.series.display(series,startIndex+boxservice.appinfo.appconfig.recordLimit);		    			 				    	  				    	  
 	    	}).fail(boxservice.util.onError);
+	    	
 	     });
 	  
 	  

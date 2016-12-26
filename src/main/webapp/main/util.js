@@ -715,7 +715,8 @@ boxservice.util.isArrayDifferent=function(array1, array2){
     	   }
     	   if(!boxservice.appinfo.appconfig.recordLimit){
     		   return;
-    	   }    	   
+    	   }    
+    	   
     	   $(window).unbind("scroll").scroll(function(){
     		      
     		   if((!$(pageIdentifies)) ||  $(pageIdentifies).length==0){
@@ -727,10 +728,13 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			   if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
 			    		 if(items.length>=boxservice.appinfo.appconfig.recordLimit){
 			    			 console.log("scrolll reached end, and should get the next batch:"+items.length);
-			    			 callback();			    			 
+			    			 callback({isEnd:false});
 			    		 }
 			    		 else{
 			    			 console.log("scrolll reached end, but ignored because all the items are loaded already:"+items.length+":"+boxservice.appinfo.appconfig.recordLimit);
+			    			 $(window).unbind("scroll");
+			    			 callback({isEnd:true});
+			    			
 			    		 }			    		 
 			   }
 		       else{
