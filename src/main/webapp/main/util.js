@@ -549,7 +549,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		$(".not-sorted").addClass("active");
     };
     
-    boxservice.util.menu.configSort=function(sortHeader, sortFunction,items, listitemfunction){
+    boxservice.util.menu.configSort=function(sortHeader, sortFunction,items, listitemfunction,listdata,reloadDataWithSort){
 		$(sortHeader).unbind("click").click(function(){
 			if(items==null||items.length==0){
 				return;
@@ -559,16 +559,28 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-descending").removeClass("active");
 			    	$(sortHeader+" .sort-ascending").addClass("active");
-			    	items.sort(sortFunction);
-			    	listitemfunction(items);
+			    	if((!listdata) || listdata.loadedall || (!reloadDataWithSort)){
+			    	    items.sort(sortFunction);
+                                    listitemfunction(items);
+			    	}
+			    	else{
+			    	     reloadDataWithSort("asc");
+			    	}
+			    	
 			    }
 			    else {
 			    	boxservice.util.menu.resetSort();
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-ascending").removeClass("active");
 			    	$(sortHeader+" .sort-descending").addClass("active");
-			    	items.sort(sortFunction).reverse();
-			    	listitemfunction(items);
+			    	if((!listdata) || listdata.loadedall || (!reloadDataWithSort)){
+			    	    items.sort(sortFunction).reverse();
+                                    listitemfunction(items);
+			    	}
+			    	else{
+			    	    reloadDataWithSort("desc");
+			    	}
+			    	
 			    } 
 	    				
 		});
@@ -733,8 +745,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			    		 else{
 			    			 console.log("scrolll reached end, but ignored because all the items are loaded already:"+items.length+":"+boxservice.appinfo.appconfig.recordLimit);
 			    			 $(window).unbind("scroll");
-			    			 callback({isEnd:true});
-			    			
+			    			 callback({isEnd:true});			    			
 			    		 }			    		 
 			   }
 		       else{
