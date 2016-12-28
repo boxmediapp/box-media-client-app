@@ -738,14 +738,13 @@ boxservice.util.isArrayDifferent=function(array1, array2){
     		   }		    	
     		   
 			   if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
-			    		 if(items.length>=boxservice.appinfo.appconfig.recordLimit){
-			    			 console.log("scrolll reached end, and should get the next batch:"+items.length);
-			    			 callback({isEnd:false});
+			    		 if(listitemdata  && listitemdata.boxservice.episode.listdata.loadedall){
+			    		    console.log("scrolll reached end, but ignored because all the items are loaded already:"+items.length+":"+boxservice.appinfo.appconfig.recordLimit);
+                                            $(window).unbind("scroll");	 
 			    		 }
 			    		 else{
-			    			 console.log("scrolll reached end, but ignored because all the items are loaded already:"+items.length+":"+boxservice.appinfo.appconfig.recordLimit);
-			    			 $(window).unbind("scroll");
-			    			 callback({isEnd:true});			    			
+			    		         console.log("scrolll reached end, and should get the next batch:"+items.length);
+                                                 callback();			    			
 			    		 }			    		 
 			   }
 		       else{

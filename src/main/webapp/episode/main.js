@@ -1,4 +1,3 @@
-jQuery(document).ready(function ($) {
 	if(!boxservice.episode){
 		boxservice.episode={};
 	}
@@ -159,7 +158,7 @@ jQuery(document).ready(function ($) {
             else
                return 0;
           },episodes,function(episodes){
-            boxservice.episode.list(episodes,null,0,function(){
+            boxservice.episode.list(episodes,function(){
                 boxservice.episode.reload();
             });
         }, boxservice.episode.listdata,function(sortOrder){
@@ -176,7 +175,7 @@ jQuery(document).ready(function ($) {
     	    else
     	        return 0;
           },episodes,function(episodes){
-            boxservice.episode.list(episodes,null,0,function(){
+            boxservice.episode.list(episodes,function(){
                 boxservice.episode.reload();
             });
         }, boxservice.episode.listdata,function(sortOrder){
@@ -193,7 +192,7 @@ jQuery(document).ready(function ($) {
                 else
                         return 0;
           },episodes,function(episodes){
-            boxservice.episode.list(episodes,null,0,function(){
+            boxservice.episode.list(episodes,function(){
                 boxservice.episode.reload();
             });
         }, boxservice.episode.listdata,function(sortOrder){
@@ -209,7 +208,7 @@ jQuery(document).ready(function ($) {
             else  
                     return 0;
       },episodes,function(episodes){
-        boxservice.episode.list(episodes,null,0,function(){
+        boxservice.episode.list(episodes,function(){
             boxservice.episode.reload();
         });
     }, boxservice.episode.listdata,function(sortOrder){
@@ -243,7 +242,7 @@ jQuery(document).ready(function ($) {
            else  
                    return 0;
           },episodes,function(episodes){
-            boxservice.episode.list(episodes,null,0,function(){
+            boxservice.episode.list(episodes,function(){
                 boxservice.episode.reload();
             });
         }, boxservice.episode.listdata,function(sortOrder){
@@ -288,7 +287,8 @@ jQuery(document).ready(function ($) {
 	        else{
 	            boxservice.episode.listdata={
 	                        search:null,
-	                        loadedall:false                 
+	                        loadedall:false,
+	                        start:0
 	                };
 	        }
 	        
@@ -298,13 +298,13 @@ jQuery(document).ready(function ($) {
 			boxservice.util.startWait();
 		 	$("#content").html(htmlContent);		 			 	
 		    boxservice.api.episode.list(listdata.search, 0).done(function(episodes){		    	
-		    	  boxservice.episode.list(episodes,null,0, function(){
+		    	  boxservice.episode.list(episodes, function(){
                               boxservice.episode.reload();
 		    	  });
 		    	  seUpEpisodeSortable(episodes);
 		    	}).fail(boxservice.util.onError);	
 		    boxservice.util.search(boxservice.episode.listdata.search).done(function(search){		    		
-		    		boxservice.episode.show({search:search,loadedall:false});
+		    		boxservice.episode.show({search:search,loadedall:false, start:0});
 	        	 });		    
 		    $("#addNewEpisode").click(function(){
 		    	boxservice.episode.create().done(function(){
@@ -325,18 +325,15 @@ jQuery(document).ready(function ($) {
 	    
        };
    
-   boxservice.episode.list=function(episodes, search,start,reloadcallback){
-       
+   boxservice.episode.list=function(episodes, reloadcallback, listitemdata){
 
-
-
-
-       if(!start)
-               start=0;
        boxservice.util.finishWait();
        
-       if(start==0){
+       if(!boxservice.episode.listdata.start){
                $("#episodelistContainer").empty();
+       }
+       if(!episodes || !episodes.length || episodes.length<boxservice.appinfo.appconfig.recordLimit){
+           boxservice.episode.listdata.loadedall=true;
        }
        var hasNeedsToPublishRecord=function(episodes){
              if(episodes==null|| (!episodes.length)){
@@ -482,21 +479,13 @@ jQuery(document).ready(function ($) {
                 
                  boxservice.util.resetInput();
                  boxservice.util.scrollPaging("#episodelistContainer", episodes,function(scroller){
-                     if(scroller.isEnd){
-                         console.log("*****scroll reached the end");
-                         boxservice.episode.listdata.loadedall=true;                         
-                         return;
-                     }
-                     if(!start){
-                             start=0;
-                     }
-                     else{
-                             start=parseInt(start);
-                     }
+                     
+                     
                      boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);
                      boxservice.util.startWait();
-                     boxservice.api.episode.list(search, start+boxservice.appinfo.appconfig.recordLimit).done(function(episodes){                                            
-                             boxservice.episode.list(episodes,search, start+boxservice.appinfo.appconfig.recordLimit);
+                     boxservice.episode.listdata.start+=boxservice.appinfo.appconfig.recordLimit;
+                     boxservice.api.episode.list(listitemdata.search, listitemdata.start).done(function(episodes){                                            
+                        boxservice.episode.list(episodes,reloadcallback,listitemdata);
                              
                     }).fail(boxservice.util.onError);
                      
@@ -508,7 +497,6 @@ jQuery(document).ready(function ($) {
                  
                        
                });
-       
        
        
    };

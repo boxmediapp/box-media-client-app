@@ -22,6 +22,7 @@ jQuery(document).ready(function ($) {
 				   $("#nav-wrapper .signinorout a").html("Sign Out");
 				   boxservice.appinfo=appconfig;
 				   console.log("******appinfo:"+JSON.stringify( boxservice.appinfo));
+				   boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);
 				   if(boxservice.appinfo && boxservice.appinfo.appconfig && boxservice.appinfo.appconfig.visibilityCategory){
 					   $("body").addClass(boxservice.appinfo.appconfig.visibilityCategory);
 				   }

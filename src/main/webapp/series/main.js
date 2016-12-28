@@ -458,7 +458,7 @@ var seUpSeriesSortable=function(series){
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
 			   
-			   boxservice.episode.list(series.episodes,null,0, function(){
+			   boxservice.episode.list(series.episodes,function(){
 			       boxservice.series.edit(series.id,deferred);
 			   });
 			   
