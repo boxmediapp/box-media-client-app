@@ -22,8 +22,21 @@ jQuery(document).ready(function ($) {
 	
 
 	var apipath="/mule/boxtv";
+
+	boxservice.api.addQueryParam=function(url, paramName,paramValue){
+	    if(!paramValue || !paramName){
+	        return url;
+	    }
+	    var notTheFirst=url.indexOf("?")>0;
+	    if(notTheFirst){
+	        return url+"&"+paramName+"="+paramValue;	        
+	    }
+	    else{
+	        return url+"?"+paramName+"="+paramValue;
+	    }
+	};
 	
-	apipath="http://localhost:9081"+apipath;
+	//apipath="http://localhost:9081"+apipath;
 	boxservice.api.bc.getNotificationURL=function(episode){
 		return apipath+"/bc/notification/"+episode.episodeStatus.transcodeJobId;
 	};
@@ -135,21 +148,16 @@ jQuery(document).ready(function ($) {
   	 };
   	 return boxservice.api.episode.create(episode); 
    };
- 
-	boxservice.api.episode.list=function(search, start){
+        
+	
+        boxservice.api.episode.list=function(listdata){
 		 var path=apipath+"/episodes";
-		 if(search){
-			 path=path+"?search="+search;
-			 if(start){
-				 path=path+"&start="+start;
-			 }			 
-		 }
-		 else{
-			 if(start){
-				 path=path+"?start="+start;
-			 }
-		 }
-		 
+		 if(listdata){
+		     path=boxservice.api.addQueryParam(path,"search",listdata.search);
+		     path=boxservice.api.addQueryParam(path,"start",listdata.start);
+		     path=boxservice.api.addQueryParam(path,"sortBy",listdata.sortBy);
+		     path=boxservice.api.addQueryParam(path,"sortOrder",listdata.sortOrder);
+                 }
 		 return boxservice.api.ajax("GET",path);		 			   
 	};
     	 

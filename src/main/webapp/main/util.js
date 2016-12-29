@@ -721,39 +721,19 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		    });
 		    return deferred;
        };
-       boxservice.util.scrollPaging=function(pageIdentifies, items,callback){    	   
-    	   if(!boxservice.appinfo){
-    		   return;
-    	   }
-    	   if(!boxservice.appinfo.appconfig.recordLimit){
-    		   return;
-    	   }    
-    	   
-    	   $(window).unbind("scroll").scroll(function(){
-    		      
-    		   if((!$(pageIdentifies)) ||  $(pageIdentifies).length==0){
-      			 console.log("unbinding the scroll listener****");
-      			 $(window).unbind("scroll");
-      			 return;
-    		   }		    	
-    		   
-			   if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
-			    		 if(listitemdata  && listitemdata.boxservice.episode.listdata.loadedall){
-			    		    console.log("scrolll reached end, but ignored because all the items are loaded already:"+items.length+":"+boxservice.appinfo.appconfig.recordLimit);
-                                            $(window).unbind("scroll");	 
-			    		 }
-			    		 else{
-			    		         console.log("scrolll reached end, and should get the next batch:"+items.length);
-                                                 callback();			    			
-			    		 }			    		 
-			   }
-		       else{
-		    		console.log("scroll not reached end");
-		    	}
-    	   
-		    	 
+       boxservice.util.scrollPaging=function(callback,listitemdata){    	   
+                   $(window).unbind("scroll").scroll(function(){
+            		     if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
+    			       if(listitemdata  && listitemdata.loadedall){
+    			             console.log("scrolll reached end, but ignored because all the items are loaded");
+                                     $(window).unbind("scroll");	 
+    			       }
+    			       else{       			             
+                                     callback();
+    		               }			    		 
+    	                   }		          
 		     });    	   
-       };
+         };
        
        boxservice.util.tooltip=function(){
     	   $(".tooltip .material-icons").click(function(){

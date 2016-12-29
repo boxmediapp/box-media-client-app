@@ -89,11 +89,7 @@ var seUpSeriesSortable=function(series){
 		   });
 		   
 	   });
-	  boxservice.util.scrollPaging("#serieslistContainer",series,function(){
-	      if(scroller.isEnd){
-                  console.log("scroll reached the end");
-                  return;
-              }
+	  boxservice.util.scrollPaging(function(){	      
 		  if(!startIndex){
 			  startIndex=0;
 	    	 }
@@ -457,7 +453,7 @@ var seUpSeriesSortable=function(series){
 				   });
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
-			   
+			   boxservice.episode.listdata.empty();
 			   boxservice.episode.list(series.episodes,function(){
 			       boxservice.series.edit(series.id,deferred);
 			   });
