@@ -48,7 +48,6 @@ jQuery(document).ready(function ($) {
                 
                 var that=this;
                 
-                
                 var sortFunction=function(a,b){
                     var aa=boxservice.util.getValueWithAttribute(a,opts.attributename);
                     var bb=boxservice.util.getValueWithAttribute(b,opts.attributename);
@@ -72,15 +71,7 @@ jQuery(document).ready(function ($) {
                     sortFunction= opts.sortFunction;                    
                 }
                 
-                var reloadDataWithSort=function(sortOrder){
-                        that.newSort(opts.sortParametername,sortOrder);
-                        opts.loadFunction(that).done(function(itms){                        
-                        that.newlist(itms);
-                        opts.listItemsFunction(itms);                  
-                        }).fail(boxservice.util.onError); 
-                };
-                var listSortedData=function(sortOrder){
-                    that.newSort(opts.sortParametername,sortOrder);
+                var listSortedData=function(sortOrder){                    
                     that.items.sort(sortFunction);
                     if(sortOrder === "desc"){
                         that.items.reverse();    
@@ -89,21 +80,39 @@ jQuery(document).ready(function ($) {
                     $(that.containerSelection).empty();
                     opts.listItemsFunction(that.items);
                 };
-               
-                boxservice.util.menu.configSort(sortHeaderSelection,function(){                    
-                    if(that.loadedall || (!opts.loadFunction)){                        
-                        listSortedData("asc");
+                
+                
+                
+                var processSort=function(sortOrder){                    
+                    if(that.loadedall){                        
+                        listSortedData(sortOrder);
                     }
-                    else{                              
-                        reloadDataWithSort("asc");
+                    else if(!opts.loadFunction){
+                        console.log("loadFunction is missing so sorting only in memory");
+                        listSortedData(sortOrder);
                     }
+                    else if(opts.sortParametername){                        
+                        that.newSort(opts.sortParametername,sortOrder);
+                        opts.loadFunction(that).done(function(itms){                        
+                            that.newlist(itms);
+                            opts.listItemsFunction(itms);                  
+                        }).fail(boxservice.util.onError);
+                    }
+                    else{                                                                                 
+                           that.nextPage();
+                           opts.loadFunction(that).done(function(items){
+                               console.log(":::loaded data:"+items.length);
+                                   that.addtolist(items);
+                                   processSort(sortOrder);                                    
+                                }).fail(boxservice.util.onError);                            
+                    }
+                };                                
+                boxservice.util.menu.configSort(sortHeaderSelection,function(){
+                    boxservice.util.startWait();
+                    processSort("asc"); 
                 },function(){
-                    if(that.loadedall || (!opts.loadFunction)){
-                        listSortedData("desc");                        
-                    }
-                    else{                           
-                        reloadDataWithSort("desc");
-                    }
+                    boxservice.util.startWait();
+                    processSort("desc");                    
                 });
                 
            }

@@ -154,7 +154,8 @@ jQuery(document).ready(function ($) {
         boxservice.episode.listdata.setupSortable(".sort-programnumber",{attributename:"programmeNumber",sortParametername:"programmeNumber",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
         boxservice.episode.listdata.setupSortable(".sort-metadata-status",{attributename:"episodeStatus.metadataStatus",sortParametername:"episodeStatus.metadataStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
         boxservice.episode.listdata.setupSortable(".sort-video-status",{attributename:"episodeStatus.videoStatus",sortParametername:"episodeStatus.videoStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
-        boxservice.episode.listdata.setupSortable(".published-status",{attributename:"episodeStatus.publishedStatus",sortParametername:"episodeStatus.publishedStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.episode.listdata.setupSortable(".published-status",{attributename:"episodeStatus.publishedStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.episode.listdata.setupSortable(".availability-status",{attributename:"episodeStatus.currentAvailabilityStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
         boxservice.util.menu.resetSort();        
     };
     
