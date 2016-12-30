@@ -149,107 +149,13 @@ jQuery(document).ready(function ($) {
     
         
     
-    var seUpEpisodeSortable=function(episodes){
-    	    	
-    	boxservice.util.menu.configSort(".sort-title",function(a,b){
-            if (a.title < b.title) 
-                return 1; 
-            else if (a.title > b.title)
-               return -1;
-            else
-               return 0;
-          },episodes,function(episodes){
-            boxservice.episode.listdata.empty(); 
-            boxservice.episode.listEpisodes(episodes);
-        }, boxservice.episode.listdata,function(sortOrder){
-            boxservice.episode.listdata.newSort("title",sortOrder);                        
-            boxservice.api.episode.list(boxservice.episode.listdata).done(function(episodes){      
-                $("#episodelistContainer").empty();
-                boxservice.episode.listEpisodes(episodes);                  
-                }).fail(boxservice.util.onError);
-             });
-    	
-    	
-    	boxservice.util.menu.configSort(".sort-programnumber",function(a,b){
-    	    if (a.programmeNumber < b.programmeNumber) 
-    	        return 1; 
-    	    else if (a.programmeNumber > b.programmeNumber)
-    	        return -1;
-    	    else
-    	        return 0;
-          },episodes,function(episodes){
-              boxservice.episode.listdata.empty();
-              boxservice.episode.listEpisodes(episodes);
-        }, boxservice.episode.listdata,function(sortOrder){
-            boxservice.episode.listdata.orderBy="programmeNumber";
-            boxservice.episode.listdata.sortOrder=sortOrder;
-        });
-
-    	
-    	boxservice.util.menu.configSort(".sort-metadata-status",function(a,b){
-            	if (a.episodeStatus.metadataStatus < b.episodeStatus.metadataStatus)
-                    return -1;
-                else if (a.episodeStatus.metadataStatus > b.episodeStatus.metadataStatus)
-                    return 1;
-                else
-                        return 0;
-          },episodes,function(episodes){
-            boxservice.episode.listdata.empty();
-            boxservice.episode.listEpisodes(episodes);
-        }, boxservice.episode.listdata,function(sortOrder){
-            boxservice.episode.listdata.orderBy="episodeStatus.metadataStatus";
-            boxservice.episode.listdata.sortOrder=sortOrder;
-        });
-    	
-    	boxservice.util.menu.configSort(".sort-video-status",function(a,b){
-        	if (a.episodeStatus.videoStatus < b.episodeStatus.videoStatus)
-                return -1;
-            else if (a.episodeStatus.videoStatus > b.episodeStatus.videoStatus)
-                return 1;
-            else  
-                    return 0;
-      },episodes,function(episodes){
-          boxservice.episode.listdata.empty();
-          boxservice.episode.listEpisodes(episodes);
-    }, boxservice.episode.listdata,function(sortOrder){
-        boxservice.episode.listdata.orderBy="episodeStatus.videoStatus";
-        boxservice.episode.listdata.sortOrder=sortOrder;
-    });
-    	
-    	
-    	
-    	boxservice.util.menu.configSort(".published-status",function(a,b){
-        	if (a.episodeStatus.publishedStatus < b.episodeStatus.publishedStatus)
-                return -1;
-            else if (a.episodeStatus.publishedStatus > b.episodeStatus.publishedStatus)
-                return 1;
-            else  
-                    return 0;
-          },episodes,function(episodes){
-              boxservice.episode.listdata.empty();
-            boxservice.episode.listEpisodes(episodes);
-        }, boxservice.episode.listdata,function(sortOrder){
-            boxservice.episode.listdata.orderBy="episodeStatus.publishedStatus";
-            boxservice.episode.listdata.sortOrder=sortOrder;
-        });
-    	
-       boxservice.util.menu.configSort(".availability-status",function(a,b){
-           if (a.episodeStatus.currentAvailabilityStatus < b.episodeStatus.currentAvailabilityStatus)
-               return -1;
-           else if (a.episodeStatus.currentAvailabilityStatus > b.episodeStatus.currentAvailabilityStatus)
-               return 1;
-           else  
-                   return 0;
-          },episodes,function(episodes){
-              boxservice.episode.listdata.empty();
-              boxservice.episode.listEpisodes(episodes);
-        }, boxservice.episode.listdata,function(sortOrder){
-            boxservice.episode.listdata.orderBy="currentAvailabilityStatus";
-            boxservice.episode.listdata.sortOrder=sortOrder;
-        });
-    	
-       boxservice.util.menu.resetSort();
-    	
+    boxservice.episode.seUpEpisodeSortable=function(sortHeaderSelection,attributename,sortParametername){
+        boxservice.episode.listdata.setupSortable(".sort-title",{attributename:"title",sortParametername:"title",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.episode.listdata.setupSortable(".sort-programnumber",{attributename:"programmeNumber",sortParametername:"programmeNumber",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.episode.listdata.setupSortable(".sort-metadata-status",{attributename:"episodeStatus.metadataStatus",sortParametername:"episodeStatus.metadataStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.episode.listdata.setupSortable(".sort-video-status",{attributename:"episodeStatus.videoStatus",sortParametername:"episodeStatus.videoStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.episode.listdata.setupSortable(".published-status",{attributename:"episodeStatus.publishedStatus",sortParametername:"episodeStatus.publishedStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.util.menu.resetSort();        
     };
     
 	    
@@ -277,51 +183,21 @@ jQuery(document).ready(function ($) {
 		});
 		
    };
-   boxservice.episode.show=function(listdata){
-       boxservice.episode.listdata={
-               search:null,
-               loadedall:false,
-               start:0,
-               newSearch:function(search){
-                   boxservice.episode.listdata.search=search;      
-                   boxservice.episode.listdata.start=0;
-                   boxservice.episode.listdata.loadedall=false;
-               },
-               nextPage:function(){
-                   if(!boxservice.episode.listdata.start)
-                       boxservice.episode.listdata.start=0;
-                   else{
-                       boxservice.episode.listdata.start=parseInt(boxservice.episode.listdata.start);
-                   }
-                   boxservice.episode.listdata.start+=boxservice.appinfo.appconfig.recordLimit;
-               },
-               empty:function(){
-                   boxservice.episode.listdata.start=0;
-                   $("#episodelistContainer").empty();
-               },
-               setUploadedAll:function(episodes){
-                   if(!episodes || !episodes.length || episodes.length<boxservice.appinfo.appconfig.recordLimit){
-                       boxservice.episode.listdata.loadedall=true;
-                   }
-               },
-               newSort:function(sortBy,sortOrder){
-                   boxservice.episode.listdata.sortBy=sortBy;
-                   boxservice.episode.listdata.sortOrder=sortOrder;
-                   boxservice.episode.listdata.start=0;
-                   boxservice.episode.listdata.loadedall=false;                   
-               }
-       };
+   boxservice.episode.show=function(){
+       boxservice.episode.listdata=boxservice.recordlist.createlistdata("#episodelistContainer");       
        boxservice.episode.loadEpisodeList();      
    }
 	boxservice.episode.loadEpisodeList=function(){
 		
-		var showPage=function(listdata, htmlContent){
+		var showPage=function(){
 			boxservice.util.startWait();
-		 	$("#content").html(htmlContent);		 			 	
-		        boxservice.api.episode.list(listdata).done(function(episodes){	
-		        
+		 	$("#content").html(boxservice.episode.htmlContent);
+		        boxservice.api.episode.list(boxservice.episode.listdata).done(function(episodes){	
+		        boxservice.episode.listdata.newlist(episodes);    
+		        boxservice.episode.seUpEpisodeSortable();
+		        		        
 		        boxservice.episode.listEpisodes(episodes);
-		    	  seUpEpisodeSortable(episodes);
+		    	  
 		    	}).fail(boxservice.util.onError);	
 		    boxservice.util.search(boxservice.episode.listdata.search).done(function(search){
 		                boxservice.episode.listdata.newSearch(search);		                
@@ -334,12 +210,12 @@ jQuery(document).ready(function ($) {
 		 	});
 		};
 		if(boxservice.episode.htmlContent){
-			showPage( boxservice.episode.listdata,boxservice.episode.htmlContent);
+			showPage();
 		}
 		else{
 			boxservice.util.page.load("episode/list.html").done(function(html){
 				boxservice.episode.htmlContent=html;
-				showPage( boxservice.episode.listdata,boxservice.episode.htmlContent);				
+				showPage();				
 			});
 		}
 		
@@ -347,6 +223,7 @@ jQuery(document).ready(function ($) {
        };
    
        boxservice.episode.listEpisodes=function(episodes){
+
 
 
            boxservice.util.finishWait();
@@ -495,10 +372,7 @@ jQuery(document).ready(function ($) {
                          boxservice.util.startWait();                     
                          boxservice.api.episode.list(boxservice.episode.listdata).done(function(episodes){
                             console.log(":::loaded data:"+episodes.length);
-                            boxservice.episode.listdata.setUploadedAll(episodes);
-                            
-
-                            
+                            boxservice.episode.listdata.addtolist(episodes);
                             boxservice.episode.listEpisodes(episodes);
                                  
                         }).fail(boxservice.util.onError);
@@ -511,8 +385,7 @@ jQuery(document).ready(function ($) {
                      
                            
                    });
-       
-   };
+       };
 
    
    

@@ -153,7 +153,20 @@ jQuery(document).ready(function ($) {
 	   timeTarget.val(timepart);	   
    };
    
-   
+   boxservice.util.getValueWithAttribute=function(dataitem,attributeName){                             
+       if(attributeName.indexOf(".")==-1){
+               return dataitem[attributeName];
+       }               
+       var path=attributeName.split(".");
+       
+       for(var k=0;k<path.length;k++){
+               if(dataitem==null){
+                  return null; 
+               }                       
+               dataitem=dataitem[path[k]];                           
+       }
+       return dataitem;           
+  };
     
 	/*Get the value in the dataitem specified in the path */
 	boxservice.util.getValueAtPath=function(dataitem,path){		
@@ -549,40 +562,23 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		$(".not-sorted").addClass("active");
     };
     
-    boxservice.util.menu.configSort=function(sortHeader, sortFunction,items, listitemfunction,listdata,reloadDataWithSort){
+    boxservice.util.menu.configSort=function(sortHeader, ascSortFunction,dscSortFunction){
 		$(sortHeader).unbind("click").click(function(){
-			if(items==null||items.length==0){
-				return;
-			}			
-			    if($(sortHeader+ " .not-sorted" ).hasClass("active") || $(sortHeader+ " .sort-descending" ).hasClass("active")){
+						
+			if($(sortHeader+ " .not-sorted" ).hasClass("active") || $(sortHeader+ " .sort-descending" ).hasClass("active")){
 			    	boxservice.util.menu.resetSort();
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-descending").removeClass("active");
 			    	$(sortHeader+" .sort-ascending").addClass("active");
-			    	if((!listdata) || listdata.loadedall || (!reloadDataWithSort)){
-			    	    items.sort(sortFunction);
-                                    listitemfunction(items);
-			    	}
-			    	else{
-			    	     reloadDataWithSort("asc");
-			    	}
-			    	
-			    }
-			    else {
+			    	ascSortFunction();			    
+			 }
+			 else {
 			    	boxservice.util.menu.resetSort();
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-ascending").removeClass("active");
 			    	$(sortHeader+" .sort-descending").addClass("active");
-			    	if((!listdata) || listdata.loadedall || (!reloadDataWithSort)){
-			    	    items.sort(sortFunction).reverse();
-                                    listitemfunction(items);
-			    	}
-			    	else{
-			    	    reloadDataWithSort("desc");
-			    	}
-			    	
-			    } 
-	    				
+			    	dscSortFunction();			    	
+			 }	    				
 		});
 	};
 	boxservice.util.menu.setup=function(linkSelection){
