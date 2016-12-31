@@ -149,7 +149,7 @@ jQuery(document).ready(function ($) {
     
         
     
-    boxservice.episode.seUpEpisodeSortable=function(sortHeaderSelection,attributename,sortParametername){
+    boxservice.episode.seUpEpisodeSortable=function(){
         boxservice.episode.listdata.setupSortable(".sort-title",{attributename:"title",sortParametername:"title",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
         boxservice.episode.listdata.setupSortable(".sort-programnumber",{attributename:"programmeNumber",sortParametername:"programmeNumber",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
         boxservice.episode.listdata.setupSortable(".sort-metadata-status",{attributename:"episodeStatus.metadataStatus",sortParametername:"episodeStatus.metadataStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
@@ -244,6 +244,25 @@ jQuery(document).ready(function ($) {
                  }
                  return false;
            };
+           if(hasNeedsToPublishRecord(boxservice.episode.listdata.items)){                     
+               $(".publishChangesButton").show();
+               boxservice.util.tooltip();
+               $("#publishAllChanges").unbind("click").click(function(){
+                       var command={
+                                       command:"publish-all-changes"
+                       };
+                       boxservice.util.startWait();
+                       $(".publishChangesButton").hide();
+                       
+                       boxservice.api.command(command).done(function(){
+                               boxservice.util.finishWait();
+                       }).fail(boxservice.util.onError);
+                       
+               });
+            }
+            else{
+                $(".publishChangesButton").hide();  
+            }
            
            boxservice.util.pageForEachRecord("episode/episode-row.html",episodes,"#episodelistContainer").done(function(){
                           $(".episoderow").each(function(index){
@@ -340,25 +359,7 @@ jQuery(document).ready(function ($) {
                                   return false;
                           });
                       
-                      if(hasNeedsToPublishRecord(episodes)){                     
-                                         $(".publishChangesButton").show();
-                                         boxservice.util.tooltip();
-                                         $("#publishAllChanges").unbind("click").click(function(){
-                                                 var command={
-                                                                 command:"publish-all-changes"
-                                                 };
-                                                 boxservice.util.startWait();
-                                                 $(".publishChangesButton").hide();
-                                                 
-                                                 boxservice.api.command(command).done(function(){
-                                                         boxservice.util.finishWait();
-                                                 }).fail(boxservice.util.onError);
-                                                 
-                                         });
-                           }
-                      else{
-                          $(".publishChangesButton").hide();  
-                      }
+                      
                       
                       
                       

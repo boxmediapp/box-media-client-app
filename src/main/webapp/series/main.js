@@ -39,40 +39,17 @@ jQuery(document).ready(function ($) {
 		}).fail(boxservice.util.onError);
 	};
 
-	
-	
-	
-	
-var seUpSeriesSortable=function(series){
-    	
-    	var setUpSortSeries=function(sortHeader, sortFunction){
-    		boxservice.util.menu.configSort(sortHeader,sortFunction,series,boxservice.series.display);
-    	};
-    	setUpSortSeries(".sort-title",function(a,b){
-    		if (a.name < b.name) 
-    			 return 1; 
-    		else if (a.name > b.name)
-    			return -1;
-    		else
-    			return 0;
-    	});
-    	setUpSortSeries(".sort-contract-number",function(a,b){
-    		if (a.contractNumber < b.contractNumber) 
-    			 return 1; 
-    		else if (a.contractNumber > b.contractNumber)
-    			return -1;
-    		else
-    			return 0;
-    	});
-    	boxservice.util.menu.resetSort();
-    	
+    boxservice.series.seUpSeriesSortable=function(){
+        boxservice.series.listdata.setupSortable(".sort-title",{attributename:"name",sortParametername:"name",loadFunction:boxservice.api.series.list,listItemsFunction:boxservice.series.listSeries});
+        boxservice.series.listdata.setupSortable(".sort-contract-number",{attributename:"contractNumber",sortParametername:"contractNumber",loadFunction:boxservice.api.series.list,listItemsFunction:boxservice.series.listSeries});      
+        boxservice.util.menu.resetSort();        
     };
     
     
-    
-	boxservice.series.display=function(series, search,startIndex){   	  
+       boxservice.series.listSeries=function(series){   	  
 	  
-	$("#serieslist").empty();	
+           boxservice.util.finishWait();
+	  	
 	  boxservice.util.pageForEachRecord("series/series-row.html",series,"#serieslist").done(function(){
 		  
 		   $(".serieslink").click(function(){
@@ -87,61 +64,54 @@ var seUpSeriesSortable=function(series){
 				   boxservice.series.reload();
 			   });
 		   });
+		   boxservice.util.scrollPaging(function(){
+		              boxservice.series.listdata.nextPage();
+		              boxservice.util.startWait();                     
+		              boxservice.api.series.list(boxservice.series.listdata).done(function(series){
+		                 console.log(":::loaded series:"+series.length);
+		                 boxservice.series.listdata.addtolist(series);
+		                 boxservice.series.listSeries(series);
+		                      
+		             }).fail(boxservice.util.onError);
+		              
+		          },boxservice.series.listdata);
 		   
 	   });
-	  boxservice.util.scrollPaging(function(){	      
-		  if(!startIndex){
-			  startIndex=0;
-	    	 }
-	    	 else{
-	    		 startIndex=parseInt(startIndex);
-	    	 }
-	    	 boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);
-	    	 
-		  
-		  
-	    	 boxservice.api.series.list(search, startIndex+boxservice.appinfo.appconfig.recordLimit).done(function(series){			    			 
-	    		 boxservice.series.display(series,startIndex+boxservice.appinfo.appconfig.recordLimit);		    			 				    	  				    	  
-	    	}).fail(boxservice.util.onError);
-	    	
-	     });
 	  
 	  
 	  
    };
    boxservice.series.reload=function(){
-	   boxservice.series.show(boxservice.api.series.search, boxservice.api.series.startIndex);
+	   boxservice.series.loadSeriesList();
    };
-	boxservice.series.show=function(search,startIndex){
-		
-		
-		var showPage=function(htmlContent, search,startIndex){
-			if(!startIndex){
-				startIndex=0;	
-			}
-			boxservice.api.series.startIndex=startIndex;
-			boxservice.api.series.search=search;
-			boxservice.util.startWait();			
-			boxservice.series.htmlContent=htmlContent;
-	 	           boxservice.api.series.list(search,startIndex).done(function(series){
-	 	        	  $("#content").html(htmlContent);
-	 	        	 boxservice.util.finishWait();
-	 	        	 seUpSeriesSortable(series);
-	 	        	 boxservice.series.display(series, search,startIndex);
-	 	        	boxservice.util.search(search).done(function(search){	 	 	  			  
-	 	 	  			boxservice.series.show(search,0);
-	 	 	        	 });
-				}).fail(function(err){			
-					boxservice.util.finishWait();
-					boxservice.util.openDialog("error in loading the series"+err);					
-				});
+   boxservice.series.show=function(search,startIndex){
+	       boxservice.series.listdata=boxservice.recordlist.createlistdata("#serieslist");       
+	       boxservice.series.loadSeriesList();
+   };
+   boxservice.series.loadSeriesList=function(){
+	       		
+		var showPage=function(){
+			
+			boxservice.util.startWait();		
+                        $("#content").html(boxservice.series.htmlContent);
+	 	        boxservice.api.series.list(boxservice.series.listdata).done(function(series){
+        	 	        boxservice.series.listdata.newlist(series);
+        	 	        boxservice.series.seUpSeriesSortable();
+        	 	        boxservice.series.listSeries(series);
+	 	         }).fail(boxservice.util.onError);
+	 	        boxservice.util.search(boxservice.series.listdata.search).done(function(search){                                                  
+	 	           boxservice.series.listdata.newSearch(search);                               
+                           boxservice.series.loadSeriesList();
+                        });
+
 		};
 		if(boxservice.series.htmlContent){
-			showPage(boxservice.series.htmlContent,search,startIndex);
+			showPage();
 		}
 		else{
 				boxservice.util.page.load("series/list.html").done(function(htContent){
-					showPage(htContent,search,startIndex);
+				        boxservice.series.htmlContent=htContent;
+					showPage();
 				});
 		}
 		 	         

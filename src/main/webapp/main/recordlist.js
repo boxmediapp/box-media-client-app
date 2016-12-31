@@ -10,10 +10,19 @@ jQuery(document).ready(function ($) {
             loadedall:false,
             start:0,
             items:[],
+            sortBy:null,
+            sortOrder:null,
             newSearch:function(search){
                 this.search=search;      
                 this.start=0;
                 this.loadedall=false;
+            },
+            createListURL:function(url){
+                url=boxservice.api.addQueryParam(url,"search",this.search);
+                url=boxservice.api.addQueryParam(url,"start",this.start);
+                url=boxservice.api.addQueryParam(url,"sortBy",this.sortBy);
+                url=boxservice.api.addQueryParam(url,"sortOrder",this.sortOrder); 
+                return url;
             },
             nextPage:function(){
                 if(!this.start)
@@ -23,19 +32,23 @@ jQuery(document).ready(function ($) {
                 }
                 this.start+=boxservice.appinfo.appconfig.recordLimit;
             },
-            newlist:function(items){
-                this.start=0;
+            newlist:function(itms){                
                 $(containerSelection).empty();
-                this.items=items;
+                this.checkThisBatch(itms);
+                this.items=itms;
             },
-            addtolist:function(itms){
-                
+            checkThisBatch:function(itms){
                 if(!itms || !itms.length || itms.length<boxservice.appinfo.appconfig.recordLimit){
+                    console.log("list all loaded");
                     this.loadedall=true;
                 }
                 else{
+                    console.log("list not all loaded");
                     this.loadedall=false;
-                }
+                }  
+            },
+            addtolist:function(itms){                
+                this.checkThisBatch(itms);
                 this.items=this.items.concat(itms);
             },
             

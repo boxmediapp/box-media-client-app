@@ -153,29 +153,17 @@ jQuery(document).ready(function ($) {
         boxservice.api.episode.list=function(listdata){
 		 var path=apipath+"/episodes";
 		 if(listdata){
-		     path=boxservice.api.addQueryParam(path,"search",listdata.search);
-		     path=boxservice.api.addQueryParam(path,"start",listdata.start);
-		     path=boxservice.api.addQueryParam(path,"sortBy",listdata.sortBy);
-		     path=boxservice.api.addQueryParam(path,"sortOrder",listdata.sortOrder);
+		     path=listdata.createListURL(path);		         
                  }
 		 return boxservice.api.ajax("GET",path);		 			   
 	};
     	 
-	boxservice.api.series.list=function(search, start){
-		 var path=apipath+"/series";
-		 if(search){
-			 path=path+"?search="+search;
-			 if(start){
-				 path=path+"&start="+start;
-			 }			 
-		 }
-		 else{
-			 if(start){
-				 path=path+"?start="+start;
-			 }
-		 }
-		 
-		 return boxservice.api.ajax("GET",path);		 			   
+	boxservice.api.series.list=function(listdata){
+	    var path=apipath+"/series";
+            if(listdata){
+                path=listdata.createListURL(path);                  
+            }
+            return boxservice.api.ajax("GET",path);
 	};
 	boxservice.api.series.getByContractNumber=function(contractNumber){
 		 var path=apipath+"/series?contractNumber="+contractNumber;
