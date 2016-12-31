@@ -179,21 +179,12 @@ jQuery(document).ready(function ($) {
     };
 
 	
-	boxservice.api.seriesgroup.list=function(search,start){		   
-		   var path=apipath+"/seriesgroup";
-			 if(search){
-				 path=path+"?search="+search;
-				 if(start){
-					 path=path+"&start="+start;
-				 }			 
-			 }
-			 else{
-				 if(start){
-					 path=path+"?start="+start;
-				 }
-			 }
-			 
-			 return boxservice.api.ajax("GET",path);
+    boxservice.api.seriesgroup.list=function(listdata){	
+	    var path=apipath+"/seriesgroup";
+            if(listdata){
+                path=listdata.createListURL(path);                  
+            }
+            return boxservice.api.ajax("GET",path);            
     };
     boxservice.api.seriesgroup.update=function(seriesgroupid,seriesgroup){
 		   return boxservice.api.ajax("PUT",apipath+"/seriesgroup/"+seriesgroupid,seriesgroup);		   

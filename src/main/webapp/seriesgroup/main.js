@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
     	return boxservice.util.page.load("seriesgroup/edit.html");
     };
     boxservice.seriesgroup.reload=function(){
-    	boxservice.seriesgroup.show(boxservice.seriesgroup.search,boxservice.seriesgroup.startIndex);
+    	boxservice.seriesgroup.loadSeriesGroupList();
     };
     
     
@@ -48,83 +48,102 @@ jQuery(document).ready(function ($) {
                                        {input:{selection:"#seriesGroupTags"}, data:{value:["tags"]}},
                                        {input:{selection:"#imageURL"}, data:{value:["imageURL"]}}
                                        ];
-	boxservice.seriesgroup.show=function(search, startIndex){
-		var showPage=function(htmlContent,search, startIndex){
-			if(!startIndex){
-				startIndex=0;
-			}
-			boxservice.seriesgroup.search=search;
-			boxservice.seriesgroup.startIndex=startIndex;			
-		    boxservice.seriesgroup.htmlContent=htmlContent;
+    
+    boxservice.seriesgroup.seUpSeriesGroupSortable=function(){
+        boxservice.seriesgroup.listdata.setupSortable(".sort-title",{attributename:"title",sortParametername:"title",loadFunction:boxservice.api.seriesgroup.list,listItemsFunction:boxservice.seriesgroup.listSeriesGroup});              
+        boxservice.util.menu.resetSort();        
+    };
+	boxservice.seriesgroup.show=function(){
+	    boxservice.seriesgroup.listdata=boxservice.recordlist.createlistdata("#seriesgroupslist");       
+            boxservice.seriesgroup.loadSeriesGroupList();
+	};
+	boxservice.seriesgroup.loadSeriesGroupList=function(){	    
+		var showPage=function(){
 			       boxservice.util.startWait();
-			       boxservice.api.seriesgroup.list(search,startIndex).done(function(seriesgroup){
-			    	   boxservice.util.finishWait();
-	 	        	  $("#content").html(htmlContent);
-	 	        	  boxservice.util.search(search).done(function(search){
-	 	        		  boxservice.seriesgroup.show(search,0);
-		 	        	 });
-			    	  
-					  boxservice.util.pageForEachRecord("seriesgroup/series-group-row.html",seriesgroup,"#seriesgroupslist").done(function(){
-						  $(".seriesgrouplink").click(function(){
-							  var seriesgroupid=$(this).attr("href");
-							  boxservice.seriesgroup.edit(seriesgroupid).done(function(){								  
-								  boxservice.seriesgroup.reload();
-							  });
-							  return false;
-						  });  	  
-						  
-					  });
-					  
-					   
-					  $("#addNewSeriesGroup").click(function(){
-						  boxservice.util.page.load("seriesgroup/create-new-series-group.html").done(function(htmlContent){
-							   var seriesgroup={
-							    		title:"",								    		
-							    		synopsis:""						    		
-							    };						   
-							   
-							   $("#content").html(htmlContent);
-							   $("#cancelCreateSeriesGroup").click(function(){
-								   boxservice.seriesgroup.reload();
-							   });
-							   $("#crateNewSeriesGroup").click(function(){			   
-							   	 	  boxservice.util.startWait();					  
-									  boxservice.util.form.update(seriesgroup,boxservice.seriesgroup.editFields);
-									  console.log(JSON.stringify(seriesgroup));
-					                  
-									  var seriesgroupdatapromise=boxservice.api.seriesgroup.create(seriesgroup);
-									  seriesgroupdatapromise.done(function(){
-										  boxservice.util.finishWait();
-										  boxservice.seriesgroup.reload();
-									   }).fail(function(err){
-										   boxservice.util.openDialog("Failed"+JSON.stringify(err));
-										   boxservice.util.finishWait();
-									   });
-									  		     				
-						 		 
-							   });
-								   
-							   
-						  });
-						  
-					  });
-					  
-					  
-					  
+			       $("#content").html(boxservice.seriesgroup.htmlContent);
+			       
+			       boxservice.api.seriesgroup.list(boxservice.seriesgroup.listdata).done(function(seriesgroup){
+    			          boxservice.seriesgroup.listdata.newlist(seriesgroup);
+    			          boxservice.seriesgroup.seUpSeriesGroupSortable();
+    			          boxservice.seriesgroup.listSeriesGroup(seriesgroup);
 				}).fail(boxservice.util.onError);
+			       boxservice.util.search(boxservice.seriesgroup.listdata.search).done(function(search){
+			                boxservice.seriesgroup.listdata.newSearch(search);
+			                boxservice.seriesgroup.show(search,0);
+			                boxservice.seriesgroup.loadSeriesGroupList();
+			        });
+			        
 		};
 		if(boxservice.seriesgroup.htmlContent){
-			showPage(boxservice.seriesgroup.htmlContent,search, startIndex);
+			showPage();
 		}
 		else{
 			boxservice.util.page.load("seriesgroup/list.html").done(function(htContent){
-				showPage(htContent,search, startIndex);
+			        boxservice.seriesgroup.htmlContent=htContent;
+				showPage();
 			});			
 		}
 		
 		
     };
-    
+    boxservice.seriesgroup.listSeriesGroup=function(seriesgroup){
+                boxservice.util.finishWait();       
+                boxservice.util.pageForEachRecord("seriesgroup/series-group-row.html",seriesgroup,"#seriesgroupslist").done(function(){
+                        $(".seriesgrouplink").click(function(){
+                                var seriesgroupid=$(this).attr("href");
+                                boxservice.seriesgroup.edit(seriesgroupid).done(function(){                                                             
+                                        boxservice.seriesgroup.reload();
+                                });
+                                return false;
+                        }); 
+                        boxservice.util.scrollPaging(function(){
+                            boxservice.seriesgroup.listdata.nextPage();
+                            boxservice.util.startWait();                     
+                            boxservice.api.seriesgroup.list(boxservice.seriesgroup.listdata).done(function(seriesgroup){
+                               console.log(":::loaded seriesgroup:"+seriesgroup.length);
+                               boxservice.seriesgroup.listdata.addtolist(seriesgroup);
+                               boxservice.seriesgroup.listSeriesGroup(seriesgroup);                                    
+                           }).fail(boxservice.util.onError);
+                            
+                        },boxservice.seriesgroup.listdata);
+                        
+                });
+                
+                 
+                $("#addNewSeriesGroup").click(function(){
+                        boxservice.util.page.load("seriesgroup/create-new-series-group.html").done(function(htmlContent){
+                                 var seriesgroup={
+                                              title:"",                                                                               
+                                              synopsis:""                                                             
+                                  };                                             
+                                 
+                                 $("#content").html(htmlContent);
+                                 $("#cancelCreateSeriesGroup").click(function(){
+                                         boxservice.seriesgroup.reload();
+                                 });
+                                 $("#crateNewSeriesGroup").click(function(){                     
+                                                boxservice.util.startWait();                                    
+                                                boxservice.util.form.update(seriesgroup,boxservice.seriesgroup.editFields);
+                                                console.log(JSON.stringify(seriesgroup));
+                                
+                                                var seriesgroupdatapromise=boxservice.api.seriesgroup.create(seriesgroup);
+                                                seriesgroupdatapromise.done(function(){
+                                                        boxservice.util.finishWait();
+                                                        boxservice.seriesgroup.reload();
+                                                 }).fail(function(err){
+                                                         boxservice.util.openDialog("Failed"+JSON.stringify(err));
+                                                         boxservice.util.finishWait();
+                                                 });
+                                                                                              
+                                       
+                                 });
+                                         
+                                 
+                        });
+                        
+                });
+                
+    }
     
     boxservice.seriesgroup.resetStatus=function(){
 		 boxservice.seriesgroup.inputDirty=false;

@@ -84,7 +84,7 @@ jQuery(document).ready(function ($) {
    boxservice.series.reload=function(){
 	   boxservice.series.loadSeriesList();
    };
-   boxservice.series.show=function(search,startIndex){
+   boxservice.series.show=function(){
 	       boxservice.series.listdata=boxservice.recordlist.createlistdata("#serieslist");       
 	       boxservice.series.loadSeriesList();
    };

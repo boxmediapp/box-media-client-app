@@ -64,13 +64,13 @@ jQuery(document).ready(function ($) {
                 var sortFunction=function(a,b){
                     var aa=boxservice.util.getValueWithAttribute(a,opts.attributename);
                     var bb=boxservice.util.getValueWithAttribute(b,opts.attributename);
-                    if(aa==null && bb==null){
+                    if((aa==null || aa =="undefined") && (bb==null || bb=="undefined")){
                         return 0;
                     }
-                    else if(aa==null){
+                    else if(aa==null || aa =="undefined"){
                         return 1;
                     }
-                    else if(bb==null){
+                    else if(bb==null || bb=="undefined"){
                         return -1;
                     }
                     else if (aa < bb) 
