@@ -150,12 +150,12 @@ jQuery(document).ready(function ($) {
         
     
     boxservice.episode.seUpEpisodeSortable=function(){
-        boxservice.episode.listdata.setupSortable(".sort-title",{attributename:"title",sortParametername:"title",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
-        boxservice.episode.listdata.setupSortable(".sort-programnumber",{attributename:"programmeNumber",sortParametername:"programmeNumber",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
-        boxservice.episode.listdata.setupSortable(".sort-metadata-status",{attributename:"episodeStatus.metadataStatus",sortParametername:"episodeStatus.metadataStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
-        boxservice.episode.listdata.setupSortable(".sort-video-status",{attributename:"episodeStatus.videoStatus",sortParametername:"episodeStatus.videoStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
-        boxservice.episode.listdata.setupSortable(".published-status",{attributename:"episodeStatus.publishedStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
-        boxservice.episode.listdata.setupSortable(".availability-status",{attributename:"episodeStatus.currentAvailabilityStatus",loadFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-title",attributename:"title",sortParametername:"title"});
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-programnumber",attributename:"programmeNumber",sortParametername:"programmeNumber"});
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-metadata-status",attributename:"episodeStatus.metadataStatus",sortParametername:"episodeStatus.metadataStatus"});
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-video-status",attributename:"episodeStatus.videoStatus",sortParametername:"episodeStatus.videoStatus"});
+        boxservice.episode.listdata.setupSortable({headerSection:".published-status",attributename:"episodeStatus.publishedStatus"});
+        boxservice.episode.listdata.setupSortable({headerSection:".availability-status",attributename:"episodeStatus.currentAvailabilityStatus"});
         boxservice.util.menu.resetSort();        
     };
     
@@ -185,7 +185,7 @@ jQuery(document).ready(function ($) {
 		
    };
    boxservice.episode.show=function(){
-       boxservice.episode.listdata=boxservice.recordlist.createlistdata("#episodelistContainer");       
+       boxservice.episode.listdata=boxservice.recordlist.createlistdata({containerSelection:"#episodelistContainer",loadItemsFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});       
        boxservice.episode.loadEpisodeList();      
    }
 	boxservice.episode.loadEpisodeList=function(){
@@ -358,32 +358,11 @@ jQuery(document).ready(function ($) {
                                   });
                                   return false;
                           });
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                        
                      
                     
                      boxservice.util.resetInput();
-                     boxservice.util.scrollPaging(function(){
-                         boxservice.episode.listdata.nextPage();
-                         boxservice.util.startWait();                     
-                         boxservice.api.episode.list(boxservice.episode.listdata).done(function(episodes){
-                            console.log(":::loaded data:"+episodes.length);
-                            boxservice.episode.listdata.addtolist(episodes);
-                            boxservice.episode.listEpisodes(episodes);
-                                 
-                        }).fail(boxservice.util.onError);
-                         
-                     },boxservice.episode.listdata);
-                    
-                     
-                     
-                     
+                     boxservice.util.scrollPaging(boxservice.episode.listdata);
+                      
                      
                            
                    });

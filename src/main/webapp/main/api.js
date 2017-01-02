@@ -315,12 +315,14 @@ jQuery(document).ready(function ($) {
   };
   
   
-  boxservice.api.boxvideo.listFiles=function(prefix){			
-	  var path=apipath+"/box-video";
-		 if(prefix){
-			 path=path+"?prefix="+prefix;			 			 
-		 }
-		 return boxservice.api.ajax("GET",path);
+  boxservice.api.boxvideo.listFiles=function(listdata){			
+		    var path=apipath+"/box-video";
+	            if(listdata){
+	                path=listdata.createListURLWithPrefix(path);                  
+	            }
+	            return boxservice.api.ajax("GET",path);
+		 
+		 
 		 
   };
   boxservice.api.boxvideo.deleteEpisodeVideoFile=function(episodeid,videofile){

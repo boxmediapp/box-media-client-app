@@ -49,12 +49,12 @@ jQuery(document).ready(function ($) {
                                        {input:{selection:"#imageURL"}, data:{value:["imageURL"]}}
                                        ];
     
-    boxservice.seriesgroup.seUpSeriesGroupSortable=function(){
-        boxservice.seriesgroup.listdata.setupSortable(".sort-title",{attributename:"title",sortParametername:"title",loadFunction:boxservice.api.seriesgroup.list,listItemsFunction:boxservice.seriesgroup.listSeriesGroup});              
+    boxservice.seriesgroup.seUpSeriesGroupSortable=function(){        
+        boxservice.seriesgroup.listdata.setupSortable({headerSection:".sort-title",attributename:"title",sortParametername:"title"});              
         boxservice.util.menu.resetSort();        
     };
 	boxservice.seriesgroup.show=function(){
-	    boxservice.seriesgroup.listdata=boxservice.recordlist.createlistdata("#seriesgroupslist");       
+	    boxservice.seriesgroup.listdata=boxservice.recordlist.createlistdata({containerSelection:"#seriesgroupslist",loadItemsFunction:boxservice.api.seriesgroup.list,listItemsFunction:boxservice.seriesgroup.listSeriesGroup});
             boxservice.seriesgroup.loadSeriesGroupList();
 	};
 	boxservice.seriesgroup.loadSeriesGroupList=function(){	    
@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
 				}).fail(boxservice.util.onError);
 			       boxservice.util.search(boxservice.seriesgroup.listdata.search).done(function(search){
 			                boxservice.seriesgroup.listdata.newSearch(search);
-			                boxservice.seriesgroup.show(search,0);
+			                
 			                boxservice.seriesgroup.loadSeriesGroupList();
 			        });
 			        
@@ -96,16 +96,8 @@ jQuery(document).ready(function ($) {
                                 });
                                 return false;
                         }); 
-                        boxservice.util.scrollPaging(function(){
-                            boxservice.seriesgroup.listdata.nextPage();
-                            boxservice.util.startWait();                     
-                            boxservice.api.seriesgroup.list(boxservice.seriesgroup.listdata).done(function(seriesgroup){
-                               console.log(":::loaded seriesgroup:"+seriesgroup.length);
-                               boxservice.seriesgroup.listdata.addtolist(seriesgroup);
-                               boxservice.seriesgroup.listSeriesGroup(seriesgroup);                                    
-                           }).fail(boxservice.util.onError);
-                            
-                        },boxservice.seriesgroup.listdata);
+                        boxservice.util.scrollPaging(boxservice.seriesgroup.listdata);
+                        
                         
                 });
                 

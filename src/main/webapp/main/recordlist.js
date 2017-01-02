@@ -2,16 +2,19 @@ jQuery(document).ready(function ($) {
     boxservice.recordlist={};
     
     
-    boxservice.recordlist.createlistdata=function(containerSelection){
+    boxservice.recordlist.createlistdata=function(opts){
         
         return{                      
-            containerSelection:containerSelection,
+            containerSelection:opts.containerSelection,
             search:null,
             loadedall:false,
             start:0,
             items:[],
             sortBy:null,
             sortOrder:null,
+            loadItemsFunction:opts.loadItemsFunction,
+            listItemsFunction:opts.listItemsFunction,
+            itemsInLoadItemsFunction:opts.itemsInLoadItemsFunction,
             newSearch:function(search){
                 this.search=search;      
                 this.start=0;
@@ -21,7 +24,14 @@ jQuery(document).ready(function ($) {
                 url=boxservice.api.addQueryParam(url,"search",this.search);
                 url=boxservice.api.addQueryParam(url,"start",this.start);
                 url=boxservice.api.addQueryParam(url,"sortBy",this.sortBy);
-                url=boxservice.api.addQueryParam(url,"sortOrder",this.sortOrder); 
+                url=boxservice.api.addQueryParam(url,"sortOrder",this.sortOrder);                
+                return url;
+            },
+            createListURLWithPrefix:function(url){
+                url=boxservice.api.addQueryParam(url,"prefix",this.search);
+                url=boxservice.api.addQueryParam(url,"start",this.start);
+                url=boxservice.api.addQueryParam(url,"sortBy",this.sortBy);
+                url=boxservice.api.addQueryParam(url,"sortOrder",this.sortOrder);                
                 return url;
             },
             nextPage:function(){
@@ -33,7 +43,7 @@ jQuery(document).ready(function ($) {
                 this.start+=boxservice.appinfo.appconfig.recordLimit;
             },
             newlist:function(itms){                
-                $(containerSelection).empty();
+                $(this.containerSelection).empty();
                 this.checkThisBatch(itms);
                 this.items=itms;
             },
@@ -57,10 +67,42 @@ jQuery(document).ready(function ($) {
                 this.sortOrder=sortOrder;
                 this.start=0;                                   
             },
-            setupSortable:function(sortHeaderSelection,opts){
-                
+            loadData:function(callback){
+               var that=this;
+               that.loadItemsFunction(that).done(function(itms){    
+                    if(that.itemsInLoadItemsFunction){
+                        itms=boxservice.util.getValueWithAttribute(itms,that.itemsInLoadItemsFunction);
+                    }                    
+                    callback(itms);
+               }).fail(boxservice.util.onError);
+            },
+            loadNextPage:function(){
                 var that=this;
-                
+                boxservice.util.startWait();
+                that.nextPage();
+                that.loadData(function(itms){
+                    console.log(":::loaded data:"+itms.length);
+                    that.addtolist(itms);
+                    that.listItemsFunction(itms);
+                });  
+             },             
+             loadAllData:function(callback){
+                 var that=this;
+                 if(that.loadedall){
+                     callback();
+                 }
+                 else{
+                         that.nextPage();
+                         that.loadData(function(items){
+                             console.log(":::loaded data:"+items.length);
+                             that.addtolist(items);
+                             that.loadAllData(callback);
+                         });    
+                 }
+                   
+             },
+            setupSortable:function(opts){                
+                var that=this;                
                 var sortFunction=function(a,b){
                     var aa=boxservice.util.getValueWithAttribute(a,opts.attributename);
                     var bb=boxservice.util.getValueWithAttribute(b,opts.attributename);
@@ -91,44 +133,43 @@ jQuery(document).ready(function ($) {
                     }
                     that.start=0;                        
                     $(that.containerSelection).empty();
-                    opts.listItemsFunction(that.items);
+                    that.listItemsFunction(that.items);
                 };
-                
-                
-                
                 var processSort=function(sortOrder){                    
                     if(that.loadedall){                        
                         listSortedData(sortOrder);
                     }
-                    else if(!opts.loadFunction){
-                        console.log("loadFunction is missing so sorting only in memory");
+                    else if(!that.loadItemsFunction){
+                        console.log("loadFunction is missing so sorting only in what is already loaded");
                         listSortedData(sortOrder);
                     }
                     else if(opts.sortParametername){                        
                         that.newSort(opts.sortParametername,sortOrder);
-                        opts.loadFunction(that).done(function(itms){                        
+                        that.loadData(function(itms){
                             that.newlist(itms);
-                            opts.listItemsFunction(itms);                  
-                        }).fail(boxservice.util.onError);
+                            that.listItemsFunction(itms);
+                        });                        
                     }
-                    else{                                                                                 
-                           that.nextPage();
-                           opts.loadFunction(that).done(function(items){
-                               console.log(":::loaded data:"+items.length);
-                                   that.addtolist(items);
-                                   processSort(sortOrder);                                    
-                                }).fail(boxservice.util.onError);                            
+                    else{  
+                        that.loadAllData(function(){
+                            listSortedData(sortOrder);
+                        });                                                                                 
                     }
-                };                                
-                boxservice.util.menu.configSort(sortHeaderSelection,function(){
-                    boxservice.util.startWait();
-                    processSort("asc"); 
-                },function(){
-                    boxservice.util.startWait();
-                    processSort("desc");                    
-                });
-                
+                }; 
+                var sortOpts={
+                        headerSection:opts.headerSection,
+                        ascFunction:function(){
+                            boxservice.util.startWait();
+                            processSort("asc"); 
+                        },
+                        descFunction:function(){
+                            boxservice.util.startWait();
+                            processSort("desc");                    
+                        }
+                };
+                boxservice.util.menu.configSort(sortOpts);                
            }
+           
             
         };
         

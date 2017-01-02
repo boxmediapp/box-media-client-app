@@ -40,8 +40,8 @@ jQuery(document).ready(function ($) {
 	};
 
     boxservice.series.seUpSeriesSortable=function(){
-        boxservice.series.listdata.setupSortable(".sort-title",{attributename:"name",sortParametername:"name",loadFunction:boxservice.api.series.list,listItemsFunction:boxservice.series.listSeries});
-        boxservice.series.listdata.setupSortable(".sort-contract-number",{attributename:"contractNumber",sortParametername:"contractNumber",loadFunction:boxservice.api.series.list,listItemsFunction:boxservice.series.listSeries});      
+        boxservice.series.listdata.setupSortable({headerSection:".sort-title",attributename:"name",sortParametername:"name"});
+        boxservice.series.listdata.setupSortable({headerSection:".sort-contract-number",attributename:"contractNumber",sortParametername:"contractNumber"});      
         boxservice.util.menu.resetSort();        
     };
     
@@ -64,18 +64,7 @@ jQuery(document).ready(function ($) {
 				   boxservice.series.reload();
 			   });
 		   });
-		   boxservice.util.scrollPaging(function(){
-		              boxservice.series.listdata.nextPage();
-		              boxservice.util.startWait();                     
-		              boxservice.api.series.list(boxservice.series.listdata).done(function(series){
-		                 console.log(":::loaded series:"+series.length);
-		                 boxservice.series.listdata.addtolist(series);
-		                 boxservice.series.listSeries(series);
-		                      
-		             }).fail(boxservice.util.onError);
-		              
-		          },boxservice.series.listdata);
-		   
+		   boxservice.util.scrollPaging(boxservice.series.listdata);
 	   });
 	  
 	  
@@ -84,8 +73,8 @@ jQuery(document).ready(function ($) {
    boxservice.series.reload=function(){
 	   boxservice.series.loadSeriesList();
    };
-   boxservice.series.show=function(){
-	       boxservice.series.listdata=boxservice.recordlist.createlistdata("#serieslist");       
+   boxservice.series.show=function(){	         
+	       boxservice.series.listdata=boxservice.recordlist.createlistdata({containerSelection:"#serieslist",loadItemsFunction:boxservice.api.series.list,listItemsFunction:boxservice.series.listSeries});
 	       boxservice.series.loadSeriesList();
    };
    boxservice.series.loadSeriesList=function(){

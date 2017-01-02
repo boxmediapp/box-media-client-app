@@ -562,7 +562,8 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		$(".not-sorted").addClass("active");
     };
     
-    boxservice.util.menu.configSort=function(sortHeader, ascSortFunction,dscSortFunction){
+    boxservice.util.menu.configSort=function(opts){
+                var sortHeader=opts.headerSection;
 		$(sortHeader).unbind("click").click(function(){
 						
 			if($(sortHeader+ " .not-sorted" ).hasClass("active") || $(sortHeader+ " .sort-descending" ).hasClass("active")){
@@ -570,14 +571,14 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-descending").removeClass("active");
 			    	$(sortHeader+" .sort-ascending").addClass("active");
-			    	ascSortFunction();			    
+			    	opts.ascFunction();			    
 			 }
 			 else {
 			    	boxservice.util.menu.resetSort();
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-ascending").removeClass("active");
 			    	$(sortHeader+" .sort-descending").addClass("active");
-			    	dscSortFunction();			    	
+			    	opts.descFunction();
 			 }	    				
 		});
 	};
@@ -717,18 +718,27 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		    });
 		    return deferred;
        };
-       boxservice.util.scrollPaging=function(callback,listitemdata){    	   
+       boxservice.util.scrollPaging=function(listitemdata){  
+                   var loadMore=function(){
+                       if(listitemdata  && listitemdata.loadedall){
+                           console.log("scrolll reached end, but ignored because all the items are loaded");
+                           $(window).unbind("scroll");
+                           $("#showMoreResults").hide();
+                       }
+                       else{                                         
+                         $("#showMoreResults").show();  
+                         listitemdata.loadNextPage(); 
+                       }
+                   };
                    $(window).unbind("scroll").scroll(function(){
             		     if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
-    			       if(listitemdata  && listitemdata.loadedall){
-    			             console.log("scrolll reached end, but ignored because all the items are loaded");
-                                     $(window).unbind("scroll");	 
-    			       }
-    			       else{       			             
-                                     callback();
-    		               }			    		 
+            		     loadMore();		    		 
     	                   }		          
-		     });    	   
+		     });    
+                   
+                   $("#showMoreResults").unbind("click").click(function(){
+                       loadMore();
+                   });
          };
        
        boxservice.util.tooltip=function(){
