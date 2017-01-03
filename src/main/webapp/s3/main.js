@@ -10,34 +10,34 @@ jQuery(document).ready(function ($) {
 	};
     
 	boxservice.s3.show=function(){
-	     
-	    boxservice.s3.listdata=boxservice.recordlist.createlistdata({containerSelection:"#s3filelist",loadItemsFunction:boxservice.api.boxvideo.listFiles,listItemsFunction:boxservice.s3.listVideoFiles,itemsInLoadItemsFunction:"files"});	    
+	       var createListDataRequest={
+	               containerSelection:"#s3filelist",
+	               loadItemsFunction:boxservice.api.boxvideo.listFiles,
+	               listItemsFunction:boxservice.s3.listVideoFiles,
+	               itemsInLoadItemsFunction:"files",
+	               onStartList:function(){
+	                   boxservice.util.startWait();
+	                    $("#content").html(boxservice.s3.htmlContent);
+	                    boxservice.s3.seUpS3Sortable();
+	                    boxservice.util.search(boxservice.s3.listdata.search).done(function(search){                             
+	                       boxservice.s3.listdata.newSearch(search);                
+	                        boxservice.s3.loadS3List();                    
+	                    });                       
+	               }
+	       };
+	    boxservice.s3.listdata=boxservice.recordlist.createlistdata(createListDataRequest);	    
             boxservice.s3.loadS3List();
 	}
 	
 	boxservice.s3.loadS3List=function(){
-        
-	    var showS3Files=function(){
-	        boxservice.util.startWait();
-    	            $("#content").html(boxservice.s3.htmlContent);	        
-                    boxservice.api.boxvideo.listFiles(boxservice.s3.listdata).done(function(s3files){
-                    boxservice.s3.baseUrl=s3files.baseUrl;     
-                    boxservice.s3.listdata.newlist(s3files.files);
-                    boxservice.s3.seUpS3Sortable();                
-                    boxservice.s3.listVideoFiles(s3files.files);
-                 }).fail(boxservice.util.onError);
-                boxservice.util.search(boxservice.s3.listdata.search).done(function(search){                             
-                    boxservice.s3.listdata.newSearch(search);                
-                    boxservice.s3.loadS3List();                    
-                });                        
-             };
+	    
               if(boxservice.s3.htmlContent){
-                  showS3Files();
+                  boxservice.s3.listdata.startList();
               }
               else{
                          boxservice.util.page.load("s3/list.html").done(function(htmlContent){
                              boxservice.s3.htmlContent=htmlContent;
-                             showS3Files();
+                             boxservice.s3.listdata.startList();
                          });
                  }
                         
@@ -49,11 +49,12 @@ jQuery(document).ready(function ($) {
     	var config={types:{"lastModifidDate":"datetime"}};	   
     	 
 		  boxservice.util.pageForEachRecord("s3/row.html",s3filelist,"#s3filelist",config).done(function(){
+		          boxservice.s3.listdata.autoScroll();
 			  $(".episodelink").click(function(){
+			          var deferred=boxservice.s3.listdata.getBackDeferred();
+                                  boxservice.initForNewPage();
 				  var episodeid=$(this).attr("href");
-				  boxservice.episode.edit(episodeid).done(function(){
-					  boxservice.s3.show();
-				  });
+				  boxservice.episode.edit(episodeid,deferred);
 				  return false;
 			  });
 			  

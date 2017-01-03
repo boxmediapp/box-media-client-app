@@ -211,9 +211,9 @@ jQuery(document).ready(function ($) {
            },
            startList:function(){
                    var that=this;
+                   that.onStartList();
                    this.loadData(function(itms){
-                       that.newlist(itms); 
-                       that.onStartList();
+                       that.newlist(itms);                       
                        that.listItemsFunction(itms);
                    });                  
            }
