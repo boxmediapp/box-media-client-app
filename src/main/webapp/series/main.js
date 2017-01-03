@@ -412,10 +412,13 @@ jQuery(document).ready(function ($) {
 				   });
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
-			   boxservice.episode.listdata.empty();
-			   boxservice.episode.list(series.episodes,function(){
-			       boxservice.series.edit(series.id,deferred);
-			   });
+			   boxservice.episode.listdata=boxservice.recordlist.createlistdata({containerSelection:"#episodelistContainer",loadItemsFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+			   boxservice.episode.listdata.completeItems(series.episodes);			   
+			   boxservice.episode.seUpEpisodeSortable();			   
+			   boxservice.episode.listEpisodes(series.episodes);
+//			   boxservice.episode.list(series.episodes,function(){
+//			       boxservice.series.edit(series.id,deferred);
+//			   });
 			   
 		     
 	   };

@@ -1,64 +1,44 @@
 $(function(){
 	boxservice.schedule={};
-var seUpSchedulesSortable=function(schedules){
-    	
-    	var setUpSortEpisode=function(sortHeader, sortFunction){
-    		boxservice.util.menu.configSort(sortHeader,sortFunction,schedules,boxservice.schedule.list);
-    	};
-    	setUpSortEpisode(".sort-timestamp",function(a,b){
-    		if (a.scheduleTimestamp < b.scheduleTimestamp) 
-    			 return 1; 
-    		else if (a.scheduleTimestamp > b.scheduleTimestamp)
-    			return -1;
-    		else
-    			return 0;
-    	});
-    	setUpSortEpisode(".sort-episode-title",function(a,b){
-    		if (a.scheduleTimestamp < b.scheduleTimestamp) 
-    			 return 1; 
-    		else if (a.episdeoTitle > b.episdeoTitle)
-    			return -1;
-    		else 
-    			return 0;
-    	});
-    	setUpSortEpisode(".programme-number",function(a,b){
-    		if (a.programmeNumber < b.programmeNumber) 
-    			 return 1; 
-    		else if (a.programmeNumber > b.programmeNumber)
-    			return -1;
-    		else
-    		  return 0;
-    	});
-    	
-    	
-    	
-    	boxservice.util.menu.resetSort();
-    	
-    };
-    
-	boxservice.schedule.show=function(htmlContent){
-		boxservice.util.startWait();
- 	   $("#content").html(htmlContent);
- 	   boxservice.api.schedules.list().done(function(schedules){
- 		  boxservice.util.finishWait();
- 		 seUpSchedulesSortable(schedules);
- 		   boxservice.schedule.list(schedules);
- 		   boxservice.util.closeDialog();
-			}).fail(function(err){
-				boxservice.util.finishWait();
-				boxservice.util.openDialog("error in loading the schedules"+JSON.stringify(err));
-				
-			});
- 	   
+	
+	boxservice.schedule.seUpSchedulesSortable=function(){
+	        boxservice.schedule.listdata.setupSortable({headerSection:".sort-timestamp",attributename:"scheduleTimestamp",sortParametername:"scheduleTimestamp"});
+	        boxservice.schedule.listdata.setupSortable({headerSection:".sort-episode-title",attributename:"episdeoTitle",sortParametername:"episdeoTitle"});
+	        boxservice.schedule.listdata.setupSortable({headerSection:".programme-number",attributename:"programmeNumber",sortParametername:"programmeNumber"});
+	        boxservice.util.menu.resetSort();        
+	};
+	
+	boxservice.schedule.show=function(){
+	       boxservice.schedule.listdata=boxservice.recordlist.createlistdata({containerSelection:"#schedulelist",loadItemsFunction:boxservice.api.schedules.list,listItemsFunction:boxservice.schedule.listSchedules});       
+	       boxservice.schedule.loadScheduleList();
+	};
+	boxservice.schedule.loadScheduleList=function(){
+	    var showPage=function(){
+	        boxservice.util.startWait();
+	        $("#content").html(boxservice.schedule.htmlContent);
+	        boxservice.api.schedules.list(boxservice.schedule.listdata).done(function(schedules){
+	            boxservice.schedule.listdata.newlist(schedules);    
+                    boxservice.schedule.seUpSchedulesSortable();
+                    boxservice.schedule.listSchedules(schedules);
+	                        }).fail(boxservice.util.onError);
+	    };
+	    if(boxservice.schedule.htmlContent){
+                showPage();
+             }
+             else{
+                boxservice.util.page.load("schedules/list.html").done(function(html){
+                        boxservice.schedule.htmlContent=html;
+                        showPage();                             
+                });
+             }
     };
 	
-	boxservice.schedule.list=function(schedules, targetSelection){				      
-		  
-		  
-		  $("#schedulelist").empty();
+	boxservice.schedule.listSchedules=function(schedules){				      		  
+	         boxservice.util.finishWait();		  
 		  var config={types:{scheduleTimestamp:"datetime"}}
 		  boxservice.util.pageForEachRecord("schedules/schedule-row.html",schedules,"#schedulelist",config).done(function(){
-			  	
+		             boxservice.util.resetInput();
+	                     boxservice.util.scrollPaging(boxservice.schedule.listdata);  	
 		  });
 		  
 		 

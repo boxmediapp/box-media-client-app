@@ -246,8 +246,12 @@ jQuery(document).ready(function ($) {
   boxservice.api.episode.remove=function(episode){
 	  return boxservice.api.ajax("DELETE",apipath+"/episodes/"+episode.id);
   };
-  boxservice.api.schedules.list=function(){
-	  return boxservice.api.ajax("GET",apipath+"/schedules");		    
+  boxservice.api.schedules.list=function(listdata){
+      var path=apipath+"/schedules";
+      if(listdata){
+          path=listdata.createListURL(path);                  
+      }
+      return boxservice.api.ajax("GET",path);  
   };
   boxservice.api.c4.import=function(scheduleRequest){
 	  return boxservice.api.ajax("POST",apipath+"/import/schedules",scheduleRequest);		    			 			 

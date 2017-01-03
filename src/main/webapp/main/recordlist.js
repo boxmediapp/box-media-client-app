@@ -47,6 +47,11 @@ jQuery(document).ready(function ($) {
                 this.checkThisBatch(itms);
                 this.items=itms;
             },
+            completeItems:function(itms){
+                $(this.containerSelection).empty();
+                this.loadedall=true;
+                this.items=itms;
+            },
             checkThisBatch:function(itms){
                 if(!itms || !itms.length || itms.length<boxservice.appinfo.appconfig.recordLimit){
                     console.log("list all loaded");
@@ -88,18 +93,25 @@ jQuery(document).ready(function ($) {
              },             
              loadAllData:function(callback){
                  var that=this;
-                 if(that.loadedall){
-                     callback();
-                 }
-                 else{
+                 
+                 var loadTheRest=function(){
+                     if(that.loadedall){
+                         callback();
+                     }
+                     else{
                          that.nextPage();
                          that.loadData(function(items){
-                             console.log(":::loaded data:"+items.length);
+                             console.log(":::loaded data:start:"+that.start+":"+items.length);
                              that.addtolist(items);
-                             that.loadAllData(callback);
-                         });    
-                 }
-                   
+                             loadTheRest();
+                         });
+                     }
+                 };
+                 that.newSort(null,null);                 
+                 that.loadData(function(itms){
+                     that.newlist(itms);
+                     loadTheRest();
+                 }); 
              },
             setupSortable:function(opts){                
                 var that=this;                
@@ -151,6 +163,7 @@ jQuery(document).ready(function ($) {
                         });                        
                     }
                     else{  
+                        
                         that.loadAllData(function(){
                             listSortedData(sortOrder);
                         });                                                                                 
