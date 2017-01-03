@@ -68,7 +68,7 @@ jQuery(document).ready(function ($) {
 					  
 				  });
 				  var sourceVideo=$(this).attr("value");
-				  boxservice.api.boxvideo.presginedurl(boxservice.s3.baseUrl+"/"+sourceVideo).done(function(data){
+				  boxservice.api.boxvideo.presginedurl(boxservice.appinfo.appconfig.s3videoURL+"/"+sourceVideo).done(function(data){
 		  				if(data && data.file){
 		  				   $("#playVideoDialog video source").attr("src",data.file);
 		  				    $("#playVideoDialog video")[0].load();
