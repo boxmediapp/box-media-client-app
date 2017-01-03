@@ -8,6 +8,30 @@ jQuery(document).ready(function ($) {
             containerSelection:opts.containerSelection,
             search:null,
             loadedall:false,
+            backDeferred:opts.backDeferred,
+            onStartList:opts.onStartList,
+            scrollPosition:0,
+            autoScroll:function(){
+                if(this.scrollPosition){
+                    $(window).scrollTop(this.scrollPosition);
+                }                
+            },
+            getBackDeferred:function(){
+                var that=this;
+                if(that.backDeferred){
+                    return that.backDeferred;
+                }
+                var deferred=$.Deferred();
+                console.log("creating new deferred object");
+                that.scrollPosition=$(window).scrollTop();
+                
+                deferred.promise().done(function(){
+                        console.log("*******comback from back button......");
+                        that.onStartList();
+                        that.listItemsFunction(that.items);
+                });  
+                return deferred;
+            },
             start:0,
             items:[],
             sortBy:null,
@@ -15,10 +39,12 @@ jQuery(document).ready(function ($) {
             loadItemsFunction:opts.loadItemsFunction,
             listItemsFunction:opts.listItemsFunction,
             itemsInLoadItemsFunction:opts.itemsInLoadItemsFunction,
+            
             newSearch:function(search){
                 this.search=search;      
                 this.start=0;
                 this.loadedall=false;
+                this.scrollPosition=0;
             },
             createListURL:function(url){
                 url=boxservice.api.addQueryParam(url,"search",this.search);
@@ -45,7 +71,7 @@ jQuery(document).ready(function ($) {
             newlist:function(itms){                
                 $(this.containerSelection).empty();
                 this.checkThisBatch(itms);
-                this.items=itms;
+                this.items=itms;                
             },
             completeItems:function(itms){
                 $(this.containerSelection).empty();
@@ -70,7 +96,8 @@ jQuery(document).ready(function ($) {
             newSort:function(sortBy,sortOrder){
                 this.sortBy=sortBy;
                 this.sortOrder=sortOrder;
-                this.start=0;                                   
+                this.start=0;  
+                this.scrollPosition=0;
             },
             loadData:function(callback){
                var that=this;
@@ -181,6 +208,14 @@ jQuery(document).ready(function ($) {
                         }
                 };
                 boxservice.util.menu.configSort(sortOpts);                
+           },
+           startList:function(){
+                   var that=this;
+                   this.loadData(function(itms){
+                       that.newlist(itms); 
+                       that.onStartList();
+                       that.listItemsFunction(itms);
+                   });                  
            }
            
             

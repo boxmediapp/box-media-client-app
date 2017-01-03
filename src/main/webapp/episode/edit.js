@@ -3,6 +3,306 @@ jQuery(document).ready(function ($) {
                 boxservice.episode = {};
         }
         boxservice.episode.editpage = {};
+        
+        boxservice.episode.editFields=[{input:{selection:"#episodeTitle"}, data:{value:["title"]}},                                                                 
+            {input:{selection:"#episodeNumber"}, data:{value:["number"]}},
+            {input:{selection:"#episodeSequenceNumber"}, data:{value:["episodeSequenceNumber"]}},
+            {input:{selection:"#episodeSynopsis"}, data:{value:["synopsis"]}},
+            {input:{selection:"#programmeNumber"}, data:{value:["programmeNumber"]}},                               
+            {input:{selection:"#episodeContentType"}, data:{value:["contentType"]}},                                
+            {input:{selection:"#txChannel"}, data:{value:["txChannel"]}},
+          
+                {input:{selection:"#supplier"},        data:{value:["supplier"]}},
+            {input:{selection:"#certType"},        data:{value:["certType"]}},
+            {input:{selection:"#episodeTags"},     data:{type:"array", value:["tags"]}},
+            {input:{selection:"#warningText"},     data:{value:["warningText"]}},                                                                                                   
+            {input:{selection:"#adsupport"},       data:{value:["adsupport"]}}, 
+            {input:{selection:"#showType"},        data:{value:["showType"]}},
+            {input:{selection:"#brightcoveId"},    data:{value:["brightcoveId"]}},
+            
+            {input:{selection:"#ingestProfile"}, data:{value:["ingestProfile"]}},
+            {input:{selection:"#ingestSource"}, data:{value:["ingestSource"]}},
+            {input:{selection:"#imageURL"}, data:{value:["imageURL"]}},
+            
+            {input:{selection:"#durationScheduled"}, data:{value:["durationScheduled"]}},
+            {input:{selection:"#durationUploaded"}, data:{value:["durationUploaded"]}},
+            {input:{selection:"#prAuk"}, data:{value:["prAuk"]}},
+            {input:{selection:"#materialId"}, data:{value:["materialId"]}},
+            {input:{selection:"#excludeddevices"}, data:{value:["excludeddevices"]}},
+            {input:{selection:"#geoAllowedCountries"}, data:{value:["geoAllowedCountries"]}},
+            {input:{selection:"#numberOfAdsPerBreak"}, data:{value:["numberOfAdsPerBreak"]}},
+            {input:{selection:"#firstTXDate"}, data:{value:["firstTXDate"], type:"datetime-local"}},
+            {input:{selection:"#recordedAt"}, data:{value:["recordedAt"], type:"datetime-local"}},
+          
+            {input:{selection:"#seriesTitle"},         data:{value:["series","name"]}, "notEditable":true},
+            {input:{selection:"#editorNotes"}, data:{value:["editorNotes"]}}
+            
+            ];
+        
+        boxservice.episode.edit=function(episodeid, originalDeferred){
+            var deferred =null;
+            
+            if(originalDeferred){
+                    deferred=originalDeferred;
+            }
+            else{
+                    deferred=$.Deferred();
+            }
+            
+                    
+            if(!episodeid){
+                    boxservice.util.openDialog("epsiodeid is null:");
+                    deferred.reject("episodeid is null");
+                    return deferred.promise();
+            }
+            var pagePromise=boxservice.episode.loadEditEpisodePage();
+            var episodedatapromise= boxservice.api.episode.view(episodeid);
+            var tagspromise=boxservice.api.tags.list();
+            var compliancePromise=boxservice.episode.loadCompliancePage();
+            var cuepointsRowPagePromise=boxservice.episode.cuepointsRowPage();
+            
+            $.when(pagePromise,episodedatapromise,tagspromise,compliancePromise,cuepointsRowPagePromise).then(function(htmlContentResult,episodeRsult,tagResult,compliancePageRsult, cuspointsRowPageResult){
+                       var htmlContent=htmlContentResult[0];
+                       var episode=episodeRsult[0];
+                       var tags=tagResult[0];
+                       var compliancePage=compliancePageRsult[0];
+                       var cueRowPage=cuspointsRowPageResult[0];
+                       
+                       var configpage={types:{lastModifiedAt:"datetime","createdAt":"datetime"} };
+                                       
+                           $("#content").html(htmlContent);                        
+                           boxservice.util.form.initInputFields(episode,boxservice.episode.editFields);                                                          
+                           var scheduleconfig={"types":{"scheduleTimestamp":"datetime"}};
+                                                   
+                           boxservice.util.pageForEachRecord("episode/schedule-record.html",episode.scheduleEvents,"#scheduleslist",scheduleconfig).done(function(){
+                                   
+                                   console.log("schedule event is added");
+                           });
+                           var rconfig={types:{start:"datetime",end:"datetime"}};
+                           
+                           boxservice.util.pageForEachRecord("episode/availability-row.html",episode.availabilities,"#availabilitylist",rconfig).done(function(){
+                                   
+                                   console.log("schedule event is added");
+                           });
+                           
+                           $("#statusArea").empty();
+                           var chipElemen=$("<div/>").attr({"class":"chip"});
+                           chipElemen.html("Metadata:"+episode.episodeStatus.metadataStatus);
+                           $("#statusArea").append(chipElemen);
+                           boxservice.episode.dislayStatus(episode);
+                           
+                           
+                           if(episode.complianceInformations){
+                                   var complianceContent="";
+                                   for(var i=0;i<episode.complianceInformations.length;i++){
+                                           complianceContent=complianceContent+boxservice.util.replaceVariables(compliancePage,episode.complianceInformations[i]);
+                                           
+                                   }
+                                   $("#complianceInformation").append(complianceContent);
+                           }
+                           boxservice.episode.editpage.init(episode,deferred);
+                                   
+                          
+                           
+                           
+                           
+                           boxservice.util.form.populateOptions(tags,"#episodeTags");
+                           boxservice.util.form.selectOptions(episode.tags,"#episodeTags");
+                           /*
+                           if(episode.cuePoints && episode.cuePoints.length>0){
+                                   var cueContent="";
+                                   for(var i=0;i<episode.cuePoints.length;i++){
+                                           cueContent=cueContent+boxservice.util.replaceVariables(cueRowPage,episode.cuePoints[i]);
+                                   }
+                                   $("#cuepoints").append(cueContent);
+                           }
+                           */
+                           boxservice.util.resetInput();
+                           
+                           
+                           
+                           
+                   
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           var isDataNotConsistent=boxservice.util.form.valueHasChanged(episode,boxservice.episode.editFields);                    
+                           if(isDataNotConsistent){
+                                      boxservice.episode.editpage.markDirty();
+                                          boxservice.util.openDialog("The fields appears to be inconsistent, not editable:"+isDataNotConsistent);                                        
+                                 return;
+                   }
+                           boxservice.episode.resetStatus();
+                           boxservice.episode.checkStatus(episode);
+                           
+                           boxservice.util.form.inputChangedCallback(boxservice.episode.editFields, function(){                                                            
+                                   boxservice.episode.editpage.markEditing();
+                                   boxservice.episode.checkStatus(episode);
+                           });
+                           
+                           var changePublishedStatus=function(episodeid, publishedStatus){                                 
+                           var statusContainer= $("#episodeEditor");
+                           var statusTextContainer=$(".publishedStatusValue");
+                           boxservice.episode.changePublishedStatus(publishedStatus,episodeid,statusContainer,statusTextContainer);  
+                           };
+                           
+                           
+                           
+                           $("#publishToBC").click(function(){
+                                         boxservice.util.startWait();
+                                         var publishpromise=boxservice.api.bc.publish(episode);
+                                         publishpromise.done(function(){
+                                                 boxservice.util.finishWait();                                           
+                                                 boxservice.episode.edit(episode.id,deferred);                                           
+                                         });
+                                         publishpromise.fail(function(err){                                                              
+                                                 boxservice.util.finishWait();
+                                                 boxservice.util.openDialog("failed to  pulished to Brifghtcove video cloud:"+JSON.stringify(err));
+                                         });
+                                         return false;
+                                 });
+                                 $("#updateToBC").click(function(){
+                                         boxservice.util.startWait();
+                                         var publishpromise=boxservice.api.bc.publish(episode);
+                                         publishpromise.done(function(){
+                                                 boxservice.util.finishWait();                                           
+                                                 boxservice.episode.edit(episode.id,deferred);
+                                         });
+                                         publishpromise.fail(function(err){              
+                                                 boxservice.util.finishWait();
+                                                 boxservice.util.openDialog("failed to  update the Brifghtcove video cloud:"+JSON.stringify(err));
+                                         });
+                                         return false;
+                                 });
+                                 boxservice.dialogs.setupDeleteMediaEntryDialog($("#unpublishFromBC"), function(){                                       
+                                         boxservice.util.startWait();
+                                         console.log("going to delete the media entry");
+                                         var publishpromise=boxservice.api.bc.unpublish(episode);
+                                         publishpromise.done(function(){
+                                                 boxservice.util.finishWait();
+                                                 boxservice.episode.edit(episode.id,deferred);
+                                         });
+                                         publishpromise.fail(function(err){
+                                                 boxservice.util.finishWait();
+                                                 boxservice.util.openDialog("failed to  remove from the Brifghtcove video cloud:"+JSON.stringify(err));                                          
+                                         });
+                                 });
+                                 boxservice.dialogs.setupSwitchToNewSeriesDialog($("#switchSeries"), function(){
+                                         var contractNumber=$("#seriesContractNumber").val();
+                                         if(!contractNumber){
+                                                 return;
+                                         }
+                                         contractNumber=contractNumber.trim();
+                                         if(!contractNumber.length){
+                                                 return;
+                                         }
+                                         boxservice.util.startWait();
+                                         boxservice.api.series.getByContractNumber(contractNumber).done(function(series){                                                
+                                                 if(series.length>0){
+                                                                 
+                                                                 episode.series=series[0];                                                               
+                                                                 var episodedatapromise = boxservice.api.episode.update(episode.id, episode, "switchseries");
+                                                                 episodedatapromise.done(function () {
+                                                                         boxservice.util.finishWait();
+                                                                         boxservice.episode.edit(episode.id,deferred);
+                                                                 }).fail(function (err) {
+                                                                         boxservice.util.openDialog("Failed" + JSON.stringify(err));
+                                                                         boxservice.util.finishWait();
+                                                                 });
+                                                 }
+                                                 else{
+                                                         boxservice.util.finishWait();
+                                                         boxservice.util.openDialog("The series could not be found");                                                    
+                                                 }
+                                         });     
+                                 });
+                                 
+                                 
+                                 
+                                 
+                                 $("#viewInBrightcove").click(function(){
+                                         var url=boxservice.bc.videourl(episode.brightcoveId);
+                                         window.open(url,"_blank");
+                                         return false;
+                                 });
+                                 $("#jsonview").click(function(){
+                                         var url=boxservice.api.episode.getDetailsUrl(episode.id);
+                                         window.open(url,"_blank");
+                                         return false;
+                                 });
+                                 $("#soundMouseHeaderview").click(function(){
+                                         var url=boxservice.api.episode.soundMouseHeaderFileUrl(episode.id);
+                                         window.open(url,"_blank");
+                                         return false;
+                                 });
+                                 $("#soundMouseSmurfview").click(function(){
+                                         var url=boxservice.api.episode.soundMouseSmurfFileUrl(episode.id);
+                                         window.open(url,"_blank");
+                                         return false;
+                                 });
+                                 $("#bcAnalycsData").click(function(){                                   
+                                         var url=boxservice.api.episode.bcAnalysticsUrl(episode.brightcoveId);
+                                         window.open(url,"_blank");
+                                         return false;
+                                 });
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 
+                                 $("#editSeries").off("click").on("click", function(){                                           
+                                                 boxservice.series.edit(episode.series.id).done(function(){
+                                                         boxservice.episode.edit(episode.id,deferred);
+                                                 });                                             
+                                                 return false;
+                                 }); 
+                                 
+                                 /*
+                                 $("#selectS3Files").on("click",function(){
+                                         boxservice.api.boxvideo.listFiles().done(function(boxvideos){
+                                           boxservice.episode.selectFromS3File(boxvideos,episode);
+                                         
+                                           
+                                           
+                                           
+                                   }).fail(function(err){                                                        
+                                                         boxservice.util.openDialog("error in loading the s3 files"+err);                                                        
+                                                 });
+                                         
+                                 });
+                                 */
+                                 
+                                                                                                     
+                           if(episode.brightcoveId){
+                                          var videopromise=boxservice.api.bc.video.view(episode.brightcoveId);
+                                  var pagepromise=boxservice.bc.loadViewVideoPage();
+                                 $.when(videopromise,pagepromise).then(function(videoResult,htmlContentResult){  
+                                         var video=videoResult[0];
+                                         var htmlContent=htmlContentResult[0];
+                                         $("#bcView").html(boxservice.util.replaceVariables(htmlContent,video));
+                                 });
+                          
+                            }
+                                 
+                                 
+                                 
+            },function(htmlError,episodeError,tagError,compliancePageError,cueRowPageError){
+                    boxservice.util.openDialog("error loading the data from the server:"+htmlError+":"+  episodeError+":"+tagError+":"+compliancePageError+":"+cueRowPageError);            
+            });
+            return deferred.promise();      
+        };
+        
         boxservice.episode.editpage.switchPublishedStatus=function(targetButton, publishedStatus,episode){
                 
                 if(!boxservice.episode.checkRule(episode,publishedStatus)){
@@ -14,8 +314,8 @@ jQuery(document).ready(function ($) {
                         boxservice.episode.setPublishedClassName($("#episodeEditor"),updatedEpisode.episodeStatus.publishedStatus);                     
                         episode.episodeStatus.publishedStatus=updatedEpisode.episodeStatus.publishedStatus;                     
                         boxservice.util.finishWait();
-        }).fail(boxservice.util.onError);
-} ;   
+                 }).fail(boxservice.util.onError);
+        };   
         
         boxservice.episode.editpage.markEditing=function(){
                 $("#episodeEditor").addClass("editing");

@@ -3,6 +3,11 @@ boxservice={};
 
 jQuery(document).ready(function ($) {   
 
+        boxservice.initForNewPage=function(){
+            boxservice.util.resetScrollPaging();
+            window.scrollTo(0,0);
+        }; 
+    
 	boxservice.setupMenu=function(){
 
 		boxservice.checkAppInfo=function(){
@@ -40,7 +45,9 @@ jQuery(document).ready(function ($) {
 	    	   $("#content").html(htmlContent);
 	       };
 	       
-		  boxservice.util.menu.setup(".navItem a");
+		  boxservice.util.menu.setup({linkSelection:".navItem a",whenClicked:function(){
+		      boxservice.initForNewPage();
+		  }});
 		  boxservice.loadAppInfo();
 		   
 		   

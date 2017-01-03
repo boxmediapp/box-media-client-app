@@ -587,8 +587,11 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			 }	    				
 		});
 	};
-	boxservice.util.menu.setup=function(linkSelection){
-		var selectMenu=function(target){			
+	boxservice.util.menu.setup=function(opts){
+		var selectMenu=function(target){
+		        if(opts.whenClicked){
+		            opts.whenClicked();
+		        }
 			var template=$(target).attr("template");
 			var call=$(target).attr("call");
 			$(target).parent().parent().children().removeClass("active");
@@ -609,12 +612,12 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 				}
 			}
 			catch(error){
-				console.error(error+" while exucuting the menu:linkSelection="+linkSelection+" call=["+call+"] template=["+template+"]");
+				console.error(error+" while exucuting the menu:linkSelection call=["+call+"] template=["+template+"]");
 			}
 		};
 		
 		
-		$(linkSelection).click(function(){
+		$(opts.linkSelection).click(function(){
 			boxservice.checkAppInfo();			
 			selectMenu(this);
 			$(".button-collapse").sideNav("hide");
@@ -723,6 +726,9 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		    });
 		    return deferred;
        };
+       boxservice.util.resetScrollPaging=function(){
+           $(window).unbind("scroll");           
+       };
        boxservice.util.scrollPaging=function(listitemdata){  
                    var loadMore=function(){
                        if(listitemdata  && listitemdata.loadedall){
@@ -735,7 +741,13 @@ boxservice.util.isArrayDifferent=function(array1, array2){
                          listitemdata.loadNextPage(); 
                        }
                    };
+                   boxservice.util.scrollListItemData=listitemdata;
+                   
                    $(window).unbind("scroll").scroll(function(){
+                             if(boxservice.util.scrollListItemData!==listitemdata){
+                                 console.log("this is not the onwer, ignoringt he scroll");
+                                 return;
+                             }
             		     if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
             		     loadMore();		    		 
     	                   }		          

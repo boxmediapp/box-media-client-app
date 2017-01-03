@@ -49,51 +49,52 @@ jQuery(document).ready(function ($) {
                                        {input:{selection:"#imageURL"}, data:{value:["imageURL"]}}
                                        ];
     
-    boxservice.seriesgroup.seUpSeriesGroupSortable=function(){        
+    
+    boxservice.seriesgroup.seUpSeriesGroupSortable=function(){
         boxservice.seriesgroup.listdata.setupSortable({headerSection:".sort-title",attributename:"title",sortParametername:"title"});              
         boxservice.util.menu.resetSort();        
     };
+    
+    
 	boxservice.seriesgroup.show=function(){
-	    boxservice.seriesgroup.listdata=boxservice.recordlist.createlistdata({containerSelection:"#seriesgroupslist",loadItemsFunction:boxservice.api.seriesgroup.list,listItemsFunction:boxservice.seriesgroup.listSeriesGroup});
+	    var createListDataRequest={
+	             containerSelection:"#seriesgroupslist",
+	             loadItemsFunction:boxservice.api.seriesgroup.list,
+	             listItemsFunction:boxservice.seriesgroup.listSeriesGroup,
+	             onStartList:function(){
+	                     boxservice.util.startWait();
+	                     $("#content").html(boxservice.seriesgroup.htmlContent);
+                             boxservice.seriesgroup.seUpSeriesGroupSortable();                             
+                             boxservice.util.search(boxservice.seriesgroup.listdata.search).done(function(search){
+                                   boxservice.seriesgroup.listdata.newSearch(search);                                   
+                                   boxservice.seriesgroup.loadSeriesGroupList();
+                             });
+	             }
+	    };
+	    boxservice.seriesgroup.listdata=boxservice.recordlist.createlistdata(createListDataRequest);
             boxservice.seriesgroup.loadSeriesGroupList();
 	};
 	boxservice.seriesgroup.loadSeriesGroupList=function(){	    
-		var showPage=function(){
-			       boxservice.util.startWait();
-			       $("#content").html(boxservice.seriesgroup.htmlContent);
-			       
-			       boxservice.api.seriesgroup.list(boxservice.seriesgroup.listdata).done(function(seriesgroup){
-    			          boxservice.seriesgroup.listdata.newlist(seriesgroup);
-    			          boxservice.seriesgroup.seUpSeriesGroupSortable();
-    			          boxservice.seriesgroup.listSeriesGroup(seriesgroup);
-				}).fail(boxservice.util.onError);
-			       boxservice.util.search(boxservice.seriesgroup.listdata.search).done(function(search){
-			                boxservice.seriesgroup.listdata.newSearch(search);
-			                
-			                boxservice.seriesgroup.loadSeriesGroupList();
-			        });
-			        
-		};
+		
 		if(boxservice.seriesgroup.htmlContent){
-			showPage();
+		    boxservice.seriesgroup.listdata.startList();
 		}
 		else{
 			boxservice.util.page.load("seriesgroup/list.html").done(function(htContent){
 			        boxservice.seriesgroup.htmlContent=htContent;
-				showPage();
+			        boxservice.seriesgroup.listdata.startList();
 			});			
 		}
-		
-		
-    };
+       };
     boxservice.seriesgroup.listSeriesGroup=function(seriesgroup){
                 boxservice.util.finishWait();       
                 boxservice.util.pageForEachRecord("seriesgroup/series-group-row.html",seriesgroup,"#seriesgroupslist").done(function(){
+                    boxservice.seriesgroup.listdata.autoScroll();
                         $(".seriesgrouplink").click(function(){
+                                var deferred=boxservice.seriesgroup.listdata.getBackDeferred();
+                                boxservice.initForNewPage();
                                 var seriesgroupid=$(this).attr("href");
-                                boxservice.seriesgroup.edit(seriesgroupid).done(function(){                                                             
-                                        boxservice.seriesgroup.reload();
-                                });
+                                boxservice.seriesgroup.edit(seriesgroupid,deferred);
                                 return false;
                         }); 
                         boxservice.util.scrollPaging(boxservice.seriesgroup.listdata);
@@ -216,27 +217,12 @@ jQuery(document).ready(function ($) {
 				  
 				  
 		   });
-		   
-		   
-		   boxservice.util.pageForEachRecord("seriesgroup/series-row.html",seriesgroup.series,"#serieslist").done(function(){
-			  $("#serieslist a").click(function(){
-				  var seriesid=$(this).attr("href");
-				  console.log("**:"+seriesid);
-				  try{
-					  boxservice.series.edit(seriesid).done(function(){
-						  boxservice.seriesgroup.edit(seriesgroup.id,deferred);
-					  });
-				  }
-				  catch(err){
-					  console.log(err);
-				  }
-				  
-				  return false;
-			  }); 
-			   
-		   });
-		   
-		   
+		   boxservice.series.listdata=boxservice.series.createListData({backCallback:function(){                           
+                       boxservice.seriesgroup.edit(seriesgroup.id,deferred);
+                   }});
+		   boxservice.series.listdata.completeItems(seriesgroup.series);                           
+		   boxservice.series.seUpSeriesSortable();                               
+		   boxservice.series.listSeries(seriesgroup.series);
 		     
 			  $("#uploadImageFile").click(function () {
 					boxservice.seriesgroup.uploadImageFile(seriesgroup);

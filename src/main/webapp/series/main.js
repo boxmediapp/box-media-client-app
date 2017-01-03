@@ -51,13 +51,13 @@ jQuery(document).ready(function ($) {
            boxservice.util.finishWait();
 	  	
 	  boxservice.util.pageForEachRecord("series/series-row.html",series,"#serieslist").done(function(){
-		  
+	           boxservice.series.listdata.autoScroll();
 		   $(".serieslink").click(function(){
+		       var deferred=boxservice.series.listdata.getBackDeferred();
+		       boxservice.initForNewPage();
 			var seriesid=$(this).attr("href");
-			boxservice.series.edit(seriesid).done(function(){
-				boxservice.series.reload();
-			});
-			 return false;  
+			boxservice.series.edit(seriesid,deferred);
+			return false;  
 		   });
 		   $("#addNewSeries").click(function(){
 			   boxservice.series.createNewSeries().done(function(){
@@ -73,34 +73,45 @@ jQuery(document).ready(function ($) {
    boxservice.series.reload=function(){
 	   boxservice.series.loadSeriesList();
    };
+   boxservice.series.createListData=function(opts){
+       var createListDataRequest={
+               containerSelection:"#serieslist",
+               loadItemsFunction:boxservice.api.series.list,
+               listItemsFunction:boxservice.series.listSeries,
+               onStartList:function(){
+                   boxservice.util.startWait();          
+                   $("#content").html(boxservice.series.htmlContent);
+                   boxservice.series.seUpSeriesSortable();                
+                   boxservice.util.search(boxservice.series.listdata.search).done(function(search){                                                  
+                      boxservice.series.listdata.newSearch(search);                               
+                      boxservice.series.loadSeriesList();
+                   });
+               }
+         }; 
+         if(opts && opts.backCallback){
+           var deferred=$.Deferred();           
+           deferred.promise().done(function(){
+               opts.backCallback(); 
+           }); 
+           createListDataRequest.backDeferred=deferred;
+         }
+         return boxservice.recordlist.createlistdata(createListDataRequest);
+   };
    boxservice.series.show=function(){	         
-	       boxservice.series.listdata=boxservice.recordlist.createlistdata({containerSelection:"#serieslist",loadItemsFunction:boxservice.api.series.list,listItemsFunction:boxservice.series.listSeries});
+       
+	       boxservice.series.listdata= boxservice.series.createListData();
 	       boxservice.series.loadSeriesList();
    };
    boxservice.series.loadSeriesList=function(){
 	       		
-		var showPage=function(){
-			
-			boxservice.util.startWait();		
-                        $("#content").html(boxservice.series.htmlContent);
-	 	        boxservice.api.series.list(boxservice.series.listdata).done(function(series){
-        	 	        boxservice.series.listdata.newlist(series);
-        	 	        boxservice.series.seUpSeriesSortable();
-        	 	        boxservice.series.listSeries(series);
-	 	         }).fail(boxservice.util.onError);
-	 	        boxservice.util.search(boxservice.series.listdata.search).done(function(search){                                                  
-	 	           boxservice.series.listdata.newSearch(search);                               
-                           boxservice.series.loadSeriesList();
-                        });
-
-		};
+		
 		if(boxservice.series.htmlContent){
-			showPage();
+		    boxservice.series.listdata.startList();
 		}
 		else{
 				boxservice.util.page.load("series/list.html").done(function(htContent){
 				        boxservice.series.htmlContent=htContent;
-					showPage();
+				        boxservice.series.listdata.startList();
 				});
 		}
 		 	         
@@ -412,13 +423,14 @@ jQuery(document).ready(function ($) {
 				   });
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
-			   boxservice.episode.listdata=boxservice.recordlist.createlistdata({containerSelection:"#episodelistContainer",loadItemsFunction:boxservice.api.episode.list,listItemsFunction:boxservice.episode.listEpisodes});
+			   boxservice.episode.listdata=boxservice.episode.createListData({backCallback:function(){			       
+			       boxservice.series.edit(series.id,deferred);
+			   }});
+			   
+			   
 			   boxservice.episode.listdata.completeItems(series.episodes);			   
-			   boxservice.episode.seUpEpisodeSortable();			   
+			   boxservice.episode.seUpEpisodeSortable();				   
 			   boxservice.episode.listEpisodes(series.episodes);
-//			   boxservice.episode.list(series.episodes,function(){
-//			       boxservice.series.edit(series.id,deferred);
-//			   });
 			   
 		     
 	   };
