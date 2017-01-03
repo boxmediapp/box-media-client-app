@@ -22,6 +22,19 @@ jQuery(document).ready(function ($) {
 	
 
 	var apipath="/mule/boxtv";
+
+	boxservice.api.addQueryParam=function(url, paramName,paramValue){
+	    if(!paramValue || !paramName){
+	        return url;
+	    }
+	    var notTheFirst=url.indexOf("?")>0;
+	    if(notTheFirst){
+	        return url+"&"+paramName+"="+paramValue;	        
+	    }
+	    else{
+	        return url+"?"+paramName+"="+paramValue;
+	    }
+	};
 	
 	//apipath="http://localhost:9081"+apipath;
 	boxservice.api.bc.getNotificationURL=function(episode){
@@ -135,39 +148,22 @@ jQuery(document).ready(function ($) {
   	 };
   	 return boxservice.api.episode.create(episode); 
    };
- 
-	boxservice.api.episode.list=function(search, start){
+        
+	
+        boxservice.api.episode.list=function(listdata){
 		 var path=apipath+"/episodes";
-		 if(search){
-			 path=path+"?search="+search;
-			 if(start){
-				 path=path+"&start="+start;
-			 }			 
-		 }
-		 else{
-			 if(start){
-				 path=path+"?start="+start;
-			 }
-		 }
-		 
+		 if(listdata){
+		     path=listdata.createListURL(path);		         
+                 }
 		 return boxservice.api.ajax("GET",path);		 			   
 	};
     	 
-	boxservice.api.series.list=function(search, start){
-		 var path=apipath+"/series";
-		 if(search){
-			 path=path+"?search="+search;
-			 if(start){
-				 path=path+"&start="+start;
-			 }			 
-		 }
-		 else{
-			 if(start){
-				 path=path+"?start="+start;
-			 }
-		 }
-		 
-		 return boxservice.api.ajax("GET",path);		 			   
+	boxservice.api.series.list=function(listdata){
+	    var path=apipath+"/series";
+            if(listdata){
+                path=listdata.createListURL(path);                  
+            }
+            return boxservice.api.ajax("GET",path);
 	};
 	boxservice.api.series.getByContractNumber=function(contractNumber){
 		 var path=apipath+"/series?contractNumber="+contractNumber;
@@ -183,21 +179,12 @@ jQuery(document).ready(function ($) {
     };
 
 	
-	boxservice.api.seriesgroup.list=function(search,start){		   
-		   var path=apipath+"/seriesgroup";
-			 if(search){
-				 path=path+"?search="+search;
-				 if(start){
-					 path=path+"&start="+start;
-				 }			 
-			 }
-			 else{
-				 if(start){
-					 path=path+"?start="+start;
-				 }
-			 }
-			 
-			 return boxservice.api.ajax("GET",path);
+    boxservice.api.seriesgroup.list=function(listdata){	
+	    var path=apipath+"/seriesgroup";
+            if(listdata){
+                path=listdata.createListURL(path);                  
+            }
+            return boxservice.api.ajax("GET",path);            
     };
     boxservice.api.seriesgroup.update=function(seriesgroupid,seriesgroup){
 		   return boxservice.api.ajax("PUT",apipath+"/seriesgroup/"+seriesgroupid,seriesgroup);		   
@@ -259,8 +246,12 @@ jQuery(document).ready(function ($) {
   boxservice.api.episode.remove=function(episode){
 	  return boxservice.api.ajax("DELETE",apipath+"/episodes/"+episode.id);
   };
-  boxservice.api.schedules.list=function(){
-	  return boxservice.api.ajax("GET",apipath+"/schedules");		    
+  boxservice.api.schedules.list=function(listdata){
+      var path=apipath+"/schedules";
+      if(listdata){
+          path=listdata.createListURL(path);                  
+      }
+      return boxservice.api.ajax("GET",path);  
   };
   boxservice.api.c4.import=function(scheduleRequest){
 	  return boxservice.api.ajax("POST",apipath+"/import/schedules",scheduleRequest);		    			 			 
@@ -328,12 +319,14 @@ jQuery(document).ready(function ($) {
   };
   
   
-  boxservice.api.boxvideo.listFiles=function(prefix){			
-	  var path=apipath+"/box-video";
-		 if(prefix){
-			 path=path+"?prefix="+prefix;			 			 
-		 }
-		 return boxservice.api.ajax("GET",path);
+  boxservice.api.boxvideo.listFiles=function(listdata){			
+		    var path=apipath+"/box-video";
+	            if(listdata){
+	                path=listdata.createListURLWithPrefix(path);                  
+	            }
+	            return boxservice.api.ajax("GET",path);
+		 
+		 
 		 
   };
   boxservice.api.boxvideo.deleteEpisodeVideoFile=function(episodeid,videofile){

@@ -153,7 +153,20 @@ jQuery(document).ready(function ($) {
 	   timeTarget.val(timepart);	   
    };
    
-   
+   boxservice.util.getValueWithAttribute=function(dataitem,attributeName){                             
+       if(attributeName.indexOf(".")==-1){
+               return dataitem[attributeName];
+       }               
+       var path=attributeName.split(".");
+       
+       for(var k=0;k<path.length;k++){
+               if(dataitem==null){
+                  return null; 
+               }                       
+               dataitem=dataitem[path[k]];                           
+       }
+       return dataitem;           
+  };
     
 	/*Get the value in the dataitem specified in the path */
 	boxservice.util.getValueAtPath=function(dataitem,path){		
@@ -391,10 +404,15 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		   }
 		   else{			   
 			   for(var i=0;i<inputvalue.length;i++){
-				   if(inputvalue[i]!=orgvalue[i]){
-					   return true;
-				   }
+				   if(orgvalue.indexOf(inputvalue[i])==-1){
+				       return true;
+				   }			           
 			   }
+			   for(var i=0;i<orgvalue.length;i++){
+                               if(inputvalue.indexOf(orgvalue[i])==-1){
+                                   return true;
+                               }                               
+                           }
 			   return false;
 		   }
 	   }
@@ -549,32 +567,31 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		$(".not-sorted").addClass("active");
     };
     
-    boxservice.util.menu.configSort=function(sortHeader, sortFunction,items, listitemfunction){
+    boxservice.util.menu.configSort=function(opts){
+                var sortHeader=opts.headerSection;
 		$(sortHeader).unbind("click").click(function(){
-			if(items==null||items.length==0){
-				return;
-			}			
-			    if($(sortHeader+ " .not-sorted" ).hasClass("active") || $(sortHeader+ " .sort-descending" ).hasClass("active")){
+						
+			if($(sortHeader+ " .not-sorted" ).hasClass("active") || $(sortHeader+ " .sort-descending" ).hasClass("active")){
 			    	boxservice.util.menu.resetSort();
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-descending").removeClass("active");
 			    	$(sortHeader+" .sort-ascending").addClass("active");
-			    	items.sort(sortFunction);
-			    	listitemfunction(items);
-			    }
-			    else {
+			    	opts.ascFunction();			    
+			 }
+			 else {
 			    	boxservice.util.menu.resetSort();
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-ascending").removeClass("active");
 			    	$(sortHeader+" .sort-descending").addClass("active");
-			    	items.sort(sortFunction).reverse();
-			    	listitemfunction(items);
-			    } 
-	    				
+			    	opts.descFunction();
+			 }	    				
 		});
 	};
-	boxservice.util.menu.setup=function(linkSelection){
-		var selectMenu=function(target){			
+	boxservice.util.menu.setup=function(opts){
+		var selectMenu=function(target){
+		        if(opts.whenClicked){
+		            opts.whenClicked();
+		        }
 			var template=$(target).attr("template");
 			var call=$(target).attr("call");
 			$(target).parent().parent().children().removeClass("active");
@@ -595,12 +612,12 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 				}
 			}
 			catch(error){
-				console.error(error+" while exucuting the menu:linkSelection="+linkSelection+" call=["+call+"] template=["+template+"]");
+				console.error(error+" while exucuting the menu:linkSelection call=["+call+"] template=["+template+"]");
 			}
 		};
 		
 		
-		$(linkSelection).click(function(){
+		$(opts.linkSelection).click(function(){
 			boxservice.checkAppInfo();			
 			selectMenu(this);
 			$(".button-collapse").sideNav("hide");
@@ -709,37 +726,37 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		    });
 		    return deferred;
        };
-       boxservice.util.scrollPaging=function(pageIdentifies, items,callback){    	   
-    	   if(!boxservice.appinfo){
-    		   return;
-    	   }
-    	   if(!boxservice.appinfo.appconfig.recordLimit){
-    		   return;
-    	   }    	   
-    	   $(window).unbind("scroll").scroll(function(){
-    		      
-    		   if((!$(pageIdentifies)) ||  $(pageIdentifies).length==0){
-      			 console.log("unbinding the scroll listener****");
-      			 $(window).unbind("scroll");
-      			 return;
-    		   }		    	
-    		   
-			   if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
-			    		 if(items.length>=boxservice.appinfo.appconfig.recordLimit){
-			    			 console.log("scrolll reached end, and should get the next batch:"+items.length);
-			    			 callback();			    			 
-			    		 }
-			    		 else{
-			    			 console.log("scrolll reached end, but ignored because all the items are loaded already:"+items.length+":"+boxservice.appinfo.appconfig.recordLimit);
-			    		 }			    		 
-			   }
-		       else{
-		    		console.log("scroll not reached end");
-		    	}
-    	   
-		    	 
-		     });    	   
+       boxservice.util.resetScrollPaging=function(){
+           $(window).unbind("scroll");           
        };
+       boxservice.util.scrollPaging=function(listitemdata){  
+                   var loadMore=function(){
+                       if(listitemdata  && listitemdata.loadedall){
+                           console.log("scrolll reached end, but ignored because all the items are loaded");
+                           $(window).unbind("scroll");
+                           $("#showMoreResults").hide();
+                       }
+                       else{                                         
+                         $("#showMoreResults").show();  
+                         listitemdata.loadNextPage(); 
+                       }
+                   };
+                   boxservice.util.scrollListItemData=listitemdata;
+                   
+                   $(window).unbind("scroll").scroll(function(){
+                             if(boxservice.util.scrollListItemData!==listitemdata){
+                                 console.log("this is not the onwer, ignoringt he scroll");
+                                 return;
+                             }
+            		     if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
+            		     loadMore();		    		 
+    	                   }		          
+		     });    
+                   
+                   $("#showMoreResults").unbind("click").click(function(){
+                       loadMore();
+                   });
+         };
        
        boxservice.util.tooltip=function(){
     	   $(".tooltip .material-icons").click(function(){

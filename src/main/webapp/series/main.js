@@ -39,109 +39,79 @@ jQuery(document).ready(function ($) {
 		}).fail(boxservice.util.onError);
 	};
 
-	
-	
-	
-	
-var seUpSeriesSortable=function(series){
-    	
-    	var setUpSortSeries=function(sortHeader, sortFunction){
-    		boxservice.util.menu.configSort(sortHeader,sortFunction,series,boxservice.series.display);
-    	};
-    	setUpSortSeries(".sort-title",function(a,b){
-    		if (a.name < b.name) 
-    			 return 1; 
-    		else if (a.name > b.name)
-    			return -1;
-    		else
-    			return 0;
-    	});
-    	setUpSortSeries(".sort-contract-number",function(a,b){
-    		if (a.contractNumber < b.contractNumber) 
-    			 return 1; 
-    		else if (a.contractNumber > b.contractNumber)
-    			return -1;
-    		else
-    			return 0;
-    	});
-    	boxservice.util.menu.resetSort();
-    	
+    boxservice.series.seUpSeriesSortable=function(){
+        boxservice.series.listdata.setupSortable({headerSection:".sort-title",attributename:"name",sortParametername:"name"});
+        boxservice.series.listdata.setupSortable({headerSection:".sort-contract-number",attributename:"contractNumber",sortParametername:"contractNumber"});      
+        boxservice.util.menu.resetSort();        
     };
     
     
-    
-	boxservice.series.display=function(series, search,startIndex){   	  
+       boxservice.series.listSeries=function(series){   	  
 	  
-	$("#serieslist").empty();	
+           boxservice.util.finishWait();
+	  	
 	  boxservice.util.pageForEachRecord("series/series-row.html",series,"#serieslist").done(function(){
-		  
+	           boxservice.series.listdata.autoScroll();
 		   $(".serieslink").click(function(){
+		       var deferred=boxservice.series.listdata.getBackDeferred();
+		       boxservice.initForNewPage();
 			var seriesid=$(this).attr("href");
-			boxservice.series.edit(seriesid).done(function(){
-				boxservice.series.reload();
-			});
-			 return false;  
+			boxservice.series.edit(seriesid,deferred);
+			return false;  
 		   });
 		   $("#addNewSeries").click(function(){
 			   boxservice.series.createNewSeries().done(function(){
 				   boxservice.series.reload();
 			   });
 		   });
-		   
+		   boxservice.util.scrollPaging(boxservice.series.listdata);
 	   });
-	  boxservice.util.scrollPaging("#serieslistContainer",series,function(){
-		  
-		  if(!startIndex){
-			  startIndex=0;
-	    	 }
-	    	 else{
-	    		 startIndex=parseInt(startIndex);
-	    	 }
-	    	 boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);
-	    	 
-		  
-		  
-	    	 boxservice.api.series.list(search, startIndex+boxservice.appinfo.appconfig.recordLimit).done(function(series){			    			 
-	    		 boxservice.series.display(series,startIndex+boxservice.appinfo.appconfig.recordLimit);		    			 				    	  				    	  
-	    	}).fail(boxservice.util.onError);
-	     });
 	  
 	  
 	  
    };
    boxservice.series.reload=function(){
-	   boxservice.series.show(boxservice.api.series.search, boxservice.api.series.startIndex);
+	   boxservice.series.loadSeriesList();
    };
-	boxservice.series.show=function(search,startIndex){
+   boxservice.series.createListData=function(opts){
+       var createListDataRequest={
+               containerSelection:"#serieslist",
+               loadItemsFunction:boxservice.api.series.list,
+               listItemsFunction:boxservice.series.listSeries,
+               onStartList:function(){
+                   boxservice.util.startWait();          
+                   $("#content").html(boxservice.series.htmlContent);
+                   boxservice.series.seUpSeriesSortable();                
+                   boxservice.util.search(boxservice.series.listdata.search).done(function(search){                                                  
+                      boxservice.series.listdata.newSearch(search);                               
+                      boxservice.series.loadSeriesList();
+                   });
+               }
+         }; 
+         if(opts && opts.backCallback){
+           var deferred=$.Deferred();           
+           deferred.promise().done(function(){
+               opts.backCallback(); 
+           }); 
+           createListDataRequest.backDeferred=deferred;
+         }
+         return boxservice.recordlist.createlistdata(createListDataRequest);
+   };
+   boxservice.series.show=function(){	         
+       
+	       boxservice.series.listdata= boxservice.series.createListData();
+	       boxservice.series.loadSeriesList();
+   };
+   boxservice.series.loadSeriesList=function(){
+	       		
 		
-		
-		var showPage=function(htmlContent, search,startIndex){
-			if(!startIndex){
-				startIndex=0;	
-			}
-			boxservice.api.series.startIndex=startIndex;
-			boxservice.api.series.search=search;
-			boxservice.util.startWait();			
-			boxservice.series.htmlContent=htmlContent;
-	 	           boxservice.api.series.list(search,startIndex).done(function(series){
-	 	        	  $("#content").html(htmlContent);
-	 	        	 boxservice.util.finishWait();
-	 	        	 seUpSeriesSortable(series);
-	 	        	 boxservice.series.display(series, search,startIndex);
-	 	        	boxservice.util.search(search).done(function(search){	 	 	  			  
-	 	 	  			boxservice.series.show(search,0);
-	 	 	        	 });
-				}).fail(function(err){			
-					boxservice.util.finishWait();
-					boxservice.util.openDialog("error in loading the series"+err);					
-				});
-		};
 		if(boxservice.series.htmlContent){
-			showPage(boxservice.series.htmlContent,search,startIndex);
+		    boxservice.series.listdata.startList();
 		}
 		else{
 				boxservice.util.page.load("series/list.html").done(function(htContent){
-					showPage(htContent,search,startIndex);
+				        boxservice.series.htmlContent=htContent;
+				        boxservice.series.listdata.startList();
 				});
 		}
 		 	         
@@ -453,10 +423,14 @@ var seUpSeriesSortable=function(series){
 				   });
 				   $("#importEpisodeFromBCDialog").openModal();
 			   });
-			   
-			   boxservice.episode.list(series.episodes,null,0, function(){
+			   boxservice.episode.listdata=boxservice.episode.createListData({backCallback:function(){			       
 			       boxservice.series.edit(series.id,deferred);
-			   });
+			   }});
+			   
+			   
+			   boxservice.episode.listdata.completeItems(series.episodes);			   
+			   boxservice.episode.seUpEpisodeSortable();				   
+			   boxservice.episode.listEpisodes(series.episodes);
 			   
 		     
 	   };

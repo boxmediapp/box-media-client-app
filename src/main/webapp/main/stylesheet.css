@@ -577,3 +577,6 @@ body.bebox  li.bebox-specific{
 .requiredFieldMissing{
 	border:1px solid red;
 }
+#showMoreResults{
+	display:none;
+}

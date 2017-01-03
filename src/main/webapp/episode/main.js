@@ -1,9 +1,9 @@
 jQuery(document).ready(function ($) {
-	if(!boxservice.episode){
+   if(!boxservice.episode){
 		boxservice.episode={};
 	}
 	boxservice.episode.reload=function(){		
-		boxservice.episode.show(boxservice.episode.search);
+	       boxservice.episode.loadEpisodeList();
 	};
 	boxservice.episode.loadEditEpisodePage=function(){    	    
     	return boxservice.util.page.load("episode/edit.html");   	
@@ -17,6 +17,10 @@ jQuery(document).ready(function ($) {
     boxservice.episode.getRequiredFieldStatusClassName=function(status){    	
     	  return    "requiredFieldsStatus_"+status;    	  	          	
       };
+    
+          
+      
+      
     boxservice.episode.setPublishedClassName=function(statusContainer,publishedStatus){    	
     	  statusContainer.removeClass(boxservice.episode.getPublishedClassName("ACTIVE"));
     	  statusContainer.removeClass(boxservice.episode.getPublishedClassName("INACTIVE"));
@@ -145,67 +149,14 @@ jQuery(document).ready(function ($) {
     
         
     
-    var seUpEpisodeSortable=function(episodes){
-    	
-    	var setUpSortEpisode=function(sortHeader, sortFunction){
-    		boxservice.util.menu.configSort(sortHeader,sortFunction,episodes,function(episodes){
-    		    boxservice.episode.list(episodes,null,0,function(){
-                        boxservice.episode.reload();
-    		    });
-    		});
-    	};
-    	setUpSortEpisode(".sort-title",function(a,b){
-    		if (a.title < b.title) 
-    			 return 1; 
-    		else if (a.title > b.title)
-    			return -1;
-    		else
-    			return 0;
-    	});
-    	setUpSortEpisode(".sort-programnumber",function(a,b){
-    		if (a.programmeNumber < b.programmeNumber) 
-    			 return 1; 
-    		else if (a.programmeNumber > b.programmeNumber)
-    			return -1;
-    		else
-    			return 0;
-    	});
-    	setUpSortEpisode(".sort-metadata-status",function(a,b){
-    		if (a.episodeStatus.metadataStatus < b.episodeStatus.metadataStatus)
-    		    return -1;
-    		else if (a.episodeStatus.metadataStatus > b.episodeStatus.metadataStatus)
-    		    return 1;
-    		else
-    			return 0;
-    	});
-    	setUpSortEpisode(".sort-video-status",function(a,b){
-    		if (a.episodeStatus.videoStatus < b.episodeStatus.videoStatus)
-    		    return -1;
-    		else if (a.episodeStatus.videoStatus > b.episodeStatus.videoStatus)
-    		    return 1;
-    		else  
-    			return 0;
-    	});
-    	setUpSortEpisode(".published-status",function(a,b){
-    		if (a.episodeStatus.publishedStatus < b.episodeStatus.publishedStatus)
-    		    return -1;
-    		else if (a.episodeStatus.publishedStatus > b.episodeStatus.publishedStatus)
-    		    return 1;
-    		else  
-    			return 0;
-    	});
-    	setUpSortEpisode(".availability-status",function(a,b){
-    		if (a.episodeStatus.currentAvailabilityStatus < b.episodeStatus.currentAvailabilityStatus)
-    		    return -1;
-    		else if (a.episodeStatus.currentAvailabilityStatus > b.episodeStatus.currentAvailabilityStatus)
-    		    return 1;
-    		else  
-    			return 0;
-    	});
-    	
-    	
-    	boxservice.util.menu.resetSort();
-    	
+    boxservice.episode.seUpEpisodeSortable=function(){
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-title",attributename:"title",sortParametername:"title"});
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-programnumber",attributename:"programmeNumber",sortParametername:"programmeNumber"});
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-metadata-status",attributename:"episodeStatus.metadataStatus",sortParametername:"episodeStatus.metadataStatus"});
+        boxservice.episode.listdata.setupSortable({headerSection:".sort-video-status",attributename:"episodeStatus.videoStatus",sortParametername:"episodeStatus.videoStatus"});
+        boxservice.episode.listdata.setupSortable({headerSection:".published-status",attributename:"episodeStatus.publishedStatus"});
+        boxservice.episode.listdata.setupSortable({headerSection:".availability-status",attributename:"episodeStatus.currentAvailabilityStatus"});
+        boxservice.util.menu.resetSort();        
     };
     
 	    
@@ -233,261 +184,201 @@ jQuery(document).ready(function ($) {
 		});
 		
    };
-	
-	boxservice.episode.show=function(search){
-		
-		boxservice.episode.search=search;
-		var showPage=function(search, htmlContent){
-			boxservice.util.startWait();
-		 	$("#content").html(htmlContent);		 			 	
-		    boxservice.api.episode.list(search, 0).done(function(episodes){		    	
-		    	  boxservice.episode.list(episodes,null,0, function(){
-                              boxservice.episode.reload();
-		    	  });
-		    	  seUpEpisodeSortable(episodes);
-		    	}).fail(boxservice.util.onError);	
-		    boxservice.util.search(search).done(function(search){		    		
-		    		boxservice.episode.show(search);
-	        	 });		    
-		    $("#addNewEpisode").click(function(){
-		    	boxservice.episode.create().done(function(){
-		    		boxservice.episode.reload();
-		    	});
-		 	});
-		};
+   
+   boxservice.episode.createListData=function(opts){
+       var createListDataRequest={
+               containerSelection:"#episodelistContainer",
+               loadItemsFunction:boxservice.api.episode.list,
+               listItemsFunction:boxservice.episode.listEpisodes,
+               onStartList:function(){
+                   boxservice.util.startWait();
+                   $("#content").html(boxservice.episode.htmlContent);
+                   boxservice.episode.seUpEpisodeSortable();
+                   boxservice.util.search(boxservice.episode.listdata.search).done(function(search){
+                           boxservice.episode.listdata.newSearch(search);                          
+                           boxservice.episode.loadEpisodeList();
+                    });                
+                   $("#addNewEpisode").click(function(){
+                       boxservice.episode.create().done(function(){
+                       boxservice.episode.reload();
+                       });
+                   });
+               }
+         };
+       if(opts && opts.backCallback){
+           var deferred=$.Deferred();           
+           deferred.promise().done(function(){
+               opts.backCallback(); 
+           }); 
+           createListDataRequest.backDeferred=deferred;
+       }
+       return boxservice.recordlist.createlistdata(createListDataRequest);       
+   };
+   boxservice.episode.show=function(){
+       boxservice.episode.listdata=boxservice.episode.createListData();       
+       boxservice.episode.loadEpisodeList();      
+   }
+	boxservice.episode.loadEpisodeList=function(){
 		if(boxservice.episode.htmlContent){
-			showPage(search,boxservice.episode.htmlContent);
+		    boxservice.episode.listdata.startList();
 		}
 		else{
 			boxservice.util.page.load("episode/list.html").done(function(html){
 				boxservice.episode.htmlContent=html;
-				showPage(search,boxservice.episode.htmlContent);				
+				boxservice.episode.listdata.startList();				
 			});
 		}
-		
-	    
-   };
-   
-   boxservice.episode.list=function(episodes, search,start,reloadcallback){
-       
-
-
-
-
-       if(!start)
-               start=0;
-       boxservice.util.finishWait();
-       
-       if(start==0){
-               $("#episodelistContainer").empty();
-       }
-       var hasNeedsToPublishRecord=function(episodes){
-             if(episodes==null|| (!episodes.length)){
-                     return false;
-             }  
-             for(var i=0;i<episodes.length;i++){
-                     for(var i=0;i<episodes.length;i++){
-                             if(episodes[i].episodeStatus && episodes[i].episodeStatus.metadataStatus=="NEEDS_TO_PUBLISH_CHANGES"){
-                                     return true;
-                             }
-                     }
-             }
-             return false;
        };
-       
-       boxservice.util.pageForEachRecord("episode/episode-row.html",episodes,"#episodelistContainer").done(function(){
-                      $(".episoderow").each(function(index){
-                              var episodeid=$(this).attr("episodeid");
-                              var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);
-                              if(episode && episode.editorNotes){
-                                     $(this).addClass("hasEditorNote");
-                              }
-                      });
-                    
-                      boxservice.util.setupDropdownMenu($(".trafficLight"));
-                  
-                  
-                  $(".approve").click(function(){                    
-                         boxservice.episode.switchPublishedStatus($(this),"APPROVED",episodes);
+   
+       boxservice.episode.listEpisodes=function(episodes){
+
+
+
+           boxservice.util.finishWait();
+           
+           
+           
+           var hasNeedsToPublishRecord=function(episodes){
+                 if(episodes==null|| (!episodes.length)){
                          return false;
-                      });
-                      $(".disapprove").click(function(){    
-                              boxservice.episode.switchPublishedStatus($(this),"NOT_APPROVED",episodes);
-                              return false;
-                     });
-                      $(".approveinprogress").click(function(){     
-                              boxservice.episode.switchPublishedStatus($(this),"IN_PROGRESS",episodes);
-                              return false;
-                     });
-                      $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus img").hover(function(){
-                              $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").addClass("active");
-                      }, function(){
-                              $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").removeClass("active");
-                      });
-                      $(".addModifyAvailabilityWindows").click(function () {
-                                var episodeid=$(this).attr("href");
-                                var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);
-                                    boxservice.availability.show(episode).done(function(){
-                                            boxservice.episode.edit(episodeid).done(function(){
-                                                      if(reloadcallback){
-                                                         reloadcallback();
-                                                       }
-                                              });
-                                    }).fail(function(){
-                                            boxservice.episode.edit(episodeid).done(function(){
-                                                      if(reloadcallback){
-                                                         reloadcallback();
-                                                       }
-                                              });
-                                    });
-                                    return false;
-                      });
-                            
-                      var addNote=function(target){
-                              
-                              recordContainer=target.parents(".episoderow");
-                              var episodeid=recordContainer.attr("episodeid");                               
-                              var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);                             
-                              $("#episodeEditorNoteDialog .episodeEditorNote").val(episode.editorNotes);                              
-                              $("#episodeEditorNoteDialog .confirm").off("click").on("click", function(){
-                                      
-                                      episode.editorNotes=$("#episodeEditorNoteDialog .episodeEditorNote").val().trim();
-                                      if(episode.editorNotes){
-                                              recordContainer.addClass("hasEditorNote");
-                                      }
-                                      else{
-                                              recordContainer.removeClass("hasEditorNote");
-                                      }
-                                      $("#episodeEditorNoteDialog .confirm").off("click");
-                                      boxservice.util.startWait();
-                                      boxservice.api.episode.addEditorNotes(episodeid,episode.editorNotes).done(function(){
-                                              boxservice.util.finishWait();                                           
-                                      }).fail(boxservice.util.onError);
-                                      
-                              });
-                              $("#episodeEditorNoteDialog").openModal();
-                      };
-                      $(".addComplianceNote").click(function(){
-                              addNote($(this));
-                              return false;
-                     });
-                      $(".editorNoteIcon").click(function(){
-                              addNote($(this));
-                              return false;
-                     });
-                      
-                      $(".activate").click(function(){                         
-                              boxservice.episode.switchPublishedStatus($(this),"ACTIVE",episodes);
-                             
-                      });
-                      $(".deactivate").click(function(){                     
-                             boxservice.episode.switchPublishedStatus($(this),"INACTIVE",episodes);                                                                          
-                      });
-               
-                  $("a.episodlink").click(function(){
-                      window.scrollTo(0,0);
-                              var episodeid=$(this).attr("href");
-                              boxservice.episode.edit(episodeid).done(function(){
-                                      
-                                  if(reloadcallback){
-                                                         reloadcallback();
-                                      }
-                              });
-                              return false;
-                      });
-                  
-                  if(hasNeedsToPublishRecord(episodes)){                     
-                                     $(".publishChangesButton").show();
-                                     boxservice.util.tooltip();
-                                     $("#publishAllChanges").unbind("click").click(function(){
-                                             var command={
-                                                             command:"publish-all-changes"
-                                             };
-                                             boxservice.util.startWait();
-                                             $(".publishChangesButton").hide();
-                                             
-                                             boxservice.api.command(command).done(function(){
-                                                     boxservice.util.finishWait();
-                                             }).fail(boxservice.util.onError);
-                                             
-                                     });
-                       }
-                  else{
-                      $(".publishChangesButton").hide();  
-                  }
-                  
-                  
-                  
-                  
-                  
-                    
-                 
-                
-                 boxservice.util.resetInput();
-                 boxservice.util.scrollPaging("#episodelistContainer", episodes,function(){
-                     if(!start){
-                             start=0;
-                     }
-                     else{
-                             start=parseInt(start);
-                     }
-                     boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);
-                     
-                     boxservice.api.episode.list(search, start+boxservice.appinfo.appconfig.recordLimit).done(function(episodes){                                            
-                             
-                             boxservice.episode.list(episodes,search, start+boxservice.appinfo.appconfig.recordLimit);                                                                                                                        
-                    }).fail(boxservice.util.onError);
-                 });
-                
-                 
-                 
-                 
-                 
+                 }  
+                 for(var i=0;i<episodes.length;i++){
+                         for(var i=0;i<episodes.length;i++){
+                                 if(episodes[i].episodeStatus && episodes[i].episodeStatus.metadataStatus=="NEEDS_TO_PUBLISH_CHANGES"){
+                                         return true;
+                                 }
+                         }
+                 }
+                 return false;
+           };
+           if(hasNeedsToPublishRecord(boxservice.episode.listdata.items)){                     
+               $(".publishChangesButton").show();
+               boxservice.util.tooltip();
+               $("#publishAllChanges").unbind("click").click(function(){
+                       var command={
+                                       command:"publish-all-changes"
+                       };
+                       boxservice.util.startWait();
+                       $(".publishChangesButton").hide();
+                       
+                       boxservice.api.command(command).done(function(){
+                               boxservice.util.finishWait();
+                       }).fail(boxservice.util.onError);
                        
                });
-       
-       
-       
-   };
+            }
+            else{
+                $(".publishChangesButton").hide();  
+            }
+           
+           boxservice.util.pageForEachRecord("episode/episode-row.html",episodes,"#episodelistContainer").done(function(){
+                          boxservice.episode.listdata.autoScroll();
+                          $(".episoderow").each(function(index){
+                                  var episodeid=$(this).attr("episodeid");
+                                  var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);
+                                  if(episode && episode.editorNotes){
+                                         $(this).addClass("hasEditorNote");
+                                  }
+                          });
+                        
+                          boxservice.util.setupDropdownMenu($(".trafficLight"));
+                      
+                      
+                      $(".approve").click(function(){                    
+                             boxservice.episode.switchPublishedStatus($(this),"APPROVED",episodes);
+                             return false;
+                          });
+                          $(".disapprove").click(function(){    
+                                  boxservice.episode.switchPublishedStatus($(this),"NOT_APPROVED",episodes);
+                                  return false;
+                         });
+                          $(".approveinprogress").click(function(){     
+                                  boxservice.episode.switchPublishedStatus($(this),"IN_PROGRESS",episodes);
+                                  return false;
+                         });
+                          $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus img").hover(function(){
+                                  $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").addClass("active");
+                          }, function(){
+                                  $(".requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus").removeClass("active");
+                          });
+                          $(".addModifyAvailabilityWindows").click(function () {
+                                    var episodeid=$(this).attr("href");
+                                    var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);
+                                        boxservice.availability.show(episode).done(function(){
+                                                boxservice.episode.edit(episodeid).done(function(){
+                                                          boxservice.episode.reload();
+                                                  });
+                                        }).fail(function(){
+                                                boxservice.episode.edit(episodeid).done(function(){
+                                                          boxservice.episode.reload();
+                                                  });
+                                        });
+                                        return false;
+                          });
+                                
+                          var addNote=function(target){
+                                  
+                                  recordContainer=target.parents(".episoderow");
+                                  var episodeid=recordContainer.attr("episodeid");                               
+                                  var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);                             
+                                  $("#episodeEditorNoteDialog .episodeEditorNote").val(episode.editorNotes);                              
+                                  $("#episodeEditorNoteDialog .confirm").off("click").on("click", function(){
+                                          
+                                          episode.editorNotes=$("#episodeEditorNoteDialog .episodeEditorNote").val().trim();
+                                          if(episode.editorNotes){
+                                                  recordContainer.addClass("hasEditorNote");
+                                          }
+                                          else{
+                                                  recordContainer.removeClass("hasEditorNote");
+                                          }
+                                          $("#episodeEditorNoteDialog .confirm").off("click");
+                                          boxservice.util.startWait();
+                                          boxservice.api.episode.addEditorNotes(episodeid,episode.editorNotes).done(function(){
+                                                  boxservice.util.finishWait();                                           
+                                          }).fail(boxservice.util.onError);
+                                          
+                                  });
+                                  $("#episodeEditorNoteDialog").openModal();
+                          };
+                          $(".addComplianceNote").click(function(){
+                                  addNote($(this));
+                                  return false;
+                         });
+                          $(".editorNoteIcon").click(function(){
+                                  addNote($(this));
+                                  return false;
+                         });
+                          
+                          $(".activate").click(function(){                         
+                                  boxservice.episode.switchPublishedStatus($(this),"ACTIVE",episodes);
+                                 
+                          });
+                          $(".deactivate").click(function(){                     
+                                 boxservice.episode.switchPublishedStatus($(this),"INACTIVE",episodes);                                                                          
+                          });
+                   
+                      $("a.episodlink").click(function(){
+                                  var deferred=boxservice.episode.listdata.getBackDeferred();
+                                  boxservice.initForNewPage();
+                                  var episodeid=$(this).attr("href");
+                                  boxservice.episode.edit(episodeid,deferred);
+                                  return false;
+                          });
+                     
+                    
+                     boxservice.util.resetInput();
+                     boxservice.util.scrollPaging(boxservice.episode.listdata);
+                      
+                     
+                           
+                   });
+       };
 
    
    
    
    
-   boxservice.episode.editFields=[{input:{selection:"#episodeTitle"}, data:{value:["title"]}},					  		            
-	  		            {input:{selection:"#episodeNumber"}, data:{value:["number"]}},
-	  		            {input:{selection:"#episodeSequenceNumber"}, data:{value:["episodeSequenceNumber"]}},
-	  		            {input:{selection:"#episodeSynopsis"}, data:{value:["synopsis"]}},
-	  		            {input:{selection:"#programmeNumber"}, data:{value:["programmeNumber"]}},	  		            
-	  		            {input:{selection:"#episodeContentType"}, data:{value:["contentType"]}},	  		            
-	  		            {input:{selection:"#txChannel"}, data:{value:["txChannel"]}},
-	  		          
-	  		          	{input:{selection:"#supplier"},        data:{value:["supplier"]}},
-	  		            {input:{selection:"#certType"},        data:{value:["certType"]}},
-	  		            {input:{selection:"#episodeTags"},     data:{type:"array", value:["tags"]}},
-	  		            {input:{selection:"#warningText"},     data:{value:["warningText"]}},	  		            					  		            
-	  		            {input:{selection:"#adsupport"},       data:{value:["adsupport"]}},	
-	  		            {input:{selection:"#showType"},        data:{value:["showType"]}},
-	  		            {input:{selection:"#brightcoveId"},    data:{value:["brightcoveId"]}},
-	  		            
-	  		            {input:{selection:"#ingestProfile"}, data:{value:["ingestProfile"]}},
-	  		            {input:{selection:"#ingestSource"}, data:{value:["ingestSource"]}},
-	  		            {input:{selection:"#imageURL"}, data:{value:["imageURL"]}},
-	  		            
-	  		            {input:{selection:"#durationScheduled"}, data:{value:["durationScheduled"]}},
-	  		            {input:{selection:"#durationUploaded"}, data:{value:["durationUploaded"]}},
-	  		            {input:{selection:"#prAuk"}, data:{value:["prAuk"]}},
-	  		            {input:{selection:"#materialId"}, data:{value:["materialId"]}},
-	  		            {input:{selection:"#excludeddevices"}, data:{value:["excludeddevices"]}},
-	  		            {input:{selection:"#geoAllowedCountries"}, data:{value:["geoAllowedCountries"]}},
-	  		            {input:{selection:"#numberOfAdsPerBreak"}, data:{value:["numberOfAdsPerBreak"]}},
-	  		            {input:{selection:"#firstTXDate"}, data:{value:["firstTXDate"], type:"datetime-local"}},
-	  		            {input:{selection:"#recordedAt"}, data:{value:["recordedAt"], type:"datetime-local"}},
-	  		          
-  	  		            {input:{selection:"#seriesTitle"},         data:{value:["series","name"]}, "notEditable":true},
-  	  		            {input:{selection:"#editorNotes"}, data:{value:["editorNotes"]}}
-  	  		            
-	  		            ];
+   
    
       
    boxservice.episode.create=function(originalDeferred){	 
@@ -702,268 +593,6 @@ jQuery(document).ready(function ($) {
 		 
 		 
 	 };
-   boxservice.episode.edit=function(episodeid, originalDeferred){
-	   var deferred =null;
-	   
-	   if(originalDeferred){
-		   deferred=originalDeferred;
-	   }
-	   else{
-		   deferred=$.Deferred();
-	   }
-	   
-	   	   
-	   if(!episodeid){
-		   boxservice.util.openDialog("epsiodeid is null:");
-		   deferred.reject("episodeid is null");
-		   return deferred.promise();
-	   }
-	   var pagePromise=boxservice.episode.loadEditEpisodePage();
-	   var episodedatapromise= boxservice.api.episode.view(episodeid);
-	   var tagspromise=boxservice.api.tags.list();
-	   var compliancePromise=boxservice.episode.loadCompliancePage();
-	   var cuepointsRowPagePromise=boxservice.episode.cuepointsRowPage();
-	   
-	   $.when(pagePromise,episodedatapromise,tagspromise,compliancePromise,cuepointsRowPagePromise).then(function(htmlContentResult,episodeRsult,tagResult,compliancePageRsult, cuspointsRowPageResult){
-		      var htmlContent=htmlContentResult[0];
-		      var episode=episodeRsult[0];
-		      var tags=tagResult[0];
-		      var compliancePage=compliancePageRsult[0];
-		      var cueRowPage=cuspointsRowPageResult[0];
-		      
-		      var configpage={types:{lastModifiedAt:"datetime","createdAt":"datetime"} };
-		      		      
-			  $("#content").html(htmlContent);			  
-			  boxservice.util.form.initInputFields(episode,boxservice.episode.editFields); 	    				 			
-			  var scheduleconfig={"types":{"scheduleTimestamp":"datetime"}};
-			   			  
-			  boxservice.util.pageForEachRecord("episode/schedule-record.html",episode.scheduleEvents,"#scheduleslist",scheduleconfig).done(function(){
-				  
-				  console.log("schedule event is added");
-			  });
-			  var rconfig={types:{start:"datetime",end:"datetime"}};
-			  
-			  boxservice.util.pageForEachRecord("episode/availability-row.html",episode.availabilities,"#availabilitylist",rconfig).done(function(){
-				  
-				  console.log("schedule event is added");
-			  });
-			  
-			  $("#statusArea").empty();
-			  var chipElemen=$("<div/>").attr({"class":"chip"});
-			  chipElemen.html("Metadata:"+episode.episodeStatus.metadataStatus);
-			  $("#statusArea").append(chipElemen);
-			  boxservice.episode.dislayStatus(episode);
-			  
-			  
-			  if(episode.complianceInformations){
-				  var complianceContent="";
-				  for(var i=0;i<episode.complianceInformations.length;i++){
-					  complianceContent=complianceContent+boxservice.util.replaceVariables(compliancePage,episode.complianceInformations[i]);
-					  
-				  }
-				  $("#complianceInformation").append(complianceContent);
-			  }
-			  boxservice.episode.editpage.init(episode,deferred);
-				  
-			 
-			  
-			  
-			  
-			  boxservice.util.form.populateOptions(tags,"#episodeTags");
-			  boxservice.util.form.selectOptions(episode.tags,"#episodeTags");
-			  /*
-			  if(episode.cuePoints && episode.cuePoints.length>0){
-				  var cueContent="";
-				  for(var i=0;i<episode.cuePoints.length;i++){
-					  cueContent=cueContent+boxservice.util.replaceVariables(cueRowPage,episode.cuePoints[i]);
-				  }
-				  $("#cuepoints").append(cueContent);
-			  }
-			  */
-			  boxservice.util.resetInput();
-			  
-			  
-			  
-			  
-	    	  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  var isDataNotConsistent=boxservice.util.form.valueHasChanged(episode,boxservice.episode.editFields);			  
-			  if(isDataNotConsistent){
-				     boxservice.episode.editpage.markDirty();
-		  			 boxservice.util.openDialog("The fields appears to be inconsistent, not editable:"+isDataNotConsistent);		  			
-	    			return;
-	    	  }
-			  boxservice.episode.resetStatus();
-			  boxservice.episode.checkStatus(episode);
-			  
-			  boxservice.util.form.inputChangedCallback(boxservice.episode.editFields, function(){				  				  
-				  boxservice.episode.editpage.markEditing();
-				  boxservice.episode.checkStatus(episode);
-			  });
-			  
-			  var changePublishedStatus=function(episodeid, publishedStatus){				  
-		    	  var statusContainer= $("#episodeEditor");
-		    	  var statusTextContainer=$(".publishedStatusValue");
-		    	  boxservice.episode.changePublishedStatus(publishedStatus,episodeid,statusContainer,statusTextContainer);  
-			  };
-			  
-			  
-			  
-			  $("#publishToBC").click(function(){
-				  	boxservice.util.startWait();
-		  			var publishpromise=boxservice.api.bc.publish(episode);
-		  			publishpromise.done(function(){
-		  				boxservice.util.finishWait();		  				
-		  				boxservice.episode.edit(episode.id,deferred);		  				
-		  			});
-		  			publishpromise.fail(function(err){				  				
-		  				boxservice.util.finishWait();
-		  				boxservice.util.openDialog("failed to  pulished to Brifghtcove video cloud:"+JSON.stringify(err));
-		  			});
-		  			return false;
-		  		});
-		  		$("#updateToBC").click(function(){
-		  			boxservice.util.startWait();
-		  			var publishpromise=boxservice.api.bc.publish(episode);
-		  			publishpromise.done(function(){
-		  				boxservice.util.finishWait();		  				
-		  				boxservice.episode.edit(episode.id,deferred);
-		  			});
-		  			publishpromise.fail(function(err){		
-		  				boxservice.util.finishWait();
-		  				boxservice.util.openDialog("failed to  update the Brifghtcove video cloud:"+JSON.stringify(err));
-		  			});
-		  			return false;
-		  		});
-		  		boxservice.dialogs.setupDeleteMediaEntryDialog($("#unpublishFromBC"), function(){		  			
-		  			boxservice.util.startWait();
-		  			console.log("going to delete the media entry");
-		  			var publishpromise=boxservice.api.bc.unpublish(episode);
-		  			publishpromise.done(function(){
-		  				boxservice.util.finishWait();
-		  				boxservice.episode.edit(episode.id,deferred);
-		  			});
-		  			publishpromise.fail(function(err){
-		  				boxservice.util.finishWait();
-		  				boxservice.util.openDialog("failed to  remove from the Brifghtcove video cloud:"+JSON.stringify(err));		  				
-		  			});
-		  		});
-		  		boxservice.dialogs.setupSwitchToNewSeriesDialog($("#switchSeries"), function(){
-		  			var contractNumber=$("#seriesContractNumber").val();
-		  			if(!contractNumber){
-		  				return;
-		  			}
-		  			contractNumber=contractNumber.trim();
-		  			if(!contractNumber.length){
-		  				return;
-		  			}
-		  			boxservice.util.startWait();
-		  			boxservice.api.series.getByContractNumber(contractNumber).done(function(series){		  				
-		  				if(series.length>0){
-			  					
-			  					episode.series=series[0];			  					
-			  					var episodedatapromise = boxservice.api.episode.update(episode.id, episode, "switchseries");
-			  					episodedatapromise.done(function () {
-			  						boxservice.util.finishWait();
-			  						boxservice.episode.edit(episode.id,deferred);
-			  					}).fail(function (err) {
-			  						boxservice.util.openDialog("Failed" + JSON.stringify(err));
-			  						boxservice.util.finishWait();
-			  					});
-		  				}
-		  				else{
-		  					boxservice.util.finishWait();
-		  					boxservice.util.openDialog("The series could not be found");		  					
-		  				}
-		  			});	
-		  		});
-		  		
-		  		
-		  		
-		  		
-		  		$("#viewInBrightcove").click(function(){
-		  			var url=boxservice.bc.videourl(episode.brightcoveId);
-		  			window.open(url,"_blank");
-		  			return false;
-		  		});
-		  		$("#jsonview").click(function(){
-		  			var url=boxservice.api.episode.getDetailsUrl(episode.id);
-		  			window.open(url,"_blank");
-		  			return false;
-		  		});
-		  		$("#soundMouseHeaderview").click(function(){
-		  			var url=boxservice.api.episode.soundMouseHeaderFileUrl(episode.id);
-		  			window.open(url,"_blank");
-		  			return false;
-		  		});
-		  		$("#soundMouseSmurfview").click(function(){
-		  			var url=boxservice.api.episode.soundMouseSmurfFileUrl(episode.id);
-		  			window.open(url,"_blank");
-		  			return false;
-		  		});
-		  		$("#bcAnalycsData").click(function(){		  			
-		  			var url=boxservice.api.episode.bcAnalysticsUrl(episode.brightcoveId);
-		  			window.open(url,"_blank");
-		  			return false;
-		  		});
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		
-		  		$("#editSeries").off("click").on("click", function(){		  				
-		  				boxservice.series.edit(episode.series.id).done(function(){
-		  					boxservice.episode.edit(episode.id,deferred);
-		  				});		  				
-		  				return false;
-		  		}); 
-		  		
-		  		/*
-		  		$("#selectS3Files").on("click",function(){
-		  			boxservice.api.boxvideo.listFiles().done(function(boxvideos){
-		        		  boxservice.episode.selectFromS3File(boxvideos,episode);
-		        		
-		        		  
-		        		  
-		        		  
-		        	  }).fail(function(err){							
-							boxservice.util.openDialog("error in loading the s3 files"+err);							
-						});
-		  			
-		  		});
-		  		*/
-		  		
-		  	    		  	    		  	    		  	    
-		  	  if(episode.brightcoveId){
-			  		 var videopromise=boxservice.api.bc.video.view(episode.brightcoveId);
-			    	 var pagepromise=boxservice.bc.loadViewVideoPage();
-			    	$.when(videopromise,pagepromise).then(function(videoResult,htmlContentResult){  
-			    		var video=videoResult[0];
-			    		var htmlContent=htmlContentResult[0];
-			    		$("#bcView").html(boxservice.util.replaceVariables(htmlContent,video));
-			    	});
-	  		 
-	  		   }
-		  		
-		  		
-		  		
-	   },function(htmlError,episodeError,tagError,compliancePageError,cueRowPageError){
-		   boxservice.util.openDialog("error loading the data from the server:"+htmlError+":"+	episodeError+":"+tagError+":"+compliancePageError+":"+cueRowPageError);		   
-	   });
-	   return deferred.promise();	   
-   };
+   
 	
 });

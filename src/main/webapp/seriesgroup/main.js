@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
     	return boxservice.util.page.load("seriesgroup/edit.html");
     };
     boxservice.seriesgroup.reload=function(){
-    	boxservice.seriesgroup.show(boxservice.seriesgroup.search,boxservice.seriesgroup.startIndex);
+    	boxservice.seriesgroup.loadSeriesGroupList();
     };
     
     
@@ -48,83 +48,95 @@ jQuery(document).ready(function ($) {
                                        {input:{selection:"#seriesGroupTags"}, data:{value:["tags"]}},
                                        {input:{selection:"#imageURL"}, data:{value:["imageURL"]}}
                                        ];
-	boxservice.seriesgroup.show=function(search, startIndex){
-		var showPage=function(htmlContent,search, startIndex){
-			if(!startIndex){
-				startIndex=0;
-			}
-			boxservice.seriesgroup.search=search;
-			boxservice.seriesgroup.startIndex=startIndex;			
-		    boxservice.seriesgroup.htmlContent=htmlContent;
-			       boxservice.util.startWait();
-			       boxservice.api.seriesgroup.list(search,startIndex).done(function(seriesgroup){
-			    	   boxservice.util.finishWait();
-	 	        	  $("#content").html(htmlContent);
-	 	        	  boxservice.util.search(search).done(function(search){
-	 	        		  boxservice.seriesgroup.show(search,0);
-		 	        	 });
-			    	  
-					  boxservice.util.pageForEachRecord("seriesgroup/series-group-row.html",seriesgroup,"#seriesgroupslist").done(function(){
-						  $(".seriesgrouplink").click(function(){
-							  var seriesgroupid=$(this).attr("href");
-							  boxservice.seriesgroup.edit(seriesgroupid).done(function(){								  
-								  boxservice.seriesgroup.reload();
-							  });
-							  return false;
-						  });  	  
-						  
-					  });
-					  
-					   
-					  $("#addNewSeriesGroup").click(function(){
-						  boxservice.util.page.load("seriesgroup/create-new-series-group.html").done(function(htmlContent){
-							   var seriesgroup={
-							    		title:"",								    		
-							    		synopsis:""						    		
-							    };						   
-							   
-							   $("#content").html(htmlContent);
-							   $("#cancelCreateSeriesGroup").click(function(){
-								   boxservice.seriesgroup.reload();
-							   });
-							   $("#crateNewSeriesGroup").click(function(){			   
-							   	 	  boxservice.util.startWait();					  
-									  boxservice.util.form.update(seriesgroup,boxservice.seriesgroup.editFields);
-									  console.log(JSON.stringify(seriesgroup));
-					                  
-									  var seriesgroupdatapromise=boxservice.api.seriesgroup.create(seriesgroup);
-									  seriesgroupdatapromise.done(function(){
-										  boxservice.util.finishWait();
-										  boxservice.seriesgroup.reload();
-									   }).fail(function(err){
-										   boxservice.util.openDialog("Failed"+JSON.stringify(err));
-										   boxservice.util.finishWait();
-									   });
-									  		     				
-						 		 
-							   });
-								   
-							   
-						  });
-						  
-					  });
-					  
-					  
-					  
-				}).fail(boxservice.util.onError);
-		};
+    
+    
+    boxservice.seriesgroup.seUpSeriesGroupSortable=function(){
+        boxservice.seriesgroup.listdata.setupSortable({headerSection:".sort-title",attributename:"title",sortParametername:"title"});              
+        boxservice.util.menu.resetSort();        
+    };
+    
+    
+	boxservice.seriesgroup.show=function(){
+	    var createListDataRequest={
+	             containerSelection:"#seriesgroupslist",
+	             loadItemsFunction:boxservice.api.seriesgroup.list,
+	             listItemsFunction:boxservice.seriesgroup.listSeriesGroup,
+	             onStartList:function(){
+	                     boxservice.util.startWait();
+	                     $("#content").html(boxservice.seriesgroup.htmlContent);
+                             boxservice.seriesgroup.seUpSeriesGroupSortable();                             
+                             boxservice.util.search(boxservice.seriesgroup.listdata.search).done(function(search){
+                                   boxservice.seriesgroup.listdata.newSearch(search);                                   
+                                   boxservice.seriesgroup.loadSeriesGroupList();
+                             });
+	             }
+	    };
+	    boxservice.seriesgroup.listdata=boxservice.recordlist.createlistdata(createListDataRequest);
+            boxservice.seriesgroup.loadSeriesGroupList();
+	};
+	boxservice.seriesgroup.loadSeriesGroupList=function(){	    
+		
 		if(boxservice.seriesgroup.htmlContent){
-			showPage(boxservice.seriesgroup.htmlContent,search, startIndex);
+		    boxservice.seriesgroup.listdata.startList();
 		}
 		else{
 			boxservice.util.page.load("seriesgroup/list.html").done(function(htContent){
-				showPage(htContent,search, startIndex);
+			        boxservice.seriesgroup.htmlContent=htContent;
+			        boxservice.seriesgroup.listdata.startList();
 			});			
 		}
-		
-		
-    };
-    
+       };
+    boxservice.seriesgroup.listSeriesGroup=function(seriesgroup){
+                boxservice.util.finishWait();       
+                boxservice.util.pageForEachRecord("seriesgroup/series-group-row.html",seriesgroup,"#seriesgroupslist").done(function(){
+                    boxservice.seriesgroup.listdata.autoScroll();
+                        $(".seriesgrouplink").click(function(){
+                                var deferred=boxservice.seriesgroup.listdata.getBackDeferred();
+                                boxservice.initForNewPage();
+                                var seriesgroupid=$(this).attr("href");
+                                boxservice.seriesgroup.edit(seriesgroupid,deferred);
+                                return false;
+                        }); 
+                        boxservice.util.scrollPaging(boxservice.seriesgroup.listdata);
+                        
+                        
+                });
+                
+                 
+                $("#addNewSeriesGroup").click(function(){
+                        boxservice.util.page.load("seriesgroup/create-new-series-group.html").done(function(htmlContent){
+                                 var seriesgroup={
+                                              title:"",                                                                               
+                                              synopsis:""                                                             
+                                  };                                             
+                                 
+                                 $("#content").html(htmlContent);
+                                 $("#cancelCreateSeriesGroup").click(function(){
+                                         boxservice.seriesgroup.reload();
+                                 });
+                                 $("#crateNewSeriesGroup").click(function(){                     
+                                                boxservice.util.startWait();                                    
+                                                boxservice.util.form.update(seriesgroup,boxservice.seriesgroup.editFields);
+                                                console.log(JSON.stringify(seriesgroup));
+                                
+                                                var seriesgroupdatapromise=boxservice.api.seriesgroup.create(seriesgroup);
+                                                seriesgroupdatapromise.done(function(){
+                                                        boxservice.util.finishWait();
+                                                        boxservice.seriesgroup.reload();
+                                                 }).fail(function(err){
+                                                         boxservice.util.openDialog("Failed"+JSON.stringify(err));
+                                                         boxservice.util.finishWait();
+                                                 });
+                                                                                              
+                                       
+                                 });
+                                         
+                                 
+                        });
+                        
+                });
+                
+    }
     
     boxservice.seriesgroup.resetStatus=function(){
 		 boxservice.seriesgroup.inputDirty=false;
@@ -205,27 +217,12 @@ jQuery(document).ready(function ($) {
 				  
 				  
 		   });
-		   
-		   
-		   boxservice.util.pageForEachRecord("seriesgroup/series-row.html",seriesgroup.series,"#serieslist").done(function(){
-			  $("#serieslist a").click(function(){
-				  var seriesid=$(this).attr("href");
-				  console.log("**:"+seriesid);
-				  try{
-					  boxservice.series.edit(seriesid).done(function(){
-						  boxservice.seriesgroup.edit(seriesgroup.id,deferred);
-					  });
-				  }
-				  catch(err){
-					  console.log(err);
-				  }
-				  
-				  return false;
-			  }); 
-			   
-		   });
-		   
-		   
+		   boxservice.series.listdata=boxservice.series.createListData({backCallback:function(){                           
+                       boxservice.seriesgroup.edit(seriesgroup.id,deferred);
+                   }});
+		   boxservice.series.listdata.completeItems(seriesgroup.series);                           
+		   boxservice.series.seUpSeriesSortable();                               
+		   boxservice.series.listSeries(seriesgroup.series);
 		     
 			  $("#uploadImageFile").click(function () {
 					boxservice.seriesgroup.uploadImageFile(seriesgroup);

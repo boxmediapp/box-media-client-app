@@ -27,7 +27,7 @@
 	<nav>
 		<div id="nav-wrapper">
 			<img src="img/BOX _Logo_RGB.png" class="brand-logo-img">
-			<div class="versionNumberHolder">v1.5.1</div>
+			<div class="versionNumberHolder">v2.0.0</div>
 			<span class="brand-logo-text">
 			
 			<span class="brand-logo-text box-specific">Box</span> <span class="brand-logo-text bebox-specific">BeBox</span>  Media Application
@@ -43,7 +43,7 @@
 				<li class="navItem"><a  call="boxservice.episode.show">Episodes</a></li>
 				<li class="navItem"><a  call="boxservice.series.show">Series</a></li>
 				<li class="navItem"><a  call="boxservice.seriesgroup.show">Series Groups</a></li>
-				<li class="navItem"><a template="s3/list.html" call="boxservice.s3.show">S3 Storage</a></li>
+				<li class="navItem"><a  call="boxservice.s3.show">S3 Storage</a></li>
 				<li class="navItem"><a template="schedules/list.html" call="boxservice.schedule.show">Schedules</a></li>
 				
 				
@@ -58,10 +58,10 @@
 			<ul id="mobile-menu" class="side-nav">
 				
 				<li class="navItem"><a href="#" call="boxservice.episode.show">Episodes</a></li>
-				<li class="navItem"><a href="#" template="series/list.html" call="boxservice.series.show">Series</a></li>
-				<li class="navItem"><a href="#" template="seriesgroup/list.html" call="boxservice.seriesgroup.show">Series Groups</a></li>
+				<li class="navItem"><a href="#" call="boxservice.series.show">Series</a></li>
+				<li class="navItem"><a href="#" call="boxservice.seriesgroup.show">Series Groups</a></li>
 
-				<li class="navItem"><a href="#" template="s3/list.html" call="boxservice.s3.show">S3 Storage</a></li>
+				<li class="navItem"><a href="#" call="boxservice.s3.show">S3 Storage</a></li>
 				<li class="navItem"><a href="#" template="schedules/list.html" call="boxservice.schedule.show">Schedules</a></li>
 				<li class="navItem box-specific"> <a href="#" template="import/import.html" call="boxservice.import.show"> Import</a></li>
 				
@@ -190,9 +190,11 @@
  	
 
 	<script src="main/util.js"></script>
+	<script src="main/recordlist.js"></script>
 	<script src="main/api.js"></script>
 	<script src="dialogs/main.js"></script>
 
+	
 	<script src="episode/main.js"></script>
 	<script src="episode/edit.js"></script>
 	<script src="cue/main.js"></script>

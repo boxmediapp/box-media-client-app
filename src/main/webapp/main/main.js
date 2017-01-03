@@ -3,6 +3,11 @@ boxservice={};
 
 jQuery(document).ready(function ($) {   
 
+        boxservice.initForNewPage=function(){
+            boxservice.util.resetScrollPaging();
+            window.scrollTo(0,0);
+        }; 
+    
 	boxservice.setupMenu=function(){
 
 		boxservice.checkAppInfo=function(){
@@ -22,6 +27,7 @@ jQuery(document).ready(function ($) {
 				   $("#nav-wrapper .signinorout a").html("Sign Out");
 				   boxservice.appinfo=appconfig;
 				   console.log("******appinfo:"+JSON.stringify( boxservice.appinfo));
+				   boxservice.appinfo.appconfig.recordLimit=parseInt(boxservice.appinfo.appconfig.recordLimit);				   
 				   if(boxservice.appinfo && boxservice.appinfo.appconfig && boxservice.appinfo.appconfig.visibilityCategory){
 					   $("body").addClass(boxservice.appinfo.appconfig.visibilityCategory);
 				   }
@@ -39,7 +45,9 @@ jQuery(document).ready(function ($) {
 	    	   $("#content").html(htmlContent);
 	       };
 	       
-		  boxservice.util.menu.setup(".navItem a");
+		  boxservice.util.menu.setup({linkSelection:".navItem a",whenClicked:function(){
+		      boxservice.initForNewPage();
+		  }});
 		  boxservice.loadAppInfo();
 		   
 		   
