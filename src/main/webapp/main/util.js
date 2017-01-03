@@ -404,10 +404,15 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		   }
 		   else{			   
 			   for(var i=0;i<inputvalue.length;i++){
-				   if(inputvalue[i]!=orgvalue[i]){
-					   return true;
-				   }
+				   if(orgvalue.indexOf(inputvalue[i])==-1){
+				       return true;
+				   }			           
 			   }
+			   for(var i=0;i<orgvalue.length;i++){
+                               if(inputvalue.indexOf(orgvalue[i])==-1){
+                                   return true;
+                               }                               
+                           }
 			   return false;
 		   }
 	   }
