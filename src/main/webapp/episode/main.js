@@ -156,6 +156,7 @@ jQuery(document).ready(function ($) {
         boxservice.episode.listdata.setupSortable({headerSection:".sort-video-status",attributename:"episodeStatus.videoStatus",sortParametername:"episodeStatus.videoStatus"});
         boxservice.episode.listdata.setupSortable({headerSection:".published-status",attributename:"episodeStatus.publishedStatus"});
         boxservice.episode.listdata.setupSortable({headerSection:".availability-status",attributename:"episodeStatus.currentAvailabilityStatus"});
+        boxservice.episode.listdata.setupSortable({headerSection:".createdat",attributename:"createdAt",sortParametername:"createdAt"});
         boxservice.episode.listdata.setupSortable({headerSection:".lastmodified",attributename:"lastModifiedAt",sortParametername:"lastModifiedAt"});
         
         boxservice.util.menu.resetSort();        
@@ -272,7 +273,7 @@ jQuery(document).ready(function ($) {
             else{
                 $(".publishChangesButton").hide();  
             }
-           var econfig={types:{lastModifiedAt:"datetime"}};
+           var econfig={types:{lastModifiedAt:"datetime",createdAt:"datetime"}};
            boxservice.util.pageForEachRecord("episode/episode-row.html",episodes,"#episodelistContainer",econfig).done(function(){
                           boxservice.episode.listdata.autoScroll();
                           $(".episoderow").each(function(index){
