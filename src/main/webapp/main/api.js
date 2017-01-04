@@ -329,6 +329,15 @@ jQuery(document).ready(function ($) {
 		 
 		 
   };
+  boxservice.api.boxvideo.searchFiles=function(prefix){                 
+      var url=apipath+"/box-video";
+      url=boxservice.api.addQueryParam(url,"prefix",prefix);
+      return boxservice.api.ajax("GET",url);
+   
+   
+   
+};
+
   boxservice.api.boxvideo.deleteEpisodeVideoFile=function(episodeid,videofile){
       var path=apipath+"/box-video/episode/"+episodeid+"/"+videofile;             
       return boxservice.api.ajax("DELETE",path);

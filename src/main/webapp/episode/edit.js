@@ -268,20 +268,7 @@ jQuery(document).ready(function ($) {
                                                  return false;
                                  }); 
                                  
-                                 /*
-                                 $("#selectS3Files").on("click",function(){
-                                         boxservice.api.boxvideo.listFiles().done(function(boxvideos){
-                                           boxservice.episode.selectFromS3File(boxvideos,episode);
-                                         
-                                           
-                                           
-                                           
-                                   }).fail(function(err){                                                        
-                                                         boxservice.util.openDialog("error in loading the s3 files"+err);                                                        
-                                                 });
-                                         
-                                 });
-                                 */
+                                 
                                  
                                                                                                      
                            if(episode.brightcoveId){
@@ -436,9 +423,9 @@ jQuery(document).ready(function ($) {
         $(".addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
         
                 $("#uploadVideoFile").click(function () {
-                        boxservice.episode.editpage.checkS3WithmaterialId(episode, boxservice.episode.editpage.videoFileName,boxservice.api.boxvideo.listFiles,function(fileNamebase){
+                        boxservice.episode.editpage.checkS3WithmaterialId(episode, boxservice.episode.editpage.videoFileName,boxservice.api.boxvideo.searchFiles,function(fileNamebase){
                                         $("#filennameForUpload").val(fileNamebase + ".mp4");
-                                                boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.boxvideo.listFiles, function(uploadFilename){
+                                                boxservice.episode.editpage.processFileNameDialog(episode,boxservice.api.boxvideo.searchFiles, function(uploadFilename){
                                                     var videoURL=boxservice.appinfo.appconfig.s3videoURL+"/"+uploadFilename;
                                                     console.log("**going to upload to:"+videoURL);
                                                     var uploadRequest={
