@@ -216,6 +216,22 @@ jQuery(document).ready(function ($) {
                        that.newlist(itms);                       
                        that.listItemsFunction(itms);
                    });                  
+           },
+           findItemIndexById:function(id){
+               if(!this.items || !this.items.length){
+                   return -1;
+               }
+               for(var i=0;i<this.items.length;i++){
+                   if(this.items[i].id == id){
+                       return i;
+                   }
+               }
+           },
+           deleteItemById:function(id){
+               var index=this.findItemIndexById(id);
+               if(index>=0){
+                   this.items.splice(index,1);
+               }               
            }
            
             

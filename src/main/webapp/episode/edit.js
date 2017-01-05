@@ -182,8 +182,20 @@ jQuery(document).ready(function ($) {
                                          boxservice.util.startWait();
                                          console.log("going to delete the media entry");
                                          var publishpromise=boxservice.api.bc.unpublish(episode);
-                                         publishpromise.done(function(){
+                                         publishpromise.done(function(response){                                                 
                                                  boxservice.util.finishWait();
+                                                 console.log(response);
+                                                 if(response && typeof response ==="object"){
+                                                     if(response.code==="EpisodeNotFound"){
+                                                         boxservice.util.openDialog("Episode itself does not exist in the database anymore");
+                                                     }
+                                                     else if(response.code==="EpisodeNotPublished"){                                                     
+                                                         boxservice.util.openDialog("Episode seems already removed from the brightcove");
+                                                     }
+                                                     else if(response.code==="EntryDoesNotExists"){                                                     
+                                                         boxservice.util.openDialog("The corresponding media entry in the brightcove seems deleted from the brightcove directly, please scroll down to find the 'Brightcove ID' field, and clear its value and then click on save to correct this inconsistency with the brifghtcove, in the future please avoid to delete the media entry directly from the brightcove");
+                                                     }                                                     
+                                                 }
                                                  boxservice.episode.edit(episode.id,deferred);
                                          });
                                          publishpromise.fail(function(err){
@@ -397,9 +409,33 @@ jQuery(document).ready(function ($) {
 
                 });
                 $("#deleteEpisodeDialog .confirm").unbind("click").click(function () {
-                        boxservice.api.episode.remove(episode).done(function () {
-                                boxservice.episode.reload();
-                        }).fail(boxservice.util.onError);
+                        boxservice.util.startWait();
+                        var deleteEpisode=function(){
+                            boxservice.api.episode.remove(episode).done(function () {
+                                boxservice.util.finishWait();
+                                boxservice.episode.listdata.deleteItemById(episode.id);
+                                deferred.resolve("back");                                
+                             }).fail(boxservice.util.onError);
+                        }
+                        if(episode.brightcoveId){
+                            if(boxservice.appinfo.appconfig.autoCreatePlaceHolder){
+                                boxservice.api.bc.unpublish(episode).done(function(){
+                                    deleteEpisode();
+                                }).fail(function(err){
+                                    boxservice.util.finishWait();
+                                    boxservice.util.openDialog("failed to  remove from the Brifghtcove video cloud:"+JSON.stringify(err));                                          
+                                });   
+                            }
+                            else{
+                                boxservice.util.finishWait();
+                                boxservice.util.openDialog("You need to delete the media entry first");
+                            }                            
+                            return;
+                        }
+                        else{
+                            deleteEpisode();
+                        }
+                        
                 });
                 $("#showCueEditor").click(function () {
                         boxservice.cue.show(episode).done(function(){

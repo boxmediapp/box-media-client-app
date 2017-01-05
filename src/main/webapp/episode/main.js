@@ -215,8 +215,8 @@ jQuery(document).ready(function ($) {
            }); 
            createListDataRequest.backDeferred=deferred;
        }
-       return boxservice.recordlist.createlistdata(createListDataRequest);       
-   };
+       return boxservice.recordlist.createlistdata(createListDataRequest);
+    };
    boxservice.episode.show=function(){
        boxservice.episode.listdata=boxservice.episode.createListData();       
        boxservice.episode.loadEpisodeList();      
@@ -452,72 +452,65 @@ jQuery(document).ready(function ($) {
 			 $("#viewImage").hide();
 			 $("#deleteMasterImage").hide();
 			 $("#importImageFromBC").hide();
-			 
-			 
-			 
 		 }
-		 else{
-			 
+		 else{			 
 			 if(episode.series && episode.series.name){
 				 $("#editSeries").show();
 			 }
-			 
-			 
-			     if(episode.episodeStatus.metadataStatus=="NEEDS_TO_CREATE_PLACEHOLDER"){			    	 
-			    	 $("#publishToBC").show();
-			    	 $("#updateToBC").hide();
-			    	 $("#unpublishFromBC").hide();
-			    	 $("#deleteEpisode").show();			    	 
-			     }
-			     else if(episode.episodeStatus.metadataStatus=="NEEDS_TO_PUBLISH_CHANGES"){
-			    	 $("#publishToBC").hide();
-			    	 $("#updateToBC").show();
-			    	 $("#unpublishFromBC").show();
-			    	 $("#deleteEpisode").hide();
-			     }
-			     else if(episode.episodeStatus.metadataStatus=="PUBLISHED"){
-			    	 $("#publishToBC").hide();
-			    	 $("#updateToBC").hide();
-			    	 $("#unpublishFromBC").show();
-			    	 $("#deleteEpisode").hide();
-			     }
-			     else{
-			    	 console.log("Error, unknown metadata status:"+episode.episodeStatus.metadataStatus);
-			    	 $("#publishToBC").show();
-			    	 $("#updateToBC").show();
-			    	 $("#unpublishFromBC").show();
-			    	 $("#deleteEpisode").show();
-			     }
-			     if(episode.episodeStatus.videoStatus=="MISSING_VIDEO" || episode.episodeStatus.videoStatus=="MISSING_PROFILE" || episode.episodeStatus.videoStatus=="NO_PLACEHOLDER"){
-			    	 $("#transcodeMedia").hide();
-			     }
-			     else{
-			    	 $("#transcodeMedia").show();
-			     }
+			 else{
+			     $("#editSeries").hide();
+			 }
+			 if(episode.brightcoveId){
+			         $("#publishToBC").hide();
+			         $("#viewInBrightcove").show();
+			         $("#importImageFromBC").show();
+			         if(boxservice.appinfo.appconfig.autoCreatePlaceHolder){                                     
+                                     $("#unpublishFromBC").hide();
+                                     $("#deleteEpisode").show();
+                                 }
+                                 else{
+                                     $("#deleteEpisode").hide();
+                                     $("#unpublishFromBC").show();
+                                 }
+			         if(episode.episodeStatus.metadataStatus=="NEEDS_TO_PUBLISH_CHANGES"){			             
+                                     $("#updateToBC").show();                                 
+			         }   
+			         else{
+			             $("#updateToBC").hide();
+			         }
+			 }
+			 else{
+			        $("#viewInBrightcove").hide();
+                                $("#importImageFromBC").hide();
+			        $("#publishToBC").show();
+			        $("#updateToBC").hide();
+			        $("#unpublishFromBC").hide();
+                                $("#deleteEpisode").show();
+			 }
 			     
-			      if(episode.ingestSource){
+			 if(episode.episodeStatus.videoStatus=="MISSING_VIDEO" || episode.episodeStatus.videoStatus=="MISSING_PROFILE" || episode.episodeStatus.videoStatus=="NO_PLACEHOLDER"){
+			    	 $("#transcodeMedia").hide();
+			 }
+			 else{
+			    	 $("#transcodeMedia").show();
+			 }
+			     
+			 if(episode.ingestSource){
 					  $("#playSourceVideo").show();				  
-				  }
-				  else{
+	                 }
+		         else{
 					  $("#playSourceVideo").hide();
-				  }
-			      if(episode.brightcoveId){
-			    	  $("#viewInBrightcove").show();
-			    	  $("#importImageFromBC").show();
-			      }
-			      else{
-			    	  $("#viewInBrightcove").hide();
-			    	  $("#importImageFromBC").hide();
-			      }
-			      $("#showCueEditor").show();
-				  if(episode.imageURL){
+		         }
+			      
+			 $("#showCueEditor").show();
+		         if(episode.imageURL){
 					  $("#viewImage").show();	
 					  $("#deleteMasterImage").show();
-				  }
-				  else{
+			 }
+		         else{
 					  $("#viewImage").hide();
 					  $("#deleteMasterImage").hide();
-				  }
+		         }
 		 }
 		 
 		 
