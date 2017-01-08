@@ -78,14 +78,23 @@ jQuery(document).ready(function ($) {
                  this.listdata=this.createListData(opts);
                  this.playlist=opts.playlist;                   
                  this.startlist();
-             },             
-             checkButtons:function(){
+             },  
+             hasChanged:function(){
                  var title=$("#playlistname").val();
-                 var changed=false;                 
+                                  
                  if(title!=this.playlist.playListData.name){
-                     changed=true;                    
+                     return true;                    
                  }
-                 if(changed){
+                 
+                 if(this.listdata.isItemsHasChanged(this.playlist.playListData.video_ids)){
+                     return true;
+                 }
+                 else
+                     return false;
+             },
+             checkButtons:function(){
+               
+                 if(this.hasChanged()){
                      $("#savePlaylist").show();
                      $("#cancelPlaylist").show();
                  }
@@ -122,12 +131,19 @@ jQuery(document).ready(function ($) {
                      console.log("select value is null");
                      return;                     
                  }
-                 if(this.listdata.moveUpById(videoid)){
-                     
-                     
+                 if(this.listdata.moveUpById(videoid)){                     
+                     console.log("moved up");
                  }
-                 
-                 
+             },
+             moveDownFromList:function(){
+                 var videoid=$(".selectableCheckbox:checked").val();
+                 if(!videoid){
+                     console.log("select value is null");
+                     return;                     
+                 }
+                 if(this.listdata.moveDownById(videoid)){                     
+                     console.log("moved down");
+                 }
              },
              list:function(items){                 
                  boxservice.util.finishWait();
@@ -181,7 +197,10 @@ jQuery(document).ready(function ($) {
                  });
                  $("#moveUpFromList").click(function(){
                      that.moveUpFromList();
-                 })
+                 });
+                 $("#moveDownFromList").click(function(){
+                     that.moveDownFromList();
+                 });
                  
                  
                  

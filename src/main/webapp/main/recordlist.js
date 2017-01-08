@@ -246,22 +246,22 @@ jQuery(document).ready(function ($) {
 
            getAllIds:function(){
              var ids=[];
-             for(var i=this.items.length;i++){
+             for(var i=0;i<this.items.length;i++){
                  ids.push[this.items[i].id];
              }
              return ids;
            },           
-           checkItemsSequence:function(ids){
-               if((!ids)||(!ids.length){
-                   if((!this.items)||(!this.items.length){
+           isItemsHasChanged:function(ids){
+               if(!ids || !ids.length){
+                   if(!this.items || !this.items.length){
                        return false;
                    } 
                    else{
                        return true;
                    }
                }
-               if((!this.items)||(!this.items.length){
-                   if((!ids)||(!ids){
+               if(!this.items || !this.items.length){
+                   if(!ids || !ids){
                        return false;
                    } 
                    else{
@@ -272,12 +272,12 @@ jQuery(document).ready(function ($) {
                    return true;
                }
                for(var i=0;i<ids.length;i++){
-                   if(this.items.indexOf(inds[i])==-1){
+                   if(this.findItemIndexById(ids[i])!=i){
                        return true;
                    }                               
                }
                for(var i=0;i<this.items.length;i++){
-                   if(ids.indexOf(this.items[i])==-1){
+                   if(ids.indexOf(this.items[i].id)!=i){
                      return true;
                    }
                }
@@ -297,6 +297,23 @@ jQuery(document).ready(function ($) {
                var item=this.items[ind];
                this.items.splice(ind,1);
                this.items.splice(ind-1,0,item);
+               $(this.containerSelection).empty();
+               this.listItemsFunction(this.items);               
+               return true;
+           },
+           moveDownById:function(id){
+               var ind=this.findItemIndexById(id);
+               if(ind<0){
+                   console.log("id could not be found from the list:"+ind);                     
+                   return false;
+               }
+               if(ind==(this.items.length-1)){
+                   console.log("it is already on the bottom of the list");
+                   return false;
+               }
+               var item=this.items[ind];
+               this.items.splice(ind,1);
+               this.items.splice(ind+1,0,item);
                $(this.containerSelection).empty();
                this.listItemsFunction(this.items);               
                return true;
