@@ -20,6 +20,7 @@ jQuery(document).ready(function ($) {
 	boxservice.api.availability={};
 	boxservice.api.report={};
 	
+	
 
 	var apipath="/mule/boxtv";
 
@@ -413,4 +414,14 @@ jQuery(document).ready(function ($) {
                         url: apipath+"/reports"                        
                     });
                 };
+                
+                boxservice.api.bc.playlist={
+                        list:function(listdata){
+                            var path=apipath+"/bc/playlist";
+                            if(listdata){
+                                path=listdata.createListURL(path);                  
+                            }
+                            return boxservice.api.ajax("GET",path);                                           
+                         }
+                }
 });

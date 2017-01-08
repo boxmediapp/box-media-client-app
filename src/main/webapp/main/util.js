@@ -490,7 +490,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		  }
 	  }
 	  return false;		   			   
-};
+   };
        
     boxservice.util.form.getInputValueSelection=function(config){
     	var selection=null;				  		  

@@ -39,14 +39,17 @@ jQuery(document).ready(function ($) {
             loadItemsFunction:opts.loadItemsFunction,
             listItemsFunction:opts.listItemsFunction,
             itemsInLoadItemsFunction:opts.itemsInLoadItemsFunction,
-            
+            urlFunction:opts.urlFunction,            
             newSearch:function(search){
                 this.search=search;      
                 this.start=0;
                 this.loadedall=false;
                 this.scrollPosition=0;
             },
-            createListURL:function(url){
+            createListURL:function(url){    
+                if(this.urlFunction){
+                    url=this.urlFunction(url);
+                }
                 url=boxservice.api.addQueryParam(url,"search",this.search);
                 url=boxservice.api.addQueryParam(url,"start",this.start);
                 url=boxservice.api.addQueryParam(url,"sortBy",this.sortBy);
@@ -227,13 +230,77 @@ jQuery(document).ready(function ($) {
                    }
                }
            },
+           findItemById:function(id){
+             var index=this.findItemIndexById(id);
+             if(index<0){
+                 return null;
+             }
+             return this.items[index];
+           },
            deleteItemById:function(id){
                var index=this.findItemIndexById(id);
-               if(index>=0){
+               if(index>0){
                    this.items.splice(index,1);
                }               
-           }
+           },
+
+           getAllIds:function(){
+             var ids=[];
+             for(var i=this.items.length;i++){
+                 ids.push[this.items[i].id];
+             }
+             return ids;
+           },           
+           checkItemsSequence:function(ids){
+               if((!ids)||(!ids.length){
+                   if((!this.items)||(!this.items.length){
+                       return false;
+                   } 
+                   else{
+                       return true;
+                   }
+               }
+               if((!this.items)||(!this.items.length){
+                   if((!ids)||(!ids){
+                       return false;
+                   } 
+                   else{
+                       return true;
+                   }
+               }
+               if(this.items.length!==ids.length){
+                   return true;
+               }
+               for(var i=0;i<ids.length;i++){
+                   if(this.items.indexOf(inds[i])==-1){
+                       return true;
+                   }                               
+               }
+               for(var i=0;i<this.items.length;i++){
+                   if(ids.indexOf(this.items[i])==-1){
+                     return true;
+                   }
+               }
+               return false;
+           },
            
+           moveUpById:function(id){
+               var ind=this.findItemIndexById(id);
+               if(ind<0){
+                   console.log("id could not be found from the list:"+ind);                     
+                   return false;
+               }
+               if(ind==0){
+                   console.log("it is already on the top of the list");
+                   return false;
+               }
+               var item=this.items[ind];
+               this.items.splice(ind,1);
+               this.items.splice(ind-1,0,item);
+               $(this.containerSelection).empty();
+               this.listItemsFunction(this.items);               
+               return true;
+           }
             
         };
         
