@@ -247,7 +247,7 @@ jQuery(document).ready(function ($) {
            getAllIds:function(){
              var ids=[];
              for(var i=0;i<this.items.length;i++){
-                 ids.push[this.items[i].id];
+                 ids.push(this.items[i].id);
              }
              return ids;
            },           
@@ -317,6 +317,14 @@ jQuery(document).ready(function ($) {
                $(this.containerSelection).empty();
                this.listItemsFunction(this.items);               
                return true;
+           },
+           deleteByIds:function(ids){
+               for(var i=0;i<ids.length;i++){
+                   var ind=this.findItemIndexById(ids[i]);                                      
+                   this.items.splice(ind,1);
+               }
+               $(this.containerSelection).empty();
+               this.listItemsFunction(this.items);               
            }
             
         };

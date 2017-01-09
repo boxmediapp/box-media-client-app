@@ -422,6 +422,10 @@ jQuery(document).ready(function ($) {
                                 path=listdata.createListURL(path);                  
                             }
                             return boxservice.api.ajax("GET",path);                                           
+                         },
+                         patch:function(playlistid, playlistdata){
+                             var path=apipath+"/bc/playlist/"+playlistid;                                                          
+                             return boxservice.api.ajax("PATCH",path,playlistdata);                             
                          }
                 }
 });
