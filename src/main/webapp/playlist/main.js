@@ -390,11 +390,11 @@ jQuery(document).ready(function ($) {
                  if(bcids.length){
                      var that=this;
                    for(var i=0;i<bcids.length;i++){
-                       this.playlist.playListData.video_ids.push(bcids[i]);
-                       boxservice.api.bc.playlist.patch(this.playlist.id,this.playlist).done(function(){
-                           that.listdata.getBackDeferred().resolve();
-                       }).fail(boxservice.util.onError);
+                       this.playlist.playListData.video_ids.push(bcids[i]);                       
                    }  
+                   boxservice.api.bc.playlist.patch(this.playlist.id,this.playlist).done(function(){
+                       that.listdata.getBackDeferred().resolve();
+                   }).fail(boxservice.util.onError);
                  }
              },            
              onStartList:function(){
