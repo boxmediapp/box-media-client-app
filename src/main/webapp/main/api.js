@@ -426,6 +426,14 @@ jQuery(document).ready(function ($) {
                          patch:function(playlistid, playlistdata){
                              var path=apipath+"/bc/playlist/"+playlistid;                                                          
                              return boxservice.api.ajax("PATCH",path,playlistdata);                             
+                         },
+                         remove:function(playlistid){
+                             var path=apipath+"/bc/playlist/"+playlistid;                                                          
+                             return boxservice.api.ajax("DELETE",path);
+                         },
+                         create:function(playlist){
+                             var path=apipath+"/bc/playlists";                                                          
+                             return boxservice.api.ajax("POST",path,playlist);
                          }
                 }
 });
