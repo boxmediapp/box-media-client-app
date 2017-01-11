@@ -27,6 +27,11 @@ jQuery(document).ready(function ($) {
                             boxservice.bc.playlist.edit.show({playlist:playlist,backDeferred:deferred});                            
                             return false;
                          });
+                        
+                        $(".selectableCheckbox").click(function(){
+                            that.checkButtons();
+                        });
+                        that.checkButtons();
                     });
                 },
                 startlist:function(){
@@ -37,9 +42,50 @@ jQuery(document).ready(function ($) {
                     else{
                             boxservice.util.page.load("playlist/list.html").done(function(html){
                                     that.htmlContent=html;
-                                    that.listdata.startList();                                
+                                    that.listdata.startList();
+                                    
+                                    
                             });
                     }
+                },
+                deletePlaylist:function(){
+                    var that=this;
+                    var playlistid=$(".selectableCheckbox:checked").val();
+                    if(!playlistid){
+                        console.log("select value is null");
+                        return;                     
+                    }
+                    if(playlistid.length<4){
+                        console.log("playlistid is too short fot delete");
+                    }
+                    console.log("going to delete:"+playlistid);
+                    boxservice.util.startWait();
+                    boxservice.api.bc.playlist.remove(playlistid).done(function(){
+                        that.show();
+                    }).fail(boxservice.util.onError);
+                    
+                },
+                onStartList:function(){
+                    var that=this;
+                    boxservice.util.startWait();
+                    $("#content").html(that.htmlContent);
+                    that.initSortable();
+                    boxservice.util.search(that.listdata.search).done(function(search){
+                            that.listdata.newSearch(search);                          
+                            that.startlist();
+                     });  
+                    $("#newPlaylist").click(function(){
+                        var deferred=that.listdata.getBackDeferred();
+                        boxservice.initForNewPage();                                                    
+                        boxservice.bc.playlist.newPlaylist.show({backDeferred:deferred});                            
+                        return false;
+                    });
+                    $("#deletePlayLists").click(function(){
+                        $("#deletePlaylistDialog").openModal();
+                    });
+                    $("#deletePlaylistDialog .confirm").click(function(){
+                        that.deletePlaylist();                        
+                    });
                 },
                 createListData:function(opts){
                     var that=this;
@@ -50,15 +96,7 @@ jQuery(document).ready(function ($) {
                             containerSelection:"#playlistContainer",
                             loadItemsFunction:boxservice.api.bc.playlist.list,
                             listItemsFunction:listfunction,
-                            onStartList:function(){
-                                boxservice.util.startWait();
-                                $("#content").html(that.htmlContent);
-                                that.initSortable();
-                                boxservice.util.search(that.listdata.search).done(function(search){
-                                        that.listdata.newSearch(search);                          
-                                        that.startlist();
-                                 });                
-                            }
+                            onStartList:that.onStartList.bind(that)
                       };
                       if(opts && opts.backCallback){
                           var deferred=$.Deferred();           
@@ -68,7 +106,21 @@ jQuery(document).ready(function ($) {
                         createListDataRequest.backDeferred=deferred;
                       }
                       return boxservice.recordlist.createlistdata(createListDataRequest);
-                 }
+                 },
+                 checkButtons:function(){
+                     
+                     
+                     if(!$(".selectableCheckbox:checked").length){
+                         $("#deletePlayLists").hide();                         
+                     }
+                     else if($(".selectableCheckbox:checked").length==1){
+                         $("#deletePlayLists").show();
+                     }
+                     else{                         
+                         $("#deletePlayLists").hide();
+                     }
+                     
+                 },
                 
                 
         };
@@ -164,6 +216,7 @@ jQuery(document).ready(function ($) {
                      hasChanged=true;                    
                   }
                  if(hasChanged){
+                     boxservice.util.startWait();
                      boxservice.api.bc.playlist.patch(this.playlist.id,this.playlist).done(function(){
                          var deferred=that.listdata.getBackDeferred();
                          that.show({playlist:that.playlist,backDeferred:deferred});
@@ -175,7 +228,7 @@ jQuery(document).ready(function ($) {
                  var selectedids=$(".selectableCheckbox:checked").map(function(){
                      return $(this).val();                     
                  }).get();                 
-                 if(selectedids && selectedids.length){
+                 if(selectedids && selectedids.length){                     
                      this.listdata.deleteByIds(selectedids);                     
                  }
                  
@@ -399,5 +452,109 @@ jQuery(document).ready(function ($) {
                    }
                    return boxservice.recordlist.createlistdata(createListDataRequest);
               }          
+     };
+     boxservice.bc.playlist.newPlaylist={
+             show:function(opts){                 
+                 this.backDeferred=opts.backDeferred;
+                 var that=this;
+                 if(that.htmlContent){
+                     $("#content").html(that.htmlContent);
+                     that.startShow();
+                 }
+                 else{
+                         boxservice.util.page.load("playlist/playlist-create.html").done(function(html){
+                             that.htmlContent=html;
+                             $("#content").html(that.htmlContent);
+                             that.startShow();                                                                    
+                         });
+                 }
+                 
+             },
+             checkType:function(){
+                 if($("#playlist_type").val()=="smart"){
+                     $("#smart-playlist-settings").show();
+                     
+                 }
+                 else{
+                     $("#smart-playlist-settings").hide();
+                 }
+                 
+             },
+             createPlaylist:function(){
+                 var that=this;
+                 var playListData={
+                   name:$("#playlist-name").val(),
+                   description:$("#playlist-description").val(),
+                   reference_id:$("#playlist-reference-id").val(),                   
+                 };                 
+                 if(!playListData.name){
+                     boxservice.util.openDialog("Please fill in the informartion");
+                     return;
+                 }
+                 if($("#isFavourite:checked").val){
+                     playListData.favorite=true;
+                 }
+                 if($("#playlist_type").val()=="smart"){
+                     playListData.type=$("#playlist-play-order").val();
+                     var tagtype=$("#playlist-tags-type").val();
+                     var searchvalue=$("#playlist-tags-search").val();
+                     if(searchvalue){
+                        var tags=searchvalue.split(",");
+                        if(tags.length){
+                            if(tagtype=="all"){
+                                playListData.search="+tags:\""+tags[0]+"\"";                               
+                            }
+                            else{
+                                playListData.search="tags:\""+tags[0]+"\"";
+                            }
+                            
+                            
+                           if(tags.length>1){
+                                 for(var i=1;i<tags.length;i++){
+                                     if(tags[i]){
+                                         playListData.search+=",\""+tags[i]+"\"";
+                                     }
+                                 }                             
+                           }
+                            
+                        }
+                        
+                     }
+                     
+                 }
+                 else{
+                     playListData.type="EXPLICIT"; 
+                 }                 
+                 console.log("creating:"+JSON.stringify(playListData));
+                 boxservice.util.startWait();
+                 var playlist={
+                         playListData:playListData
+                 }
+                 boxservice.api.bc.playlist.create(playlist).done(function(){
+                     that.backDeferred.resolve("created");
+                 }).fail(boxservice.util.onError);
+             },
+             cancelPlaylist:function(){
+                 this.backDeferred.resolve("back");
+             },
+             
+             startShow:function(){
+                  
+                 $("#playlist_type").off("change").on('change', this.checkType.bind(this));
+                 $("#playlist_type").off("input").on('input', this.checkType.bind(this));
+                 $("#playlist-tags-type").val("any");
+                 $("#playlist-play-order").val("ACTIVATED_OLDEST_TO_NEWEST");
+                 $("#playlist_type").val("Manual");
+                 var that=this;
+                 $("#createPlaylist").click(function(){
+                     that.createPlaylist();
+                 });
+                 $("#cancelPlaylist").click(function(){
+                     that.cancelPlaylist();
+                 });
+                 this.checkType();
+                 boxservice.util.resetInput();
+             }
+     
      };
 });
