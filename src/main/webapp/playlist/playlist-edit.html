@@ -15,14 +15,73 @@
 
        <div class="row">
             <div class="input-field col s9">
-                <input id="playlistname" type="text">
+                <input id="playlistname" class="playlisteditfield" type="text">
                 <label for="playlistname">Play List name</label>
             </div>
             <div class="input-field col s3 ">
                 Type: <span class="playListType"></span>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="input-field col s4">
+                <input id="playlist-reference-id" name="reference_id" type="text" size="30" maxlength="150" class="playlisteditfield">
+                <label for="playlist-reference-id">Reference ID</label>
+            </div>
+            <div class="input-field col s4">
+                   <input class="selectableCheckbox" type="checkbox" id="isFavourite" name="isFavourite" value="true" class="playlisteditfield"/>
+                   Show Playlist in Sidebar
+            </div>
+            <div class="input-field col s4">
+                    <textarea id="playlist-description" name="description"  class="playlisteditfield" type="text" maxlength="150"></textarea>
+                    <label for="playlist-description">Description</label>
+            </div>
+        </div>
+        
 </div>
+
+
+<div id="smart-playlist-settings" class="card grey lighten-5">
+   <div class="row">
+           <div class="input-field col s6">       
+                    <select id="playlist-tags-type" class="playlisteditfield">                         
+                            <option value=""></option>   
+                            <option value="any">contains one or more</option>
+                            <option value="all">contains all</option>                            
+                    </select>
+                <label for="playlistType">playlist-tags-type</label>
+            </div>
+            <div class="input-field col s6">                           
+                <input id="playlist-tags-search" type="text" class="playlisteditfield">
+                <label for="playlist-tags-search">Tags</label>
+            </div>
+   </div>
+   <div class="row">   
+       <div class="input-field col s6">
+            <select id="playlist-play-order" class="playlisteditfield">
+                 <option value=""></option>
+                 <option value="ACTIVATED_OLDEST_TO_NEWEST">Activated Date (Oldest First)</option>
+                 <option value="ACTIVATED_NEWEST_TO_OLDEST">Activated Date (Newest First)</option>
+                 <option value="ALPHABETICAL">Video Name (A-Z)</option>
+                 <option value="PLAYS_TOTAL">Total Plays</option>
+                 <option value="PLAYS_TRAILING_WEEK">Trailing Week Plays</option>
+                 <option value="START_DATE_OLDEST_TO_NEWEST">Start Date (Oldest First)</option>
+                 <option value="START_DATE_NEWEST_TO_OLDEST">Start Date (Newest First)</option>
+           </select>
+             <label for="playlist-play-order">Play Order</label>
+       
+       </div>
+       <div class="input-field col s6">
+             <input id="playlist-limit" name="limit" type="text" size="3" maxlength="3" class="playlisteditfield">
+               <label for="playlist-limit">Limit Number of Videos</label> 
+       </div>
+       
+      
+   </div>
+   
+</div>
+
+
 <div id="itemlist">
    
    <table>

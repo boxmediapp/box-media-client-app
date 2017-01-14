@@ -20,7 +20,15 @@ jQuery(document).ready(function ($) {
                         that.listdata.autoScroll();
                         boxservice.util.scrollPaging(that.listdata);
                         $("a.playlistlink").click(function(){
-                            var deferred=that.listdata.getBackDeferred();
+                            
+                            var deferred=$.Deferred();
+                            deferred.promise().done(function(){
+                                 that.show();
+                           }).fail(function(){
+                               that.startlist();
+                           });
+                            
+                            
                             boxservice.initForNewPage();
                             var playlistid=$(this).attr("href");
                             var playlist=that.listdata.findItemById(playlistid);                            
@@ -75,8 +83,16 @@ jQuery(document).ready(function ($) {
                             that.startlist();
                      });  
                     $("#newPlaylist").click(function(){
-                        var deferred=that.listdata.getBackDeferred();
-                        boxservice.initForNewPage();                                                    
+                        var deferred=$.Deferred();
+                        deferred.promise().done(function(){
+                             that.show();
+                       }).fail(function(){
+                           that.startlist();
+                       }); 
+                        
+                        
+                        boxservice.initForNewPage(); 
+                        
                         boxservice.bc.playlist.newPlaylist.show({backDeferred:deferred});                            
                         return false;
                     });
@@ -131,22 +147,224 @@ jQuery(document).ready(function ($) {
                  this.playlist=opts.playlist;                   
                  this.startlist();
              },  
-             hasChanged:function(){
-                 var title=$("#playlistname").val();
+             hasChanged:function(savedata){
                                   
+                 var hasChanged=false;
+                 
+                 var title=$("#playlistname").val();                 
+                 var referenceId=$("#playlist-reference-id").val();
+                 var favorite=$("#isFavourite:checked").val();     
+                 var description=$("#playlist-description").val();
+                 
+                 
+                 
                  if(title!=this.playlist.playListData.name){
-                     return true;                    
-                 }
-                 if(this.playlist.playListData.type=="EXPLICIT"){
-                     if(this.listdata.isItemsHasChanged(this.playlist.playListData.video_ids)){
-                         return true;
+                     if(savedata){
+                         this.playlist.playListData.name=title;
+                         hasChanged=true;
                      }
                      else
-                         return false;
+                         return true;                     
+                 }                 
+                 if(!referenceId){
+                     if(this.playlist.playListData.reference_id){
+                         if(savedata){
+                             this.playlist.playListData.reference_id=null;    
+                             hasChanged=true;
+                         }
+                         else{
+                             return true;
+                         }                         
+                     }
+                 }
+                 else if(referenceId!=this.playlist.playListData.reference_id){
+                     if(savedata){
+                         this.playlist.playListData.reference_id=referenceId;
+                         hasChanged=true;
+                     }
+                     else{
+                         return true;
+                     }                     
+                 }
+                 
+                 if(!favorite){
+                     if(this.playlist.playListData.favorite){
+                         if(savedata){
+                             this.playlist.playListData.favorite=false;    
+                             hasChanged=true;
+                         }
+                         else{
+                             return true;
+                         }                         
+                     }
                  }
                  else{
-                     return false;
+                     if(savedata){
+                         this.playlist.playListData.favorite=true;
+                         hasChanged=true;
+                     }
+                     else{
+                         return true;
+                     } 
                  }
+                 if(!description){
+                     if(this.playlist.playListData.description){
+                         if(savedata){
+                             this.playlist.playListData.description=null;    
+                             hasChanged=true;
+                         }
+                         else{
+                             return true;
+                         }                         
+                     }
+                 }
+                 else if(description!=this.playlist.playListData.description){
+                     if(savedata){
+                         this.playlist.playListData.description=description;
+                         hasChanged=true;
+                     }
+                     else{
+                         return true;
+                     }                     
+                 }
+                     
+                 
+                 if(this.playlist.playListData.type=="EXPLICIT"){
+                     if(this.listdata.isItemsHasChanged(this.playlist.playListData.video_ids)){
+                         if(savedata){
+                             this.playlist.playListData.video_ids=this.listdata.getAllIds();
+                             hasChanged=true;
+                         }
+                         else{
+                             return true;
+                         }
+                      }
+                 }
+                 else{
+                        var tagSearchType=$("#playlist-tags-type").val();
+                        var tagSearch=$("#playlist-tags-search").val();
+                        var orgTagSearch=null;
+                        var orgTagSearchType=null;
+                        
+                        var orderType=$("#playlist-play-order").val();
+                        
+                        var limit=$("#playlist-limit").val();
+                        
+                        
+                        if(this.playlist.playListData.search){                            
+                            if(this.playlist.playListData.search.startsWith("+tags:")){                                
+                                orgTagSearch=this.playlist.playListData.search.substring("+tags:".length);
+                                orgTagSearchType="all";
+                            }
+                            else if(this.playlist.playListData.search.startsWith("tags:")){                                
+                                orgTagSearch=this.playlist.playListData.search.substring("tags:".length);
+                                orgTagSearchType="all";
+                            }
+                            else{
+                                boxservice.util.openDialog("org search tag value contains illegal value!:"+this.playlist.playListData.search);
+                                return false;
+                            }
+                        }                     
+                        if(!tagSearch){
+                            if(orgTagSearch){
+                                if(savedata){
+                                    this.playlist.playListData.search=null;
+                                    hasChanged=true;
+                                }
+                                else{
+                                    return true;
+                                }
+                            }
+                        }
+                        else if(!tagSearch.startsWith("\"")){
+                            boxservice.util.openDialog("search tag value contains illegal value!:"+tagSearch);
+                            return false;
+                        }
+                        else if(!orgTagSearch){
+                            if(savedata){
+                                this.playlist.playListData.search=(tagSearchType=="all" ? "+tag":"tag")+tagSearch;
+                                hasChanged=true;
+                            }
+                            else{
+                                return true;
+                            }
+                        }
+                        else if(tagSearch != orgTagSearch){
+                            if(savedata){
+                                this.playlist.playListData.search=(tagSearchType=="all" ? "+tag":"tag")+tagSearch;
+                                hasChanged=true;
+                            }
+                            else{
+                                return true;
+                            }
+                        }
+                            
+                        if(!tagSearchType){
+                            if(orgTagSearchType){
+                                if(savedata){
+                                    this.playlist.playListData.search=null;    
+                                    hasChanged=true;
+                                }
+                                else{
+                                    return true;
+                                }                         
+                            }
+                        }
+                        else if(tagSearchType!=orgTagSearchType){
+                            if(savedata){
+                                this.playlist.playListData.search=(tagSearchType=="all" ? "+tag":"tag")+tagSearch;
+                                hasChanged=true;
+                            }
+                            else{
+                                return true;
+                            }                     
+                        }
+                        
+                        if(!orderType){
+                            if(this.playlist.playListData.type){
+                                if(savedata){
+                                    this.playlist.playListData.type=null;    
+                                    hasChanged=true;
+                                }
+                                else{
+                                    return true;
+                                }                         
+                            }
+                        }
+                        else if(orderType!=this.playlist.playListData.type){
+                            if(savedata){
+                                this.playlist.playListData.type=orderType;
+                                hasChanged=true;
+                            }
+                            else{
+                                return true;
+                            }                     
+                        } 
+                        
+                        if(!limit){
+                            if(this.playlist.playListData.limit){
+                                if(savedata){
+                                    this.playlist.playListData.limit=null;    
+                                    hasChanged=true;
+                                }
+                                else{
+                                    return true;
+                                }                         
+                            }
+                        }
+                        else if(parseInt(limit)!=this.playlist.playListData.limit){
+                            if(savedata){
+                                this.playlist.playListData.limit=parseInt(limit);
+                                hasChanged=true;
+                            }
+                            else{
+                                return true;
+                            }                     
+                        }
+                     
+                     
+                 }
+                 return hasChanged;                 
              },
              checkButtons:function(){
                
@@ -187,9 +405,10 @@ jQuery(document).ready(function ($) {
                      console.log("select value is null");
                      return;                     
                  }
-                 if(this.listdata.moveUpById(videoid)){                     
-                     console.log("moved up");
-                 }
+                 this.listdata.moveUpById(videoid, function(){
+                     $(".selectableCheckbox[value='"+videoid+"']").prop("checked",true);
+                 });                     
+                     
              },
              moveDownFromList:function(){
                  var videoid=$(".selectableCheckbox:checked").val();
@@ -197,25 +416,15 @@ jQuery(document).ready(function ($) {
                      console.log("select value is null");
                      return;                     
                  }
-                 if(this.listdata.moveDownById(videoid)){                     
-                     console.log("moved down");
-                 }
+                 this.listdata.moveDownById(videoid, function(){
+                     $(".selectableCheckbox[value='"+videoid+"']").prop("checked",true);
+                 });                     
+                     
              },
              saveChanges:function(){
-                 var that=this;
-                 var hasChanged=false;
-                 var title=$("#playlistname").val();
                  
-                 if(title!=this.playlist.playListData.name){
-                     this.playlist.playListData.name=title;
-                     hasChanged=true;
-                 }
-                 
-                 if(this.listdata.isItemsHasChanged(this.playlist.playListData.video_ids)){
-                     this.playlist.playListData.video_ids=this.listdata.getAllIds();
-                     hasChanged=true;                    
-                  }
-                 if(hasChanged){
+                 if(this.hasChanged(true)){
+                     var that=this;
                      boxservice.util.startWait();
                      boxservice.api.bc.playlist.patch(this.playlist.id,this.playlist).done(function(){
                          var deferred=that.listdata.getBackDeferred();
@@ -234,20 +443,22 @@ jQuery(document).ready(function ($) {
                  
                  
              },
-             list:function(items){                 
+             list:function(items, callback){                 
                  boxservice.util.finishWait();
                  var that=this;
                  boxservice.util.pageForEachRecord("playlist/video-row.html",items,"#playlistContainer").done(function(){
+                     if(callback){
+                         callback();
+                     }
                      that.listdata.autoScroll();
                      if(that.playlist.playListData.type=="EXPLICIT"){                         
-                         $(".selectableCheckbox").click(function(){
+                         $(".videoiteminlist").click(function(){
                              that.checkButtons();
                          });
                      }
                      else{
-                         $(".selectableCheckbox").hide();
-                         $("#addEpisodeToList").hide();
-                     }
+                         $(".videoiteminlist").hide();                         
+                     }                     
                      that.checkButtons();
                  });
              },
@@ -265,19 +476,7 @@ jQuery(document).ready(function ($) {
              },
             
              onStartList:function(){
-                 var that=this;
-                 boxservice.util.startWait();
                  $("#content").html(this.htmlContent);
-                 $("#playlistname").val(this.playlist.playListData.name);
-                 $(".playListType").html(this.playlist.playListData.type);                   
-                 boxservice.util.resetInput();
-                 $("#backButton").click(function(){
-                     that.listdata.getBackDeferred().resolve("back");
-                 });
-                 
-                 $("#playlistname").off("input").on('input', this.checkButtons.bind(this));
-                 $("#playlistname").off("change").on('change', this.checkButtons.bind(this));
-                 
                  
                  $("#savePlaylist").hide();
                  $("#cancelPlaylist").hide();
@@ -285,30 +484,100 @@ jQuery(document).ready(function ($) {
                  $("#moveDownFromList").hide();
                  $("#removeFromList").hide();
                  
+                 var that=this;
+                 
+                 $("#backButton").click(function(){
+                     that.listdata.getBackDeferred().resolve("back");
+                 });
+                 
+                 
+                 
+                 boxservice.util.startWait();
+                 
+                 $("#playlistname").val(this.playlist.playListData.name);
+                 $(".playListType").html(this.playlist.playListData.type);
+                 
+                 $("#playlist-reference-id").val(this.playlist.playListData.reference_id);
+                 if(this.playlist.playListData.favorite){
+                     $("#isFavourite").prop("checked",true);                    
+                 }
+                 
+                 $("#playlist-description").val(this.playlist.playListData.description);
+                 
+                 
+                 if(that.playlist.playListData.type=="EXPLICIT"){                         
+                     $("#smart-playlist-settings").hide();
+                     
+                     $("#moveUpFromList").click(function(){
+                         that.moveUpFromList();
+                     });
+                     $("#moveDownFromList").click(function(){
+                         that.moveDownFromList();
+                     });
+
+                    $("#removeFromList").click(function(){
+                        that.removeFromList();
+                    });
+                    
+                    $("#addEpisodeToList").click(function(){                     
+                        boxservice.bc.playlist.episode.show({playlist:that.playlist,backCallback:function(){
+                            that.show({playlist:that.playlist,backDeferred:that.listdata.getBackDeferred});
+                        }});                     
+                    });
+                    
+                 }
+                 else{                 
+                        $("#addEpisodeToList").hide();
+                        if(this.playlist.playListData.search){
+                            var tagsToSearch=null;
+                            if(this.playlist.playListData.search.startsWith("+tags:")){                                
+                                tagsToSearch=this.playlist.playListData.search.substring("+tags:".length);
+                                $("#playlist-tags-type").val("all");
+                            }
+                            else if(this.playlist.playListData.search.startsWith("tags:")){                                
+                                tagsToSearch=this.playlist.playListData.search.substring("tags:".length);
+                                $("#playlist-tags-type").val("any");
+                            }
+                            else{
+                                boxservice.util.openDialog("search tag value contains illegal value!:"+this.playlist.playListData.search);
+                                return;
+                            }
+                            if(tagsToSearch){
+                                $("#playlist-tags-search").val(tagsToSearch);                                
+                            }
+                            
+                        }
+                        if(this.playlist.playListData.type){
+                            $("#playlist-play-order").val(this.playlist.playListData.type);
+                        }
+                        if(this.playlist.playListData.limit){
+                            $("#playlist-limit").val(this.playlist.playListData.limit);
+                        }
+                        
+                 }
+                 
+                 
+                 boxservice.util.resetInput();
+                 
+                 
+                 $(".playlisteditfield").off("input").on('input', this.checkButtons.bind(this));
+                 $(".playlisteditfield").off("change").on('change', this.checkButtons.bind(this));
+                 $("#isFavourite").click(function(){
+                     that.checkButtons();
+                 })
+                 
+                 
+                 
+                 
                  
                  
                  $("#cancelPlaylist").click(function(){
                      that.startlist();                     
                  });
-                 $("#moveUpFromList").click(function(){
-                     that.moveUpFromList();
-                 });
-                 $("#moveDownFromList").click(function(){
-                     that.moveDownFromList();
-                 });
-                 $("#savePlaylist").click(function(){
+                  $("#savePlaylist").click(function(){
                      that.saveChanges();                     
                  });
                  
-                 $("#removeFromList").click(function(){
-                     that.removeFromList();
-                 });
-                 
-                 $("#addEpisodeToList").click(function(){                     
-                     boxservice.bc.playlist.episode.show({playlist:that.playlist,backCallback:function(){
-                         that.show({playlist:that.playlist,backDeferred:that.listdata.getBackDeferred});
-                     }});                     
-                 });
                  
                  
              },
@@ -535,7 +804,7 @@ jQuery(document).ready(function ($) {
                  }).fail(boxservice.util.onError);
              },
              cancelPlaylist:function(){
-                 this.backDeferred.resolve("back");
+                 this.backDeferred.reject("cancel");
              },
              
              startShow:function(){
