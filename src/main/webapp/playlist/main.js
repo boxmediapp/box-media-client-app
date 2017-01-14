@@ -20,7 +20,15 @@ jQuery(document).ready(function ($) {
                         that.listdata.autoScroll();
                         boxservice.util.scrollPaging(that.listdata);
                         $("a.playlistlink").click(function(){
-                            var deferred=that.listdata.getBackDeferred();
+                            
+                            var deferred=$.Deferred();
+                            deferred.promise().done(function(){
+                                 that.show();
+                           }).fail(function(){
+                               that.startlist();
+                           });
+                            
+                            
                             boxservice.initForNewPage();
                             var playlistid=$(this).attr("href");
                             var playlist=that.listdata.findItemById(playlistid);                            
@@ -302,7 +310,7 @@ jQuery(document).ready(function ($) {
                                 }                         
                             }
                         }
-                        else if(tagSearchType!=orgTagSearch){
+                        else if(tagSearchType!=orgTagSearchType){
                             if(savedata){
                                 this.playlist.playListData.search=(tagSearchType=="all" ? "+tag":"tag")+tagSearch;
                                 hasChanged=true;
@@ -468,6 +476,8 @@ jQuery(document).ready(function ($) {
              },
             
              onStartList:function(){
+                 $("#content").html(this.htmlContent);
+                 
                  $("#savePlaylist").hide();
                  $("#cancelPlaylist").hide();
                  $("#moveUpFromList").hide();
@@ -483,7 +493,7 @@ jQuery(document).ready(function ($) {
                  
                  
                  boxservice.util.startWait();
-                 $("#content").html(this.htmlContent);
+                 
                  $("#playlistname").val(this.playlist.playListData.name);
                  $(".playListType").html(this.playlist.playListData.type);
                  
