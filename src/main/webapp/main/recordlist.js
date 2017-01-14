@@ -272,19 +272,15 @@ jQuery(document).ready(function ($) {
                    return true;
                }
                for(var i=0;i<ids.length;i++){
-                   if(this.findItemIndexById(ids[i])!=i){
+                   if(ids[i]!=this.items[i].id){
                        return true;
                    }                               
                }
-               for(var i=0;i<this.items.length;i++){
-                   if(ids.indexOf(this.items[i].id)!=i){
-                     return true;
-                   }
-               }
+              
                return false;
            },
            
-           moveUpById:function(id){
+           moveUpById:function(id, callback){
                var ind=this.findItemIndexById(id);
                if(ind<0){
                    console.log("id could not be found from the list:"+ind);                     
@@ -298,10 +294,10 @@ jQuery(document).ready(function ($) {
                this.items.splice(ind,1);
                this.items.splice(ind-1,0,item);
                $(this.containerSelection).empty();
-               this.listItemsFunction(this.items);               
+               this.listItemsFunction(this.items, callback);               
                return true;
            },
-           moveDownById:function(id){
+           moveDownById:function(id, callback){
                var ind=this.findItemIndexById(id);
                if(ind<0){
                    console.log("id could not be found from the list:"+ind);                     
@@ -315,7 +311,7 @@ jQuery(document).ready(function ($) {
                this.items.splice(ind,1);
                this.items.splice(ind+1,0,item);
                $(this.containerSelection).empty();
-               this.listItemsFunction(this.items);               
+               this.listItemsFunction(this.items,callback);               
                return true;
            },
            deleteByIds:function(ids){
