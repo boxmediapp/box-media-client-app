@@ -376,18 +376,18 @@ jQuery(document).ready(function ($) {
                      $("#savePlaylist").hide();
                      $("#cancelPlaylist").hide();
                  }
-                 if(!$(".selectableCheckbox:checked").length){
+                 if(!$(".videoiteminlist:checked").length){
                      $("#moveUpFromList").hide();
                      $("#moveDownFromList").hide();
                      $("#removeFromList").hide();
                  }
                  else{
                        $("#removeFromList").show();
-                       if($(".selectableCheckbox").length==1){
+                       if($(".videoiteminlist").length==1){
                            $("#moveUpFromList").hide();
                            $("#moveDownFromList").hide();
                        }
-                       else if($(".selectableCheckbox:checked").length==1){
+                       else if($(".videoiteminlist:checked").length==1){
                            $("#moveUpFromList").show();
                            $("#moveDownFromList").show();
                        }
@@ -400,24 +400,24 @@ jQuery(document).ready(function ($) {
              },
              
              moveUpFromList:function(){
-                 var videoid=$(".selectableCheckbox:checked").val();
+                 var videoid=$(".videoiteminlist:checked").val();
                  if(!videoid){
                      console.log("select value is null");
                      return;                     
                  }
                  this.listdata.moveUpById(videoid, function(){
-                     $(".selectableCheckbox[value='"+videoid+"']").prop("checked",true);
+                     $(".videoiteminlist[value='"+videoid+"']").prop("checked",true);
                  });                     
                      
              },
              moveDownFromList:function(){
-                 var videoid=$(".selectableCheckbox:checked").val();
+                 var videoid=$(".videoiteminlist:checked").val();
                  if(!videoid){
                      console.log("select value is null");
                      return;                     
                  }
                  this.listdata.moveDownById(videoid, function(){
-                     $(".selectableCheckbox[value='"+videoid+"']").prop("checked",true);
+                     $(".videoiteminlist[value='"+videoid+"']").prop("checked",true);
                  });                     
                      
              },
@@ -434,7 +434,7 @@ jQuery(document).ready(function ($) {
                  
              },
              removeFromList:function(){
-                 var selectedids=$(".selectableCheckbox:checked").map(function(){
+                 var selectedids=$(".videoiteminlist:checked").map(function(){
                      return $(this).val();                     
                  }).get();                 
                  if(selectedids && selectedids.length){                     
