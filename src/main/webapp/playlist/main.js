@@ -199,13 +199,15 @@ jQuery(document).ready(function ($) {
                      }
                  }
                  else{
-                     if(savedata){
-                         this.playlist.playListData.favorite=true;
-                         hasChanged=true;
+                     if(!this.playlist.playListData.favorite){
+                         if(savedata){
+                             this.playlist.playListData.favorite=true;
+                             hasChanged=true;
+                         }
+                         else{
+                             return true;
+                         } 
                      }
-                     else{
-                         return true;
-                     } 
                  }
                  if(!description){
                      if(this.playlist.playListData.description){
