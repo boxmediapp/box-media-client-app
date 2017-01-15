@@ -523,7 +523,7 @@ jQuery(document).ready(function ($) {
                     
                     $("#addEpisodeToList").click(function(){                     
                         boxservice.bc.playlist.episode.show({playlist:that.playlist,backCallback:function(){
-                            that.show({playlist:that.playlist,backDeferred:that.listdata.getBackDeferred});
+                            that.show({playlist:that.playlist,backDeferred:that.listdata.getBackDeferred()});
                         }});                     
                     });
                     
@@ -663,6 +663,7 @@ jQuery(document).ready(function ($) {
                    for(var i=0;i<bcids.length;i++){
                        this.playlist.playListData.video_ids.push(bcids[i]);                       
                    }  
+                   boxservice.util.startWait();
                    boxservice.api.bc.playlist.patch(this.playlist.id,this.playlist).done(function(){
                        that.listdata.getBackDeferred().resolve();
                    }).fail(boxservice.util.onError);
