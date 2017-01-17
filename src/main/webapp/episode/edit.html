@@ -19,6 +19,7 @@
 	<a id="transcodeMedia" class="waves-effect waves-light btn">Start transcode</a>
 	<a id="playSourceVideo" class="waves-effect waves-light btn">Play Source Video</a>
 	<a id="viewInBrightcove" class="waves-effect waves-light btn">View in Brightcove</a>
+	<a id="addToPlaylist" class="waves-effect waves-light btn">Add to Playlist</a>
 </div>
 
 
@@ -774,8 +775,49 @@
 
         </div>
         <div class="modal-footer">
-            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</button>          
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>          
        </div>
-</div>
+   </div>
+   
+   <div id="playlistDialog" class="modal">
+             <div class="dialog-header">
+               <h4>Add To Playlist</h4>
+             </div>
+        <div class="modal-content">
+                                         
+                 <div>Choose the playlist where you want to add the selected video.</div>
+                 <div>
+                 
+	                 <table class="controlbuttons">
+	                 <tr>
+	                 <td><input id="searchInput" type="text" placeholder="Search..">      
+	                </td>
+	                <td>   
+	                        <a id="searchButton" class="btn-floating btn-large waves-effect waves-light blue lighten-1"><i class="material-icons">search</i></a> 
+	                </td> 
+	                </tr></table>
+                 
+                 </div>
+                 <div class="playlistable">
+	                 <table class="playlistable">
+					       <tr>
+					           <th class="sortable sort-name">Playlist Name <span class="sort-ascending">&#9660;</span><span class="sort-descending">&#9650;</span><span class="not-sorted">&#x21D5;</span>           
+					           </th>           
+					       </tr>
+					       <tbody id="playlistContainer">
+					       </tbody>
+	                </table>
+	              </div>
+        </div>
+        <div class="modal-footer">
+           <a class="addEpisodeToList modal-action modal-close btn-flat waves-effect waves-red">Add</a>
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>          
+       </div>
+   
+   </div>
+   
+   
+   
+  
 	
 	

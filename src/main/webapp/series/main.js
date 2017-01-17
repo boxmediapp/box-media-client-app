@@ -122,6 +122,7 @@ jQuery(document).ready(function ($) {
   			  		              {input:{selection:"#imageURL"},  data:{value:["imageURL"]}},
   			  		              {input:{selection:"#seriesNumber"},  data:{value:["seriesNumber"]}},
   			  		              {input:{selection:"#seriesTags"},  data:{value:["tags"]}},
+  			  		              {input:{selection:"#maxNumberOfEpisodes"},  data:{value:["maxNumberOfEpisodes"]}},
   			  		              {input:{selection:"#seriesGroupTitle"}, data:{value:["seriesGroup", "title"]}, "notEditable":true}
   			  		            
       ];
@@ -137,10 +138,11 @@ jQuery(document).ready(function ($) {
 			$("#editSeriesGroup").hide();
 			$("#viewImage").hide();
 			$("#deleteMasterImage").hide();
+			$("#importEpisodeFromBrightcove").hide();
 			
     	}
     	else{
-    		$("#cancelSaveSeries").hide();    		
+    		        $("#cancelSaveSeries").hide();    		
 			$("#saveSeries").hide();
 			if(series.seriesGroup && series.seriesGroup.id){
 				$("#editSeriesGroup").show();
@@ -163,6 +165,16 @@ jQuery(document).ready(function ($) {
 				  $("#viewImage").hide();
 				  $("#deleteMasterImage").hide();
 			  }
+			if(series.episodes &&  series.episodes.length && series.maxNumberOfEpisodes && series.episodes.length >= series.maxNumberOfEpisodes){
+			    $("#importEpisodeFromBrightcove").hide();
+			    $("#addNewEpisodeToSeries").hide();
+			}
+			else{
+			    
+			    $("#importEpisodeFromBrightcove").show();
+                            $("#addNewEpisodeToSeries").show();
+			}
+			
     	}
     	
     };

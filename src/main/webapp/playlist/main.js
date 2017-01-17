@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
- 
+     
         boxservice.bc.playlist={
                 show:function(){
                     this.listdata=this.createListData();
@@ -448,6 +448,10 @@ jQuery(document).ready(function ($) {
              list:function(items, callback){                 
                  boxservice.util.finishWait();
                  var that=this;
+                 if(!items || !items.length){
+                     this.checkButtons();
+                     return;
+                 }
                  boxservice.util.pageForEachRecord("playlist/video-row.html",items,"#playlistContainer").done(function(){
                      if(callback){
                          callback();

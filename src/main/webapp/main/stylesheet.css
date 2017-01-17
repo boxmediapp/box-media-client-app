@@ -636,4 +636,58 @@ input.selectableCheckbox[type="checkbox"]{
     color: white;
     margin: 0 15px;
 }
+#playlistDialog{
+	width:55%;
+	height:55%;	
+    padding-left:0px;
+    padding-right:0px;
+    padding-top:0px;
+    padding-bottom:0px;
+    overflow: hidden;
+}
+
+#messageDialog{
+	width:55%;
+    height:55%; 
+    padding-left:0px;
+    padding-right:0px;
+    padding-top:0px;
+    padding-bottom:0px;
+    
+}
+
+#playlistDialog .modal-content{
+	padding:10px;
+}
+#playlistDialog .dialog-header{
+	padding: 16px 15px 10px 15px;
+    height: 60px;
+    background-color: #a9769c;
+}
+.modal .modal-footer{
+  position: absolute;
+  bottom: 0;
+  left: 0; 
+} 
+#playlistDialog .playlistable table th, #playlistDialog .playlistable table td{
+	border: 1px solid #c4c4c4;		
+}
+#playlistDialog .playlistable tr{
+	
+}
+
+#playlistDialog .playlistable table th{
+    background: #c4c4c4; 
+     
+}
+
+#playlistDialog .playlistable{
+	overflow: scroll;
+	height: 200px;
+}
+
+.playlistrow.selected{
+	background:#0000ff; 
+	color: #ffff00;
+} 
 
