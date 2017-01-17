@@ -27,7 +27,7 @@ createTargetDirectory(){
 }
 
 uploadArtefact(){
-    scp $sourceartefactpath $targetartefactpath
+    scp $sourceartefactpath $targetuser@$targetserver:$targetartefactpath/
 }
 
 deploArtefact(){
