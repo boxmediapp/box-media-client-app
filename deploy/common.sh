@@ -1,17 +1,27 @@
-
-getProjectSettings(){
-  export artefcactbasename="box-media-client-app"
-  export targetboxmediaclientdir=box-media-client-app/src/main/webapp
-}
-
 getProjectVersionFromPom(){
   projectversion=`grep -A 0 -B 2 "<packaging>" pom.xml  | grep version  | cut -d\> -f 2 | cut -d\< -f 1`
   export projectversion  
 }
+
+getProjectSettings(){
+  export artefcactbasename="box-media-client-app"
+  export targetboxmediaclientdir=box-media-client-app/src/main/webapp
+  export devtargetserver="userver"
+  export devtargetuser="davran"
+  export boxserver="boxnetwork.co.uk"
+  export boxuser="ec2-user"
+  export beboxserver="be.boxnetwork.co.uk"
+  export beboxuser="ec2-user" 
+  export deploymentdir="box-deployments"
+}
+
+
 getArtefactName(){
   export artefactfilename="$artefcactbasename-$projectversion.zip"
   export sourceartefactpath="package/target/$artefactfilename"
   export targetartefactpath="$targetboxmediaclientdir/$artefactfilename"
+  
+   
 }
 
 executeScriptOnServer(){
@@ -27,11 +37,12 @@ createTargetDirectory(){
 }
 
 uploadArtefact(){
-    scp $sourceartefactpath $targetuser@$targetserver:$targetartefactpath/
+    
+    scp $sourceartefactpath $targetuser@$targetserver:$targetartefactpath
 }
 
-deploArtefact(){
-  uploadArtefact()
+deployArtefact(){
+  uploadArtefact
   echo "cd $targetboxmediaclientdir" > /tmp/deployboxmediapp.sh
   echo "unzip -o $artefactfilename" >> /tmp/deployboxmediapp.sh
   echo "rm  $artefactfilename" >> /tmp/deployboxmediapp.sh
