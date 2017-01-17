@@ -1,3 +1,5 @@
+git add .
+git commit -m "releasing"
 source deploy/common.sh
 
 mvn jgitflow:release-start
@@ -9,7 +11,8 @@ getProjectVersionFromPom
 getProjectSettings
 export targetboxmediaclientdir="box-deployments"
 getArtefactName
-
+targetuser=davran
+targetserver=www.davran.co.uk
 uploadArtefact
 
 
