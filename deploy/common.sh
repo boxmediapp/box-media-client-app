@@ -12,6 +12,14 @@ getArtefactName(){
   export artefactfilename="$artefcactbasename-$projectversion.zip"
   export sourceartefactpath="package/target/$artefactfilename"
   export targetartefactpath="$targetboxmediaclientdir/$artefactfilename"
+  export devtargetserver="userver"
+  export devtargetuser="davran"
+  export boxserver="boxnetwork.co.uk"
+  export boxuser="ec2-user"
+  export beboxserver="be.boxnetwork.co.uk"
+  export beboxuser="ec2-user" 
+  export deploymentdir="box-deployments"
+   
 }
 
 executeScriptOnServer(){
@@ -30,7 +38,7 @@ uploadArtefact(){
     scp $sourceartefactpath $targetuser@$targetserver:$targetartefactpath/
 }
 
-deploArtefact(){
+deployArtefact(){
   uploadArtefact()
   echo "cd $targetboxmediaclientdir" > /tmp/deployboxmediapp.sh
   echo "unzip -o $artefactfilename" >> /tmp/deployboxmediapp.sh

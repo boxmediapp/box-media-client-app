@@ -9,10 +9,10 @@ git checkout  master
 
 getProjectVersionFromPom
 getProjectSettings
-export targetboxmediaclientdir="box-deployments"
+export targetboxmediaclientdir="$deploymentdir"
 getArtefactName
-targetuser=davran
-targetserver=www.davran.co.uk
+targetuser=$devtargetuser
+targetserver=$devtargetserver
 uploadArtefact
 
 
