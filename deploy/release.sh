@@ -9,7 +9,7 @@ mvn jgitflow:release-finish
 
 
 
-mvn checkout checkout master
+git checkout checkout master
 
 projectversion=`grep -A 0 -B 2 "<packaging>" pom.xml  | grep version  | cut -d\> -f 2 | cut -d\< -f 1`
 artefactfilename="$artefcactbasename-$projectversion.zip"
