@@ -1,4 +1,4 @@
-ssh ec2-user@be.boxnetwork.co.uk 'cd box-media-client-app && git pull origin'
+deploy/deploy.sh be.boxnetwork.co.uk ec2-user
 
 
 
