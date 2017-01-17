@@ -241,6 +241,10 @@ jQuery(document).ready(function ($) {
                                          window.open(url,"_blank");
                                          return false;
                                  });
+                                 $("#addToPlaylist").click(function(){
+                                     boxservice.episode.playlist.show(episode);
+                                     return false;
+                                 });
                                  $("#jsonview").click(function(){
                                          var url=boxservice.api.episode.getDetailsUrl(episode.id);
                                          window.open(url,"_blank");
@@ -833,6 +837,93 @@ jQuery(document).ready(function ($) {
                     
             });
 
+      };
+      
+      
+      boxservice.episode.playlist={
+              createListData:function(opts){
+                  var that=this;                                
+                  var createListDataRequest={
+                          containerSelection:"#playlistContainer",
+                          loadItemsFunction:boxservice.api.bc.playlist.list,
+                          listItemsFunction:that.list.bind(that),                
+                          onStartList:that.onStartList.bind(that)
+                    };                    
+                   return boxservice.recordlist.createlistdata(createListDataRequest);
+               },
+          addEpisodeToThePlaylist:function(){
+              var that=this;
+              var playlistid=$(".playlistrow.selected").attr("playlistid");
+              console.log("playlistid:::::"+playlistid);
+              boxservice.api.bc.playlist.get(playlistid).done(function(playlist){
+                  playlist.playListData.video_ids.push(that.episode.brightcoveId);
+                  boxservice.api.bc.playlist.patch(playlist.id,playlist).done(function(){
+                     console.log("successfully added to the playlist");
+                  }).fail(boxservice.util.onError);                 
+              });
+          },     
+          show:function(episode){
+              if(!episode || !episode.brightcoveId){
+                  boxservice.util.openDialog("You can only add to playlist after publishing episode to the brightcove");
+                  return;
+              }
+              this.episode=episode;              
+              var that=this;
+              $("#playlistDialog").openModal();
+              boxservice.util.startWait();
+              this.listdata=this.createListData();
+              this.listdata.newSearch("type:EXPLICIT");
+              var doSearch=function(){
+                  var search=$("#searchInput").val();
+                  if(search){
+                      search=search.trim(); 
+                   }
+                   if(!search){
+                       that.listdata.newSearch(search);
+                   }
+                   else{
+                       that.listdata.newSearch("+"+search+"+AND++type:EXPLICIT");
+                   }                                            
+                   that.listdata.startList();
+                   return false;
+              };
+              $("#searchButton").unbind("click");
+              $(".addEpisodeToList").unbind("click");
+              $("#searchInput").unbind("keypress");
+              $("#searchButton").click(doSearch);
+              $("#searchInput").keypress(function(e){                   
+                  var key = e.which;
+                  if(key == 13){
+                          doSearch();                                                         
+                          return false;  
+                   }                     
+                });
+                this.listdata.startList(); 
+              $(".addEpisodeToList").click(function(){
+                  that.addEpisodeToThePlaylist();
+                  $("#playlistDialog").closeModal();
+              })
+              
+          },
+          onStartList:function(){
+              
+          },
+          list:function(playlists){
+              boxservice.util.finishWait();
+              var that=this;
+              boxservice.util.pageForEachRecord("episode/playlist-row.html",playlists,"#playlistContainer").done(function(){                  
+                    $(".playlistrow").click(function(){
+                        $(".playlistrow").removeClass("selected");
+                        $(this).addClass("selected");
+                        
+                      return false;
+                   });
+              });
+          }
+          
+          
+          
+              
       };
 
         

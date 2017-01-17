@@ -452,6 +452,7 @@ jQuery(document).ready(function ($) {
 			 $("#viewImage").hide();
 			 $("#deleteMasterImage").hide();
 			 $("#importImageFromBC").hide();
+			 $("#addToPlaylist").hide();
 		 }
 		 else{			 
 			 if(episode.series && episode.series.name){
@@ -478,6 +479,8 @@ jQuery(document).ready(function ($) {
 			         else{
 			             $("#updateToBC").hide();
 			         }
+			         $("#addToPlaylist").show();
+			         
 			 }
 			 else{
 			        $("#viewInBrightcove").hide();
@@ -486,6 +489,7 @@ jQuery(document).ready(function ($) {
 			        $("#updateToBC").hide();
 			        $("#unpublishFromBC").hide();
                                 $("#deleteEpisode").show();
+                                $("#addToPlaylist").hide();
 			 }
 			     
 			 if(episode.episodeStatus.videoStatus=="MISSING_VIDEO" || episode.episodeStatus.videoStatus=="MISSING_PROFILE" || episode.episodeStatus.videoStatus=="NO_PLACEHOLDER"){

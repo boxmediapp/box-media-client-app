@@ -708,7 +708,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
       
       boxservice.util.search=function(search){
     	var deferred = $.Deferred();
-  	    $("#searchInput").val(search);
+  	    $("#searchInput").val(search);  	         
 		    $("#searchButton").click(function(){
 		    	console.log("Search button is clicked............");
 		      search=$("#searchInput").val();	
