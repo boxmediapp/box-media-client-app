@@ -646,7 +646,7 @@ input.selectableCheckbox[type="checkbox"]{
     overflow: hidden;
 }
 
-#messageDialog{
+.listableDialog{
 	width:55%;
     height:55%; 
     padding-left:0px;
@@ -656,10 +656,10 @@ input.selectableCheckbox[type="checkbox"]{
     
 }
 
-#playlistDialog .modal-content{
+.listableDialog .modal-content{
 	padding:10px;
 }
-#playlistDialog .dialog-header{
+.listableDialog .dialog-header{
 	padding: 16px 15px 10px 15px;
     height: 60px;
     background-color: #a9769c;
@@ -669,24 +669,24 @@ input.selectableCheckbox[type="checkbox"]{
   bottom: 0;
   left: 0; 
 } 
-#playlistDialog .playlistable table th, #playlistDialog .playlistable table td{
+.listableDialog .listable table th, .listableDialog .listable table td{
 	border: 1px solid #c4c4c4;		
 }
-#playlistDialog .playlistable tr{
+.listableDialog .listable tr{
 	
 }
 
-#playlistDialog .playlistable table th{
+.listableDialog .listable table th{
     background: #c4c4c4; 
      
 }
 
-#playlistDialog .playlistable{
+.listableDialog .listable{
 	overflow: scroll;
 	height: 200px;
 }
 
-.playlistrow.selected{
+.listrow.selected{
 	background:#0000ff; 
 	color: #ffff00;
 } 

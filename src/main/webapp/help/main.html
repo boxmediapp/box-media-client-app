@@ -1,44 +1,44 @@
-<h5 header="header">About the software</h5>
-		<div class="card-panel">
+<h5 class="header">About the software</h5>
+        <div class="card-panel">
 
 
 
-		The software is a collection of open source projects, providing an integrated solution for delivering the media files and their metadata. 
-		The software allows you not only create, edit and manage data and media files, it can also receive them from various sources.
-		 and finally pushing them to the Brightcove publishing platform for transcoding and delivery. 
-		 The media files can be uploaded via the app or outside the app using any third party tools to the Amazon s3 buckets.
-		  The metadata and the media files are linked to each other based on the naming conventions. 
-		  Also, it can provides With the image resizing will be resized to different sizes and videos can QCed comparing the expected duration and the actual duration etc, 
-		  
-		  and Queue points and availabilities can be calculated, created and edited before pushing them to the brightcove for publishing. The video and images are stored in the Amazon S3 bucket, and the lifecycle of the master images will control those of the generated images. The used technologies: Community open source version of Mule ESB for the server platform; Docker for infrastructure; The HTML5/JavaScript for client application; Nginx for software load balancer; FFMpeg for video and image inspection and conversion. 
-		</div>
+        The software is a collection of open source projects, providing an integrated solution for delivering the media files and their metadata. 
+        The software allows you not only create, edit and manage data and media files, it can also receive them from various sources.
+         and finally pushing them to the Brightcove publishing platform for transcoding and delivery. 
+         The media files can be uploaded via the app or outside the app using any third party tools to the Amazon s3 buckets.
+          The metadata and the media files are linked to each other based on the naming conventions. 
+          Also, it can provides With the image resizing will be resized to different sizes and videos can QCed comparing the expected duration and the actual duration etc, 
+          
+          and Queue points and availabilities can be calculated, created and edited before pushing them to the brightcove for publishing. The video and images are stored in the Amazon S3 bucket, and the lifecycle of the master images will control those of the generated images. The used technologies: Community open source version of Mule ESB for the server platform; Docker for infrastructure; The HTML5/JavaScript for client application; Nginx for software load balancer; FFMpeg for video and image inspection and conversion. 
+        </div>
 
-<h5 header="header">Project locations </h5>
+<h5 class="header">Project locations </h5>
 <div class="card-panel">
     <p> 
-		Mule ESB docker:
-		<a href="https://github.com/boxmediapp/bdocker/tree/master/bmule">https://github.com/boxmediapp/bdocker/tree/master/bmule</a>
+        Mule ESB docker:
+        <a href="https://github.com/boxmediapp/bdocker/tree/master/bmule">https://github.com/boxmediapp/bdocker/tree/master/bmule</a>
     </p>
- 	
- 	<p>
-	     Nginx docker:
-	     <a href="https://github.com/boxmediapp/bdocker/tree/master/bnginx">https://github.com/boxmediapp/bdocker/tree/master/bnginx</a>     
+    
+    <p>
+         Nginx docker:
+         <a href="https://github.com/boxmediapp/bdocker/tree/master/bnginx">https://github.com/boxmediapp/bdocker/tree/master/bnginx</a>     
     </p>
-  	
-  	<p>
+    
+    <p>
      HTML5 Single page client application:     
-			<a href="https://github.com/boxmediapp/box-media-client-app">git@github.com:boxmediapp/box-media-client-app.git</a>
+            <a href="https://github.com/boxmediapp/box-media-client-app">git@github.com:boxmediapp/box-media-client-app.git</a>
      </p>  
      
      <p>
-	  Server side Mule ESB application:     
-	     <a href="https://github.com/boxmediapp/box-mule-api">git@github.com:boxmediapp/box-mule-api.git</a>
+      Server side Mule ESB application:     
+         <a href="https://github.com/boxmediapp/box-mule-api">git@github.com:boxmediapp/box-mule-api.git</a>
       </p>
       
       <p>  
-  			script for using FFMPEG and AWS CLI scripts:<br>
-			<a href="https://github.com/boxmediapp/bcs3uploader">https://github.com/boxmediapp/bcs3uploader</a>
-	 </p>
+            script for using FFMPEG and AWS CLI scripts:<br>
+            <a href="https://github.com/boxmediapp/bcs3uploader">https://github.com/boxmediapp/bcs3uploader</a>
+     </p>
   
   </div>
 
@@ -64,46 +64,46 @@
 
    <div class="header">Q: After I have cleared out the ingest source field or the image file name field, and clicked on "Save", the value in field has appeared again, is it a bug?</div>
    <p>
-   	 A: As long as there is matching video/image file name in the s3 bucket for the episode, the field will always be filled in. If you think the video or image file is not correct,  the file should be renamed.   	 
+     A: As long as there is matching video/image file name in the s3 bucket for the episode, the field will always be filled in. If you think the video or image file is not correct,  the file should be renamed.       
    </p>
    <hr>
    <div class="header">Q: Does Series get imported from Schedule?</div>
    <p>
-   	 A: Yes.  	 
+     A: Yes.     
    </p>
    <hr>
    <div class="header">Q: Does the Series Group get automatically created or is this manually added?</div>
    <p>
-   	 A: The app creates the series group with the same title as the series or will be added to the "Default Series Group".  
-   	 You need to modify the series group title to the correct one, the series that has the same series group will be joined together into the same series group automatically.  	 
+     A: The app creates the series group with the same title as the series or will be added to the "Default Series Group".  
+     You need to modify the series group title to the correct one, the series that has the same series group will be joined together into the same series group automatically.       
    </p>
    <hr>
 <div class="header">Q: How do we reconcile against existing data in Brightcove against Box Media App (will it over-write)?
 </div>
    <p>
-   	 A: Whatever entered in the Box Media app, if not left blank, will overwrite the data in the Brighcove. 
-   	 For example, if you wish the images in the Brightcove should stay, then you should not specify the image in the Box Media app. 
-   	  If you wish the Synopsis in the Brightcove to be kept as it is then you should left synopsis field blank in the Box Media app.
-   	   But ideally it is not recommended to scatter around the master data all around in different systems, it is a maintenance nightmare you know.
-   	   There is a button "Import images from brightcove" in the Box Media app, so you can import images from the Brightcove, there will soon a button called "Import everything" so you can import everything from brightcove.
-   	    	  
+     A: Whatever entered in the Box Media app, if not left blank, will overwrite the data in the Brighcove. 
+     For example, if you wish the images in the Brightcove should stay, then you should not specify the image in the Box Media app. 
+      If you wish the Synopsis in the Brightcove to be kept as it is then you should left synopsis field blank in the Box Media app.
+       But ideally it is not recommended to scatter around the master data all around in different systems, it is a maintenance nightmare you know.
+       There is a button "Import images from brightcove" in the Box Media app, so you can import images from the Brightcove, there will soon a button called "Import everything" so you can import everything from brightcove.
+              
    </p>
    <hr>   
    
 <div class="header">Q: If Availability window is left blank, does this mean it is available indefinitely?
 </div>
    <p>
-   	A: Yes, the logic is the same as Brightcove, but you know if there is schedule records for that record, then the availability window will be calculated from the schedules...
- 	  
+    A: Yes, the logic is the same as Brightcove, but you know if there is schedule records for that record, then the availability window will be calculated from the schedules...
+      
    </p>
       
    
    
    
    
-</div>	
-	
-	
-	
-	
-			
+</div>  
+    
+    
+    
+    
+            

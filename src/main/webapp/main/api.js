@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
 	boxservice.api.boxvideo={};
 	boxservice.api.masterimage={};
 	
-	boxservice.api.tags={};
+	
 	boxservice.api.task={};
 	boxservice.api.episode={};
 	boxservice.api.availability={};
@@ -23,6 +23,25 @@ jQuery(document).ready(function ($) {
 	
 
 	var apipath="/mule/boxtv";
+	
+	
+	boxservice.api.tags={
+	           list:function(listdata){
+	               var path=apipath+"/tags";
+	               if(listdata){
+	                   path=listdata.createListURL(path);                  
+	               }
+	               return boxservice.api.ajax("GET",path);                                                        
+	           },
+	           remove:function(tag){
+	               return boxservice.api.ajax("DELETE",apipath+"/tags/"+tag);                                         
+	           },
+	           add:function(tag){
+	               return boxservice.api.ajax("POST",apipath+"/tags",tag);
+	           }
+	           
+	   };
+	
 
 	boxservice.api.addQueryParam=function(url, paramName,paramValue){
 	    if(!paramValue || !paramName){
@@ -205,16 +224,11 @@ jQuery(document).ready(function ($) {
     boxservice.api.seriesgroup.getByTitle=function(seriesGroupTitle){
 		   return boxservice.api.ajax("GET",apipath+"/seriesgroup?title="+seriesGroupTitle);		   			   
    };
-     
-	boxservice.api.tags.list=function(){
-		return boxservice.api.ajax("GET",apipath+"/tags");		   			   
-	};
-	boxservice.api.tags.remove=function(tag){
-		return boxservice.api.ajax("DELETE",apipath+"/tags/"+tag);		   			   
-	};
-	boxservice.api.tags.add=function(tag){
-		return boxservice.api.ajax("POST",apipath+"/tags",tag);
-	}; 
+   
+   
+	
+	
+	 
 	boxservice.api.episode.view=function(episodeid){  	  
 		return boxservice.api.ajax("GET",apipath+"/episodes/"+episodeid);	        
 	};	   

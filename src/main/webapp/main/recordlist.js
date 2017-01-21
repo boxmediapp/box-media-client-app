@@ -76,6 +76,17 @@ jQuery(document).ready(function ($) {
                 this.checkThisBatch(itms);
                 this.items=itms;                
             },
+            filter:function(opts){
+                var nitems=[];
+                for(var i=0;i<this.items.length;i++){
+                    var v=this.items[i][opts.field];                    
+                    if(v&&v.startsWith(opts.startsWith)){
+                        nitems.push(this.items[i]);
+                    }                    
+                }
+                $(this.containerSelection).empty();
+                this.listItemsFunction(nitems);                
+            },
             completeItems:function(itms){
                 $(this.containerSelection).empty();
                 this.loadedall=true;
@@ -214,7 +225,10 @@ jQuery(document).ready(function ($) {
            },
            startList:function(){
                    var that=this;
-                   that.onStartList();
+                   if(that.onStartList){
+                       that.onStartList();
+                   }
+                   
                    this.loadData(function(itms){
                        that.newlist(itms);                       
                        that.listItemsFunction(itms);
