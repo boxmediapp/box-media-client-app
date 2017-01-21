@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
      
-        boxservice.bc.playlist={
+        boxservice.bc.playlist={               
                 show:function(){
                     this.listdata=this.createListData();
                     this.startlist();
@@ -148,7 +148,7 @@ jQuery(document).ready(function ($) {
                  this.startlist();
              },  
              hasChanged:function(savedata){
-                                  
+                 var that=this;                 
                  var hasChanged=false;
                  
                  var title=$("#playlistname").val();                 
@@ -234,7 +234,7 @@ jQuery(document).ready(function ($) {
                  if(this.playlist.playListData.type=="EXPLICIT"){
                      if(this.listdata.isItemsHasChanged(this.playlist.playListData.video_ids)){
                          if(savedata){
-                             this.playlist.playListData.video_ids=this.listdata.getAllIds();
+                             that.playlist.playListData.video_ids=that.listdata.getAllIds();
                              hasChanged=true;
                          }
                          else{
@@ -243,84 +243,35 @@ jQuery(document).ready(function ($) {
                       }
                  }
                  else{
-                        var tagSearchType=$("#playlist-tags-type").val();
-                        var tagSearch=$("#playlist-tags-search").val();
-                        var orgTagSearch=null;
-                        var orgTagSearchType=null;
-                        
-                        var orderType=$("#playlist-play-order").val();
-                        
-                        var limit=$("#playlist-limit").val();
-                        
-                        
-                        if(this.playlist.playListData.search){                            
-                            if(this.playlist.playListData.search.startsWith("+tags:")){                                
-                                orgTagSearch=this.playlist.playListData.search.substring("+tags:".length);
-                                orgTagSearchType="all";
-                            }
-                            else if(this.playlist.playListData.search.startsWith("tags:")){                                
-                                orgTagSearch=this.playlist.playListData.search.substring("tags:".length);
-                                orgTagSearchType="all";
-                            }
-                            else{
-                                boxservice.util.openDialog("org search tag value contains illegal value!:"+this.playlist.playListData.search);
-                                return false;
-                            }
-                        }                     
-                        if(!tagSearch){
-                            if(orgTagSearch){
-                                if(savedata){
-                                    this.playlist.playListData.search=null;
-                                    hasChanged=true;
-                                }
-                                else{
-                                    return true;
-                                }
-                            }
-                        }
-                        else if(!tagSearch.startsWith("\"")){
-                            boxservice.util.openDialog("search tag value contains illegal value!:"+tagSearch);
+                       
+                        var tagSearchType=$("#playlist-tags-type").val();                        
+                        var tags=$(".tagslist .chip .tagitem").map(function(){
+                            return $(this).attr("value");                            
+                        });
+                        var orgTagscontainer={};
+                        boxservice.tags.parseSearchString(this.playlist.playListData.search,orgTagscontainer)
+                        if(orgTagscontainer.error){
+                            boxservice.util.openDialog(orgTagscontainer.error+":"+this.playlist.playListData.search);
                             return false;
                         }
-                        else if(!orgTagSearch){
+                       
+                        var checkChangedRequest={
+                          tags:tags,
+                          type:tagSearchType,
+                          org:orgTagscontainer
+                        }; 
+                        if(boxservice.tags.checkChanged(checkChangedRequest)){
                             if(savedata){
-                                this.playlist.playListData.search=(tagSearchType=="all" ? "+tag":"tag")+tagSearch;
-                                hasChanged=true;
+                                that.playlist.playListData.search=boxservice.tags.toSearchString({tags:tags,type:tagSearchType});
+                                hasChanged=true;                                
                             }
                             else{
                                 return true;
                             }
                         }
-                        else if(tagSearch != orgTagSearch){
-                            if(savedata){
-                                this.playlist.playListData.search=(tagSearchType=="all" ? "+tag":"tag")+tagSearch;
-                                hasChanged=true;
-                            }
-                            else{
-                                return true;
-                            }
-                        }
-                            
-                        if(!tagSearchType){
-                            if(orgTagSearchType){
-                                if(savedata){
-                                    this.playlist.playListData.search=null;    
-                                    hasChanged=true;
-                                }
-                                else{
-                                    return true;
-                                }                         
-                            }
-                        }
-                        else if(tagSearchType!=orgTagSearchType){
-                            if(savedata){
-                                this.playlist.playListData.search=(tagSearchType=="all" ? "+tag":"tag")+tagSearch;
-                                hasChanged=true;
-                            }
-                            else{
-                                return true;
-                            }                     
-                        }
+                        var orderType=$("#playlist-play-order").val();
+                        
+                        
                         
                         if(!orderType){
                             if(this.playlist.playListData.type){
@@ -342,7 +293,7 @@ jQuery(document).ready(function ($) {
                                 return true;
                             }                     
                         } 
-                        
+                        var limit=$("#playlist-limit").val();
                         if(!limit){
                             if(this.playlist.playListData.limit){
                                 if(savedata){
@@ -362,15 +313,13 @@ jQuery(document).ready(function ($) {
                             else{
                                 return true;
                             }                     
-                        }
-                     
-                     
+                        }                                          
                  }
                  return hasChanged;                 
              },
-             checkButtons:function(){
+             checkButtons:function(changed){
                
-                 if(this.hasChanged()){
+                 if(changed || this.hasChanged()){
                      $("#savePlaylist").show();
                      $("#cancelPlaylist").show();
                  }
@@ -534,24 +483,20 @@ jQuery(document).ready(function ($) {
                  }
                  else{                 
                         $("#addEpisodeToList").hide();
-                        if(this.playlist.playListData.search){
-                            var tagsToSearch=null;
-                            if(this.playlist.playListData.search.startsWith("+tags:")){                                
-                                tagsToSearch=this.playlist.playListData.search.substring("+tags:".length);
-                                $("#playlist-tags-type").val("all");
-                            }
-                            else if(this.playlist.playListData.search.startsWith("tags:")){                                
-                                tagsToSearch=this.playlist.playListData.search.substring("tags:".length);
-                                $("#playlist-tags-type").val("any");
-                            }
-                            else{
-                                boxservice.util.openDialog("search tag value contains illegal value!:"+this.playlist.playListData.search);
-                                return;
-                            }
-                            if(tagsToSearch){
-                                $("#playlist-tags-search").val(tagsToSearch);                                
-                            }
-                            
+                        var result={};
+                        boxservice.tags.parseSearchString(this.playlist.playListData.search,result);
+                        if(result.error){
+                            boxservice.util.openDialog(result.error+":"+this.playlist.playListData.search);
+                            return;
+                        }
+                        else if(result.tags && result.tags.length>0){
+                            $("#playlist-tags-type").val(result.type);
+                            result.taglistElement=".tagslist";
+                            result.onDeleteTag=function(tagToDelete){
+                                console.log("going to delete:"+tagToDelete);
+                                that.checkButtons(true);
+                            };
+                            boxservice.tags.listTags(result);                            
                         }
                         if(this.playlist.playListData.type){
                             $("#playlist-play-order").val(this.playlist.playListData.type);
@@ -559,7 +504,14 @@ jQuery(document).ready(function ($) {
                         if(this.playlist.playListData.limit){
                             $("#playlist-limit").val(this.playlist.playListData.limit);
                         }
-                        
+                        $("#addNewTag").click(function(){
+                            boxservice.tags.showSelectATagDialog({onAdd:function(tag){
+                                result.tags.push(tag);
+                                boxservice.tags.listTags(result);
+                                that.checkButtons();
+                            }});
+                            return false;
+                        });
                  }
                  
                  
