@@ -98,7 +98,7 @@ jQuery(document).ready(function ($) {
                             }
                      }
                      if(!opts.type){
-                            if(ots.org.type){
+                            if(opts.org.type){
                                 return true;                         
                             }
                      }
@@ -122,8 +122,11 @@ jQuery(document).ready(function ($) {
                     boxservice.util.pageForEachRecord("tags/tag-li.html",tags,opts.taglistElement).done(function(){
                         $(".tagslist .delete").click(function(){
                                var tagToDelete=$(this).attr("value");
-                               opts.onDeleteTag(tagToDelete);                                         
+                               opts.onDeleteTag(tagToDelete);                               
                         });                        
+                        if(opts.onComplete){
+                            opts.onComplete();
+                        }
                     });
                 }                
             },

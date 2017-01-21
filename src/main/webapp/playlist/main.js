@@ -483,19 +483,24 @@ jQuery(document).ready(function ($) {
                  }
                  else{                 
                         $("#addEpisodeToList").hide();
-                        var result={};
+                        var result={
+                                tags:[],
+                                taglistElement:".tagslist",
+                                onDeleteTag:function(tagToDelete){
+                                    console.log("going to delete:"+tagToDelete);
+                                    that.checkButtons(true);
+                                },
+                                onComplete:function(){
+                                    that.checkButtons();
+                                }
+                        };
                         boxservice.tags.parseSearchString(this.playlist.playListData.search,result);
                         if(result.error){
                             boxservice.util.openDialog(result.error+":"+this.playlist.playListData.search);
                             return;
                         }
                         else if(result.tags && result.tags.length>0){
-                            $("#playlist-tags-type").val(result.type);
-                            result.taglistElement=".tagslist";
-                            result.onDeleteTag=function(tagToDelete){
-                                console.log("going to delete:"+tagToDelete);
-                                that.checkButtons(true);
-                            };
+                            $("#playlist-tags-type").val(result.type);                                                        
                             boxservice.tags.listTags(result);                            
                         }
                         if(this.playlist.playListData.type){
@@ -507,8 +512,7 @@ jQuery(document).ready(function ($) {
                         $("#addNewTag").click(function(){
                             boxservice.tags.showSelectATagDialog({onAdd:function(tag){
                                 result.tags.push(tag);
-                                boxservice.tags.listTags(result);
-                                that.checkButtons();
+                                boxservice.tags.listTags(result);                               
                             }});
                             return false;
                         });
@@ -723,31 +727,15 @@ jQuery(document).ready(function ($) {
                      playListData.favorite=true;
                  }
                  if($("#playlist_type").val()=="smart"){
+                     
                      playListData.type=$("#playlist-play-order").val();
-                     var tagtype=$("#playlist-tags-type").val();
-                     var searchvalue=$("#playlist-tags-search").val();
-                     if(searchvalue){
-                        var tags=searchvalue.split(",");
-                        if(tags.length){
-                            if(tagtype=="all"){
-                                playListData.search="+tags:\""+tags[0]+"\"";                               
-                            }
-                            else{
-                                playListData.search="tags:\""+tags[0]+"\"";
-                            }
-                            
-                            
-                           if(tags.length>1){
-                                 for(var i=1;i<tags.length;i++){
-                                     if(tags[i]){
-                                         playListData.search+=",\""+tags[i]+"\"";
-                                     }
-                                 }                             
-                           }
-                            
-                        }
-                        
-                     }
+                     
+                     var tagSearchType=$("#playlist-tags-type").val();                        
+                     var tags=$(".tagslist .chip .tagitem").map(function(){
+                         return $(this).attr("value");                            
+                     });
+                     
+                     playListData.search=boxservice.tags.toSearchString({tags:tags,type:tagSearchType});
                      
                  }
                  else{
@@ -770,7 +758,9 @@ jQuery(document).ready(function ($) {
                   
                  $("#playlist_type").off("change").on('change', this.checkType.bind(this));
                  $("#playlist_type").off("input").on('input', this.checkType.bind(this));
+                 
                  $("#playlist-tags-type").val("any");
+                 
                  $("#playlist-play-order").val("ACTIVATED_OLDEST_TO_NEWEST");
                  $("#playlist_type").val("Manual");
                  var that=this;
@@ -780,6 +770,24 @@ jQuery(document).ready(function ($) {
                  $("#cancelPlaylist").click(function(){
                      that.cancelPlaylist();
                  });
+                 result={
+                         type:"any",
+                         tags:[],
+                         taglistElement:".tagslist",
+                         onDeleteTag:function(tagToDelete){
+                             console.log("going to delete:"+tagToDelete);                             
+                         }
+                 };
+                 
+                 $("#addNewTag").click(function(){
+                     boxservice.tags.showSelectATagDialog({onAdd:function(tag){
+                         result.tags.push(tag);
+                         boxservice.tags.listTags(result);                        
+                     }});
+                     return false;
+                 });
+                 
+                 
                  this.checkType();
                  boxservice.util.resetInput();
              }
