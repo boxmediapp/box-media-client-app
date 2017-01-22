@@ -826,6 +826,7 @@ jQuery(document).ready(function ($) {
                             'width',
                             progress + '%'
                         );
+                        console.log("::::progress:"+progress);
                         if(data.loaded>=data.total){
                             setTimeout(function(){
                                 $("#fileUploaderDialog").closeModal();
