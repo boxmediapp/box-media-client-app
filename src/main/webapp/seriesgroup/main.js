@@ -44,8 +44,7 @@ jQuery(document).ready(function ($) {
     
     
     boxservice.seriesgroup.editFields=[{input:{selection:"#seriesGroupTitle"}, data:{value:["title"]}},
-                                       {input:{selection:"#seriesGroupSynopsis"}, data:{value:["synopsis"]}},
-                                       {input:{selection:"#seriesGroupTags"}, data:{value:["tags"]}},
+                                       {input:{selection:"#seriesGroupSynopsis"}, data:{value:["synopsis"]}},                                       
                                        {input:{selection:"#imageURL"}, data:{value:["imageURL"]}}
                                        ];
     
@@ -190,10 +189,23 @@ jQuery(document).ready(function ($) {
     };
     
     boxservice.seriesgroup.editSeriesGroup=function(seriesgroup,deferred){
-		   
-		   boxservice.api.tags.list().done(function(tags){
-			   	  boxservice.util.form.populateOptions(tags,"#seriesGroupTags");
+			   	 
 			   	  boxservice.util.form.initInputFields(seriesgroup,boxservice.seriesgroup.editFields);
+			   	  
+			   	var editTagRequest={
+                                        tags:seriesgroup.tags,
+                                        markEditing:function(){
+                                            boxservice.seriesgroup.inputDirty=true;
+                                            boxservice.seriesgroup.checkStatus(seriesgroup);
+                                        },
+                                        markDirty:function(){
+                                            console.log("tags are not consistent");
+                                            boxservice.seriesgroup.inputDirty=true;
+                                            boxservice.util.openDialog("The tags appears to be inconsistent, not editable");
+                                        }
+                                }
+                              boxservice.tags.requestEdit(editTagRequest);
+			   	  
 				  boxservice.util.resetInput();				  
 					  
 
@@ -216,7 +228,7 @@ jQuery(document).ready(function ($) {
 				
 				  
 				  
-		   });
+		   
 		   boxservice.series.listdata=boxservice.series.createListData({backCallback:function(){                           
                        boxservice.seriesgroup.edit(seriesgroup.id,deferred);
                    }});
@@ -257,10 +269,11 @@ jQuery(document).ready(function ($) {
 			  
 			  $("#saveSeriesGroup").click(function(){
 				  boxservice.seriesgroup.inputDirty=false;
-				  					  
-				  if(boxservice.util.form.valueHasChanged(seriesgroup,boxservice.seriesgroup.editFields)){
+				  var tags=boxservice.tags.getTagsFromUI();					  
+				  if(boxservice.util.form.valueHasChanged(seriesgroup,boxservice.seriesgroup.editFields) || boxservice.tags.checkChanged({tags:tags,org:{tags:seriesgroup.tags}})){
 					    boxservice.util.startWait();
 					    boxservice.util.form.update(seriesgroup,boxservice.seriesgroup.editFields);
+					    seriesgroup.tags=tags;
 					    var updatepromise=boxservice.api.seriesgroup.update(seriesgroup.id,seriesgroup);
 					    updatepromise.done(function(){
 							  boxservice.util.finishWait();

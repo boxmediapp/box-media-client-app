@@ -13,8 +13,7 @@ jQuery(document).ready(function ($) {
             {input:{selection:"#txChannel"}, data:{value:["txChannel"]}},
           
                 {input:{selection:"#supplier"},        data:{value:["supplier"]}},
-            {input:{selection:"#certType"},        data:{value:["certType"]}},
-            {input:{selection:"#episodeTags"},     data:{type:"array", value:["tags"]}},
+            {input:{selection:"#certType"},        data:{value:["certType"]}},            
             {input:{selection:"#warningText"},     data:{value:["warningText"]}},                                                                                                   
             {input:{selection:"#adsupport"},       data:{value:["adsupport"]}}, 
             {input:{selection:"#showType"},        data:{value:["showType"]}},
@@ -70,8 +69,23 @@ jQuery(document).ready(function ($) {
                        
                        var configpage={types:{lastModifiedAt:"datetime","createdAt":"datetime"} };
                                        
-                           $("#content").html(htmlContent);                        
-                           boxservice.util.form.initInputFields(episode,boxservice.episode.editFields);                                                          
+                           $("#content").html(htmlContent);   
+                           
+                           boxservice.util.form.initInputFields(episode,boxservice.episode.editFields);
+                           
+                           var editTagRequest={
+                                   tags:episode.tags,
+                                   markEditing:function(){
+                                       boxservice.episode.editpage.markEditing();
+                                       boxservice.episode.checkStatus(episode);
+                                   },
+                                   markDirty:function(){
+                                       console.log("tags are not consistent");
+                                       boxservice.episode.editpage.markDirty();
+                                       boxservice.util.openDialog("The tags appears to be inconsistent, not editable:");
+                                   }
+                           }
+                         boxservice.tags.requestEdit(editTagRequest);
                            var scheduleconfig={"types":{"scheduleTimestamp":"datetime"}};
                                                    
                            boxservice.util.pageForEachRecord("episode/schedule-record.html",episode.scheduleEvents,"#scheduleslist",scheduleconfig).done(function(){
@@ -106,36 +120,18 @@ jQuery(document).ready(function ($) {
                            
                            
                            
-                           boxservice.util.form.populateOptions(tags,"#episodeTags");
-                           boxservice.util.form.selectOptions(episode.tags,"#episodeTags");
-                           /*
-                           if(episode.cuePoints && episode.cuePoints.length>0){
-                                   var cueContent="";
-                                   for(var i=0;i<episode.cuePoints.length;i++){
-                                           cueContent=cueContent+boxservice.util.replaceVariables(cueRowPage,episode.cuePoints[i]);
-                                   }
-                                   $("#cuepoints").append(cueContent);
-                           }
-                           */
+                           
+                           
                            boxservice.util.resetInput();
+                                                                                 
                            
+                           var isDataNotConsistent=boxservice.util.form.valueHasChanged(episode,boxservice.episode.editFields);
                            
-                           
-                           
-                   
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           var isDataNotConsistent=boxservice.util.form.valueHasChanged(episode,boxservice.episode.editFields);                    
                            if(isDataNotConsistent){
                                       boxservice.episode.editpage.markDirty();
                                           boxservice.util.openDialog("The fields appears to be inconsistent, not editable:"+isDataNotConsistent);                                        
                                  return;
-                   }
+                           }
                            boxservice.episode.resetStatus();
                            boxservice.episode.checkStatus(episode);
                            
@@ -395,6 +391,7 @@ jQuery(document).ready(function ($) {
                         
                 });
                 
+                
                 boxservice.episode.editpage.initTagDialog(episode);
                 $("#cancelEditEpisode").unbind("click").click(function () {
                         
@@ -579,9 +576,16 @@ jQuery(document).ready(function ($) {
                 
                 $("#saveEpisode").click(function () {                   
                         boxservice.episode.editpage.doneEditing();
-                        if (boxservice.util.form.valueHasChanged(episode, boxservice.episode.editFields)) {
+                        
+                        var tags=boxservice.tags.getTagsFromUI();
+                        
+                        
+                        
+                        if (boxservice.util.form.valueHasChanged(episode, boxservice.episode.editFields) || boxservice.tags.checkChanged({tags:tags,org:{tags:episode.tags}})) {
                                 boxservice.util.startWait();
                                 boxservice.util.form.update(episode, boxservice.episode.editFields);
+                                episode.tags=tags;
+                                
                                 if(episode.supplier && episode.supplier.toLowerCase()=="box tv network"){
                                           episode.ingestProfile="box-plus-network-DRM-profile";
                                 }
@@ -617,18 +621,24 @@ jQuery(document).ready(function ($) {
                 return;                    
             }            
             for(var i=0;i<missingFields.length;i++){
-                var missingField=missingFields[i];                
+                var missingField=missingFields[i];
                 var inutSelection=null;
-                for(var k=0;k<boxservice.episode.editFields.length;k++){
-                    var inp=boxservice.episode.editFields[k];
-                    if(inp.data.value[0]==missingField){
-                        inutSelection=inp.input.selection;
-                        break;
-                    }
+                if("tags" == missingField){
+                    inutSelection=".tagslist";                    
+                }
+                else{                    
+                        for(var k=0;k<boxservice.episode.editFields.length;k++){
+                            var inp=boxservice.episode.editFields[k];
+                            if(inp.data.value[0]==missingField){
+                                inutSelection=inp.input.selection;
+                                break;
+                            }
+                        }
                 }
                 console.log(missingField+" ---> "+inutSelection);
                 $(inutSelection).parent().addClass("requiredFieldMissing");
             }
+            
         };
         boxservice.episode.editpage.intPlayVideo = function (episode) {
                 $("#playSourceVideo").click(function () {

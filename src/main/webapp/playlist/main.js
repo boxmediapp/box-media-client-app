@@ -245,9 +245,7 @@ jQuery(document).ready(function ($) {
                  else{
                        
                         var tagSearchType=$("#playlist-tags-type").val();                        
-                        var tags=$(".tagslist .chip .tagitem").map(function(){
-                            return $(this).attr("value");                            
-                        });
+                        var tags=boxservice.tags.getTagsFromUI();
                         var orgTagscontainer={};
                         boxservice.tags.parseSearchString(this.playlist.playListData.search,orgTagscontainer)
                         if(orgTagscontainer.error){
@@ -731,9 +729,7 @@ jQuery(document).ready(function ($) {
                      playListData.type=$("#playlist-play-order").val();
                      
                      var tagSearchType=$("#playlist-tags-type").val();                        
-                     var tags=$(".tagslist .chip .tagitem").map(function(){
-                         return $(this).attr("value");                            
-                     });
+                     var tags=boxservice.tags.getTagsFromUI();
                      
                      playListData.search=boxservice.tags.toSearchString({tags:tags,type:tagSearchType});
                      
