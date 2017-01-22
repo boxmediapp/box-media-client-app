@@ -78,6 +78,11 @@ jQuery(document).ready(function ($) {
                       result.error="searchtag value is in wrong format";
                 }                    
             },
+            getTagsFromUI:function(){
+                return $(".tagslist .chip .tagitem").map(function(){
+                    return $(this).attr("value");                            
+                }).get();  
+            },
             checkChanged:function(opts){                   
                    if(!opts.tags || !opts.tags.length){                            
                        if(opts.org.tags && opts.org.tags.length){
@@ -118,7 +123,7 @@ jQuery(document).ready(function ($) {
                         t={tag:opts.tags[i]};
                         tags.push(t);
                     }
-                    $(opts.taglistElement).empty();
+                    $(opts.taglistElement).empty();                    
                     boxservice.util.pageForEachRecord("tags/tag-li.html",tags,opts.taglistElement).done(function(){
                         $(".tagslist .delete").click(function(){
                                var tagToDelete=$(this).attr("value");
@@ -128,10 +133,22 @@ jQuery(document).ready(function ($) {
                             opts.onComplete();
                         }
                     });
-                }                
+                }
+                else{
+                    if(opts.onComplete){
+                        opts.onComplete();
+                    }
+                }
             },
            
-             
+              cloneTags:function(tags){
+                  var t=[];
+                  if(tags && tags.length){
+                      for(var i=0;i<tags.length;i++)
+                      t.push(tags[i]);
+                  }  
+                  return t;
+              },
              showSelectATagDialog:function(opts){
                  var that=this;             
                  if(!this.htmlContent){
@@ -205,7 +222,42 @@ jQuery(document).ready(function ($) {
                          $(this).addClass("selected"); 
                      });
                  });
+             },
+             requestEdit:function(opts){     
+                     var that=this;
+                     var listTagRequest={
+                                         firsttime:true,
+                                         tags:opts.tags,                           
+                                         taglistElement:".tagslist",
+                                         onDeleteTag:function(tag){
+                                               opts.markEditing();
+                                         },
+                                         onComplete:function(){
+                                                if(this.firsttime){
+                                                    this.firsttime=false;
+                                                    var tags=that.getTagsFromUI();                                                       
+                                                    if(that.checkChanged({tags:tags,org:{tags:opts.tags}})){
+                                                        opts.markDirty();
+                                                    }   
+                                                }
+                                                else{
+                                                        opts.markEditing();
+                                                }                                                 
+                                         }
+                                     };                                  
+                      this.listTags(listTagRequest);
+                      $("#addNewTag").click(function(){                    
+                              that.showSelectATagDialog({onAdd:function(tag){
+                                  var tags=that.getTagsFromUI();
+                                  tags.push(tag);
+                                  listTagRequest.tags=tags;
+                                  boxservice.tags.listTags(listTagRequest);                                    
+                         }});                                
+                         return false;
+                     });
              }
+             
+             
             
     };        
 });

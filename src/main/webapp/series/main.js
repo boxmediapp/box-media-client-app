@@ -120,8 +120,7 @@ jQuery(document).ready(function ($) {
                                   {input:{selection:"#seriesSynopsis"}, data:{value:["synopsis"]}},
   			  		              {input:{selection:"#contractNumber"},  data:{value:["contractNumber"]}},
   			  		              {input:{selection:"#imageURL"},  data:{value:["imageURL"]}},
-  			  		              {input:{selection:"#seriesNumber"},  data:{value:["seriesNumber"]}},
-  			  		              {input:{selection:"#seriesTags"},  data:{value:["tags"]}},
+  			  		              {input:{selection:"#seriesNumber"},  data:{value:["seriesNumber"]}},  			  		              
   			  		              {input:{selection:"#maxNumberOfEpisodes"},  data:{value:["maxNumberOfEpisodes"]}},
   			  		              {input:{selection:"#seriesGroupTitle"}, data:{value:["seriesGroup", "title"]}, "notEditable":true}
   			  		            
@@ -201,8 +200,22 @@ jQuery(document).ready(function ($) {
 	   boxservice.series.editSeries=function(series,deferred){
 		       
 			   boxservice.api.tags.list().done(function(tags){
-				   	  boxservice.util.form.populateOptions(tags,"#seriesTags");
+				   	  
 				   	  boxservice.util.form.initInputFields(series,boxservice.series.editFields);
+				   	  var editTagRequest={
+				   	          tags:series.tags,
+				   	          markEditing:function(){
+				   	             boxservice.series.inputDirty=true;                                                                         
+                                                     boxservice.series.checkStatus(series);
+				   	          },
+				   	          markDirty:function(){
+				   	              console.log("tags are not consistent");
+				   	              boxservice.series.inputDirty=true;
+				   	              boxservice.util.openDialog("The tags appears to be inconsistent, not editable");
+				   	          }
+				   	  }
+				   	boxservice.tags.requestEdit(editTagRequest);
+		                           
 				   	  boxservice.util.resetInput();
 					   if(boxservice.util.form.valueHasChanged(series,boxservice.series.editFields)){
 			    			boxservice.util.openDialog("The fields appears to be inconsistent, not editable");
@@ -296,8 +309,10 @@ jQuery(document).ready(function ($) {
 			   });
 			   $("#saveSeries").click(function(){
 				   boxservice.series.inputDirty=false;
-		  			if(boxservice.util.form.valueHasChanged(series,boxservice.series.editFields)){
+				   var tags=boxservice.tags.getTagsFromUI();
+		  			if(boxservice.util.form.valueHasChanged(series,boxservice.series.editFields) ||  boxservice.tags.checkChanged({tags:tags,org:{tags:series.tags}})){
 		  				boxservice.util.form.update(series,boxservice.series.editFields);
+		  				series.tags=tags;
 		  				boxservice.util.startWait();
 		  			    var seriesdatapromise=boxservice.api.series.update(series.id,series);
 		  			  seriesdatapromise.done(function(){
