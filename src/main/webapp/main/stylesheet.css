@@ -646,6 +646,11 @@ input.selectableCheckbox[type="checkbox"]{
     overflow: hidden;
 }
 
+div#playVideoDialog {
+    width: 100%;
+    height: 100%;
+}
+
 .listableDialog{
 	width:55%;
     height:60%; 
