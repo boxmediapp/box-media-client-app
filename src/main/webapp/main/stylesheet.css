@@ -638,7 +638,7 @@ input.selectableCheckbox[type="checkbox"]{
 }
 #playlistDialog{
 	width:55%;
-	height:55%;	
+	height:65%;	
     padding-left:0px;
     padding-right:0px;
     padding-top:0px;
@@ -646,6 +646,20 @@ input.selectableCheckbox[type="checkbox"]{
     overflow: hidden;
 }
 
+#playVideoDialog {
+    width: 70%;
+    height: 100%;
+}
+#playVideoDialog .closeVideoContainer{
+    float:right;
+    margin:0px;
+    padding: 0px;
+    
+}
+#playVideoDialog video{
+	margin:0px;
+	
+}
 
 .listableDialog{
 	width:55%;
