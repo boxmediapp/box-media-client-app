@@ -774,11 +774,15 @@ jQuery(document).ready(function ($) {
             $("#fileUploaderDialog").openModal({
                     dismissible: true,
                     complete: function () {
-                           if(metadata && metadata.series){
+                           
+                           if(metadata && metadata.programmeNumber){
                                boxservice.episode.edit(metadata.id,deferred); 
                            }
+                           if(metadata && metadata.contractNumber){
+                               boxservice.series.edit(metadata.id,deferred);
+                           }
                            else if(metadata){
-                               boxservice.series.edit(metadata.id,deferred); 
+                               boxservice.seriesgroup.edit(metadata.id,deferred);   
                            }
                                 
                                                       
@@ -830,11 +834,14 @@ jQuery(document).ready(function ($) {
                         if(data.loaded>=data.total){
                             setTimeout(function(){
                                 $("#fileUploaderDialog").closeModal();
-                                if(metadata.series){
-                                    boxservice.episode.edit(metadata.id,deferred);
+                                if(metadata && metadata.programmeNumber){
+                                    boxservice.episode.edit(metadata.id,deferred); 
                                 }
-                                else{
+                                if(metadata && metadata.contractNumber){
                                     boxservice.series.edit(metadata.id,deferred);
+                                }
+                                else if(metadata){
+                                    boxservice.seriesgroup.edit(metadata.id,deferred);   
                                 }
                             }, 5000);
                             

@@ -12,7 +12,10 @@ jQuery(document).ready(function ($) {
     
     
     
-    boxservice.seriesgroup.uploadImageFile=function(seriesgroup){
+    
+    
+    
+    boxservice.seriesgroup.uploadImageFile=function(seriesgroup,deferred){
     	if (boxservice.seriesgroup.inputDirty) {
 			boxservice.util.openDialog("Please save it first: click on the 'save' button");
 			return;
@@ -32,8 +35,18 @@ jQuery(document).ready(function ($) {
 			}
 			else {
 				$("#filennameForUpload").val(imagefileName + ".png");		
-				$("#uploadFileNameDialog").openModal();
-				boxservice.util.resetInput();
+				boxservice.episode.editpage.processFileNameDialog(seriesgroup,boxservice.api.masterimage.listFiles, function(uploadFilename){
+                                    var uploadRequest={
+                                            file:boxservice.appinfo.appconfig.imageMasterFolder+"/"+uploadFilename,
+                                            bucket:boxservice.appinfo.appconfig.imageBucket                                                            
+                                    }; 
+                                    boxservice.api.upload(uploadRequest).done(function (data) {                                                    
+                                        if (data) {
+                                            boxservice.episode.editpage.showS3UploadUploadDialog(seriesgroup,data,deferred);                                                            
+                                        }
+                                    });
+                                  }); 
+				
 			}
 
 		}).fail(boxservice.util.onError);
@@ -237,8 +250,17 @@ jQuery(document).ready(function ($) {
 		   boxservice.series.listSeries(seriesgroup.series);
 		     
 			  $("#uploadImageFile").click(function () {
-					boxservice.seriesgroup.uploadImageFile(seriesgroup);
+					boxservice.seriesgroup.uploadImageFile(seriesgroup,deferred);
 				});
+			  
+			 
+			 
+			  
+			  
+			  
+			  
+			  
+			  
 			  
 			  $("#cancelSaveSeriesGroup").click(function(){
 				  boxservice.seriesgroup.inputDirty=false;
@@ -255,15 +277,7 @@ jQuery(document).ready(function ($) {
 				});
 			  
 			  
-			  $("#uploadFileNameDialog .cancel").click(function () {
-
-			  });
-			  $("#uploadFileNameDialog .confirm").click(function () {
-				  boxservice.util.uploadFileDialog(boxservice.api.masterimage.listFiles,function(){
-					  boxservice.seriesgroup.edit(seriesgroup.id,deferred);
-				  }, boxservice.api.masterimage.uploadfileurl());							 
-			  });
-
+			  
 			  
 			  
 			  
