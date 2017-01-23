@@ -108,32 +108,41 @@
  
  
  
- <div id="uploadFileNameDialog" class="modal">
-		<div class="modal-content">
-			<div class="row">
-				<div class="input-field col s12">
-					<input id="filennameForUpload" type="text">
-					<label for="filennameForUpload">Target file name for Upload</label>
-				</div>
-			</div>
+<div id="uploadFileNameDialog" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="filennameForUpload" type="text">
+                    <label for="filennameForUpload">Target file name for Upload</label>
+                </div>
+            </div>
 
 
-		</div>
-		<div class="modal-footer">
-			<a class="confirm  btn-flat waves-effect waves-green">Use this file name</a>
-			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
-		</div>
-	</div>
+        </div>
+        <div class="modal-footer">
+            <a class="confirm  modal-close btn-flat waves-effect waves-green">Use this file name</a>
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
+        </div>
+    </div>
 
-	<div id="fileUploaderDialog" class="modal">
-		<div class="modal-content">
+	<div id="fileUploaderDialog" class="modal listableDialog">
+        <div class="modal-content">
 
-			<div class="fileuploader">Upload local files</div>
+            <div class="fileuploader">
+                 <div>Upload local files</div>
+                 <input id="fileupload" type="file" name="file" data-url="/" multiple>
+                 <div class="progress">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+                
+            </div>
+            <div class="statusMessage">
+             </div>
 
 
-		</div>
-		<div class="modal-footer">
-			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>	       
-	   </div>
-</div>
+        </div>
+        <div class="modal-footer">
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>          
+       </div>
+   </div>
  
