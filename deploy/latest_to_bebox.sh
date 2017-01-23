@@ -1,1 +1,1 @@
-deploy/deploy.sh be.boxnetwork.co.uk ec2-user 2.5.4
+deploy/deploy.sh be.boxnetwork.co.uk ec2-user 2.5.5
