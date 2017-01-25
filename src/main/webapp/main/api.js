@@ -12,8 +12,34 @@ jQuery(document).ready(function ($) {
 	
 	
 	boxservice.api.boxvideo={};
-	boxservice.api.masterimage={};
+	boxservice.api.masterimage={
+	        uploadfileurl:function(){                   
+	            return  apipath+"/box-images/master";               
+	        },
+	        listFiles:function(prefix){                   
+	            var path=apipath+"/box-images/master";
+	                  if(prefix){
+	                          path=path+"?prefix="+prefix;                                            
+	                  }
+	                  return boxservice.api.ajax("GET",path);
+	                  
+	         },
+	         deleteSeriesGroupImage:function(seriesgroupid,imagefile){
+                     var path=apipath+"/box-images/master/seriesgroup/"+seriesgroupid+"/"+imagefile;               
+                     return boxservice.api.ajax("DELETE",path);
+                  },
+	         deleteSeriesImage:function(seriesid,imagefile){
+	             var path=apipath+"/box-images/master/series/"+seriesid+"/"+imagefile;               
+	             return boxservice.api.ajax("DELETE",path);
+	          },
+	        deleteEpisodeImage:function(episodeid,imagefile){
+	            var path=apipath+"/box-images/master/episode/"+episodeid+"/"+imagefile;             
+	            return boxservice.api.ajax("DELETE",path);
+	        }
+	        
+	};
 	
+
 	
 	boxservice.api.task={};
 	boxservice.api.episode={};
@@ -84,9 +110,7 @@ jQuery(document).ready(function ($) {
 	boxservice.api.boxvideo.uploadfileurl=function(){		
 		   return apipath+"/box-video";			
 	};	
-	boxservice.api.masterimage.uploadfileurl=function(){			
-	     return  apipath+"/box-images/master";		 
-	};
+	
 	 
 	  
 	boxservice.api.ajax=function(methodname,path,data){
@@ -358,23 +382,8 @@ jQuery(document).ready(function ($) {
       return boxservice.api.ajax("DELETE",path);
  };
 
-  boxservice.api.masterimage.listFiles=function(prefix){			
-	  var path=apipath+"/box-images/master";
-		 if(prefix){
-			 path=path+"?prefix="+prefix;			 			 
-		 }
-		 return boxservice.api.ajax("GET",path);
-		 
-  };
-  boxservice.api.masterimage.deleteSeriesImage=function(seriesid,imagefile){
-	     var path=apipath+"/box-images/master/series/"+seriesid+"/"+imagefile;		 
-		 return boxservice.api.ajax("DELETE",path);
-  };
-  boxservice.api.masterimage.deleteEpisodeImage=function(episodeid,imagefile){
-	     var path=apipath+"/box-images/master/episode/"+episodeid+"/"+imagefile;		 
-		 return boxservice.api.ajax("DELETE",path);
-  };
-
+  
+  
   
   
   boxservice.api.boxvideo.presginedurl=function(url){       
