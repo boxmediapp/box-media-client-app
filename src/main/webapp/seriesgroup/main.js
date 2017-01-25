@@ -159,6 +159,7 @@ jQuery(document).ready(function ($) {
 			$("#cancelSaveSeriesGroup").show();
 			$("#deleteSeriesGroup").hide();
 			$("#viewImage").hide();
+			$("#deleteMasterImage").hide();
 			
 			
    	}
@@ -172,10 +173,12 @@ jQuery(document).ready(function ($) {
 				$("#deleteSeriesGroup").show();
 			}
 			if(seriesgroup.imageURL){
-				  $("#viewImage").show();					  
+				  $("#viewImage").show();
+				  $("#deleteMasterImage").show();
 			  }
 			  else{
 				  $("#viewImage").hide();
+				  $("#deleteMasterImage").hide();
 			  }
    	}
    	
