@@ -143,7 +143,16 @@ jQuery(document).ready(function ($) {
     				console.error("the episode is not found when trying to set the published status of the loaded");
     			}
     			boxservice.util.finishWait();
-    	}).fail(boxservice.util.onError);
+    	}).fail(function(err){
+            $("#loaderPage").hide();
+            if(err && err.responseJSON &&  err.responseJSON.length && err.responseJSON[0].error_code && err.responseJSON[0].error_code=="NOT_FOUND"){
+                boxservice.util.openDialog("The correspondong Brightcove media entry seems deleted directly from the brightcove without using Box Medias App, please go into the episode page and clear the BrightocoveID field to sync the Box Media App for this episode ");
+            }
+            else{
+                boxservice.util.openDialog(" error with "+JSON.stringify(err));
+            }
+            
+    });
     } ;    
     
     
