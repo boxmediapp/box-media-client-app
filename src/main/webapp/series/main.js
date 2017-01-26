@@ -348,11 +348,8 @@ jQuery(document).ready(function ($) {
 					   
 					   
 					   var episode={
-					    		title:"",
-					    		number:"1",
-					    		synopsis:"",
-					    		programmeNumber:series.contractNumber+"/"+getNextEpisodeNumber(),
-					    		warningText:"",
+					    		title:"",					    		
+					    		programmeNumber:series.contractNumber+"/"+getNextEpisodeNumber(),					    		
 					    		txChannel:boxservice.appinfo.appconfig.autoSetTxChannel,
 					    		certType:"ALL_TIMES",
 					    		adsupport:"FREE",
@@ -366,52 +363,42 @@ jQuery(document).ready(function ($) {
 					   
 					   $("#content").html(htContent);
 					   $("#programmeNumber").val(episode.programmeNumber);
-					   $("#episodeContentType").val(episode.contentType);
-					   $("#txChannel").val(episode.txChannel);
+					 
 					   boxservice.util.resetInput();
 					   
-					   var tagspromise=boxservice.api.tags.list();
-					   tagspromise.done(function(tags){
-						   	  boxservice.util.form.populateOptions(tags,"#episodeTags");
-					   });
+					   
 					   $("#createNewEpisode .cancel").click(function(){			   
 						   boxservice.series.edit(series.id,deferred);
 					   }); 
-					  
-					   $("#createtags").click(function(){
-							  $("#createNewTagsDialog").openModal();
-						  });
-						  $("#confirmCreateNewTag").click(function(){
-				    			var newvalue=$("#newtags").val();
-				    			var tags=newvalue.split(",");
-				    			for(var i=0;i<tags.length;i++){
-				    				boxservice.util.form.addOption(tags[i],tags[i],"#episodeTags");
-				    			}
-
-				    			$('select').material_select();
-				    	  });
-					   
-					   
 					   $("#createNewEpisode .create").click(function(){			   
-					   	 	  boxservice.util.startWait();					  
-					   	 	  
-					   	 	  boxservice.util.form.update(episode,boxservice.episode.editFields);
-					   	 	  
-					   	 	  if(episode.supplier && episode.supplier.toLowerCase()=="box tv network"){
-					   	 		  episode.ingestProfile="box-plus-network-DRM-profile";
+					   	 	  					  
+					   	 	  episode.title=$("#episodeTitle").val();
+					   	 	  episode.programmeNumber=$("#programmeNumber").val();
+					   	 	  if(episode.title){
+					   	 	     episode.title=episode.title.trim();					   	 	      
+					   	 	  }					   	 	  
+					   	 	  if(episode.programmeNumber){
+					   	 	          episode.programmeNumber=episode.programmeNumber.trim();
 					   	 	  }
+					   	 	  if(!episode.title || !episode.programmeNumber){
+					   	 	      return;
+					   	 	  }					   	 	  
 							  console.log(JSON.stringify(episode));
-			                  
-							  var episodedatapromise=boxservice.api.episode.create(episode);
-							  episodedatapromise.done(function(){
-								  boxservice.util.finishWait();
-								  boxservice.series.edit(series.id,deferred);
+							  boxservice.util.startWait();
+							  boxservice.api.episode.create(episode).done(function(createdEpisode){
+							          boxservice.util.finishWait();
+							          console.log("created::::"+JSON.stringify(createdEpisode));
+							          var tdeferred=$.Deferred();           
+							           tdeferred.promise().done(function(){
+							               boxservice.series.edit(series.id,deferred); 
+							           });							          
+								  
+								  boxservice.episode.edit(createdEpisode.id,tdeferred);								  
+								  
 							   }).fail(function(err){
 								   boxservice.util.openDialog("Failed"+JSON.stringify(err));
 								   boxservice.util.finishWait();
-							   });
-							  		     				
-				 		 
+							   });							  		     								 		 
 					   });
 					   
 					   
