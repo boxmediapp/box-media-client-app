@@ -15,9 +15,8 @@ jQuery(document).ready(function ($) {
 	               loadItemsFunction:boxservice.api.boxvideo.listFiles,
 	               listItemsFunction:boxservice.s3.listVideoFiles,
 	               itemsInLoadItemsFunction:"files",
-	               onStartList:function(){
-	                   boxservice.util.startWait();
-	                    $("#content").html(boxservice.s3.htmlContent);
+	                   onStartList:function(){
+	                    boxservice.util.startWait();	                    
 	                    boxservice.s3.seUpS3Sortable();
 	                    boxservice.util.search(boxservice.s3.listdata.search).done(function(search){                             
 	                       boxservice.s3.listdata.newSearch(search);                
@@ -25,22 +24,35 @@ jQuery(document).ready(function ($) {
 	                    });                       
 	               }
 	       };
-	    boxservice.s3.listdata=boxservice.recordlist.createlistdata(createListDataRequest);	    
-            boxservice.s3.loadS3List();
+	    boxservice.s3.listdata=boxservice.recordlist.createlistdata(createListDataRequest);
+	    if(boxservice.s3.htmlContent){
+	        $("#content").html(boxservice.s3.htmlContent);
+	        boxservice.s3.loadS3List();
+	    }
+	    else{
+        	        boxservice.util.page.load("s3/list.html").done(function(htmlContent){
+        	            boxservice.s3.htmlContent=htmlContent;
+        	            $("#content").html(boxservice.s3.htmlContent);
+        	            boxservice.s3.loadS3List();
+        	        });
+	    }
 	}
 	
 	boxservice.s3.loadS3List=function(){
-	    
-              if(boxservice.s3.htmlContent){
-                  boxservice.s3.listdata.startList();
-              }
-              else{
-                         boxservice.util.page.load("s3/list.html").done(function(htmlContent){
-                             boxservice.s3.htmlContent=htmlContent;
-                             boxservice.s3.listdata.startList();
-                         });
-                 }
-                        
+	    var listRequest={
+	            sortFunction:function(a,b){
+	                    if(a.lastModifidDate < b.lastModifidDate)
+	                        return 1;
+	                    else if(a.lastModifidDate > b.lastModifidDate)
+                                return -1;
+	                    else
+	                        return 0;
+	            }
+	            
+	    };
+            $(".sortable span").removeClass("active");
+            $(".sort-last-modified .sort-ascending").addClass("active");
+            boxservice.s3.listdata.startListByLoadingAll(listRequest);
        };
 
     boxservice.s3.listVideoFiles=function(s3filelist){

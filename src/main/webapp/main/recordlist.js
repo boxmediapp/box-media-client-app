@@ -234,6 +234,23 @@ jQuery(document).ready(function ($) {
                        that.listItemsFunction(itms);
                    });                  
            },
+           startListByLoadingAll:function(listRequest){
+               var that=this;
+               if(that.onStartList){
+                   that.onStartList();
+               }
+               this.loadAllData(function(){
+                   if(listRequest.sortFunction){
+                       that.items.sort(listRequest.sortFunction);
+                   }                   
+                   if(listRequest.sortOrder && listRequest.sortOrder === "desc"){
+                       that.items.reverse();    
+                   }
+                   that.start=0;                        
+                   $(that.containerSelection).empty();
+                   that.listItemsFunction(that.items);
+               });
+           },
            findItemIndexById:function(id){
                if(!this.items || !this.items.length){
                    return -1;
