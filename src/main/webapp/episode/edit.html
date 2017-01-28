@@ -239,31 +239,21 @@
 	<div class="card grey lighten-5 episodeEditCard">
 		<div class="row">
 
-			<div class="input-field col s4">
-				Tags:<span class="tagslist">
+			<div class="input-field col s10">
+				Tags:<span class="tagslist"></span>
+				<a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a> 
 			</div>
-			
-			<div class="input-field col s4">   
-                
-                </span><a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a>                            
-            </div>
-			
-			
-			
-			
-			
-			<div class="col s2">
+			<div class="col s2 tooltip">
 				<a id="admintags" class="waves-effect waves-light btn">Admin Tags</a>
+				<i class="material-icons">help_outline</i>
+                <div class="tooltiptext z-depth-2">
+                    You can select multiple tags from the list for this episode, if the tags that you want are not in the list, you can add new
+                    tags by click on the "Add" button on the left. The added new tags will be selected automatically for this episode and
+                    will be added to the global list which is available to select when you are editing the other episodes.
+                </div>
 			</div>
 
-			<div class="col s1 tooltip">
-				<i class="material-icons">help_outline</i>
-				<div class="tooltiptext z-depth-2">
-					You can select multiple tags from the list for this episode, if the tags that you want are not in the list, you can add new
-					tags by click on the "Add" button on the left. The added new tags will be selected automatically for this episode and
-					will be added to the global list which is available to select when you are editing the other episodes.
-				</div>
-			</div>
+			
 
 		</div>
 
@@ -532,20 +522,26 @@
 
 
 	<div class="card grey lighten-5 episodeEditCard">
+		<div id="excludedDevices" class="row">
+
+            <div class="input-field col s10">
+                Excluded devices:<span class="devicelist"></span>
+                <a class="addNewDevice waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a> 
+            </div>
+            <div class="col s2 tooltip">
+                <a id="adminClientDevices" class="waves-effect waves-light btn">Admin Devices</a>
+                <i class="material-icons">help_outline</i>
+                <div class="tooltiptext z-depth-2">
+                 device names list that specifies which devices that the episode should not be available.   You can select client devices from the list, if the devices that you want are not in the list, you need to click on "Admin Devices" button to add/remove new devices.
+                </div>
+            </div>
+
+            
+
+        </div>
+		
 		<div class="row">
-			<div class="input-field col s6">
-				<input id="excludeddevices" type="text">
-				<label for="excludeddevices" class="tooltip">Excluded devices
-			 
-			 <i class="material-icons">help_outline</i>
-					<div class="tooltiptext z-depth-2">
-			the comma separate device names list that specifies which devices that the episode should not be available.
-					</div>
 			
-			
-			
-			</label>
-			</div>
 			<div class="input-field col s6">
 				<input id="geoAllowedCountries" type="text">
 				<label for="geoAllowedCountries" class="tooltip">Countries

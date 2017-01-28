@@ -35,6 +35,12 @@ jQuery(document).ready(function ($) {
 					boxservice.admin.main();
 				});
 			});
+			$("#adminCleintDevices").click(function(){                    
+			    boxservice.admin.clientdevices.show({onBack:function(){
+			        boxservice.admin.main();
+			    }});			    
+                        });
+			
 			$("#deliverSoundmouseSmurf").click(function(){
 				boxservice.util.startWait();
 				var mediaCommand={
@@ -217,6 +223,7 @@ jQuery(document).ready(function ($) {
 		
    };
    
+  
    boxservice.admin.tags=function(originalDeferred){
 	   var deferred = originalDeferred?originalDeferred:$.Deferred();
 	   
@@ -285,7 +292,63 @@ jQuery(document).ready(function ($) {
    
    
    
-     
+   boxservice.admin.clientdevices={
+           show:function(opts){
+               var that=this;
+               if(!that.htmlContent){
+                   boxservice.util.page.load("admin/clientdevices-editor.html").done(function(htmlContent){
+                       that.htmlContent=htmlContent;
+                       that.show(opts);
+                   });
+                   return;
+               }
+               $("#content").html(this.htmlContent);
+               $("#backButton").click(function(){
+                   if(opts.onBack){
+                       opts.onBack();
+                   }
+                   return false;
+               });
+               
+               $("#addNewDevice").click(function(){
+                   var newDevice=$("#newdevice").val();
+                   if(!newDevice){
+                           return;
+                   }
+                   newDevice=newDevice.toLowerCase();
+                   var device={name:newDevice};
+                   boxservice.api.clientdevices.add(device).done(function(){
+                           if($(".clientdevicelist .chip i[value='"+newDevice+"']").length==0){
+                                           boxservice.util.startWait();
+                                           boxservice.util.page.load("admin/device-row.html").done(function(ht){                                                                                                  
+                                                   var pt=boxservice.util.replaceVariables(ht,device);
+                                                   $(".clientdevicelist").append(pt);
+                                                   boxservice.util.finishWait();
+                                           });
+                           }
+                           
+                   }).fail(boxservice.util.onError);
+                   
+                   
+             });
+               
+               boxservice.api.clientdevices.list().done(function(devices){                                      
+                   boxservice.util.pageForEachRecord("admin/device-row.html",devices,".clientdevicelist").done(function(){
+                            $(".clientdevicelist .delete").click(function(){
+                                   var deviceToDelete=$(this).attr("value");
+                                     console.log("going to delete:"+deviceToDelete);
+                                     boxservice.api.clientdevices.remove(deviceToDelete).done(function(){
+                                             console.log("deleted the devoce:"+deviceToDelete);
+                                     }).fail(boxservice.util.onError);
+                            });
+                            
+                    });
+                   
+               });
+               
+           }
+           
+   };  
 	
      			  	
 });

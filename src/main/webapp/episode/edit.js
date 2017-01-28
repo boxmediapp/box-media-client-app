@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
             {input:{selection:"#episodeContentType"}, data:{value:["contentType"]}},                                
             {input:{selection:"#txChannel"}, data:{value:["txChannel"]}},
           
-                {input:{selection:"#supplier"},        data:{value:["supplier"]}},
+            {input:{selection:"#supplier"},        data:{value:["supplier"]}},
             {input:{selection:"#certType"},        data:{value:["certType"]}},            
             {input:{selection:"#warningText"},     data:{value:["warningText"]}},                                                                                                   
             {input:{selection:"#adsupport"},       data:{value:["adsupport"]}}, 
@@ -26,8 +26,7 @@ jQuery(document).ready(function ($) {
             {input:{selection:"#durationScheduled"}, data:{value:["durationScheduled"]}},
             {input:{selection:"#durationUploaded"}, data:{value:["durationUploaded"]}},
             {input:{selection:"#prAuk"}, data:{value:["prAuk"]}},
-            {input:{selection:"#materialId"}, data:{value:["materialId"]}},
-            {input:{selection:"#excludeddevices"}, data:{value:["excludeddevices"]}},
+            {input:{selection:"#materialId"}, data:{value:["materialId"]}},            
             {input:{selection:"#geoAllowedCountries"}, data:{value:["geoAllowedCountries"]}},
             {input:{selection:"#numberOfAdsPerBreak"}, data:{value:["numberOfAdsPerBreak"]}},
             {input:{selection:"#firstTXDate"}, data:{value:["firstTXDate"], type:"datetime-local"}},
@@ -56,14 +55,13 @@ jQuery(document).ready(function ($) {
             }
             var pagePromise=boxservice.episode.loadEditEpisodePage();
             var episodedatapromise= boxservice.api.episode.view(episodeid);
-            var tagspromise=boxservice.api.tags.list();
+            
             var compliancePromise=boxservice.episode.loadCompliancePage();
             var cuepointsRowPagePromise=boxservice.episode.cuepointsRowPage();
             
-            $.when(pagePromise,episodedatapromise,tagspromise,compliancePromise,cuepointsRowPagePromise).then(function(htmlContentResult,episodeRsult,tagResult,compliancePageRsult, cuspointsRowPageResult){
+            $.when(pagePromise,episodedatapromise,compliancePromise,cuepointsRowPagePromise).then(function(htmlContentResult,episodeRsult,compliancePageRsult, cuspointsRowPageResult){
                        var htmlContent=htmlContentResult[0];
-                       var episode=episodeRsult[0];
-                       var tags=tagResult[0];
+                       var episode=episodeRsult[0];                       
                        var compliancePage=compliancePageRsult[0];
                        var cueRowPage=cuspointsRowPageResult[0];
                        
@@ -86,6 +84,25 @@ jQuery(document).ready(function ($) {
                                    }
                            }
                          boxservice.tags.requestEdit(editTagRequest);
+                           var editExcludedDeviceRequest={
+                                   containerElement:"#excludedDevices",
+                                   devices:episode.excludeddevices,                                                                      
+                                   markEditing:function(){
+                                       boxservice.episode.editpage.markEditing();
+                                       boxservice.episode.checkStatus(episode);
+                                   },
+                                   markDirty:function(){
+                                       console.log("excluded are not consistent");
+                                       boxservice.episode.editpage.markDirty();
+                                       boxservice.util.openDialog("The excluded devices appears to be inconsistent, not editable:");
+                                   }
+                           }
+                           boxservice.devices.requestEdit(editExcludedDeviceRequest);
+                           
+                           
+                           
+                           
+                           
                            var scheduleconfig={"types":{"scheduleTimestamp":"datetime"}};
                                                    
                            boxservice.util.pageForEachRecord("episode/schedule-record.html",episode.scheduleEvents,"#scheduleslist",scheduleconfig).done(function(){
@@ -587,13 +604,15 @@ jQuery(document).ready(function ($) {
                         boxservice.episode.editpage.doneEditing();
                         
                         var tags=boxservice.tags.getTagsFromUI();
+                        var excludedDevices=boxservice.devices.getFromUI({containerElement:"#excludedDevices"});
                         
                         
                         
-                        if (boxservice.util.form.valueHasChanged(episode, boxservice.episode.editFields) || boxservice.tags.checkChanged({tags:tags,org:{tags:episode.tags}})) {
+                        if (boxservice.util.form.valueHasChanged(episode, boxservice.episode.editFields) || boxservice.tags.checkChanged({tags:tags,org:{tags:episode.tags}}) || boxservice.devices.checkChanged({devices:excludedDevices,org:{devices:episode.excludeddevices}})) {
                                 boxservice.util.startWait();
                                 boxservice.util.form.update(episode, boxservice.episode.editFields);
                                 episode.tags=tags;
+                                episode.excludeddevices=excludedDevices;
                                 
                                 if(episode.supplier && episode.supplier.toLowerCase()=="box tv network"){
                                           episode.ingestProfile="box-plus-network-DRM-profile";
