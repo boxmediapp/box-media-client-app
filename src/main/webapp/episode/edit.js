@@ -408,14 +408,23 @@ jQuery(document).ready(function ($) {
                                 boxservice.util.openDialog("Please save your changes first");
                         }
                         else{
-                                boxservice.admin.tags().done(function(){
-                                        boxservice.api.tags.list().done(function(availtags){
-                                                boxservice.episode.edit(episode.id,deferred);
-                                        });
+                                boxservice.admin.tags().done(function(){                                        
+                                                boxservice.episode.edit(episode.id,deferred);                                        
                                 });
                         }
                         
                 });
+                $("#adminClientDevices").click(function () {
+                    if(boxservice.episode.editpage.isEditing()){
+                            boxservice.util.openDialog("Please save your changes first");
+                    }
+                    else{
+                        boxservice.admin.clientdevices.show({onBack:function(){                                    
+                                            boxservice.episode.edit(episode.id,deferred);                                    
+                            }});
+                    }
+                    
+            });
                 
                 
                 boxservice.episode.editpage.initTagDialog(episode);
