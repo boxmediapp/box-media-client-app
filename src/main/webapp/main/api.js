@@ -67,7 +67,23 @@ jQuery(document).ready(function ($) {
 	           }
 	           
 	   };
-	
+	boxservice.api.clientdevices={
+                list:function(listdata){
+                    var path=apipath+"/devices";
+                    if(listdata){
+                        path=listdata.createListURL(path);                  
+                    }
+                    return boxservice.api.ajax("GET",path);                                                        
+                },
+                remove:function(device){
+                    return boxservice.api.ajax("DELETE",apipath+"/devices/"+device);                                         
+                },
+                add:function(device){
+                    return boxservice.api.ajax("POST",apipath+"/devices",device);
+                }
+                
+        };
+     
 
 	boxservice.api.addQueryParam=function(url, paramName,paramValue){
 	    if(!paramValue || !paramName){
