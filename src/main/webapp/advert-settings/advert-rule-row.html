@@ -1,0 +1,60 @@
+<div class="card grey lighten-5 episodeEditCard" id="record_${recordId}">
+    <div class="itemtitle">Global Advertisement Rule Item</div>
+    <div class="row">       
+        <div class="input-field col s4">                               
+                  <select id="advertBreakType_${recordId}">
+                          <option value="ALL">Match all breaks</option>
+                          <option value="PREPROLL">Preroll</option>
+                          <option value="MIDROLL">Midroll</option>
+                          <option value="POSRROLL">Postroll</option>                          
+                  </select>
+                  <label for="advertBreakType_${recordId}">Matching break types</label>                               
+        </div>
+        
+        <div class="input-field col s4">
+                <input id="numberOfAdsPerBreak_${recordId}" type="number">
+                <label for="numberOfAdsPerBreak_${recordId}">Number of adverts per break</label>
+        </div>
+        
+         <div class="input-field col s4">                                                            
+                 <select id="advertLength_${recordId}">
+                            <option value="">Not specified</option>
+                            <option value="5">5 seconds</option>
+                            <option value="10">10 seconds</option>
+                            <option value="15">15 seconds</option>
+                            <option value="20">20 seconds</option>
+                            <option value="30">30 seconds</option>
+                   </select>                              
+                   <label for="advertLength_${recordId}">Preferred duration for each advert</label>
+         </div> 
+    </div>
+    <div class="row">
+           <div class="input-field col s4">                                
+                          <select id="contentType_${recordId}">
+                                  <option value="ALL">Match all contents</option>                                            
+                                  <option value="Entertainment">Entertainment</option>
+                                  <option value="Music & Charts">Music &amp; Charts</option>
+                                  <option value="Shorts">Shorts</option>                                          
+                          </select>
+                          <label for="contentType_${recordId}">Matching Content Type</label>
+         </div>
+         
+          <div class="input-field col s4">                                                           
+                      <input id="contentMinimumDuration_${recordId}" type="number">
+                      <label for="contentMinimumDuration_${recordId}">Matching content with minimum duration</label>                                
+        </div>
+        
+        <div class="input-field col s4">                                                           
+                      <input id="contentMaximumDuration_${recordId}" type="number">
+                      <label for="contentMaximumDuration_${recordId}">Matching content with maximum duration</label>                                
+        </div>
+                            
+    </div>
+    <div class="row">
+            <div class="input-field col s3">                    
+                  <a id="sumbit_${recordId}" class="waves-effect waves-light btn sbmitButton">${submitText}</a>                  
+                  <a id="delete_${recordId}" class="waves-effect waves-light btn sbmitButton">Delete</a>
+            </div>            
+    </div>
+    
+</div>

@@ -83,6 +83,23 @@ jQuery(document).ready(function ($) {
                 }
                 
         };
+	
+	
+	boxservice.api.advertrules={
+                list:function(){
+                    var path=apipath+"/advertisement/settings/rule";                    
+                    return boxservice.api.ajax("GET",path);                                                        
+                },
+                remove:function(rule){
+                    return boxservice.api.ajax("DELETE",apipath+"/advertisement/settings/rule/"+rule.id);                                         
+                },
+                add:function(rule){
+                    return boxservice.api.ajax("POST",apipath+"/advertisement/settings/rule",rule);
+                },
+                update:function(rule){
+                    return boxservice.api.ajax("PUT",apipath+"/advertisement/settings/rule/"+rule.id,rule);
+                }                
+        };
      
 
 	boxservice.api.addQueryParam=function(url, paramName,paramValue){
