@@ -51,6 +51,15 @@ jQuery(document).ready(function ($) {
 					boxservice.util.openDialog("The delivery of the soudmouse smurf file is initiated");					
 				}).fail(boxservice.util.onError);
 			});
+			
+		       $("#advertisementSettings").click(function(){
+		           boxservice.advertsettings.show({onBack:function(){
+		               boxservice.admin.main();
+		           }})
+                            
+                        });
+			
+			
 		}
 		
 	};
