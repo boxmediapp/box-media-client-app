@@ -27,7 +27,10 @@ jQuery(document).ready(function ($) {
                 
                 deferred.promise().done(function(){
                         console.log("*******comback from back button......");
-                        that.onStartList();
+                        if(that.onStartList){
+                            that.onStartList();
+                        }
+                        
                         that.listItemsFunction(that.items);
                 });  
                 return deferred;
@@ -46,6 +49,12 @@ jQuery(document).ready(function ($) {
                 this.loadedall=false;
                 this.scrollPosition=0;
             },
+            rangeSearch:function(from,to){
+              this.from=from;
+              this.to=to;
+              this.loadedall=false;
+              this.scrollPosition=0;
+            },
             createListURL:function(url){    
                 if(this.urlFunction){
                     url=this.urlFunction(url);
@@ -58,6 +67,14 @@ jQuery(document).ready(function ($) {
             },
             createListURLWithPrefix:function(url){
                 url=boxservice.api.addQueryParam(url,"prefix",this.search);
+                url=boxservice.api.addQueryParam(url,"start",this.start);
+                url=boxservice.api.addQueryParam(url,"sortBy",this.sortBy);
+                url=boxservice.api.addQueryParam(url,"sortOrder",this.sortOrder);                
+                return url;
+            },
+            createListWithRange:function(url){
+                url=boxservice.api.addQueryParam(url,"from",this.from);
+                url=boxservice.api.addQueryParam(url,"to",this.to);
                 url=boxservice.api.addQueryParam(url,"start",this.start);
                 url=boxservice.api.addQueryParam(url,"sortBy",this.sortBy);
                 url=boxservice.api.addQueryParam(url,"sortOrder",this.sortOrder);                

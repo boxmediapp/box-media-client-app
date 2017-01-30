@@ -881,6 +881,12 @@ boxservice.util.isArrayDifferent=function(array1, array2){
  	    	  
  	      });
        };
+       boxservice.util.getDateString=function(datevalue){
+           var day = ("0" + datevalue.getDate()).slice(-2);
+           var month = ("0" + (datevalue.getMonth() + 1)).slice(-2);
+           return datevalue.getFullYear()+"-"+(month)+"-"+(day) ;
+           
+       };
        
        
        
