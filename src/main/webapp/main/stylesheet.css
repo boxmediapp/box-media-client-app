@@ -711,6 +711,6 @@ input.selectableCheckbox[type="checkbox"]{
 }
 .scorrabletable th{
 	border: 1px solid black;
-	background-color: #187e9b;
-	
+	background-color: #186c90;
+	color: white;
 }
