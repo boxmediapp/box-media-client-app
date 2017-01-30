@@ -215,6 +215,8 @@ jQuery(document).ready(function ($) {
                        boxservice.episode.reload();
                        });
                    });
+                   
+
                }
          };
        if(opts && opts.backCallback){
@@ -284,7 +286,9 @@ jQuery(document).ready(function ($) {
             }
            var econfig={types:{lastModifiedAt:"datetime",createdAt:"datetime"}};
            boxservice.util.pageForEachRecord("episode/episode-row.html",episodes,"#episodelistContainer",econfig).done(function(){
+                           
                           boxservice.episode.listdata.autoScroll();
+                          
                           $(".episoderow").each(function(index){
                                   var episodeid=$(this).attr("episodeid");
                                   var episode=boxservice.util.episode.filterEpisodesById(episodes,episodeid);
@@ -381,7 +385,7 @@ jQuery(document).ready(function ($) {
                      boxservice.util.resetInput();
                      boxservice.util.scrollPaging(boxservice.episode.listdata);
                       
-                     
+                     $('.scorrabletable').stickyTableHeaders();
                            
                    });
        };
