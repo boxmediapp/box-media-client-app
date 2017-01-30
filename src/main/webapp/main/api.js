@@ -1,8 +1,7 @@
 jQuery(document).ready(function ($) {	
 	boxservice.api={};
 	boxservice.api.cue={};
-	boxservice.api.episode={};
-	boxservice.api.schedules={};
+	boxservice.api.episode={};	
 	boxservice.api.series={};
 	boxservice.api.seriesgroup={};
 	boxservice.api.c4={};
@@ -12,6 +11,20 @@ jQuery(document).ready(function ($) {
 	
 	
 	boxservice.api.boxvideo={};
+	
+	
+	boxservice.api.schedules={
+	        list:function(listdata){
+	              var path=apipath+"/schedules";
+	              if(listdata){
+	                  path=listdata.createListWithRange(path);                  
+	              }
+	              return boxservice.api.ajax("GET",path);  
+	         }
+	        
+	};
+	
+	  
 	boxservice.api.masterimage={
 	        uploadfileurl:function(){                   
 	            return  apipath+"/box-images/master";               
@@ -318,13 +331,7 @@ jQuery(document).ready(function ($) {
   boxservice.api.episode.remove=function(episode){
 	  return boxservice.api.ajax("DELETE",apipath+"/episodes/"+episode.id);
   };
-  boxservice.api.schedules.list=function(listdata){
-      var path=apipath+"/schedules";
-      if(listdata){
-          path=listdata.createListURL(path);                  
-      }
-      return boxservice.api.ajax("GET",path);  
-  };
+  
   boxservice.api.c4.import=function(scheduleRequest){
 	  return boxservice.api.ajax("POST",apipath+"/import/schedules",scheduleRequest);		    			 			 
   };

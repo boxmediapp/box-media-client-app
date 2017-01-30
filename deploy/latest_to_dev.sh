@@ -1,1 +1,1 @@
-deploy/deploy.sh userver davran 2.7.1
+deploy/deploy.sh userver davran 2.8.0
