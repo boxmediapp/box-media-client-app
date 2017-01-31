@@ -86,19 +86,30 @@ jQuery(document).ready(function ($) {
             checkChanged:function(opts){                   
                    if(!opts.tags || !opts.tags.length){                            
                        if(opts.org.tags && opts.org.tags.length){
+                           console.log("tags is empty while org tags is not empty");
                            return true;
                        }
                     }                
                     else if(!opts.org.tags || !opts.org.tags.length){
+                          console.log("tags is not empty while org tags is  empty");
                           return true;                       
                     }
                     else if(opts.org.tags.length!=opts.tags.length){
+                        console.log("tags and org tag length is different:"+opts.org.tags.length+":"+opts.tags.length);
                         return true;                                            
                     }
                     else{
                             for(var i=0;i<opts.org.tags.length;i++){
                                 if(opts.org.tags[i]!=opts.tags[i]){
-                                    return true;
+                                    console.log("tag sequence is different:"+opts.org.tags[i]+":"+opts.tags[i]+" so checking the existence");
+                                    if(opts.tags.indexOf(opts.org.tags[i])<0 || opts.org.tags.indexOf(opts.tags[i])<0){
+                                        console.log("tag mismatch"+opts.org.tags[i]+":"+opts.tags[i]);
+                                        return true;
+                                    }
+                                    else{
+                                        console.log("tags are ok although position is different");
+                                    }
+                                    
                                 }
                             }
                      }
@@ -244,7 +255,8 @@ jQuery(document).ready(function ($) {
                                                         opts.markEditing();
                                                 }                                                 
                                          }
-                                     };                                  
+                                     };  
+                     console.log("listTags");
                       this.listTags(listTagRequest);
                       $("#addNewTag").click(function(){                    
                               that.showSelectATagDialog({onAdd:function(tag){
