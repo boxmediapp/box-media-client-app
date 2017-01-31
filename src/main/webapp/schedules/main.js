@@ -2,8 +2,7 @@ $(function(){
 	boxservice.schedule={};
 	
 	boxservice.schedule={
-        	 seUpSchedulesSortable:function(){
-        	
+        	 seUpSchedulesSortable:function(){        	
         	        this.listdata.setupSortable({headerSection:".sort-timestamp",attributename:"scheduleTimestamp",sortParametername:"scheduleTimestamp"});
         	        this.listdata.setupSortable({headerSection:".sort-episode-title",attributename:"episdeoTitle",sortParametername:"episdeoTitle"});
         	        this.listdata.setupSortable({headerSection:".programme-number",attributename:"programmeNumber",sortParametername:"programmeNumber"});
