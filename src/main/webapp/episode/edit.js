@@ -915,7 +915,7 @@ jQuery(document).ready(function ($) {
               var playlistid=$(".playlistrow.selected").attr("playlistid");
               console.log("playlistid:::::"+playlistid);
               boxservice.api.bc.playlist.get(playlistid).done(function(playlist){
-                  playlist.playListData.video_ids.push(that.episode.brightcoveId);
+                  playlist.playListData.video_ids.unshift(that.episode.brightcoveId);
                   boxservice.api.bc.playlist.patch(playlist.id,playlist).done(function(){
                      console.log("successfully added to the playlist");
                      boxservice.util.openDialog("The epsiode "+that.episode.programmeNumber+" is successfully added to the playlist "+playlist.playListData.name);
