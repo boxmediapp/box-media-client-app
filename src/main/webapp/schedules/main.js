@@ -27,7 +27,9 @@ $(function(){
 	                              that.listdata.rangeSearch(from.getTime(),to.getTime());
 	                              that.loadScheduleList();
 	                         });
-	                         
+	                         $("#calendarViewButton").click(function(){
+	                             that.calendarView();	                             
+	                         });
 	                        
 	                     }	                    
 	                  };	    
@@ -72,10 +74,112 @@ $(function(){
                                  boxservice.episode.edit(episodeid,deferred);
                                  return false;
                               });
-	                     
+	                     $('.scorrabletable').stickyTableHeaders();
 	                     
 	              });
 		  		 
+	          },
+	          calendarView:function(){
+	              if(!this.listdata.items || !this.listdata.items.length){
+	                  return;
+	              }
+	              
+	              var that=this;
+                      if(!this.calendarViewHTMLContent){
+                          boxservice.util.page.load("schedules/calendar/list.html").done(function(calendarViewHTMLContent){
+                              that.calendarViewHTMLContent=calendarViewHTMLContent;
+                              boxservice.util.page.load("schedules/calendar/th.html").done(function(thHTML){
+                                  that.thHTML=thHTML;
+                                  boxservice.util.page.load("schedules/calendar/tr.html").done(function(trHTML){
+                                      that.trHTML=trHTML;
+                                      boxservice.util.page.load("schedules/calendar/td.html").done(function(tdHTML){
+                                          that.tdHTML=tdHTML;
+                                          that.calendarView();
+                                      });                                  
+                                  });
+                              });
+                              
+                              
+                          });
+                          return;
+                      }
+                      $("#content").html(boxservice.schedule.calendarViewHTMLContent);
+                      var from=this.listdata.from;
+                      var to=this.listdata.to;
+                      this.listdata.newSort("scheduleTimestamp","asc");
+                      this.listdata.listItemsFunction=this.calendarList.bind(this);
+                      $('.scorrabletable').stickyTableHeaders();
+                      this.listdata.onStartList=null;
+                      this.listdata.startList();
+                      this.firstDay=null;
+	          },
+	          calendarList:function(schedules){
+	              boxservice.util.finishWait();
+	              for(var i=0;i<schedules.length;i++){
+	                   this.addScheduleToCalendar(schedules[i]);
+	              }
+	          },
+	          readProgrammeFromTR:function(trElement,dateString,dateStringID){
+	              var programmeNumberID=trElement.attr("id");
+                      var programmeNumber=programmeNumberID.substring(1).replace("-","/");
+                      return{
+                          dateStringID:dateStringID,
+                          dateString:dateString,
+                          programmeNumber:programmeNumber,
+                          programmeNumberID:programmeNumberID
+                      }; 
+                        
+	          },
+	          readScheduleFromTH:function(thElement, programmeNumber,programmeNumberID){	                                                                   
+                      var dateStringID=thElement.attr("id");
+                      var dateString=dateStringID.substring(1);
+                      return{
+                          dateStringID:dateStringID,
+                          dateString:dateString,
+                          programmeNumber:programmeNumber,
+                          programmeNumberID:programmeNumberID
+                      };
+	           }, 
+	           popularScheduleIds:function(schedule){
+	               schedule.scheduleDate=new Date(schedule.scheduleDay);
+	               schedule.dateStringID="D"+boxservice.util.getDateString(schedule.scheduleDate);
+	               schedule.dateString=schedule.scheduleDate.getDate()+"/"+(schedule.scheduleDate.getMonth()+1)                    
+	               schedule.programmeNumberID="P"+schedule.programmeNumber.replace("/","-");
+	                      
+	           },
+	          addCalendarRow:function(schedule){
+	              var that=this;
+	              var trContent=boxservice.util.replaceVariables(this.trHTML,schedule);
+                      $("#schedulelist").append(trContent);
+                      $("th.calendarColumn").each(function(index){                          
+                          var pSchedule=that.readScheduleFromTH($(this),schedule.programmeNumber,schedule.programmeNumberID);                          
+                          var tdContent=boxservice.util.replaceVariables(that.tdHTML,pSchedule);
+                          $("tr#"+schedule.programmeNumberID).append(tdContent);
+                      });  
+	          },
+	          addCalendarHeader:function(schedule){
+	              var that=this;
+	              var thContent=boxservice.util.replaceVariables(that.thHTML,schedule);
+                      $("#calendar-view-header").append(thContent);                      
+                      $("tr.episodeRow").each(function(index){
+                         var pSchedule=that.readProgrammeFromTR($(this),schedule.dateString,schedule.dateStringID);                              
+                         var tdContent=boxservice.util.replaceVariables(that.tdHTML,pSchedule);
+                         $(this).append(tdContent);
+                      });
+	          },
+	          addScheduleToCalendar:function(schedule){
+	              if(!schedule.programmeNumber){
+	                  console.error("The schedule event does not have programmeNumber:"+JSON.stringify(schedule));
+	                  return;
+	              }
+	              this.popularScheduleIds(schedule);
+	              if(!$("th#"+schedule.dateStringID).length){
+	                   this.addCalendarHeader(schedule);   	                      
+	              }
+	              if(!$("tr#"+schedule.programmeNumberID).length){
+	                  this.addCalendarRow(schedule);	                  
+	              }	
+	              $("td#"+schedule.programmeNumberID+"_"+schedule.dateStringID+" div").addClass("scheduled");
 	          }
 	};
 	
