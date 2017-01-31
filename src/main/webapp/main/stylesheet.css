@@ -714,3 +714,12 @@ input.selectableCheckbox[type="checkbox"]{
 	background-color: #186c90;
 	color: white;
 }
+.schedulecalendar td div.selected{	
+	background-color: #186c90;
+}
+
+td div.scheduled{
+	background-color: #186c90;
+	width:10px;
+	height:10px;	
+}
