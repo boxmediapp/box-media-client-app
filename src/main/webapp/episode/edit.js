@@ -587,7 +587,11 @@ jQuery(document).ready(function ($) {
                         return false;
                 });
                 
-                $("#deleteSourceVideo").click(function(){                                          
+                $("#deleteSourceVideo").click(function(){
+                    if(!episode.ingestSource){
+                        console.log("ingestSource is empty");
+                        return;
+                    }
                     var videofilename=episode.ingestSource;
                     var ib=videofilename.lastIndexOf("/");
                     if(ib!=-1){
@@ -815,7 +819,7 @@ jQuery(document).ready(function ($) {
                            if(metadata && metadata.programmeNumber){
                                boxservice.episode.edit(metadata.id,deferred); 
                            }
-                           if(metadata && metadata.contractNumber){
+                           else if(metadata && metadata.contractNumber){
                                boxservice.series.edit(metadata.id,deferred);
                            }
                            else if(metadata){
@@ -874,7 +878,7 @@ jQuery(document).ready(function ($) {
                                 if(metadata && metadata.programmeNumber){
                                     boxservice.episode.edit(metadata.id,deferred); 
                                 }
-                                if(metadata && metadata.contractNumber){
+                                else if(metadata && metadata.contractNumber){
                                     boxservice.series.edit(metadata.id,deferred);
                                 }
                                 else if(metadata){

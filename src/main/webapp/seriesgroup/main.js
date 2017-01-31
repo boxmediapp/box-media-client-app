@@ -220,7 +220,9 @@ jQuery(document).ready(function ($) {
                                             boxservice.util.openDialog("The tags appears to be inconsistent, not editable");
                                         }
                                 }
-                              boxservice.tags.requestEdit(editTagRequest);
+                              console.log("requesting editTagRequest from series group");
+			   	boxservice.tags.requestEdit(editTagRequest);
+			   	console.log("completed requesting editTagRequest from series group");
 			   	  
 				  boxservice.util.resetInput();				  
 					  
