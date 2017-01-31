@@ -914,6 +914,7 @@ jQuery(document).ready(function ($) {
                   playlist.playListData.video_ids.push(that.episode.brightcoveId);
                   boxservice.api.bc.playlist.patch(playlist.id,playlist).done(function(){
                      console.log("successfully added to the playlist");
+                     boxservice.util.openDialog("The epsiode "+that.episode.programmeNumber+" is successfully added to the playlist "+playlist.playListData.name);
                   }).fail(boxservice.util.onError);                 
               });
           },     
