@@ -131,6 +131,21 @@
 	
 	<div class="row">
 	    <div class="input-field col s4">
+            <select id="publishProgrammeInfo">                        
+                        <option value="true">Publish programme information</option>
+                        <option value="false">Do not publish programme information</option>
+            </select>               
+            <label for="autoTranscode" class="tooltip">
+                Specify whether publish programme info
+             <i class="material-icons">help_outline</i>
+             <div class="tooltiptext z-depth-2">
+               If this fied is true, the programme title and programme synopsis will be published to the brightcove, if not it will be be published.                               
+            </div>
+            </label>
+          </div>
+	   
+	   
+	   <div class="input-field col s4">
             <select id="autoTranscode">                        
                         <option value="true">Auto transcode</option>
                         <option value="false">Do not auto transcode</option>
@@ -143,8 +158,7 @@
             </div>
             </label>
           </div>
-	   
-	   
+       
 	   
 	</div>
 	
