@@ -1,9 +1,13 @@
-source deploy/common.sh
-targetserver=$1
-targetuser=$2
+source deploy/util.sh
+
+deploy_to_hostname=$1
+deploy_to_username=$2
 projectversion=$3
-getProjectSettings
-getArtefactName
-createTargetDirectory
-uploadArtefact
-deployArtefact
+
+
+
+
+buildVariables
+createDirectoryOnServer
+uploadZipFile
+unzipZipFileAndreplacePlaceholders
