@@ -1,13 +1,11 @@
+export deploy_to_hostname="$1"
+export deploy_to_username="$2"
+export projectversion="$3"
+
 source deploy/util.sh
 
-deploy_to_hostname=$1
-deploy_to_username=$2
-projectversion=$3
-
-
-
-
 buildVariables
-createDirectoryOnServer
+createFolders
 uploadZipFile
-unzipZipFileAndreplacePlaceholders
+unzipZipFile
+
