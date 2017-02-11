@@ -10,17 +10,18 @@ buildVariables(){
 }
 
   
-executeScriptOnServer(){
+executeScript(){
    echo "executing the script $1 remotely  on  $deploy_to_username@$deploy_to_hostname "
    ssh $deploy_to_username@$deploy_to_hostname 'bash -s' < $1      
    echo "remote execution completed"   
 }
+
   
-  createDirectoryOnServer(){
+createFolders(){
     uniqueidforfilename=$(date +%s)
     echo "creating the script for creating folder: /tmp/script_$uniqueidforfilename.sh"   
     echo "mkdir -p $destfolder" > /tmp/script_$uniqueidforfilename.sh    
-    executeScriptOnServer /tmp/script_$uniqueidforfilename.sh
+    executeScript /tmp/script_$uniqueidforfilename.sh
 }
 
 uploadZipFile(){     
@@ -29,15 +30,21 @@ uploadZipFile(){
 }
 
 
-unzipZipFileAndreplacePlaceholders(){    
+unzipZipFile(){    
       uniqueidforfilename=$(date +%s)
       echo "creating the install script:/tmp/script_$uniqueidforfilename.sh"
       echo "cd $destfolder" > /tmp/script_$uniqueidforfilename.sh
       echo "unzip -o $zipfilename" >> /tmp/script_$uniqueidforfilename.sh    
     
-    echo sed -i -e "s,@@@version@@@,$projectversion,g" index.html >> /tmp/deployboxmediapp.sh    
-    echo  'sed -i -e "s,@@@projectversion@@@,'$projectversion',g" index.html >> index.html ' >> /tmp/script_$uniqueidforfilename.sh
-    executeScriptOnServer /tmp/script_$uniqueidforfilename.sh 
+      echo sed -i -e "s,@@@version@@@,$projectversion,g" index.html >> /tmp/deployboxmediapp.sh    
+      echo  'sed -i -e "s,@@@projectversion@@@,'$projectversion',g" index.html >> index.html ' >> /tmp/script_$uniqueidforfilename.sh
+      executeScript /tmp/script_$uniqueidforfilename.sh 
 }
-
+createDeployScript(){
+    echo "source $3" > deploy/deploy_to_$1.sh
+    echo 'echo "deploying the version '$2' to '$5'@'$4' using the property file '$3' (for replacement of the environment specific variables) ..."' >>  deploy/deploy_to_$1.sh
+    echo "deploy/deploy.sh $4 $5 $2" >> deploy/deploy_to_$1.sh
+    chmod u+x deploy/deploy_to_$1.sh
+}
+ 
   
