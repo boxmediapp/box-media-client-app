@@ -32,14 +32,19 @@ uploadZipFile(){
 
 unzipZipFile(){    
       uniqueidforfilename=$(date +%s)
+      unzipZipFileAndReplace $uniqueidforfilename
+      executeScript /tmp/script_$uniqueidforfilename.sh 
+}
+
+unzipZipFileAndReplace(){      
+      uniqueidforfilename=$1      
       echo "creating the install script:/tmp/script_$uniqueidforfilename.sh"
       echo "cd $destfolder" > /tmp/script_$uniqueidforfilename.sh
       echo "unzip -o $zipfilename" >> /tmp/script_$uniqueidforfilename.sh    
-    
-      echo sed -i -e "s,@@@version@@@,$projectversion,g" index.html >> /tmp/deployboxmediapp.sh    
-      echo  'sed -i -e "s,@@@projectversion@@@,'$projectversion',g" index.html >> index.html ' >> /tmp/script_$uniqueidforfilename.sh
-      executeScript /tmp/script_$uniqueidforfilename.sh 
+      
+      echo  'sed -i -e "s,@@@version@@@,'$projectversion',g" index.html ' >> /tmp/script_$uniqueidforfilename.sh
 }
+
 createDeployScript(){
     echo "source $3" > deploy/deploy_to_$1.sh
     echo 'echo "deploying the version '$2' to '$5'@'$4' using the property file '$3' (for replacement of the environment specific variables) ..."' >>  deploy/deploy_to_$1.sh
