@@ -77,10 +77,7 @@ jQuery(document).ready(function ($) {
 							boxservice.util.pageForEachRecord("cue/cue-row.html",cuelist,"#cuepointlist").done(function(){
 								$("#cuepointlist .delete").click(function(){
 										var cueid=$(this).attr("href");
-										boxservice.cue.remove(episode,cueid).then(
-												
-												);
-										
+																				
 										boxservice.cue.remove(episode,cueid).done(function(){
 											boxservice.cue.show(episode).then(deferred.resolve,deferred.reject);
 									}).fail(function(err){
