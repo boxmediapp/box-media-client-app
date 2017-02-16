@@ -3,42 +3,37 @@
 
 
 
-        The software is a collection of open source projects, providing an integrated solution for delivering the media files and their metadata. 
-        The software allows you not only create, edit and manage data and media files, it can also receive them from various sources.
-         and finally pushing them to the Brightcove publishing platform for transcoding and delivery. 
-         The media files can be uploaded via the app or outside the app using any third party tools to the Amazon s3 buckets.
-          The metadata and the media files are linked to each other based on the naming conventions. 
-          Also, it can provides With the image resizing will be resized to different sizes and videos can QCed comparing the expected duration and the actual duration etc, 
-          
-          and Queue points and availabilities can be calculated, created and edited before pushing them to the brightcove for publishing. The video and images are stored in the Amazon S3 bucket, and the lifecycle of the master images will control those of the generated images. The used technologies: Community open source version of Mule ESB for the server platform; Docker for infrastructure; The HTML5/JavaScript for client application; Nginx for software load balancer; FFMpeg for video and image inspection and conversion. 
+        The software implements an integrated solution for:
+        <ul>
+               <li>editing, managing editorial metatda data</li>
+               <li>receiving the medata from multiple sources and integrate them (ESB)</li>
+               <li>receives and manage media file such as video and images</li>
+               <li>automatically link the media files to the metadata</li>
+               <li>auto-resize the images and auto-manage the files</li>
+               <li>push the metadata &media files to the brightcove</li>
+               <li>Hierchical management for metata, images, and tags</li>
+               <li>Automatic rules for advertisement</li>
+               <li>the files are managed in s3, and auto pickup of the changes in s3, this means integration with other file management tools</li>               
+        </ul>
+           
         </div>
 
-<h5 class="header">Project locations </h5>
+<h5 class="header">Software components</h5>
 <div class="card-panel">
     <p> 
-        Mule ESB docker:
-        <a href="https://github.com/boxmediapp/bdocker/tree/master/bmule">https://github.com/boxmediapp/bdocker/tree/master/bmule</a>
+        The running environment consists of mysql, Mule ESB and nginx load balancer, prepard with docker:
+        <a href="https://github.com/boxmediapp/bdocker">https://github.com/boxmediapp/bdocker</a>
     </p>
     
     <p>
-         Nginx docker:
-         <a href="https://github.com/boxmediapp/bdocker/tree/master/bnginx">https://github.com/boxmediapp/bdocker/tree/master/bnginx</a>     
+         The server component is an Mule ESB project:
+         <a href="https://github.com/boxmediapp/box-mule-api">https://github.com/boxmediapp/box-mule-api</a>     
     </p>
     
     <p>
-     HTML5 Single page client application:     
-            <a href="https://github.com/boxmediapp/box-media-client-app">git@github.com:boxmediapp/box-media-client-app.git</a>
+     The client UI component is a single page HTML5 app:     
+            <a href="https://github.com/boxmediapp/box-media-client-app">https://github.com/boxmediapp/box-media-client-app</a>
      </p>  
-     
-     <p>
-      Server side Mule ESB application:     
-         <a href="https://github.com/boxmediapp/box-mule-api">git@github.com:boxmediapp/box-mule-api.git</a>
-      </p>
-      
-      <p>  
-            script for using FFMPEG and AWS CLI scripts:<br>
-            <a href="https://github.com/boxmediapp/bcs3uploader">https://github.com/boxmediapp/bcs3uploader</a>
-     </p>
   
   </div>
 
