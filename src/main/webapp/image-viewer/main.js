@@ -21,11 +21,13 @@ jQuery(document).ready(function ($) {
 		var ib=image.name.indexOf(".");
 		var basefileName = image.name.substring(0, ib);
    		var ext = image.name.substring(ib + 1);
+   		var urltimestamp=(new Date()).getTime();
  		var imagetemplate=boxservice.appinfo.appconfig.imagetemplateurl;	 		
 		var imageurl=imagetemplate.replace("{image_name}", basefileName);
 		imageurl=imageurl.replace("{width}",image.width);
 		imageurl=imageurl.replace("{height}",image.height);
 		imageurl=imageurl.replace("{ext}",ext);
+		imageurl=imageurl.replace("{urltimestamp}",urltimestamp);
 		return imageurl;
         };
         boxservice.images.getS3ImageUrl=function(cdnURL){

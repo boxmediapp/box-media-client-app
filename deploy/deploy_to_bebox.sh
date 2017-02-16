@@ -1,3 +1,3 @@
 source deploy/prod.sh
-echo "deploying the version 2.9.18 to ec2-user@be.boxnetwork.co.uk using the property file deploy/prod.sh (for replacement of the environment specific variables) ..."
-deploy/deploy.sh be.boxnetwork.co.uk ec2-user 2.9.18
+echo "deploying the version 2.9.20-SNAPSHOT to ec2-user@be.boxnetwork.co.uk using the property file deploy/prod.sh (for replacement of the environment specific variables) ..."
+deploy/deploy.sh be.boxnetwork.co.uk ec2-user 2.9.20-SNAPSHOT
