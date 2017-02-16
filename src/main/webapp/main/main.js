@@ -41,8 +41,14 @@ jQuery(document).ready(function ($) {
       
 		};
 		
-	       boxservice.help=function(htmlContent){
-	    	   $("#content").html(htmlContent);
+	       boxservice.help=function(){
+	    	   
+	    	boxservice.util.page.load("help/main.html").done(function(htmlContent){                         
+                    $("#content").html(htmlContent);
+	    	});
+	    	   
+	    	   
+	    	   
 	       };
 	       
 		  boxservice.util.menu.setup({linkSelection:".navItem a",whenClicked:function(){
