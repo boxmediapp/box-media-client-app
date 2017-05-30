@@ -39,7 +39,7 @@
 
 body {
     margin: 0;
-    font-family: 'Gobold Uplow', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Tahoma, Geneva, Verdana, sans-serif, 'Gobold Uplow';
     font-weight: 400;
 
 }
