@@ -1,15 +1,59 @@
 boxservice={};
-
+var globalInputMessage=require("global-input-message");
 
 jQuery(document).ready(function ($) {   
-
+        boxservice.globalInput.init();
+        
+        
+        
         boxservice.initForNewPage=function(){
             boxservice.util.resetScrollPaging();
             window.scrollTo(0,0);
         }; 
     
-	boxservice.setupMenu=function(){
-
+        boxservice.displayLoginWindow=function(){
+            $("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
+        };
+        boxservice.onLoginWindowClosed=function(){
+            boxservice.globalInput.disconnect();
+            if(!boxservice.globalInput.isLoggedIn()){                
+                boxservice.displayLoginWindow();
+            }            
+        }
+        boxservice.onClickLogin=function(){
+            boxservice.globalInput.disconnect();            		
+            var username=$("#loginUSerDialog input[name=username]").val().trim();
+            var password=$("#loginUSerDialog input[name=password]").val().trim();
+            if(username.length>0 && password.length>0){
+                    boxservice.api.users.signinUser(username,password).done(function(){
+                                
+                             $("#nav-wrapper .signinorout a").html("Sign Out");
+                          
+                             boxservice.globalInput.saveUsername(username);                          
+                             boxservice.globalInput.savePassword(password);
+                             $("#loginUSerDialog").closeModal();
+                             boxservice.setupMenu();                             
+                    }).fail(function(){
+                        console.log("******failed login");
+                             $("#nav-wrapper .signinorout a").html("Sign In");
+                             boxservice.globalInput.saveUsername("");
+                             boxservice.globalInput.savePassword("");                            
+                    });
+                    console.log("******about to  login");
+            }            
+            return false;
+        }
+        
+        
+        boxservice.setupMenu=function(){
+            
+                if(boxservice.checkAppInfo){
+                    console.log("menu is alaready set up.......");
+                    return;
+                }
+                else{
+                    console.log("continue set up menu.......");
+                }
 		boxservice.checkAppInfo=function(){
 			if(boxservice.appinfo){
 				return;
@@ -47,8 +91,6 @@ jQuery(document).ready(function ($) {
                     $("#content").html(htmlContent);
 	    	});
 	    	   
-	    	   
-	    	   
 	       };
 	       
 		  boxservice.util.menu.setup({linkSelection:".navItem a",whenClicked:function(){
@@ -64,30 +106,32 @@ jQuery(document).ready(function ($) {
 		  
 	   };
 	   
-	   boxservice.setupMenu();
+	   
 	    
 	   
 	   $("#loginUSerDialog .login").click(function(){
-		   var username=$("#loginUSerDialog input[name=username]").val().trim();
-			var password=$("#loginUSerDialog input[name=password]").val().trim();
-			if(username.length>0 && password.length>0){
-				
-				boxservice.api.users.signinUser(username,password).done(function(){
-					 $("#nav-wrapper .signinorout a").html("Sign Out");
-					 boxservice.api.username=username;
-					 boxservice.api.password=password;
-				}).fail(function(){
-					 $("#nav-wrapper .signinorout a").html("Sign In");
-					 boxservice.api.username=null;
-					 boxservice.api.password=null;
-					
-				});
-			}
-			return false;
-		   
+	       boxservice.onClickLogin();		   
 	   });
 	   
-	   
+	   $("#loginUSerDialog .username").keypress(function(e){
+	       var key = e.which;
+               if(key == 13)  // the enter key code
+                {
+                       $("#loginUSerDialog .password").focus();                               
+                       return false;  
+                }             
+               
+           });
+	   $("#loginUSerDialog .password").keypress(function(e){
+               var key = e.which;
+               if(key == 13)  // the enter key code
+                {
+                       boxservice.onClickLogin();                               
+                       return false;  
+                }             
+               
+           });
+           
 	   
 	   boxservice.checkUser=function(){	   
    		   boxservice.api.users.list().done(function(){
@@ -95,28 +139,35 @@ jQuery(document).ready(function ($) {
 		   }).fail(function(){
 			   $("#nav-wrapper .signinorout a").html("Sign In");			   
 		   });       
-     
-       };
+     		
+           };
        
        
        boxservice.signinout=function(){
     	   if($("#nav-wrapper .signinorout a").html()=="Sign Out"){
-    		   	 boxservice.api.username=null;
-    			 boxservice.api.password=null;
+    	               boxservice.globalInput.saveUsername("");
+    	               boxservice.globalInput.savePassword("");    			
     			 boxservice.api.users.signoutUser().done(function(){
     				   $("#nav-wrapper .signinorout a").html("Sign Out");				   
     			   }).fail(function(){
     				   $("#nav-wrapper .signinorout a").html("Sign In");			   
     			   });       
            }
-    	  else{
-    		  
-    		  	$("#loginUSerDialog").openModal();
+    	  else{    		  
+    	          boxservice.displayLoginWindow();
     		  	
-    		}
+    	      }
     	  	   
        };
-
+      
+       if(!boxservice.globalInput.isLoggedIn()){           
+           boxservice.displayLoginWindow();
+       }
+       else{
+           console.log("setting up menu");
+           boxservice.setupMenu();
+       }            
+              
 
 });
 

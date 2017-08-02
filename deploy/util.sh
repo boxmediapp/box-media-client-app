@@ -51,5 +51,11 @@ createDeployScript(){
     echo "deploy/deploy.sh $4 $5 $2" >> deploy/deploy_to_$1.sh
     chmod u+x deploy/deploy_to_$1.sh
 }
+createLocalDeployScript(){
+    echo "source $3" > deploy/deploy_to_$1.sh
+    echo 'echo "deploying the version '$2' to '$5'@'$4' using the property file '$3' (for replacement of the environment specific variables) ..."' >>  deploy/deploy_to_$1.sh
+    echo "deploy/local.sh $4 $5 $2" >> deploy/deploy_to_$1.sh
+    chmod u+x deploy/deploy_to_$1.sh
+}
  
   

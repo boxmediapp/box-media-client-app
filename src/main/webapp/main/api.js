@@ -160,6 +160,9 @@ jQuery(document).ready(function ($) {
 	 
 	  
 	boxservice.api.ajax=function(methodname,path,data){
+	        var username=boxservice.globalInput.loadUsername();
+                var password=boxservice.globalInput.loadPassword();
+                console.log("******:"+username+":::"+password);
 		if(data){
 			return $.ajax({
         		type: methodname,
@@ -167,9 +170,9 @@ jQuery(document).ready(function ($) {
         		dataType: "json",	
         		contentType:"application/json",
         		data: JSON.stringify(data),
-        		beforeSend: function (xhr) {
-	        	    if(boxservice.api.username&& boxservice.api.password){
-	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(boxservice.api.username+":"+boxservice.api.password));
+        		beforeSend: function (xhr) {        		    
+	        	    if(username && password){
+	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
 	        	    }
 	        	}
         		});
@@ -180,8 +183,8 @@ jQuery(document).ready(function ($) {
 			    url: path,
 			    dataType: "json",
 			    beforeSend: function (xhr) {
-	        	    if(boxservice.api.username&& boxservice.api.password){
-	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(boxservice.api.username+":"+boxservice.api.password));
+	        	    if(username && password){
+	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
 	        	    }
 	        	}
 			   });	
@@ -382,15 +385,16 @@ jQuery(document).ready(function ($) {
   };
   
   boxservice.api.bc.importcsv=function(csvContent){				
-	  
+      var username=boxservice.globalInput.loadUsername();
+      var password=boxservice.globalInput.loadPassword();
 	  return $.ajax({
   		type: "POST",
   		url: apipath+"/bc/import/csv",  			
   		contentType:"txt/plain",
   		data:csvContent,
   		beforeSend: function (xhr) {
-      	    if(boxservice.api.username&& boxservice.api.password){
-      	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(boxservice.api.username+":"+boxservice.api.password));
+      	    if(username && password){
+      	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
       	    }
       	}
   		});

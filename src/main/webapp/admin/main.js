@@ -58,6 +58,19 @@ jQuery(document).ready(function ($) {
 		           }})
                             
                         });
+		       
+		       
+		       $("#list1080Assets").click(function(){
+		           
+                           boxservice.util.startWait();
+                           var mediaCommand={
+                                           "command":"list_soundmouse_smurf_file"
+                           };
+                           boxservice.api.episode.soundMouseCommand(mediaCommand).done(function(){
+                                   boxservice.util.finishWait();
+                                   boxservice.util.openDialog("The delivery of the soudmouse smurf file is initiated");                                    
+                           }).fail(boxservice.util.onError);
+                       });
 			
 			
 		}
