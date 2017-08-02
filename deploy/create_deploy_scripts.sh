@@ -4,6 +4,7 @@ createDeployScript dubuntu  $projectversion  deploy/prod.sh  dubuntu            
 createDeployScript dev      $projectversion  deploy/prod.sh  userver              davran
 createDeployScript box      $projectversion  deploy/prod.sh  boxnetwork.co.uk     ec2-user
 createDeployScript bebox    $projectversion  deploy/prod.sh  be.boxnetwork.co.uk  ec2-user
+createLocalDeployScript  local  $projectversion  deploy/prod.sh  local  local
 
 
 

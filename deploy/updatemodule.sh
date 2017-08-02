@@ -1,0 +1,1 @@
+curl https://globalinput.co.uk/lib/global-input-message.js > src/main/webapp/lib/global-input-message/index.js

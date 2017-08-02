@@ -1,11 +1,24 @@
+createLocalFolders(){           
+    mkdir -p ~/$destfolder        
+}
+
+copyZipFile(){         
+    cp $sourcezipfilepath ~/$destfolder/    
+}
+
+localUnzipZipFileAndReplace(){      
+      cd ~/$destfolder
+      unzip -o $zipfilename          
+      sed -i -e "s,@@@version@@@,$projectversion,g" index.html 
+}
+
+
+export projectversion="$3"
 source deploy/util.sh
-getProjectVersionFromPom
+
 buildVariables
-mkdir -p ~/$destfolder
-cp $sourcezipfilepath ~/$destfolder/
-cd ~
-uniqueidforfilename=$(date +%s)
-unzipZipFileAndReplace $uniqueidforfilename
-chmod u+x /tmp/script_$uniqueidforfilename.sh
-/tmp/script_$uniqueidforfilename.sh
+
+createLocalFolders
+copyZipFile
+localUnzipZipFileAndReplace
     

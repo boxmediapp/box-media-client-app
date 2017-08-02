@@ -723,3 +723,39 @@ td div.scheduled{
 	width:10px;
 	height:10px;	
 }
+.loginContainer{
+	display:flex;
+	flex-direction:row;
+	justify-content: flex-start;
+	align-items:flex-start;
+}
+.globalinputContainer{
+	flex:1;
+}
+.gomobileContainer{
+	display:flex;
+    flex-direction:row;
+    justify-content: flex-end;
+    align-items:flex-start;    
+}
+.globalinputContainer.connected .gomobileContainer{
+	display:none;
+}
+.qrcode{
+	display:none;
+}
+.globalinputContainer.connected .qrcode{
+	display:flex;
+    flex-direction:row;
+    justify-content: flex-start;
+    align-items:flex-start;
+}
+
+
+.globalinputContainer.senderConnected  .senders{    
+    background-image: url("/images/mobile.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    width:55px;
+    height:80px;
+}

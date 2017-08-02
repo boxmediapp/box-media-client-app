@@ -153,26 +153,37 @@
 
 	<div id="loginUSerDialog" class="modal">
 		<div class="modal-content">
-			<h4>Login</h4>
-			<p>
-
-				<table>
-					<tr>
-						<td>User name: </td>
-						<td><input type="text" name="username" class="phrase" value=""></td>
-					</tr>
-					<tr>
-						<td>Password: </td>
-						<td><input type="password" name="password" class="phrase" value=""></td>
-					</tr>
-					<tr>
-						<td> </td>
-						<td><a class="login confirm modal-action modal-close waves-effect waves-green btn-flat">Login</a></td>
-					</tr>
-
-				</table>
-
-			</p>
+			<div class="loginContainer">
+			   <div class="loginForm">
+						<h4>Login</h4>
+							<table>
+								<tr>
+									<td>User name: </td>
+									<td><input class="username" type="text" name="username" class="phrase" value=""></td>
+								</tr>
+								<tr>
+									<td>Password: </td>
+									<td><input class="password"  type="password" name="password" class="phrase" value=""></td>
+								</tr>
+								<tr>
+									<td> </td>
+									<td><a class="login confirm modal-action  waves-effect waves-green btn-flat">Login</a></td>
+								</tr>
+			
+							</table>
+				</div>
+				<div class="globalinputContainer">
+				   <div class="gomobileContainer">				        
+				        <a class="globalInputActivateButton waves-effect waves-light btn-flat">via mobile</a>
+				    </div>
+				    <div class="qrcode">
+				        <div id="qrcode">
+				        </div>
+				        <div class="senders">
+				        </div>
+				    </div>
+				</div>
+			</div>
 
 		</div>
 	</div>
@@ -194,7 +205,9 @@
 	<script src="materialize/js/materialize.min.js"></script>
  	
  	<script src="lib/sticky-table/jquery.stickytableheaders.min.js"></script>
-
+    <script src="lib/global-input-message/index.js"></script>
+    <script src="lib/davidshimjs/qrcode.min.js"></script>
+    <script src="main/global-input.js"></script>
 	<script src="main/util.js?version=@@@version@@@"></script>
 	<script src="main/recordlist.js?version=@@@version@@@"></script>
 	<script src="main/api.js?version=@@@version@@@"></script>
