@@ -212,7 +212,7 @@ jQuery(document).ready(function ($) {
 		}
 		
 		else if(configitem["type"]=="datetime-local"){		
-			console.log("******get datetime local:"+value);
+			
 			return boxservice.util.timestampToUTCString(value);
 		}
 		
@@ -256,7 +256,7 @@ jQuery(document).ready(function ($) {
 			
 			inputvalue=Date.parse(inputvalue)-3600000;
 			
-			console.log("******update datetime local:"+inputvalue);
+			
 		}
 		boxservice.util.setValueAtPath(dataitem,configitem.value,inputvalue);
 	};

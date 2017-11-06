@@ -34,12 +34,12 @@ jQuery(document).ready(function ($) {
                              $("#loginUSerDialog").closeModal();
                              boxservice.setupMenu();                             
                     }).fail(function(){
-                        console.log("******failed login");
+                        
                              $("#nav-wrapper .signinorout a").html("Sign In");
                              boxservice.globalInput.saveUsername("");
                              boxservice.globalInput.savePassword("");                            
                     });
-                    console.log("******about to  login");
+                    
             }            
             return false;
         }
@@ -163,8 +163,7 @@ jQuery(document).ready(function ($) {
        if(!boxservice.globalInput.isLoggedIn()){           
            boxservice.displayLoginWindow();
        }
-       else{
-           console.log("setting up menu");
+       else{           
            boxservice.setupMenu();
        }            
               
