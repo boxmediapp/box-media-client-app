@@ -25,8 +25,7 @@ jQuery(document).ready(function ($) {
                 console.log("creating new deferred object");
                 that.scrollPosition=$(window).scrollTop();
                 
-                deferred.promise().done(function(){
-                        console.log("*******comback from back button......");
+                deferred.promise().done(function(){                        
                         if(that.onStartList){
                             that.onStartList();
                         }
@@ -143,8 +142,7 @@ jQuery(document).ready(function ($) {
                 var that=this;
                 boxservice.util.startWait();
                 that.nextPage();
-                that.loadData(function(itms){
-                    console.log(":::loaded data:"+itms.length);
+                that.loadData(function(itms){                    
                     that.addtolist(itms);
                     that.listItemsFunction(itms);
                 });  
@@ -158,8 +156,7 @@ jQuery(document).ready(function ($) {
                      }
                      else{
                          that.nextPage();
-                         that.loadData(function(items){
-                             console.log(":::loaded data:start:"+that.start+":"+items.length);
+                         that.loadData(function(items){                             
                              that.addtolist(items);
                              loadTheRest();
                          });

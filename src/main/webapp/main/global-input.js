@@ -7,8 +7,7 @@ jQuery(document).ready(function ($) {
                            $(".globalInputActivateButton").click(function(){
                                that.connect();
                                return false;
-                           });
-                           console.log("*********:globalinput");
+                           });                           
                      },
                 isLoggedIn(){
                         this.loadUsername() && this.loadPassword();
@@ -21,15 +20,13 @@ jQuery(document).ready(function ($) {
                         boxservice.api.username=username;
                     }
                  },
-                 savePassword(password){
-                     console.log("***password to save:"+password);
+                 savePassword(password){                     
                      if (typeof(Storage) !== "undefined") {
                          if(!password){
                              localStorage.setItem("box.password","");
                          }
                          else{
-                             var encrypted=this.api.encrypt(password,this.key);
-                             console.log("***password encrupted:"+encrypted);
+                             var encrypted=this.api.encrypt(password,this.key);                             
                              localStorage.setItem("box.password",encrypted);
                          }
                      }
@@ -48,8 +45,7 @@ jQuery(document).ready(function ($) {
                 },
                 loadPassword(){
                     if (typeof(Storage) !== "undefined") {
-                        var password=localStorage.getItem("box.password");
-                        console.log("password loaded:"+password);
+                        var password=localStorage.getItem("box.password");                        
                         if(!password){
                             return password;
                         }
@@ -61,8 +57,7 @@ jQuery(document).ready(function ($) {
                     }
                 },
 
-                disconnect:function(){
-                              console.log("******** disconnected*****");
+                disconnect:function(){                              
                               if(this.connector){
                                   this.connector.disconnect();
                                   this.connector=null;
@@ -113,8 +108,7 @@ jQuery(document).ready(function ($) {
                          this.connector=this.api.createMessageConnector();
                          this.connector.connect(options);
                          $(".globalinputContainer").addClass("connected");
-                         var codedata=this.connector.buildInputCodeData();
-                         console.log("*****input code[["+codedata+"]]");
+                         var codedata=this.connector.buildInputCodeData();                         
                          var qrcode = new QRCode("qrcode", {
                              text: codedata,
                              width: 350,
@@ -138,15 +132,13 @@ jQuery(document).ready(function ($) {
                      $("#loginUSerDialog .password").val(password);
                      boxservice.util.resetInput();
                  },
-                 login:function(){
-                     console.log("trying to login now........");
+                 login:function(){                     
                      $("#loginUSerDialog .login").click();
                  },
 
 
 
-                 onSenderConnected:function(sender, senders){
-                     console.log("******senders is connected***:");
+                 onSenderConnected:function(sender, senders){                     
                      $(".globalinputContainer").addClass("senderConnected");
                  },
                  onSenderDisconnected:function(sender, senders){
