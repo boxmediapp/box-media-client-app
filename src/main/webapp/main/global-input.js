@@ -1,6 +1,6 @@
-jQuery(document).ready(function ($) {   
+jQuery(document).ready(function ($) {
         boxservice.globalInput={
-               key:"DecXC8bBdTI2FxhQV", 
+               key:"DecXC8bBdTI2FxhQV",
                init: function(){
                            this.api=require("global-input-message");
                            var that=this;
@@ -11,8 +11,8 @@ jQuery(document).ready(function ($) {
                            console.log("*********:globalinput");
                      },
                 isLoggedIn(){
-                        this.loadUsername() && this.loadPassword();                        
-                },    
+                        this.loadUsername() && this.loadPassword();
+                },
                 saveUsername(username){
                     if (typeof(Storage) !== "undefined") {
                         localStorage.setItem("box.username",username);
@@ -24,10 +24,10 @@ jQuery(document).ready(function ($) {
                  savePassword(password){
                      console.log("***password to save:"+password);
                      if (typeof(Storage) !== "undefined") {
-                         if(!password){                             
-                             localStorage.setItem("box.password","");                           
+                         if(!password){
+                             localStorage.setItem("box.password","");
                          }
-                         else{                                
+                         else{
                              var encrypted=this.api.encrypt(password,this.key);
                              console.log("***password encrupted:"+encrypted);
                              localStorage.setItem("box.password",encrypted);
@@ -35,16 +35,16 @@ jQuery(document).ready(function ($) {
                      }
                      else{
                          boxservice.api.password=password;
-                     }                                              
+                     }
                 },
-                
+
                 loadUsername(){
                     if (typeof(Storage) !== "undefined") {
                         return localStorage.getItem("box.username");
                     }
                     else{
                         return boxservice.api.username;
-                    }                    
+                    }
                 },
                 loadPassword(){
                     if (typeof(Storage) !== "undefined") {
@@ -53,14 +53,14 @@ jQuery(document).ready(function ($) {
                         if(!password){
                             return password;
                         }
-                        
+
                         return  this.api.decrypt(password,this.key);
                     }
                     else{
                         return  boxservice.api.password;
-                    }                    
+                    }
                 },
-                
+
                 disconnect:function(){
                               console.log("******** disconnected*****");
                               if(this.connector){
@@ -68,15 +68,47 @@ jQuery(document).ready(function ($) {
                                   this.connector=null;
                                }
                               $(".globalinputContainer").removeClass("connected");
-                              $(".globalinputContainer").removeClass("senderConnected");  
+                              $(".globalinputContainer").removeClass("senderConnected");
                               $("#qrcode").empty();
                            },
-                
+
                  connect:function(){
-                         var options={                            
-                             initData:Object.assign({},this.buildInitData()),
+                         
+                         var options={
                              onSenderConnected:this.onSenderConnected.bind(this),
-                             onSenderDisconnected:this.onSenderDisconnected.bind(this)
+                             onSenderDisconnected:this.onSenderDisconnected.bind(this),
+                             initData:{
+                                 action:"input",
+                                 form:{
+                                   id:"fbElBJPSaDUrA6neN@"+window.location.hostname,
+                                   title:"Box Media App Sign In",
+                                   fields:[{
+                                             label:"Username",
+                                             id:"username",
+                                             value:"",
+                                             operations:{
+                                                 onInput:this.setUsername.bind(this)
+                                             }
+
+                                           },{
+                                              label:"Password",
+                                              id:"password",
+                                              type:"secret",
+                                              operations:{
+                                                onInput:this.setPassword.bind(this)
+                                              }
+
+                                           },{
+                                              label:"Login",
+                                              type:"button",
+                                              operations:{
+                                                 onInput:this.login.bind(this)
+                                              }
+
+                                           }]
+                                       }
+                                 }
+
                          };
                          this.connector=this.api.createMessageConnector();
                          this.connector.connect(options);
@@ -85,62 +117,34 @@ jQuery(document).ready(function ($) {
                          console.log("*****input code[["+codedata+"]]");
                          var qrcode = new QRCode("qrcode", {
                              text: codedata,
-                             width: 300,
-                             height: 300,
+                             width: 350,
+                             height: 360,
                              colorDark : "#000000",
                              colorLight : "#ffffff",
                              correctLevel : QRCode.CorrectLevel.H
                          });
                  },
                  onSenderConnected:function(){
-                     
+
                  },
                  onSenderDisconnected:function(){
-                     
-                 },                 
+
+                 },
                  setUsername:function(username){
                      $("#loginUSerDialog .username").val(username);
+                     boxservice.util.resetInput();
                  },
                  setPassword:function(password){
                      $("#loginUSerDialog .password").val(password);
+                     boxservice.util.resetInput();
                  },
                  login:function(){
                      console.log("trying to login now........");
                      $("#loginUSerDialog .login").click();
                  },
-                 
-                 buildInitData:function(){
-                     return {
-                         action:"input",
-                         form:{
-                           "title":"Box Media App Sign In",
-                           fields:[{
-                                     label:"Username",
-                                     value:"",
-                                     operations:{
-                                         onInput:this.setUsername.bind(this)
-                                     }
 
-                                   },{
-                                      label:"Password",
-                                      type:"secret",
-                                      operations:{
-                                        onInput:this.setPassword.bind(this)
-                                      }
 
-                                   },{
-                                      label:"Login",
-                                      type:"button",
-                                      operations:{
-                                         onInput:this.login.bind(this)
-                                      }
 
-                                   }]
-                               }
-                         }
-                     
-                 },        
-                
                  onSenderConnected:function(sender, senders){
                      console.log("******senders is connected***:");
                      $(".globalinputContainer").addClass("senderConnected");
@@ -151,8 +155,8 @@ jQuery(document).ready(function ($) {
                      }
                  }
         }
-        
-        
-        
-        
+
+
+
+
 });
