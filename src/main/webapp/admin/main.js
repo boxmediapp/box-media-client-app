@@ -170,8 +170,7 @@ jQuery(document).ready(function ($) {
 			boxservice.admin.inputDirty = false;
 			if (boxservice.util.form.valueHasChanged(boxservice.appinfo.appconfig, boxservice.admin.configFields)) {
 				boxservice.util.startWait();
-				boxservice.util.form.update(boxservice.appinfo.appconfig, boxservice.admin.configFields);
-				console.log("updating......");
+				boxservice.util.form.update(boxservice.appinfo.appconfig, boxservice.admin.configFields);				
 				boxservice.admin.main();
 			
 				boxservice.api.task.updateappinfo(boxservice.appinfo).done(function () {
@@ -267,10 +266,8 @@ jQuery(document).ready(function ($) {
 				 }
 				 boxservice.util.pageForEachRecord("admin/tag-row.html",tagobj,".tagslist").done(function(){
 					  $(".tagslist .delete").click(function(){
-						 var tagToDelete=$(this).attr("value");
-						   console.log("going to delete:"+tagToDelete);
+						 var tagToDelete=$(this).attr("value");						   
 						   boxservice.api.tags.remove(tagToDelete).done(function(){
-							   console.log("deleted the tag:"+tagToDelete);
 						   }).fail(boxservice.util.onError);
 					  });
 					  
@@ -359,7 +356,7 @@ jQuery(document).ready(function ($) {
                    boxservice.util.pageForEachRecord("admin/device-row.html",devices,".clientdevicelist").done(function(){
                             $(".clientdevicelist .delete").click(function(){
                                    var deviceToDelete=$(this).attr("value");
-                                     console.log("going to delete:"+deviceToDelete);
+                                     
                                      boxservice.api.clientdevices.remove(deviceToDelete).done(function(){
                                              console.log("deleted the devoce:"+deviceToDelete);
                                      }).fail(boxservice.util.onError);
