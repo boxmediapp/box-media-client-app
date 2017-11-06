@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
 						$("#rwFrame").hide();
 						$("#backButton").click(function(){
 							  $("video")[0].pause();
-							  console.log("back button is called");
+							
 			        		  deferred.resolve(episode);
 			        		  
 						});
