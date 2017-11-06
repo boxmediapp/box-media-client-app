@@ -161,8 +161,7 @@ jQuery(document).ready(function ($) {
 	  
 	boxservice.api.ajax=function(methodname,path,data){
 	        var username=boxservice.globalInput.loadUsername();
-                var password=boxservice.globalInput.loadPassword();
-                console.log("******:"+username+":::"+password);
+                var password=boxservice.globalInput.loadPassword();                
 		if(data){
 			return $.ajax({
         		type: methodname,

@@ -58,12 +58,12 @@ body {
 }
 nav {
 	width:100%;
-	background-color: #F5047A;	
+	background-color: #F5047A;
 	margin:0;
 }
 .bebox nav {
 	width:100%;
-	background-color: #a5248A;	
+	background-color: #a5248A;
 	margin:0;
 }
 
@@ -129,7 +129,7 @@ input.phrase{
 }
 #episodeTags{
 	width:100px;
-	height:200px;	
+	height:200px;
 }
 
 .fileToSelect{
@@ -150,21 +150,21 @@ input.phrase{
 
 
 .activate, .deactivate{
-	display: none;	
-} 
+	display: none;
+}
 
 
-.publishedStatus.video_TRANSCODED.published_INACTIVE a.activate, .publishedStatus.video_TRANSCODE_COMPLETE.published_INACTIVE a.activate { 
+.publishedStatus.video_TRANSCODED.published_INACTIVE a.activate, .publishedStatus.video_TRANSCODE_COMPLETE.published_INACTIVE a.activate {
 	display: inline;
 }
- 
+
 .publishedStatus.published_ACTIVE a.deactivate {
 	display: inline;
 }
 .publishedStatus.video_TRANSCODED.published_APPROVED a.activate, .publishedStatus.video_TRANSCODE_COMPLETE.published_APPROVED a.activate{
 	display: inline;
 }
-	
+
 .publishedStatus.published_NOT_APPROVED a.approve {
 	display: inline;
 }
@@ -179,24 +179,24 @@ input.phrase{
 
 .scheduleevent{
    margin: 3px 3px 3px 3px;
-   width: 200px;	
+   width: 200px;
 }
 
-thead th a{	
-    color: #222222;    
+thead th a{
+    color: #222222;
 }
-.sortable{		
+.sortable{
     white-space: nowrap;
 }
 .sort-ascending{
 	margin:3px;
 	width:10px;
-	display: none;		
+	display: none;
 }
 .sort-descending{
 	margin:3px;
 	width:10px;
-	display: none;		
+	display: none;
 }
 .not-sorted{
 	margin:3px;
@@ -217,17 +217,17 @@ thead th a{
 
 
 td.listContainer{
-   vertical-align:top;	
+   vertical-align:top;
 }
 td.cueEditorContainer{
 	vertical-align:top;
 	width:500px;
-	
+
 }
 .brand-logo-text{
 	font-family: "GiorgioSans-Regular";
 	font-size: 25px;
-	
+
 }
 
 .brand-logo-img{
@@ -244,7 +244,7 @@ td.cueEditorContainer{
 	top: 20px;
 	left: 130px;
 	font-size: 10px;
-	
+
 }
 
 #loaderPage{
@@ -299,7 +299,7 @@ td.cueEditorContainer{
 
     /* Position the tooltip */
     position: absolute;
-    
+
 }
 
 .tooltip .tooltiptext.called {
@@ -332,7 +332,7 @@ td.cueEditorContainer{
 	background-color: #FFFF99;
 	padding: 5px;
 	border-radius: 1.1em;
-	
+
 }
 .img-content{
 	overflow: scroll;
@@ -340,53 +340,53 @@ td.cueEditorContainer{
 
 #configEditor{
 	margin:15px;
-	
+
 }
 #controllers a{
-	
+
 	margin-bottom: 15px;
 }
 
 .bebox-specific{
-	display: none;	
+	display: none;
 }
 .box-specific{
 	display: none;
 }
 body.box div.box-specific{
 	display: block;
-	
+
 }
 body.bebox  div.bebox-specific{
-	display: block;	
+	display: block;
 }
 
 body.box span.box-specific{
 	display: inline;
-	
+
 }
 body.bebox  span.bebox-specific{
-	display: inline;	
+	display: inline;
 }
 
 body.box li.box-specific{
 	display: inline;
-	
+
 }
 body.bebox  li.bebox-specific{
-	display: inline;	
+	display: inline;
 }
 
 #saveEpisode, #cancelEditEpisode{
-	display: none;	
+	display: none;
 }
 
 .editing #saveEpisode, .editing #cancelEditEpisode{
-	display: inline-block;	
+	display: inline-block;
 }
 
 .dirty #controllers{
-	display: none;	
+	display: none;
 }
 
 .actionMenuContent{
@@ -410,16 +410,16 @@ body.bebox  li.bebox-specific{
 
 .actionMenuContent a:hover {background-color: #f1f1f1}
 
-.trafficLight{ 
+.trafficLight{
 	   width:25px;
 	   height:25px;
-	   border-radius:25px;	   	   
-	   margin-left:25px;	   	   
+	   border-radius:25px;
+	   margin-left:25px;
 	   cursor:pointer;
 }
 
 
-.trafficLight.twostate{ 
+.trafficLight.twostate{
 	   width: 65px;
 	    height: 25px;
     	border-radius: 5px;
@@ -461,7 +461,7 @@ body.bebox  li.bebox-specific{
 }
 
 .published_APPROVED  .publishedStatus .trafficLight{
-	
+
 	background-color: red;
 	background-color: red;
 	background-image: url("/images/inactive.png");
@@ -535,12 +535,12 @@ body.bebox  li.bebox-specific{
 
 
 
-.footerOnList{	
-	height:200px;	
+.footerOnList{
+	height:200px;
 }
-.complianceStatus table, .complianceStatus td{  
+.complianceStatus table, .complianceStatus td{
   margin: 0;
-  padding: 0;	
+  padding: 0;
 }
 .editorNoteIcon{
 	height:25px;
@@ -554,18 +554,18 @@ body.bebox  li.bebox-specific{
 .requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus{
       width:20px;
       height:20px;
-	  visibility: visible;		
-		
+	  visibility: visible;
+
 }
-.requiredFieldsStatus_COMPLETE .requiredFieldsStatus{      
-	  visibility: hidden;				
+.requiredFieldsStatus_COMPLETE .requiredFieldsStatus{
+	  visibility: hidden;
 }
 .hovershowtext{
 	visibility: hidden;
 }
 
-.requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus.active .hovershowtext{      
-    position: absolute;    
+.requiredFieldsStatus_NOT_COMPLETE .requiredFieldsStatus.active .hovershowtext{
+    position: absolute;
     visibility: visible;
     background-color: #FFFF99;
     color:black;
@@ -576,7 +576,7 @@ body.bebox  li.bebox-specific{
 	font-size: 100%;
 	z-index: 1000;
 	overflow: scroll;
-	opacity:1;	
+	opacity:1;
 	right: -200px;
 }
 .requiredFieldMissing{
@@ -586,7 +586,7 @@ body.bebox  li.bebox-specific{
 	display:none;
 }
 
-.bc-playlist-icon{	
+.bc-playlist-icon{
 	font-style: normal;
 	font-family:bc-icons;
     font-weight: normal;
@@ -624,7 +624,7 @@ body.bebox  li.bebox-specific{
     float: left;
 }
 
- 
+
 input.selectableCheckbox[type="checkbox"]{
 	opacity: 1;
 	left: 0px;
@@ -638,7 +638,7 @@ input.selectableCheckbox[type="checkbox"]{
 }
 #playlistDialog{
 	width:55%;
-	height:65%;	
+	height:65%;
     padding-left:0px;
     padding-right:0px;
     padding-top:0px;
@@ -654,21 +654,21 @@ input.selectableCheckbox[type="checkbox"]{
     float:right;
     margin:0px;
     padding: 0px;
-    
+
 }
 #playVideoDialog video{
 	margin:0px;
-	
+
 }
 
 .listableDialog{
 	width:55%;
-    height:60%; 
+    height:60%;
     padding-left:0px;
     padding-right:0px;
     padding-top:0px;
     padding-bottom:0px;
-    
+
 }
 
 .listableDialog .modal-content{
@@ -682,18 +682,18 @@ input.selectableCheckbox[type="checkbox"]{
 .modal .modal-footer{
   position: absolute;
   bottom: 0;
-  left: 0; 
-} 
+  left: 0;
+}
 .listableDialog .listable table th, .listableDialog .listable table td{
-	border: 1px solid #c4c4c4;		
+	border: 1px solid #c4c4c4;
 }
 .listableDialog .listable tr{
-	
+
 }
 
 .listableDialog .listable table th{
-    background: #c4c4c4; 
-     
+    background: #c4c4c4;
+
 }
 
 .listableDialog .listable{
@@ -702,26 +702,26 @@ input.selectableCheckbox[type="checkbox"]{
 }
 
 .listrow.selected{
-	background:#0000ff; 
+	background:#0000ff;
 	color: #ffff00;
-} 
+}
 
 .itemtitle{
-	
+
 }
 .scorrabletable th{
 	border: 1px solid black;
 	background-color: #186c90;
 	color: white;
 }
-.schedulecalendar td div.selected{	
+.schedulecalendar td div.selected{
 	background-color: #186c90;
 }
 
 td div.scheduled{
 	background-color: #186c90;
 	width:10px;
-	height:10px;	
+	height:10px;
 }
 .loginContainer{
 	display:flex;
@@ -730,13 +730,14 @@ td div.scheduled{
 	align-items:flex-start;
 }
 .globalinputContainer{
-	flex:1;
+
 }
 .gomobileContainer{
 	display:flex;
     flex-direction:row;
     justify-content: flex-end;
-    align-items:flex-start;    
+    align-items:flex-start;
+    font-size:8px;
 }
 .globalinputContainer.connected .gomobileContainer{
 	display:none;
@@ -747,15 +748,46 @@ td div.scheduled{
 .globalinputContainer.connected .qrcode{
 	display:flex;
     flex-direction:row;
-    justify-content: flex-start;
-    align-items:flex-start;
+    justify-content: flex-end;
+    align-items:flex-end;
+}
+.loginTitleContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #00d0b0;
+  font-size: 24px;
+  color:white;
+  font-weight: bold;
+}
+.loginFieldsContainer{
+  padding:20px;
+}
+.loginFieldsContainer .input-field {
+  
+}
+.loginFieldsContainer  .login {
+  background-color: #00d0b0;
+  width:100%;
+}
+.login{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    color:white;
+    font-weight: bold;
 }
 
-
-.globalinputContainer.senderConnected  .senders{    
+.globalinputContainer.senderConnected  .senders{
     background-image: url("/images/mobile.png");
     background-repeat: no-repeat;
     background-position: center;
     width:55px;
     height:80px;
+}
+.globalinputContainer #loginUSerDialog{
+  max-width:500px;
+}
+.globalinputContainer.connected #loginUSerDialog{
+  max-width:800px;
 }
