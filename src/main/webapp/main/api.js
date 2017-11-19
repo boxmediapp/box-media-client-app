@@ -344,7 +344,7 @@ jQuery(document).ready(function ($) {
   
 		
   boxservice.api.task.list=function(){
-	   return boxservice.api.ajax("GET",apipath+"/tasks");			 			 			 
+	   return boxservice.api.ajax("GET",apipath+"/tasks?channel=1865244993");			 			 			 
   };
   
   boxservice.api.task.remove=function(id){
