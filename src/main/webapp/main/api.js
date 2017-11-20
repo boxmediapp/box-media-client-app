@@ -402,7 +402,7 @@ jQuery(document).ready(function ($) {
   
   
   boxservice.api.boxvideo.listFiles=function(listdata){			
-		    var path=apipath+"/box-video";
+		    var path=apipath+"/dbbox-video";
 	            if(listdata){
 	                path=listdata.createListURLWithPrefix(path);                  
 	            }
@@ -412,7 +412,7 @@ jQuery(document).ready(function ($) {
 		 
   };
   boxservice.api.boxvideo.searchFiles=function(prefix){                 
-      var url=apipath+"/box-video";
+      var url=apipath+"/dbbox-video";
       url=boxservice.api.addQueryParam(url,"prefix",prefix);
       return boxservice.api.ajax("GET",url);
    
