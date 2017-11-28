@@ -160,8 +160,7 @@ jQuery(document).ready(function ($) {
 	 
 	  
 	boxservice.api.ajax=function(methodname,path,data){
-	        var username=boxservice.globalInput.loadUsername();
-                var password=boxservice.globalInput.loadPassword();                
+		 var crendentials=boxservice.globalInput.getCredentials();						   
 		if(data){
 			return $.ajax({
         		type: methodname,
@@ -170,8 +169,8 @@ jQuery(document).ready(function ($) {
         		contentType:"application/json",
         		data: JSON.stringify(data),
         		beforeSend: function (xhr) {        		    
-	        	    if(username && password){
-	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
+	        	    if(crendentials.username && crendentials.password){
+	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendentials.username+":"+crendentials.password));
 	        	    }
 	        	}
         		});
@@ -182,8 +181,8 @@ jQuery(document).ready(function ($) {
 			    url: path,
 			    dataType: "json",
 			    beforeSend: function (xhr) {
-	        	    if(username && password){
-	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
+	        	    if(crendentials.username && crendentials.password){
+	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendentials.username+":"+crendentials.password));
 	        	    }
 	        	}
 			   });	
@@ -384,16 +383,15 @@ jQuery(document).ready(function ($) {
   };
   
   boxservice.api.bc.importcsv=function(csvContent){				
-      var username=boxservice.globalInput.loadUsername();
-      var password=boxservice.globalInput.loadPassword();
+		  var crendials=boxservice.globalInput.getCredentials();      
 	  return $.ajax({
   		type: "POST",
   		url: apipath+"/bc/import/csv",  			
   		contentType:"txt/plain",
   		data:csvContent,
   		beforeSend: function (xhr) {
-      	    if(username && password){
-      	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
+      	    if(crendials.username && crendials.password){
+      	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendials.username+":"+crendials.password));
       	    }
       	}
   		});

@@ -2,8 +2,6 @@ boxservice={};
 var globalInputMessage=require("global-input-message");
 
 jQuery(document).ready(function ($) {   
-        boxservice.globalInput.init();
-        
         
         
         boxservice.initForNewPage=function(){
@@ -12,7 +10,12 @@ jQuery(document).ready(function ($) {
         }; 
     
         boxservice.displayLoginWindow=function(){
-            $("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
+            $("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});                                                                      
+            boxservice.globalInput.connect();
+                            
+                      
+                  
+                  
         };
         boxservice.onLoginWindowClosed=function(){
             boxservice.globalInput.disconnect();
@@ -25,19 +28,14 @@ jQuery(document).ready(function ($) {
             var username=$("#loginUSerDialog input[name=username]").val().trim();
             var password=$("#loginUSerDialog input[name=password]").val().trim();
             if(username.length>0 && password.length>0){
-                    boxservice.api.users.signinUser(username,password).done(function(){
-                                
-                             $("#nav-wrapper .signinorout a").html("Sign Out");
-                          
-                             boxservice.globalInput.saveUsername(username);                          
-                             boxservice.globalInput.savePassword(password);
+                    boxservice.api.users.signinUser(username,password).done(function(){                                
+                             $("#nav-wrapper .signinorout a").html("Sign Out");                          
+                             boxservice.globalInput.setCredentails(username,password);
                              $("#loginUSerDialog").closeModal();
                              boxservice.setupMenu();                             
-                    }).fail(function(){
-                        
+                    }).fail(function(){                        
                              $("#nav-wrapper .signinorout a").html("Sign In");
-                             boxservice.globalInput.saveUsername("");
-                             boxservice.globalInput.savePassword("");                            
+                             boxservice.globalInput.setCredentails("","");                            
                     });
                     
             }            
@@ -145,8 +143,7 @@ jQuery(document).ready(function ($) {
        
        boxservice.signinout=function(){
     	   if($("#nav-wrapper .signinorout a").html()=="Sign Out"){
-    	               boxservice.globalInput.saveUsername("");
-    	               boxservice.globalInput.savePassword("");    			
+    	               boxservice.globalInput.setCredentails("","");    	               
     			 boxservice.api.users.signoutUser().done(function(){
     				   $("#nav-wrapper .signinorout a").html("Sign Out");				   
     			   }).fail(function(){

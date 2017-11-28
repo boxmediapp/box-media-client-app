@@ -1,62 +1,67 @@
 jQuery(document).ready(function ($) {
         boxservice.globalInput={
                key:"DecXC8bBdTI2FxhQV",
-               init: function(){
-                           this.api=require("global-input-message");
-                           var that=this;
-                           $(".globalInputActivateButton").click(function(){
-                               that.connect();
-                               return false;
-                           });                           
-                     },
-                isLoggedIn(){
-                        this.loadUsername() && this.loadPassword();
+               api:require("global-input-message"),
+               
+                isLoggedIn:function(){
+                  var cred=this.getCredentials();                  
+                  return  cred.username && cred.password;
                 },
-                saveUsername(username){
+                setCredentails:function(username, password){
+                        if((!password) || (!password)){
+                          username="";
+                          password="";                              
+                        }  
+                        if (typeof(Storage) !== "undefined") {                                                        
+                                var cred={
+                                      username,
+                                      password,
+                                      expiredOn:new Date().getTime()+36000000
+                                };
+                                var credString=JSON.stringify(cred);
+                                var key=this.key;
+                                var mediaCred=this.api.encrypt(credString,key);
+                                localStorage.setItem('mediaCred', mediaCred);                            
+                        }                  
+                        boxservice.api.username=username;                                    
+                        boxservice.api.password=password;    
+                },
+                getCredentials:function(){
+                    if(boxservice.api.username && boxservice.api.password){
+                         return {
+                             username:boxservice.api.username,
+                             password:boxservice.api.password
+                         };
+                    } 
+                    var credentials={
+                      username:"",
+                      password:""
+                    };         
                     if (typeof(Storage) !== "undefined") {
-                        localStorage.setItem("box.username",username);
+                            var imageCred=localStorage.getItem("mediaCred");
+                            if(!imageCred){
+                              return credentials;
+                            }
+                            var key=this.key;
+                            var credString=this.api.decrypt(imageCred,key);
+                            if(!credString){
+                                return credentials;
+                            }
+                            var cred=JSON.parse(credString);
+                            if( (!cred.username) || (!cred.password) || (!cred.expiredOn)){
+                              return credentials;
+                            }
+                            var now=new Date().getTime();
+                            if(now>=cred.expiredOn){
+                              return credentials;
+                            }
+                            return cred;
                     }
                     else{
-                        boxservice.api.username=username;
-                    }
-                 },
-                 savePassword(password){                     
-                     if (typeof(Storage) !== "undefined") {
-                         if(!password){
-                             localStorage.setItem("box.password","");
-                         }
-                         else{
-                             var encrypted=this.api.encrypt(password,this.key);                             
-                             localStorage.setItem("box.password",encrypted);
-                         }
-                     }
-                     else{
-                         boxservice.api.password=password;
-                     }
-                },
-
-                loadUsername(){
-                    if (typeof(Storage) !== "undefined") {
-                        return localStorage.getItem("box.username");
-                    }
-                    else{
-                        return boxservice.api.username;
+                        return credentials;
                     }
                 },
-                loadPassword(){
-                    if (typeof(Storage) !== "undefined") {
-                        var password=localStorage.getItem("box.password");                        
-                        if(!password){
-                            return password;
-                        }
-
-                        return  this.api.decrypt(password,this.key);
-                    }
-                    else{
-                        return  boxservice.api.password;
-                    }
-                },
-
+                
                 disconnect:function(){                              
                               if(this.connector){
                                   this.connector.disconnect();
@@ -146,7 +151,8 @@ jQuery(document).ready(function ($) {
                          $(".globalinputContainer").removeClass("senderConnected");
                      }
                  }
-        }
+        };
+        
 
 
 

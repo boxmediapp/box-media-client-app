@@ -725,23 +725,16 @@ td div.scheduled{
 }
 .loginContainer{
 	display:flex;
-	flex-direction:row;
-	justify-content: flex-start;
+	flex-direction:row;	
 	align-items:flex-start;
+  justify-content:space-between;
+  
 }
 .globalinputContainer{
+   
+}
 
-}
-.gomobileContainer{
-	display:flex;
-    flex-direction:row;
-    justify-content: flex-end;
-    align-items:flex-start;
-    font-size:8px;
-}
-.globalinputContainer.connected .gomobileContainer{
-	display:none;
-}
+
 .qrcode{
 	display:none;
 }
@@ -770,13 +763,6 @@ td div.scheduled{
   background-color: #00d0b0;
   width:100%;
 }
-.login{
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-    color:white;
-    font-weight: bold;
-}
 
 .globalinputContainer.senderConnected  .senders{
     background-image: url("/images/mobile.png");
@@ -785,9 +771,4 @@ td div.scheduled{
     width:55px;
     height:80px;
 }
-.globalinputContainer #loginUSerDialog{
-  max-width:500px;
-}
-.globalinputContainer.connected #loginUSerDialog{
-  max-width:800px;
-}
+
