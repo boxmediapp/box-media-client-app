@@ -1,5 +1,5 @@
-jQuery(document).ready(function ($) {	
-	boxservice.util={};	
+jQuery(document).ready(function ($) {
+	boxservice.util={};
 	boxservice.util.table={};
 	boxservice.util.form={};
 	boxservice.util.view={};
@@ -7,8 +7,8 @@ jQuery(document).ready(function ($) {
 	boxservice.util.menu={};
 	boxservice.util.notify={};
 	boxservice.util.episode={};
-	
-	
+
+
 	boxservice.util.startWait=function(){
 		$("#loaderPage").show();
 		$("#loaderPage").css("opacity", "0");
@@ -21,14 +21,14 @@ jQuery(document).ready(function ($) {
 			opacity: "0"
 		}, 200, function(){
 			$("#loaderPage").hide();
-		});		
+		});
 	};
 	boxservice.util.onError=function(err){
 		$("#loaderPage").hide();
 		boxservice.util.openDialog(" error with "+JSON.stringify(err));
 	};
-	
-	
+
+
 	/* convert the datatime to string */
 	boxservice.util.datetimeToString=function(value){
 		if(!value){
@@ -42,50 +42,50 @@ jQuery(document).ready(function ($) {
 			return "";
 		}
 		var dateobj=new Date(value);
-		
+
 		var fullYear=dateobj.getFullYear();
 	    var month=""+(dateobj.getMonth()+1);
 	    var datevalue=""+dateobj.getDate();
-	    
+
 		if(month.length<2){
-			month="0"+month;			
+			month="0"+month;
 		}
 		if(datevalue.length<2){
-			datevalue="0"+datevalue;			
+			datevalue="0"+datevalue;
 		}
 		return fullYear+"-"+month+"-"+datevalue;
     };
-    
+
     boxservice.util.timestampToUTCString=function(value){
 		if(!value){
 			return "";
 		}
 		var dateobj=new Date(value);
-		
+
 		var fullYear=dateobj.getFullYear();
 	    var month=""+(dateobj.getMonth()+1);
 	    var datevalue=""+dateobj.getDate();
-	    
+
 		if(month.length<2){
-			month="0"+month;			
+			month="0"+month;
 		}
 		if(datevalue.length<2){
-			datevalue="0"+datevalue;			
+			datevalue="0"+datevalue;
 		}
 		var hours = ("0"+dateobj.getHours()).slice(-2);
 	    var minutes = ("0"+dateobj.getMinutes()).slice(-2);
 		var seconds = ("0"+dateobj.getSeconds()).slice(-2);
-		   
-		   
+
+
 		return fullYear+"-"+month+"-"+datevalue+"T"+hours+":"+minutes+":"+seconds;
     };
     /* convert the string to datetime */
-    boxservice.util.stringToDateTime=function(value){		
+    boxservice.util.stringToDateTime=function(value){
 		if(value=="" || value==null){
 			return null;
 		}
     	var dateandtimeparts=value.split(" ");
-		
+
 		var dateparts=null;
 		var timeparts=null;
 		var dateType=null;
@@ -101,7 +101,7 @@ jQuery(document).ready(function ($) {
 			return (new Date(value)).getTime();
 		}
 		if(dateandtimeparts.length>1){
-			timeparts=dateandtimeparts[1].split(":");			
+			timeparts=dateandtimeparts[1].split(":");
 		}
 		var d=new Date();
 		if(dateType=="uk"){
@@ -121,74 +121,74 @@ jQuery(document).ready(function ($) {
 		}
 		return d;
    };
-   boxservice.util.stringToDate=function(value){		
+   boxservice.util.stringToDate=function(value){
 		if(value=="" || value==null){
 			return null;
 		}
-		var dateandparts=value.split("-");		
+		var dateandparts=value.split("-");
 		var d=new Date();
 		d.setFullYear(dateandparts[0]);
 		d.setMonth(dateandparts[1]-1);
-		d.setDate(dateandparts[2]);		
+		d.setDate(dateandparts[2]);
 		return d.getTime();
   };
    boxservice.util.timestampToInputs=function(timstamp,dateTarget,timeTarget){
 	   if(!timstamp){
 		   dateTarget.val(null);
 		   timeTarget.val(null);
-	   }	   
+	   }
 	   var now = new Date(timstamp);
 	   var day = ("0" + now.getDate()).slice(-2);
 	   var month = ("0" + (now.getMonth() + 1)).slice(-2);
-	   
-	   
+
+
 	   var hours = ("0"+now.getHours()).slice(-2);
 	   var minutes = ("0"+now.getMinutes()).slice(-2);
 	   var seconds = ("0"+now.getSeconds()).slice(-2);
-	   
-	   
+
+
 	   var datepart = now.getFullYear()+"-"+(month)+"-"+(day) ;
-	   var timepart=hours+":"+minutes+":"+seconds;	   
-	   dateTarget.val(datepart);	   
-	   timeTarget.val(timepart);	   
+	   var timepart=hours+":"+minutes+":"+seconds;
+	   dateTarget.val(datepart);
+	   timeTarget.val(timepart);
    };
-   
-   boxservice.util.getValueWithAttribute=function(dataitem,attributeName){                             
+
+   boxservice.util.getValueWithAttribute=function(dataitem,attributeName){
        if(attributeName.indexOf(".")==-1){
                return dataitem[attributeName];
-       }               
+       }
        var path=attributeName.split(".");
-       
+
        for(var k=0;k<path.length;k++){
                if(dataitem==null){
-                  return null; 
-               }                       
-               dataitem=dataitem[path[k]];                           
+                  return null;
+               }
+               dataitem=dataitem[path[k]];
        }
-       return dataitem;           
+       return dataitem;
   };
-    
+
 	/*Get the value in the dataitem specified in the path */
-	boxservice.util.getValueAtPath=function(dataitem,path){		
+	boxservice.util.getValueAtPath=function(dataitem,path){
 		var value=dataitem;
 		if(typeof path === 'string'){
 			return path;
-		}		
+		}
 		for(var k=0;k<path.length;k++){
 			if(value==null){
-			   return null;	
-			}			
-			value=value[path[k]];    			
+			   return null;
+			}
+			value=value[path[k]];
 		}
-		return value;		
+		return value;
 	};
 	/*Get the value in the dataitem specified in the path */
 	boxservice.util.setValueAtPath=function(dataitem,path, inputvalue){
 		if(inputvalue==""){
 			inputvalue=null;
 		}
-		var obj=dataitem;				
-		for(var k=0;k<(path.length-1);k++){		
+		var obj=dataitem;
+		for(var k=0;k<(path.length-1);k++){
 			if(obj[path[k]] ==undefined){
 				obj={};
 			}
@@ -196,26 +196,26 @@ jQuery(document).ready(function ($) {
 				obj=obj[path[k]];
 			}
 		}
-		
-		obj[path[path.length-1]]=inputvalue;		
+
+		obj[path[path.length-1]]=inputvalue;
 	};
-    
+
     /*Get the value in the dataitem specified in the config */
 	boxservice.util.getValueWithConfig=function(dataitem, configitem){
 		var value=boxservice.util.getValueAtPath(dataitem,configitem["value"]);
 		if(configitem["type"]=="datetime"){
-			return boxservice.util.datetimeToString(value);    			
+			return boxservice.util.datetimeToString(value);
 		}
 		else if(configitem["type"]=="date"){
-			
+
 			return boxservice.util.dateToString(value);
 		}
-		
-		else if(configitem["type"]=="datetime-local"){		
-			
+
+		else if(configitem["type"]=="datetime-local"){
+
 			return boxservice.util.timestampToUTCString(value);
 		}
-		
+
 		else if(configitem["type"]=="boolean"){
 			if(configitem["enum"]){
 				if(value){
@@ -224,7 +224,7 @@ jQuery(document).ready(function ($) {
 				else{
 					return configitem["enum"]["false"];
 				}
-			} 
+			}
 			else{
 				if(value){
 					if(value=="false" || value =="FALSE" || value=="False"){
@@ -238,85 +238,85 @@ jQuery(document).ready(function ($) {
 					 return "false";
 				}
 			}
-		} 
+		}
 		else{
 			return value;
 		}
 	};
 	/*Get the value in the dataitem specified in the config */
-	boxservice.util.setValueWithConfig=function(dataitem, configitem, inputvalue){		
+	boxservice.util.setValueWithConfig=function(dataitem, configitem, inputvalue){
 		if(inputvalue && configitem["type"]=="datetime"){
-			inputvalue= boxservice.util.stringToDateTime(inputvalue);   			
+			inputvalue= boxservice.util.stringToDateTime(inputvalue);
 		}
-		
+
 		else if(inputvalue && configitem["type"]=="date"){
-			inputvalue=boxservice.util.stringToDate(inputvalue);   			
+			inputvalue=boxservice.util.stringToDate(inputvalue);
 		}
 		else if(inputvalue && configitem["type"]=="datetime-local"){
-			
+
 			inputvalue=Date.parse(inputvalue)-3600000;
-			
-			
+
+
 		}
 		boxservice.util.setValueAtPath(dataitem,configitem.value,inputvalue);
 	};
-	
+
 	/*Create the table header with config and append to target*/
 	boxservice.util.table.head=function(config, target){
-    	for(var i=0;i<config.length;i++){	        		
+    	for(var i=0;i<config.length;i++){
     		var th=$('<th/>');
     		th.html(config[i].title);
-    		target.append(th);        			
-    	}			
+    		target.append(th);
+    	}
    };
-   
-	
+
+
 	/*Build a table cel from the config and datarow and append to target */
-	
+
 	boxservice.util.table.cell=function(datarow, config,target){
     	  var element=$('<'+config["tag"]+"/>");
     	  if(config["attr"]){
     		  element.attr(config["attr"]["name"],boxservice.util.getValueWithConfig(datarow,config["attr"]))
     	  }
-    	  
+
     	  if(config["class"]){
     		  element.addClass(config["class"])
     	  }
     	  if(config["body"]){
     		  element.html(boxservice.util.getValueWithConfig(datarow, config["body"]))
-    	  }    	  
+    	  }
     	  if(config["element"]){
-    		  boxservice.util.table.cell(datarow,config["element"],element);    		  
+    		  boxservice.util.table.cell(datarow,config["element"],element);
     	  }
     	  target.append(element);
     };
-   
+
 	/* Builds a row of the table from the datarow and config and append to target */
-    boxservice.util.table.row=function(datarow, config,target){			
+    boxservice.util.table.row=function(datarow, config,target){
 		for(var i=0;i<config.length;i++){
 			boxservice.util.table.cell(datarow,config[i],target)
-    	}			
+    	}
 	};
 
 	/*Builds a table from the dataitems with config and append to target */
-	boxservice.util.table.show=function(dataitems, config, target){		  
+	boxservice.util.table.show=function(dataitems, config, target){
 		  var table=$('<table class="datatable highlight responsive-table"/>');
-		  
-		  var thead=$('<thead/>');			  
+
+		  var thead=$('<thead/>');
 		  boxservice.util.table.head(config,thead);
 		  table.append(thead);
 		  var tbody=$('<tbody/>');
-		  
-		  
+
+
 		  for(var i=0;i<dataitems.length;i++){
 				  var tr=$('<tr/>');
 				  boxservice.util.table.row(dataitems[i],config,tr)
 				  tbody.append(tr);
-		  }		
-		  table.append(tbody);		  				  
+		  }
+		  table.append(tbody);
 		  $(target).append(table);
   };
-  boxservice.util.selectable=function(dataitems,config, target){		  	  	  
+  boxservice.util.selectable=function(dataitems,config, target){
 	  for(var i=0;i<dataitems.length;i++){
 		      var value=boxservice.util.getValueWithConfig(dataitems[i], config);
 			  var pelement=$('<p/>');
@@ -326,9 +326,9 @@ jQuery(document).ready(function ($) {
 			  pelement.append(input);
 			  pelement.append(label);
 			  $(target).append(pelement);
-	  }			  		  				  	  
+	  }
 };
-  
+
 boxservice.util.isArrayDifferent=function(array1, array2){
 	   if(array1.length!=array2.length){
 		   return true;
@@ -357,13 +357,13 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		   if(!found){
 			   return true;
 		   }
-		   
+
 	   }
 	   return false;
-	   
-	
+
+
 };
-/* orgValye and input value are different */	
+/* orgValye and input value are different */
   boxservice.util.valueHaschanged=function(orgvalue, inputvalue,datatype){
 	  if(orgvalue ==undefined || orgvalue =="" || orgvalue==null){
 		  if(inputvalue ==undefined || inputvalue =="" || inputvalue==null){
@@ -381,37 +381,37 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			  return true;
 		  }
 	  }
-	  
+
 	  if(orgvalue==inputvalue){
 		  return false;
 	  }
 	  if(!orgvalue){
 		    if((!inputvalue)||inputvalue.length==0) {
 		    	return false;
-		    }		    		    
+		    }
 		    else
-		    	return true;		    
+		    	return true;
 	   }
-	  else if((!inputvalue)||inputvalue.length==0) {		    
+	  else if((!inputvalue)||inputvalue.length==0) {
 		    return true;
 	   }
 	   else if("array"==datatype){
-		   return boxservice.util.isArrayDifferent(orgvalue,inputvalue);		   
+		   return boxservice.util.isArrayDifferent(orgvalue,inputvalue);
 	   }
 	   else if(orgvalue && inputvalue && orgvalue.constructor== Array && inputvalue.constructor ==Array){
 		   if(inputvalue.length!=orgvalue.length){
 			   return true;
 		   }
-		   else{			   
+		   else{
 			   for(var i=0;i<inputvalue.length;i++){
 				   if(orgvalue.indexOf(inputvalue[i])==-1){
 				       return true;
-				   }			           
+				   }
 			   }
 			   for(var i=0;i<orgvalue.length;i++){
                                if(inputvalue.indexOf(orgvalue[i])==-1){
                                    return true;
-                               }                               
+                               }
                            }
 			   return false;
 		   }
@@ -421,21 +421,21 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 	   }
 	};
 	boxservice.util.getInutFieldValue=function(selection, datatype){
-		
+
 		if(datatype=="array"){
 		/*  var val=[];
 		  $(selection +" :selected").each(function(i,selected){
 			  val.push($(selected).val());
 		  });
 			*/
-		return $(selection).val();	
+		return $(selection).val();
 		}
 		else{
-			return $(selection).val();			
+			return $(selection).val();
 		}
 	};
    boxservice.util.setInutFieldValue=function(selection, datatype, value){
-		
+
 		if(datatype=="array"){
 			/*
 		  for(var i=0; i<value.length;i++){
@@ -445,66 +445,66 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			return $(selection).val(value);
 		}
 		else{
-			return $(selection).val(value);			
+			return $(selection).val(value);
 		}
 	};
-	
-	
- /*compare the input fields and the data to see whether values had been changed or not  */	
-  boxservice.util.form.valueHasChanged=function(data,config){		
-		
+
+
+ /*compare the input fields and the data to see whether values had been changed or not  */
+  boxservice.util.form.valueHasChanged=function(data,config){
+
 			  for(var i=0;i<config.length;i++){
 				  if(!config[i].notEditable){
-					  var selection=boxservice.util.form.getInputValueSelection(config[i]);				  
-					  var inputvalue=boxservice.util.getInutFieldValue(selection,config[i].data.type);					  				   
+					  var selection=boxservice.util.form.getInputValueSelection(config[i]);
+					  var inputvalue=boxservice.util.getInutFieldValue(selection,config[i].data.type);
 					  var orgvalue=boxservice.util.getValueWithConfig(data, config[i].data);
-					   
+
 					   if(boxservice.util.valueHaschanged(orgvalue,inputvalue,config[i].data.type)){
 						   console.log("******changed****selection:"+selection+" inputvalue=["+inputvalue+"]orgvalue=["+orgvalue+"]");
 						   return selection;
 					   }
 				  }
 			  }
-			  return false;		   			   
+			  return false;
     };
-   
-    boxservice.util.form.initInputFields=function(data,config){		
-		
-		  for(var i=0;i<config.length;i++){			  
-			   var selection=boxservice.util.form.getInputValueSelection(config[i]);				  			  				   
+
+    boxservice.util.form.initInputFields=function(data,config){
+
+		  for(var i=0;i<config.length;i++){
+			   var selection=boxservice.util.form.getInputValueSelection(config[i]);
 			   var orgvalue=boxservice.util.getValueWithConfig(data, config[i].data);
-			   
-			   $(selection).val(orgvalue);			   			   
+
+			   $(selection).val(orgvalue);
 		  }
-		  return false;		   			   
+		  return false;
 };
-    
-    
-    boxservice.util.form.inputChangedCallback=function(config, callback){			
+
+
+    boxservice.util.form.inputChangedCallback=function(config, callback){
 	  for(var i=0;i<config.length;i++){
 		  if(!config[i].notEditable){
 			   console.log("setting up lister for:"+config[i].input.selection);
-			   var selection=boxservice.util.form.getInputValueSelection(config[i]);		   
+			   var selection=boxservice.util.form.getInputValueSelection(config[i]);
 			   $(selection).on('input', callback);
 			   $(selection).on('change', callback);
 		  }
 	  }
-	  return false;		   			   
+	  return false;
    };
-       
+
     boxservice.util.form.getInputValueSelection=function(config){
-    	var selection=null;				  		  
+    	var selection=null;
 		  if(config.input.name){
-			  selection=config.input.selection+"[name='"+config.input.name+"']";					  
+			  selection=config.input.selection+"[name='"+config.input.name+"']";
 		  }
 		  else{
 			  selection=config.input.selection;
 		   }
-		  return selection;    	
+		  return selection;
     };
 
- /*Update the data with the input fields */		   	   
-    boxservice.util.form.update=function(data,config){		 			 
+ /*Update the data with the input fields */
+    boxservice.util.form.update=function(data,config){
 		  for(var i=0;i<config.length;i++){
 			  if(!config[i].notEditable){
 				  var selection=boxservice.util.form.getInputValueSelection(config[i]);
@@ -512,7 +512,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 				  boxservice.util.setValueWithConfig(data, config[i].data, inputvalue);
 			  }
 		   }
-    };			  		   			   
+    };
 
     boxservice.util.form.addOption=function(newOptionValue, newOptionText,targetSelection){
 			if(newOptionValue==null||newOptionValue.length==0){
@@ -521,15 +521,15 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			newOptionValue=newOptionValue.trim();
 			if(newOptionValue.length==0){
 				return;
-			}	
+			}
 			var vv=$(targetSelection+ " option[value='"+newOptionValue+"']");
 			if(vv.val()){
-				console.log("already exist in the options");			
+				console.log("already exist in the options");
 				return;
 			}
-			$(targetSelection).append($('<option>', { 
+			$(targetSelection).append($('<option>', {
 		        value: newOptionValue,
-		        text : newOptionText 
+		        text : newOptionText
 		    }));
 			var selected=$(targetSelection).val();
 			if(selected==null){
@@ -539,44 +539,44 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 				selected.push(newOptionValue);
 				$(targetSelection).val(selected);
 			}
-			
+
 	};
 	boxservice.util.form.populateOptions=function(optionsValues,targetSelection){
 		if(optionsValues==null||optionsValues.length==0){
 			return;
 		}
-		$(targetSelection).append($('<option>', { 
+		$(targetSelection).append($('<option>', {
 	        value: null,
-	        text : "" 
+	        text : ""
 	    }));
-		for(var i=0;i<optionsValues.length;i++){			
-			$(targetSelection).append($('<option>', { 
+		for(var i=0;i<optionsValues.length;i++){
+			$(targetSelection).append($('<option>', {
 		        value: optionsValues[i],
-		        text : optionsValues[i] 
+		        text : optionsValues[i]
 		    }));
 		}
     };
-    boxservice.util.form.selectOptions=function(optionsValues,targetSelection){				
-		$(targetSelection).val(optionsValues);		
+    boxservice.util.form.selectOptions=function(optionsValues,targetSelection){
+		$(targetSelection).val(optionsValues);
     };
-	
-    
+
+
     boxservice.util.menu.resetSort=function(){
     	$(".sort-ascending").removeClass("active");
-		$(".sort-descending").removeClass("active");			
+		$(".sort-descending").removeClass("active");
 		$(".not-sorted").addClass("active");
     };
-    
+
     boxservice.util.menu.configSort=function(opts){
                 var sortHeader=opts.headerSection;
 		$(sortHeader).unbind("click").click(function(){
-						
+
 			if($(sortHeader+ " .not-sorted" ).hasClass("active") || $(sortHeader+ " .sort-descending" ).hasClass("active")){
 			    	boxservice.util.menu.resetSort();
 			    	$(sortHeader+ " .not-sorted" ).removeClass("active");
 			    	$(sortHeader+" .sort-descending").removeClass("active");
 			    	$(sortHeader+" .sort-ascending").addClass("active");
-			    	opts.ascFunction();			    
+			    	opts.ascFunction();
 			 }
 			 else {
 			    	boxservice.util.menu.resetSort();
@@ -584,7 +584,7 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 			    	$(sortHeader+" .sort-ascending").removeClass("active");
 			    	$(sortHeader+" .sort-descending").addClass("active");
 			    	opts.descFunction();
-			 }	    				
+			 }
 		});
 	};
 	boxservice.util.menu.setup=function(opts){
@@ -592,42 +592,29 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		        if(opts.whenClicked){
 		            opts.whenClicked();
 		        }
-			var template=$(target).attr("template");
 			var call=$(target).attr("call");
 			$(target).parent().parent().children().removeClass("active");
-			
+
 			$(target).parent().addClass("active");
 			try{
-				if(template){
-						boxservice.util.page.load(template).done(function(htmlContent){							
-							if(call){
-								eval(call+"(htmlContent)");
-							}
-						});
-				}
-				else{
-					if(call){					
+					if(call){
 						eval(call+"()");
-					}
-				}
+				  }
 			}
 			catch(error){
 				console.error(error+" while exucuting the menu:linkSelection call=["+call+"] template=["+template+"]");
 			}
 		};
-		
-		
-		$(opts.linkSelection).click(function(){
-			boxservice.checkAppInfo();			
+		$(opts.linkSelection).click(function(){			
 			selectMenu(this);
 			$(".button-collapse").sideNav("hide");
 		});
-		
+
 	};
-	
-	
-	
-	
+
+
+
+
 	boxservice.util.replaceVariables=function(template, data, config) {
 		  return template.replace(/\$\{([\w\.]*)\}/g, function(str, key) {
 		    var keys = key.split(".");
@@ -645,119 +632,119 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 		    }
 		  });
 		};
-		
+
 		boxservice.util.convertUKDateToISO=function(ukdate){
 			if(ukdate==null ||ukdate==""){
-				return ukdate;				
+				return ukdate;
 			}
 			var dpart=ukdate.split("/");
 			if(dpart.length!=3){
-				throw "date is in wrong format:"+ukdate;				
+				throw "date is in wrong format:"+ukdate;
 			}
-			return dpart[2]+"-"+dpart[1]+"-"+dpart[0];			
+			return dpart[2]+"-"+dpart[1]+"-"+dpart[0];
 		};
-     
-      
-      boxservice.util.openDialog=function(message){    	 
+
+
+      boxservice.util.openDialog=function(message){
     	  $("#messageDialog").openModal();
     	  $("#dialogMessage").html(message);
       };
-      boxservice.util.closeDialog=function(){    	  
-    	  $("#messageDialog").closeModal();    	  
+      boxservice.util.closeDialog=function(){
+    	  $("#messageDialog").closeModal();
       };
-      
+
       $("#messageDialog button").click(function(){
-    	  $("#messageDialog").closeModal();  
+    	  $("#messageDialog").closeModal();
 	  });
-      boxservice.util.page.load=function(page){    	    
+      boxservice.util.page.load=function(page){
       	return $.ajax({
   		    type: "GET",
   		    url: page+"?version="+window.boxmediappClientVersion,
-  		    dataType: "html"				    
+  		    dataType: "html"
   		   });
       };
-      
+
       boxservice.util.pageForEachRecord=function(templatePage,records, targetSelection,config){
     	  var deferred = $.Deferred();
-    	  	if(records && records.length>0){    	  		  
+    	  	if(records && records.length>0){
     	  		    boxservice.util.page.load(templatePage).done(function(templatePage){
 		    	  		var pageContent="";
 		        		  for(var i=0;i<records.length;i++){
-		        			  pageContent=pageContent+boxservice.util.replaceVariables(templatePage,records[i],config);		        			  
+		        			  pageContent=pageContent+boxservice.util.replaceVariables(templatePage,records[i],config);
 		        		  }
 		        		  $(targetSelection).append(pageContent);
 		        		  deferred.resolve("done");
-		      	  	   
+
 		    	  	 }).fail(function(err){
 		    	  		boxservice.util.onError("failed to load the record template page, check the network connection....:"+templatePage);
 		    	  		deferred.fail(err);
 		    	  	  }) ;
     	  	}
     	  	return deferred.promise();
-    	  	
+
       };
-      
+
       boxservice.util.resetInput=function(){
     	  if($('select') && $('select').material_select){
     		  $('select').material_select();
     	  }
-    	  
+
           Materialize.updateTextFields();
       };
-      
-      
+
+
       boxservice.util.search=function(search){
     	var deferred = $.Deferred();
-  	    $("#searchInput").val(search);  	         
+  	    $("#searchInput").val(search);
 		    $("#searchButton").click(function(){
 		    	console.log("Search button is clicked............");
-		      search=$("#searchInput").val();	
+		      search=$("#searchInput").val();
 		  	  deferred.resolve(search);
-		    	
+
 		    });
-		    $("#searchInput").keypress(function(e){		    	
+		    $("#searchInput").keypress(function(e){
 		    	 var key = e.which;
 		    	 if(key == 13)  // the enter key code
 		    	  {
 		    		 search=$("#searchInput").val();
-		    		 deferred.resolve(search);		    		 
-		    		 return false;  
-		    	  }		    	
+		    		 deferred.resolve(search);
+		    		 return false;
+		    	  }
 		    });
 		    return deferred;
        };
        boxservice.util.resetScrollPaging=function(){
-           $(window).unbind("scroll");           
+           $(window).unbind("scroll");
        };
-       boxservice.util.scrollPaging=function(listitemdata){  
+       boxservice.util.scrollPaging=function(listitemdata){
                    var loadMore=function(){
                        if(listitemdata  && listitemdata.loadedall){
                            console.log("scrolll reached end, but ignored because all the items are loaded");
                            $(window).unbind("scroll");
                            $("#showMoreResults").hide();
                        }
-                       else{                                         
-                         $("#showMoreResults").show();  
-                         listitemdata.loadNextPage(); 
+                       else{
+                         $("#showMoreResults").show();
+                         listitemdata.loadNextPage();
                        }
                    };
                    boxservice.util.scrollListItemData=listitemdata;
-                   
+
                    $(window).unbind("scroll").scroll(function(){
                              if(boxservice.util.scrollListItemData!==listitemdata){
                                  console.log("this is not the onwer, ignoringt he scroll");
                                  return;
                              }
-            		     if($(window).scrollTop() == ($(document).height() - $(window).height())){			    		 
-            		     loadMore();		    		 
-    	                   }		          
-		     });    
-                   
+            		     if($(window).scrollTop() == ($(document).height() - $(window).height())){
+            		     loadMore();
+    	                   }
+		     });
+
                    $("#showMoreResults").unbind("click").click(function(){
                        loadMore();
                    });
          };
-       
+
        boxservice.util.tooltip=function(){
     	   $(".tooltip .material-icons").click(function(){
    			var tootext=$(this).siblings(".tooltiptext");
@@ -769,21 +756,21 @@ boxservice.util.isArrayDifferent=function(array1, array2){
    				tootext.addClass("called",3000);
    				tootext.parent().addClass("called",3000);
    			}
-   		  });  
+   		  });
        };
        boxservice.util.websafeTitle=function(title){
     	   if(!title){
-    		   return title;    		   
+    		   return title;
     	   }
     	   return title.replace(/[&\/\\#,\ +()$~%.'":*?<>{}]/g,'-');
        };
-       
-       
-       
-       
-       
+
+
+
+
+
        boxservice.util.uploadFileDialog=function(onListS3files,onCloseFileUploader, sendFileURL){
-       	
+
        	var uploadFilename = $("#filennameForUpload").val();
    		if (!uploadFilename) {
    			boxservice.util.openDialog("You have to provide a valid file name");
@@ -829,10 +816,10 @@ boxservice.util.isArrayDifferent=function(array1, array2){
    				});
    			}
    		}).fail(boxservice.util.onError);
-       	
+
        };
-        
-       
+
+
        boxservice.util.episode.filterEpisodesById=function(episodes, episodeid){
     	   if(!episodes){
     		   return null;
@@ -849,19 +836,19 @@ boxservice.util.isArrayDifferent=function(array1, array2){
        };
        boxservice.util.setupDropdownMenu=function(target){
     	   target.click(function(event){
- 	    	  var container=$(this).parents(".statusAction");		    	  
+ 	    	  var container=$(this).parents(".statusAction");
  	    	  container.addClass("active");
- 	    	  
- 	    	  var startTime=(new Date()).getTime();		    	  
- 	    	  var menuIsActive=true;		    	  
+
+ 	    	  var startTime=(new Date()).getTime();
+ 	    	  var menuIsActive=true;
  	    	  container.on("mousemove", function(){
  	    		  startTime=(new Date()).getTime();
  	    		  menuIsActive=true;
  	    	  });
  	    	  container.on("mouseout", function(){
- 	    		  menuIsActive=false;		    		  		    		  
+ 	    		  menuIsActive=false;
  	    	  });
- 	    	  
+
  	    	  var refreshInterval=setInterval(function(){
  	    		  if(menuIsActive){
  	    			  return;
@@ -871,27 +858,27 @@ boxservice.util.isArrayDifferent=function(array1, array2){
  	    			  clearInterval(refreshInterval);
  	    			  container.off("mousemove");
  	    			  container.off("mouseout");
- 	    			  container.removeClass("active");		    			  
+ 	    			  container.removeClass("active");
  	    		  }
- 	    		  
+
  	    	  },100);
- 	    	  
- 	    	  
- 	    	  
- 	    	  
+
+
+
+
  	      });
        };
        boxservice.util.getDateString=function(datevalue){
            var day = ("0" + datevalue.getDate()).slice(-2);
            var month = ("0" + (datevalue.getMonth() + 1)).slice(-2);
            return datevalue.getFullYear()+"-"+(month)+"-"+(day) ;
-           
+
        };
-       
-       
-       
-       
-       
-       
-       
+
+
+
+
+
+
+
 });
