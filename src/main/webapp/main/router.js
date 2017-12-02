@@ -1,8 +1,35 @@
 var boxservice=boxservice || {};
 boxservice.router={
+  init:function(){
+          var resource=this.getQueryParam("resource");
+          var router=this.getByResource(resource);
+          if(!router){
+              router=this.episode;
+          }
+          router.push();
+          router.route();
+          this.selectMenuItem(router);
+
+          var that=this;
+          window.addEventListener('popstate', function(e) {
+                if(!e || !e.state || !e.state.resource){
+                  console.log("no resource is set in popstate");
+                  return;
+                }
+                var router=that.getByResource(e.state.resource);
+                if(router){
+                  router.route();
+                  that.selectMenuItem(router);
+                }
+          });
+     },
       getAllResources:function(){
             return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
             this.importSchedules,this.admin,this.help];
+      },
+      getAllMenuComponents:function(){
+          return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
+          this.importSchedules,this.admin,this.help,this.signout];
       },
       getByResource:function(resource){
             var resources=this.getAllResources();
@@ -14,9 +41,60 @@ boxservice.router={
             }
             return null;
       },
+
+
+      setupTopMenu:function(){
+            var menuComponents=this.getAllMenuComponents();
+            for(var i=0;i<menuComponents.length;i++){
+              menuComponents[i].menuItem=this.buildMenuItem(menuComponents[i]);
+              menuComponents[i].mobileMenuItem=this.buildMenuItem(menuComponents[i]);
+                $("#mobile-menu").append(menuComponents[i].mobileMenuItem);
+                $("#nav-mobile").append(menuComponents[i].menuItem);
+            }
+      },
+      selectMenuItem(menuComponent){
+          if(!menuComponent.menuItem){
+            return;
+          }
+          $(".button-collapse").sideNav("hide");
+          var menuComponents=this.getAllMenuComponents();
+          for(var i=0;i<menuComponents.length;i++){
+              menuComponents[i].menuItem.removeClass("active");
+              menuComponents[i].mobileMenuItem.removeClass("active");
+          }
+          menuComponent.menuItem.addClass("active");
+          boxservice.initForNewPage();
+      },
+
+      buildMenuItem:function(menuComponent){
+            var li=$("<li></li>");
+            var aitem=$("<a></a>",{
+                href:menuComponent.getPath(),
+                text:menuComponent.title
+            });
+            li.append(aitem);
+            var that=this;
+            li.addClass("navItem");
+            if(menuComponent.extraClasses){
+              for(var k=0;k<menuComponent.extraClasses.length;k++){
+                li.addClass(menuComponent.extraClasses[k]);
+              }
+            }
+
+            var that=this;
+            aitem.click(function(){
+                  menuComponent.index();
+                  that.selectMenuItem(menuComponent);
+                  return false;
+            });
+
+            return li;
+      },
       signout:{
         title:"Sign Out",
         resource:"singout",
+        extraClasses:["signinorout"],
+
         route:function(){
             boxservice.signinout();
         },
@@ -28,8 +106,11 @@ boxservice.router={
               return null;
             }
         },
+        getPath(){
+          return "/index.html?resource="+this.resource;
+        },
         push:function(){
-            window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+            window.history.pushState({resource:this.resource},this.title, this.getPath());
         },
         index:function(){
           this.route();
@@ -51,8 +132,11 @@ boxservice.router={
               return null;
             }
         },
+        getPath(){
+          return "/index.html?resource="+this.resource;
+        },
         push:function(){
-            window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+            window.history.pushState({resource:this.resource},this.title, this.getPath());
         },
         index:function(){
           this.push();
@@ -74,8 +158,11 @@ boxservice.router={
               return null;
             }
         },
+        getPath(){
+          return "/index.html?resource="+this.resource;
+        },
         push:function(){
-            window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+            window.history.pushState({resource:this.resource},this.title, this.getPath());
         },
         index:function(){
           this.push();
@@ -85,6 +172,7 @@ boxservice.router={
       importSchedules:{
         title:"Imports",
         resource:"importSchedules",
+        extraClasses:["box-specific"],
         route:function(){
             boxservice.import.show();
         },
@@ -97,8 +185,11 @@ boxservice.router={
               return null;
             }
         },
+        getPath(){
+          return "/index.html?resource="+this.resource;
+        },
         push:function(){
-            window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+            window.history.pushState({resource:this.resource},this.title, this.getPath());
         },
         index:function(){
           this.push();
@@ -121,8 +212,11 @@ boxservice.router={
               return null;
             }
         },
+        getPath(){
+          return "/index.html?resource="+this.resource;
+        },
         push:function(){
-            window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+            window.history.pushState({resource:this.resource},this.title, this.getPath());
         },
         index:function(){
           this.push();
@@ -144,8 +238,11 @@ boxservice.router={
                     return null;
                   }
               },
+              getPath(){
+                return "/index.html?resource="+this.resource;
+              },
               push:function(){
-                  window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+                  window.history.pushState({resource:this.resource},this.title, this.getPath());
               },
               index:function(){
                 this.push();
@@ -167,8 +264,11 @@ boxservice.router={
                     return null;
                   }
               },
+              getPath(){
+                return "/index.html?resource="+this.resource;
+              },
               push:function(){
-                  window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+                  window.history.pushState({resource:this.resource},this.title, this.getPath());
               },
               index:function(){
                 this.push();
@@ -190,8 +290,11 @@ boxservice.router={
                   return null;
                 }
             },
+            getPath(){
+              return "/index.html?resource="+this.resource;
+            },
             push:function(){
-                window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+                window.history.pushState({resource:this.resource},this.title, this.getPath());
             },
             index:function(){
               this.push();
@@ -212,8 +315,11 @@ boxservice.router={
                   return null;
                 }
             },
+            getPath(){
+              return "/index.html?resource="+this.resource;
+            },
             push:function(){
-                window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+                window.history.pushState({resource:this.resource},this.title, this.getPath());
             },
 
             index:function(){
@@ -235,8 +341,11 @@ boxservice.router={
                 return null;
               }
           },
+          getPath(){
+            return "/index.html?resource="+this.resource;
+          },
           push:function(){
-              window.history.pushState({resource:this.resource},this.title, "/index.html?resource="+this.resource);
+              window.history.pushState({resource:this.resource},this.title, this.getPath());
           },
 
           index:function(){
@@ -260,26 +369,7 @@ boxservice.router={
                   return decodeURIComponent(pair[1]);
               }
           }
-        },
-
-      init:function(){
-        var resource=this.getQueryParam("resource");
-        var router=this.getByResource(resource);
-        if(!router){
-          router=this.episode;
         }
-        router.push();
-        router.route();
-        var that=this;
-        window.addEventListener('popstate', function(e) {
-              if(!e || !e.state || !e.state.resource){
-                console.log("no resource is set in popstate");
-                return;
-              }
-              var router=that.getByResource(e.state.resource);
-              if(router){
-                router.route();
-              }
-        });
-      }
+
+
 }

@@ -60,8 +60,9 @@ jQuery(document).ready(function ($) {
                  $("body").addClass(boxservice.appinfo.appconfig.visibilityCategory);
                }
                boxservice.router.init();
+               boxservice.util.finishWait(); 
              }).fail(function(err){
-               boxservice.util.finishWait();
+              boxservice.util.finishWait();
                boxservice.util.onError(err);
                $("#nav-wrapper .signinorout a").html("Sign In");
 
@@ -78,19 +79,13 @@ jQuery(document).ready(function ($) {
         };
 
         boxservice.setupMenu=function(){
-		            boxservice.util.menu.setup({linkSelection:".navItem a",whenClicked:function(){
-		                boxservice.initForNewPage();
-		    }});
+		            //boxservice.util.menu.setup({linkSelection:".navItem a",whenClicked:function(){
+		             //   boxservice.initForNewPage();
+                boxservice.router.setupTopMenu();
+                boxservice.loadAppInfo();
+		              $(".button-collapse").sideNav();
 
-        boxservice.loadAppInfo();
-
-
-		   $(".button-collapse").sideNav();
-
-
-
-
-	   };
+	      };
 
 
 
