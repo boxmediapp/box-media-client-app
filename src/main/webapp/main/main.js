@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
                              $("#nav-wrapper .signinorout a").html("Sign Out");
                              boxservice.globalInput.setCredentails(username,password);
                              $("#loginUSerDialog").closeModal();
-                             boxservice.setupMenu();
+                             boxservice.loadAppInfo();
                     }).fail(function(){
                              $("#nav-wrapper .signinorout a").html("Sign In");
                              boxservice.globalInput.setCredentails("","");
@@ -60,7 +60,10 @@ jQuery(document).ready(function ($) {
                  $("body").addClass(boxservice.appinfo.appconfig.visibilityCategory);
                }
                boxservice.router.init();
-               boxservice.util.finishWait(); 
+               boxservice.router.setupTopMenu();
+               boxservice.router.executeOnLoads();
+               $(".button-collapse").sideNav();
+               boxservice.util.finishWait();
              }).fail(function(err){
               boxservice.util.finishWait();
                boxservice.util.onError(err);
@@ -78,14 +81,7 @@ jQuery(document).ready(function ($) {
 
         };
 
-        boxservice.setupMenu=function(){
-		            //boxservice.util.menu.setup({linkSelection:".navItem a",whenClicked:function(){
-		             //   boxservice.initForNewPage();
-                boxservice.router.setupTopMenu();
-                boxservice.loadAppInfo();
-		              $(".button-collapse").sideNav();
 
-	      };
 
 
 
@@ -146,7 +142,7 @@ jQuery(document).ready(function ($) {
            boxservice.displayLoginWindow();
        }
        else{
-           boxservice.setupMenu();
+           boxservice.loadAppInfo();
        }
 
 

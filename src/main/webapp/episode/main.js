@@ -380,9 +380,10 @@ jQuery(document).ready(function ($) {
 
                       $("a.episodlink").click(function(){
                                   var deferred=boxservice.episode.listdata.getBackDeferred();
-                                  boxservice.initForNewPage();
-                                  var episodeid=$(this).attr("href");
-                                  boxservice.episode.edit(episodeid,deferred);
+                                  
+                                  recordContainer=$(this).parents(".episoderow");
+                                  var episodeid=recordContainer.attr("episodeid");
+                                  boxservice.router.editEpisode.onClicked(episodeid,deferred);
                                   return false;
                           });
 

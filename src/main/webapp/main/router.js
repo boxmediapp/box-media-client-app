@@ -1,47 +1,171 @@
 var boxservice=boxservice || {};
 boxservice.router={
-  init:function(){
-          var resource=this.getQueryParam("resource");
-          var router=this.getByResource(resource);
-          if(!router){
-              router=this.episode;
-          }
-          router.push();
-          router.route();
-          this.selectMenuItem(router);
+  getAllResources:function(){
+        return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
+        this.importSchedules,this.admin,this.help,this.editEpisode, this.signout, this.editProgramme,this.editCollection];
+  },
+  getAllMenuComponents:function(){
+      return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
+      this.importSchedules,this.admin,this.help,this.signout];
+  },
+  selectMenuItem:function(menuComponent){
+        if(menuComponent.menuItem){
 
+            $(".button-collapse").sideNav("hide");
+            var menuComponents=this.getAllMenuComponents();
+            for(var i=0;i<menuComponents.length;i++){
+                menuComponents[i].menuItem.removeClass("active");
+                menuComponents[i].mobileMenuItem.removeClass("active");
+            }
+            menuComponent.menuItem.addClass("active");
+        }
+  },
+
+  getQueryParam:function(variable) {
+            if(!window.location){
+              return null;
+            }
+            var query=window.location.search;
+            if(!query){
+                return null;
+            }
+              query=query.substring(1);
+              var vars = query.split('&');
+              for (var i = 0; i < vars.length; i++) {
+                  var pair = vars[i].split('=');
+                  if (decodeURIComponent(pair[0]) == variable) {
+                      return decodeURIComponent(pair[1]);
+                  }
+              }
+    },
+
+  executeOnLoads:function(){
+        var resources=this.getAllResources();
+        var processed=false;
+        for(var i=0;i<resources.length;i++){
+            if(resources[i].onLoad()){
+                processed=true;
+            }
+        }
+        if(!processed){
+              this.episode.onLoad(this.episode.name);
+        }
+  },
+  executeOnBrowse:function(state){
+        var resources=this.getAllResources();
+        for(var i=0;i<resources.length;i++){
+            resources[i].onBrowse(state);
+        }
+  },
+  initResources:function(){
+        var resComponents=this.getAllResources();
+        for(var i=0;i<resComponents.length;i++){
+            this.initResource(resComponents[i]);
+        }
+  },
+  _buildPath:function(){
+        return "/index.html?resource="+this.name;
+  },
+  _buildPathFromQueryParameters:function(){
+        return this.buildPath();
+  },
+  _buildState:function(){
+      return {
+          resource:this.name
+      };
+  },
+  _buildStateFromQueryParameters:function(){
+          return this.buildState();
+  },
+  _pushState:function(state, title, path){
+        window.history.pushState(state,title, path);
+  },
+  _replaceState:function(state, title, path){
+        window.history.replaceState(state,title, path);
+  },
+  _onLoad:function(name){
+              if(!name){
+                  name=this.getQueryParam("resource");
+              }
+              if(this.name===name){
+                    var path=this.buildPathFromQueryParameters();
+                    var state=this.buildStateFromQueryParameters();
+                    this.replaceState(state,this.title,path);
+                    $(window).unbind("scroll");
+                    this.route(state);
+                    boxservice.router.selectMenuItem(this);
+                    window.scrollTo(0,0);
+                    return this;
+              }
+              else{
+                  return null;
+              }
+  },
+  _onBrowse:function(state){
+      if(state.resource===this.name){
+           $(window).unbind("scroll");
+           window.scrollTo(0,0);
+            this.route(state);
+            boxservice.router.selectMenuItem(this);
+
+            return this;
+      }
+      else{
+        return null;
+      }
+  },
+  _onClicked:function(){
+        var state=this.buildState();
+        var path=this.buildPath();
+        this.pushState(state,this.title,path);
+        $(window).unbind("scroll");
+        this.route(state);
+        this.boxservice.router.selectMenuItem(this);
+        window.scrollTo(0,0);
+  },
+  initResource:function(resComponent){
+            resComponent.getQueryParam=this.getQueryParam;
+            resComponent.unselectMenuItems=this._unselectMenuItems;
+            if(!resComponent.buildPath){
+              resComponent.buildPath=this._buildPath;
+            }
+            if(!resComponent.buildPathFromQueryParameters){
+              resComponent.buildPathFromQueryParameters=this._buildPathFromQueryParameters;
+            }
+            if(!resComponent.buildState){
+              resComponent.buildState=this._buildState;
+            }
+            if(!resComponent.buildStateFromQueryParameters){
+              resComponent.buildStateFromQueryParameters=this._buildStateFromQueryParameters;
+            }
+            if(!resComponent.pushState){
+              resComponent.pushState=this._pushState;
+            }
+            if(!resComponent.replaceState){
+              resComponent.replaceState=this._replaceState;
+            }
+            if(!resComponent.onLoad){
+              resComponent.onLoad=this._onLoad;
+            }
+            if(!resComponent.onBrowse){
+              resComponent.onBrowse=this._onBrowse;
+            }
+            if(!resComponent.onClicked){
+              resComponent.onClicked=this._onClicked;
+            }
+  },
+
+  init:function(){
+          this.initResources();
           var that=this;
           window.addEventListener('popstate', function(e) {
-                if(!e || !e.state || !e.state.resource){
+                if(!e || !e.state){
                   console.log("no resource is set in popstate");
                   return;
                 }
-                var router=that.getByResource(e.state.resource);
-                if(router){
-                  router.route();
-                  that.selectMenuItem(router);
-                }
+                that.executeOnBrowse(e.state);
           });
      },
-      getAllResources:function(){
-            return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
-            this.importSchedules,this.admin,this.help];
-      },
-      getAllMenuComponents:function(){
-          return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
-          this.importSchedules,this.admin,this.help,this.signout];
-      },
-      getByResource:function(resource){
-            var resources=this.getAllResources();
-            for(var i=0;i<resources.length;i++){
-                var matched=resources[i].matchResource(resource);
-                if(matched){
-                  return matched;
-                }
-            }
-            return null;
-      },
-
 
       setupTopMenu:function(){
             var menuComponents=this.getAllMenuComponents();
@@ -52,24 +176,11 @@ boxservice.router={
                 $("#nav-mobile").append(menuComponents[i].menuItem);
             }
       },
-      selectMenuItem(menuComponent){
-          if(!menuComponent.menuItem){
-            return;
-          }
-          $(".button-collapse").sideNav("hide");
-          var menuComponents=this.getAllMenuComponents();
-          for(var i=0;i<menuComponents.length;i++){
-              menuComponents[i].menuItem.removeClass("active");
-              menuComponents[i].mobileMenuItem.removeClass("active");
-          }
-          menuComponent.menuItem.addClass("active");
-          boxservice.initForNewPage();
-      },
-
       buildMenuItem:function(menuComponent){
             var li=$("<li></li>");
+
             var aitem=$("<a></a>",{
-                href:menuComponent.getPath(),
+                href:menuComponent.buildPath(),
                 text:menuComponent.title
             });
             li.append(aitem);
@@ -83,293 +194,170 @@ boxservice.router={
 
             var that=this;
             aitem.click(function(){
-                  menuComponent.index();
-                  that.selectMenuItem(menuComponent);
+                  menuComponent.onClicked();
                   return false;
             });
 
             return li;
       },
       signout:{
-        title:"Sign Out",
-        resource:"singout",
-        extraClasses:["signinorout"],
-
-        route:function(){
-            boxservice.signinout();
-        },
-        matchResource:function(resource){
-            if(this.resource===resource){
-              return this;
+            title:"Sign Out",
+            name:"singout",
+            extraClasses:["signinorout"],
+            route:function(){
+                  boxservice.signinout();
             }
-            else{
-              return null;
-            }
-        },
-        getPath(){
-          return "/index.html?resource="+this.resource;
-        },
-        push:function(){
-            window.history.pushState({resource:this.resource},this.title, this.getPath());
-        },
-        index:function(){
-          this.route();
-        }
       },
-
       help:{
-        title:"Help",
-        resource:"help",
-        route:function(){
-            boxservice.help();
-        },
-
-        matchResource:function(resource){
-            if(this.resource===resource){
-              return this;
+            title:"Help",
+            name:"help",
+            route:function(){
+                boxservice.help();
             }
-            else{
-              return null;
-            }
-        },
-        getPath(){
-          return "/index.html?resource="+this.resource;
-        },
-        push:function(){
-            window.history.pushState({resource:this.resource},this.title, this.getPath());
-        },
-        index:function(){
-          this.push();
-          this.route();
-        }
       },
       admin:{
-        title:"Admin",
-        resource:"admin",
-        route:function(){
+          title:"Admin",
+          name:"admin",
+          route:function(){
             boxservice.admin.main();
-        },
-
-        matchResource:function(resource){
-            if(this.resource===resource){
-              return this;
-            }
-            else{
-              return null;
-            }
-        },
-        getPath(){
-          return "/index.html?resource="+this.resource;
-        },
-        push:function(){
-            window.history.pushState({resource:this.resource},this.title, this.getPath());
-        },
-        index:function(){
-          this.push();
-          this.route();
-        }
+          }
       },
       importSchedules:{
-        title:"Imports",
-        resource:"importSchedules",
-        extraClasses:["box-specific"],
-        route:function(){
-            boxservice.import.show();
-        },
-
-        matchResource:function(resource){
-            if(this.resource===resource){
-              return this;
-            }
-            else{
-              return null;
-            }
-        },
-        getPath(){
-          return "/index.html?resource="+this.resource;
-        },
-        push:function(){
-            window.history.pushState({resource:this.resource},this.title, this.getPath());
-        },
-        index:function(){
-          this.push();
-          this.route();
-        }
+          title:"Imports",
+          name:"importSchedules",
+          extraClasses:["box-specific"],
+          route:function(){
+              boxservice.import.show();
+          }
       },
       playlists:{
-        title:"Playlists",
-        resource:"playlists",
-        route:function(){
-            boxservice.bc.playlist.show();
-
-        },
-
-        matchResource:function(resource){
-            if(this.resource===resource){
-              return this;
+            title:"Playlists",
+            name:"playlists",
+            route:function(){
+                boxservice.bc.playlist.show();
             }
-            else{
-              return null;
-            }
-        },
-        getPath(){
-          return "/index.html?resource="+this.resource;
-        },
-        push:function(){
-            window.history.pushState({resource:this.resource},this.title, this.getPath());
-        },
-        index:function(){
-          this.push();
-          this.route();
-        }
       },
       schedules:{
-              title:"Schedules",
-              resource:"schedules",
-              route:function(){
-                  boxservice.schedule.show();
-              },
-
-              matchResource:function(resource){
-                  if(this.resource===resource){
-                    return this;
-                  }
-                  else{
-                    return null;
-                  }
-              },
-              getPath(){
-                return "/index.html?resource="+this.resource;
-              },
-              push:function(){
-                  window.history.pushState({resource:this.resource},this.title, this.getPath());
-              },
-              index:function(){
-                this.push();
-                this.route();
-              }
+          title:"Schedules",
+          name:"schedules",
+          route:function(){
+              boxservice.schedule.show();
+          }
       },
       s3:{
-              title:"S3",
-              resource:"s3",
-              route:function(){
-                  boxservice.s3.show();
-              },
-
-              matchResource:function(resource){
-                  if(this.resource===resource){
-                    return this;
-                  }
-                  else{
-                    return null;
-                  }
-              },
-              getPath(){
-                return "/index.html?resource="+this.resource;
-              },
-              push:function(){
-                  window.history.pushState({resource:this.resource},this.title, this.getPath());
-              },
-              index:function(){
-                this.push();
-                this.route();
-              }
+            title:"S3",
+            name:"s3",
+            route:function(){
+                boxservice.s3.show();
+            }
       },
       seriesgroup:{
             title:"Collections",
-            resource:"collections",
+            name:"collections",
             route:function(){
                 boxservice.seriesgroup.show();
-            },
-
-            matchResource:function(resource){
-                if(this.resource===resource){
-                  return this;
-                }
-                else{
-                  return null;
-                }
-            },
-            getPath(){
-              return "/index.html?resource="+this.resource;
-            },
-            push:function(){
-                window.history.pushState({resource:this.resource},this.title, this.getPath());
-            },
-            index:function(){
-              this.push();
-              this.route();
             }
       },
       series:{
             title:"Programme",
-            resource:"programmes",
+            name:"programmes",
             route:function(){
                 boxservice.series.show();
-            },
-            matchResource:function(resource){
-                if(this.resource===resource){
-                  return this;
-                }
-                else{
-                  return null;
-                }
-            },
-            getPath(){
-              return "/index.html?resource="+this.resource;
-            },
-            push:function(){
-                window.history.pushState({resource:this.resource},this.title, this.getPath());
-            },
-
-            index:function(){
-              this.push();
-              this.route();
             }
       },
       episode:{
           title:"Episodes",
-          resource: "episode",
+          name: "episode",
           route:function(){
               boxservice.episode.show();
-          },
-          matchResource:function(resource){
-              if(this.resource===resource){
-                return this;
-              }
-              else{
-                return null;
-              }
-          },
-          getPath(){
-            return "/index.html?resource="+this.resource;
-          },
-          push:function(){
-              window.history.pushState({resource:this.resource},this.title, this.getPath());
-          },
-
-          index:function(){
-            this.push();
-            this.route();
           }
       },
-      getQueryParam:function(variable) {
-        if(!window.location){
-          return null;
-        }
-        var query=window.location.search;
-        if(!query){
-            return null;
-        }
-          query=query.substring(1);
-          var vars = query.split('&');
-          for (var i = 0; i < vars.length; i++) {
-              var pair = vars[i].split('=');
-              if (decodeURIComponent(pair[0]) == variable) {
-                  return decodeURIComponent(pair[1]);
-              }
-          }
-        }
-
+      editEpisode:{
+            title:"Edit Episodes",
+            name: "editEpisode",
+            buildPathFromQueryParameters:function(){
+                        var path=this.buildPath();
+                        var episodeid=this.getQueryParam("episodeid");
+                        return path+"&episodeid="+episodeid;
+            },
+            buildStateFromQueryParameters:function(){
+                var episodeid=this.getQueryParam("episodeid");
+                return {
+                      resource:this.name,
+                      episodeid:episodeid
+                };
+            },
+            route:function(request){
+                boxservice.episode.edit(request.episodeid);
+            },
+            onClicked:function(episodeid, deferred){
+              var state=this.buildState();
+              state.episodeid=episodeid;
+              var path=this.buildPath()+"&episodeid="+episodeid;
+              this.pushState(state,this.title,path);
+              $(window).unbind("scroll");
+              var ret=boxservice.episode.edit(episodeid,deferred);
+              window.scrollTo(0,0);
+              return ret;
+            }
+      },
+      editProgramme:{
+            title:"Edit Programme",
+            name: "editProgramme",
+            buildPathFromQueryParameters:function(){
+                        var path=this.buildPath();
+                        var programmeid=this.getQueryParam("programmeid");
+                        return path+"&programmeid="+programmeid;
+            },
+            buildStateFromQueryParameters:function(){
+                var programmeid=this.getQueryParam("programmeid");
+                return {
+                      resource:this.name,
+                      programmeid:programmeid
+                };
+            },
+            route:function(request){
+                boxservice.series.edit(request.programmeid);
+            },
+            onClicked:function(programmeid, deferred){
+              var state=this.buildState();
+              state.programmeid=programmeid;
+              var path=this.buildPath()+"&programmeid="+programmeid;
+              this.pushState(state,this.title,path);
+              $(window).unbind("scroll");
+              var ret=boxservice.series.edit(programmeid,deferred);
+              window.scrollTo(0,0);
+              return ret;
+            }
+      },
+      editCollection:{
+            title:"Edit Collection",
+            name: "editCollection",
+            buildPathFromQueryParameters:function(){
+                        var path=this.buildPath();
+                        var collectionid=this.getQueryParam("collectionid");
+                        return path+"&collectionid="+collectionid;
+            },
+            buildStateFromQueryParameters:function(){
+                var collectionid=this.getQueryParam("collectionid");
+                return {
+                      resource:this.name,
+                      collectionid:collectionid
+                };
+            },
+            route:function(request){
+                boxservice.seriesgroup.edit(request.collectionid);
+            },
+            onClicked:function(collectionid, deferred){
+              var state=this.buildState();
+              state.collectionid=collectionid;
+              var path=this.buildPath()+"&collectionid="+collectionid;
+              this.pushState(state,this.title,path);
+              $(window).unbind("scroll");
+              var ret=boxservice.seriesgroup.edit(collectionid,deferred);
+              window.scrollTo(0,0);
+              return ret;
+            }
+      }
 
 }

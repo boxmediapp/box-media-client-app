@@ -54,10 +54,10 @@ jQuery(document).ready(function ($) {
 	           boxservice.series.listdata.autoScroll();
 		   $(".serieslink").click(function(){
 		       var deferred=boxservice.series.listdata.getBackDeferred();
-		       boxservice.initForNewPage();
-			var seriesid=$(this).attr("href");
-			boxservice.series.edit(seriesid,deferred);
-			return false;
+						var recordContainer=$(this).parents(".programmerow");
+					 var programmeid=recordContainer.attr("programmeid");
+					 boxservice.router.editProgramme.onClicked(programmeid,deferred);
+					 return false;
 		   });
 		   $("#addNewSeries").click(function(){
 			   boxservice.series.createNewSeries().done(function(){
@@ -97,7 +97,7 @@ jQuery(document).ready(function ($) {
          }
          return boxservice.recordlist.createlistdata(createListDataRequest);
    };
-	
+
    boxservice.series.show=function(){
 
 	       boxservice.series.listdata= boxservice.series.createListData();
@@ -265,8 +265,9 @@ jQuery(document).ready(function ($) {
 
 				$("#editSeriesGroup").click(function(){
 					var seriesgroupid=series.seriesGroup.id;
-					boxservice.seriesgroup.edit(seriesgroupid).done(function(){
-						boxservice.series.edit(series.id,deferred);
+
+					boxservice.router.editCollection.onClicked(seriesgroupid).done(function(){
+							boxservice.router.editProgramme.onClicked(series.id,deferred);						
 					});
 	  				return false;
 
