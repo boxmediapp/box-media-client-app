@@ -2,7 +2,7 @@
     <parent>
 		<groupId>uk.co.boxnetwork.boxmedia</groupId>
         <artifactId>box-media-client-app-pom</artifactId>
-        <version>3.1.1-SNAPSHOT</version>
+        <version>3.1.2-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
