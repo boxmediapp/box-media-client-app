@@ -1,6 +1,6 @@
- <tr class="episoderow published_${episodeStatus.publishedStatus}  video_${episodeStatus.videoStatus}  availability_${currentAvailabilityStatus} requiredFieldsStatus_${requiredFieldsStatus}" id="episode_${id}" episodeid="${id}"> 
-	 <td> <a class="episodlink" href="${id}">${title}</a></td>
-	 <td><a class="episodlink" href="${id}">${programmeNumber}</a></td>
+ <tr class="episoderow published_${episodeStatus.publishedStatus}  video_${episodeStatus.videoStatus}  availability_${currentAvailabilityStatus} requiredFieldsStatus_${requiredFieldsStatus}" id="episode_${id}" episodeid="${id}">
+	 <td> <a class="episodlink" href="/index.html?resource=editEpisode&amp;episodeid=${id}">${title}</a></td>
+	 <td><a class="episodlink" href="/index.html?resource=editEpisode&amp;episodeid=${id}">${programmeNumber}</a></td>
 	 <td>${episodeStatus.metadataStatus}</td>
 	 <td>${episodeStatus.videoStatus}</td>
 	 <td class="complianceStatus statusAction">
@@ -12,50 +12,44 @@
 		    		  <a href="#" class="approveinprogress">Approve In progress</a>
 		    		  <a href="#" class="addComplianceNote">Add Compliance Note</a>
 		  		 </div>
-	    
+
 	            </td><td>
 	            <img src="img/s-note.png" class="editorNoteIcon"/>
-	    </td></tr></table>	 
-	     
-  	 	        	 
+	    </td></tr></table>
+
+
 	 </td>
-	 <td class="publishedStatus statusAction">	   
+	 <td class="publishedStatus statusAction">
 	         <div class="trafficLight twostate"/>
 	    	 <div class="actionMenuContent">
   			  <a href="#" class="activate">Activate</a>
-    		  <a href="#" class="deactivate">Deactivate</a>    			
-  		 	</div>	   	   
+    		  <a href="#" class="deactivate">Deactivate</a>
+  		 	</div>
 	 </td>
-	 
-	 
-	 <td class="availabilityStatus statusAction">	   
-	         <div class="trafficLight twostate"/>	
+
+
+	 <td class="availabilityStatus statusAction">
+	         <div class="trafficLight twostate"/>
 	         <div class="actionMenuContent">
   			  <a href="${id}" class="addModifyAvailabilityWindows">Modify Availability Windows</a>
-    		      			
-  		 	</div>    	 	   	   
+
+  		 	</div>
 	 </td>
 	 <td>${createdAt}</td>
 	 <td>${lastModifiedAt}</td>
 	 <td >
-	 <div class="requiredFieldsStatus">	   
+	 <div class="requiredFieldsStatus">
 	   	 <img src="images/warning.png" class="material-icons"/>
 				<div class="hovershowtext">
-					Missing ${requiredFieldsMissing} 
+					Missing ${requiredFieldsMissing}
 				</div>
-			
-	   
-	   
+
+
+
 	 </div>
-	 
+
 	 </td>
-	 
-	 
-	 
+
+
+
  </tr>
- 
- 
- 
- 
-  
-		

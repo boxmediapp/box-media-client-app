@@ -1,18 +1,19 @@
+var boxservice=boxservice || {};
 jQuery(document).ready(function ($) {
         boxservice.globalInput={
                key:"DecXC8bBdTI2FxhQV",
                api:require("global-input-message"),
-               
+
                 isLoggedIn:function(){
-                  var cred=this.getCredentials();                  
+                  var cred=this.getCredentials();
                   return  cred.username && cred.password;
                 },
                 setCredentails:function(username, password){
                         if((!password) || (!password)){
                           username="";
-                          password="";                              
-                        }  
-                        if (typeof(Storage) !== "undefined") {                                                        
+                          password="";
+                        }
+                        if (typeof(Storage) !== "undefined") {
                                 var cred={
                                       username,
                                       password,
@@ -21,10 +22,10 @@ jQuery(document).ready(function ($) {
                                 var credString=JSON.stringify(cred);
                                 var key=this.key;
                                 var mediaCred=this.api.encrypt(credString,key);
-                                localStorage.setItem('mediaCred', mediaCred);                            
-                        }                  
-                        boxservice.api.username=username;                                    
-                        boxservice.api.password=password;    
+                                localStorage.setItem('mediaCred', mediaCred);
+                        }
+                        boxservice.api.username=username;
+                        boxservice.api.password=password;
                 },
                 getCredentials:function(){
                     if(boxservice.api.username && boxservice.api.password){
@@ -32,11 +33,11 @@ jQuery(document).ready(function ($) {
                              username:boxservice.api.username,
                              password:boxservice.api.password
                          };
-                    } 
+                    }
                     var credentials={
                       username:"",
                       password:""
-                    };         
+                    };
                     if (typeof(Storage) !== "undefined") {
                             var imageCred=localStorage.getItem("mediaCred");
                             if(!imageCred){
@@ -61,8 +62,8 @@ jQuery(document).ready(function ($) {
                         return credentials;
                     }
                 },
-                
-                disconnect:function(){                              
+
+                disconnect:function(){
                               if(this.connector){
                                   this.connector.disconnect();
                                   this.connector=null;
@@ -73,7 +74,7 @@ jQuery(document).ready(function ($) {
                            },
 
                  connect:function(){
-                         
+
                          var options={
                              onSenderConnected:this.onSenderConnected.bind(this),
                              onSenderDisconnected:this.onSenderDisconnected.bind(this),
@@ -113,7 +114,7 @@ jQuery(document).ready(function ($) {
                          this.connector=this.api.createMessageConnector();
                          this.connector.connect(options);
                          $(".globalinputContainer").addClass("connected");
-                         var codedata=this.connector.buildInputCodeData();                         
+                         var codedata=this.connector.buildInputCodeData();
                          var qrcode = new QRCode("qrcode", {
                              text: codedata,
                              width: 350,
@@ -137,13 +138,13 @@ jQuery(document).ready(function ($) {
                      $("#loginUSerDialog .password").val(password);
                      boxservice.util.resetInput();
                  },
-                 login:function(){                     
+                 login:function(){
                      $("#loginUSerDialog .login").click();
                  },
 
 
 
-                 onSenderConnected:function(sender, senders){                     
+                 onSenderConnected:function(sender, senders){
                      $(".globalinputContainer").addClass("senderConnected");
                  },
                  onSenderDisconnected:function(sender, senders){
@@ -152,7 +153,7 @@ jQuery(document).ready(function ($) {
                      }
                  }
         };
-        
+
 
 
 

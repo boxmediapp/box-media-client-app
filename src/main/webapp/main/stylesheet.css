@@ -725,15 +725,17 @@ td div.scheduled{
 }
 .loginContainer{
 	display:flex;
-	flex-direction:row;	
+	flex-direction:row;
 	align-items:flex-start;
   justify-content:space-between;
-  
+
 }
 .globalinputContainer{
-   
-}
 
+}
+#loginErrorMessage{
+  color:red;
+}
 
 .qrcode{
 	display:none;
@@ -757,7 +759,7 @@ td div.scheduled{
   padding:20px;
 }
 .loginFieldsContainer .input-field {
-  
+
 }
 .loginFieldsContainer  .login {
   background-color: #00d0b0;
@@ -771,4 +773,3 @@ td div.scheduled{
     width:55px;
     height:80px;
 }
-

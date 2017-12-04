@@ -43,37 +43,11 @@
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 
 
-				<li class="navItem"><a  call="boxservice.episode.show">Episodes</a></li>
-				<li class="navItem"><a  call="boxservice.series.show">Programme</a></li>
-				<li class="navItem"><a  call="boxservice.seriesgroup.show">Collections</a></li>
-				<li class="navItem"><a  call="boxservice.s3.show">S3</a></li>
-				<li class="navItem"><a  call="boxservice.schedule.show">Schedules</a></li>
-				<li class="navItem"><a  call="boxservice.bc.playlist.show">Playlists</a></li>
-
-
-				<li class="navItem box-specific"> <a template="import/import.html" call="boxservice.import.show">Import</a></li>
-
-				<li class="navItem"><a  call="boxservice.admin.main">Admin</a></li>
-
-				<li class="navItem signinorout"><a template="help/main.html" call="boxservice.signinout">Sign In</a></li>
-				<li class="navItem active"><a  call="boxservice.help">Help</a></li>
 
 			</ul>
 			<ul id="mobile-menu" class="side-nav">
 
-				<li class="navItem"><a href="#" call="boxservice.episode.show">Episodes</a></li>
-				<li class="navItem"><a href="#" call="boxservice.series.show">Programme</a></li>
-				<li class="navItem"><a href="#" call="boxservice.seriesgroup.show">Collections</a></li>
 
-				<li class="navItem"><a href="#" call="boxservice.s3.show">S3</a></li>
-				<li class="navItem"><a href="#" call="boxservice.schedule.show">Schedules</a></li>
-				<li class="navItem"><a href="#" call="boxservice.bc.playlist.show">Playlist</a></li>
-				<li class="navItem box-specific"> <a href="#"  call="boxservice.import.show"> Import</a></li>
-
-				<li class="navItem"><a href="#" call="boxservice.admin.main">Admin</a></li>
-
-				<li class="navItem signinorout"><a template="help/main.html" call="boxservice.signinout">Sign In</a></li>
-				<li class="navItem"><a  call="boxservice.help">Help</a></li>
 
 			</ul>
 
@@ -201,6 +175,7 @@
 				 </div>
 
 			</div>
+			<div id="loginErrorMessage"></div>
 
 		</div>
 
@@ -219,7 +194,9 @@
  	<script src="lib/sticky-table/jquery.stickytableheaders.min.js"></script>
     <script src="//unpkg.com/global-input-message@1.3.33/lib/global-input-message.min.js"></script>
     <script src="//cdn.rawgit.com/davidshimjs/qrcodejs/04f46c6a/qrcode.min.js"></script>
-    <script src="main/global-input.js"></script>
+
+  <script src="main/router.js"></script>
+	<script src="main/global-input.js"></script>
 	<script src="main/util.js?version=@@@version@@@"></script>
 	<script src="main/recordlist.js?version=@@@version@@@"></script>
 	<script src="main/api.js?version=@@@version@@@"></script>
@@ -245,6 +222,7 @@
 	<script src="tags/main.js?version=@@@version@@@"></script>
 	<script src="devices/main.js?version=@@@version@@@"></script>
 	<script src="advert-settings/main.js?version=@@@version@@@"></script>
+
 
 
 
