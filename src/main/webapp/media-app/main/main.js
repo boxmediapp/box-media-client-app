@@ -10,8 +10,21 @@ jQuery(document).ready(function ($) {
         };
 
         boxservice.displayLoginWindow=function(){
-            $("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
-            boxservice.globalInput.connect();
+            boxservice.globalInput.signout();
+            window.history.replaceState({}, "Box Media App", "/index.html");
+            if(window.path){
+                window.path.location="/index.html";
+                
+            }
+            else{
+                //window.path="/index.html";
+                $(window).attr('location','/index.html')
+            }
+
+
+            //$("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
+            ///boxservice.globalInput.connect();
+
         };
         boxservice.onLoginWindowClosed=function(){
             boxservice.globalInput.disconnect();
@@ -38,7 +51,6 @@ jQuery(document).ready(function ($) {
                              boxservice.setLoginErrorMessage("Login Failed");
                              boxservice.globalInput.connect();
                     });
-
             }
             return false;
         }
@@ -110,39 +122,15 @@ jQuery(document).ready(function ($) {
            });
 
 
-	   boxservice.checkUser=function(){
-   		   boxservice.api.users.list().done(function(){
-			   $("#nav-wrapper .signinorout a").html("Sign Out");
-		   }).fail(function(){
-			   $("#nav-wrapper .signinorout a").html("Sign In");
-		   });
-
-           };
-
-
        boxservice.signinout=function(){
-    	   if($("#nav-wrapper .signinorout a").html()=="Sign Out"){
-    	               boxservice.globalInput.setCredentails("","");
-    			 boxservice.api.users.signoutUser().done(function(){
-    				   $("#nav-wrapper .signinorout a").html("Sign Out");
-               location.reload();
-    			   }).fail(function(){
-    				   $("#nav-wrapper .signinorout a").html("Sign In");
-               location.reload();
-    			   });
-           }
-    	  else{
-    	          boxservice.displayLoginWindow();
-
-    	      }
-
+    	   boxservice.displayLoginWindow();
        };
-
-       if(!boxservice.globalInput.isLoggedIn()){
-           boxservice.displayLoginWindow();
+       if(boxservice.globalInput.isLoggedIn()){
+          boxservice.loadAppInfo();
        }
        else{
-           boxservice.loadAppInfo();
+
+           boxservice.displayLoginWindow();
        }
 
 

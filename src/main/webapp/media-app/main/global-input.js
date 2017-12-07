@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
 
                 isLoggedIn:function(){
                   var cred=this.getCredentials();
-                  return  cred.username && cred.password;
+                  return  cred && cred.username && cred.password;
                 },
                 setCredentails:function(username, password){
                         if((!password) || (!password)){
@@ -26,6 +26,9 @@ jQuery(document).ready(function ($) {
                         }
                         boxservice.api.username=username;
                         boxservice.api.password=password;
+                },
+                signout:function(){
+                  localStorage.removeItem("mediaCred");
                 },
                 getCredentials:function(){
                     if(boxservice.api.username && boxservice.api.password){
