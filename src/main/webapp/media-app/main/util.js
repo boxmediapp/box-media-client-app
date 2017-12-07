@@ -605,9 +605,10 @@ boxservice.util.isArrayDifferent=function(array1, array2){
 				console.error(error+" while exucuting the menu:linkSelection call=["+call+"] template=["+template+"]");
 			}
 		};
-		$(opts.linkSelection).click(function(){			
+		$(opts.linkSelection).click(function(){
 			selectMenu(this);
 			$(".button-collapse").sideNav("hide");
+			return false;
 		});
 
 	};

@@ -2,7 +2,7 @@ var boxservice=boxservice || {};
 boxservice.router={
   getAllResources:function(){
         return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
-        this.importSchedules,this.admin,this.help,this.editEpisode, this.signout, this.editProgramme,this.editCollection];
+        this.importSchedules,this.admin,this.help,this.editEpisode,  this.editProgramme,this.editCollection,this.signout];
   },
   getAllMenuComponents:function(){
       return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
@@ -64,7 +64,7 @@ boxservice.router={
         }
   },
   _buildPath:function(){
-        return "/index.html?resource="+this.name;
+        return "index.html?resource="+this.name;
   },
   _buildPathFromQueryParameters:function(){
         return this.buildPath();
@@ -202,11 +202,20 @@ boxservice.router={
       },
       signout:{
             title:"Sign Out",
-            name:"singout",
+            name:"signedout",
             extraClasses:["signinorout"],
+            buildPath:function(){
+              return "/index.html";
+            },
             route:function(){
-                  boxservice.signinout();
-            }
+                  boxservice.globalInput.signout();                  
+                  window.path.location="/index.html";
+            },
+            onClicked:function(){
+                  var path=this.buildPath();
+                  this.replaceState({},this.title,path);
+                  this.route();
+            },
       },
       help:{
             title:"Help",
