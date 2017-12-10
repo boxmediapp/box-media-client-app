@@ -208,7 +208,7 @@ boxservice.router={
               return "/index.html";
             },
             route:function(){
-                  boxservice.globalInput.signout();                  
+                  boxservice.globalInput.signout();
                   window.path.location="/index.html";
             },
             onClicked:function(){
@@ -236,7 +236,9 @@ boxservice.router={
           name:"importSchedules",
           extraClasses:["box-specific"],
           route:function(){
-              boxservice.import.show();
+              //boxservice.import.show();
+              $(window).attr('location','/box-media/importSchedules')
+
           }
       },
       playlists:{

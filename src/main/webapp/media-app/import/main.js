@@ -17,7 +17,7 @@ jQuery(document).ready(function ($) {
 				 	   $("#createTimedTask").on("click", boxservice.task.create);
 
 				  	  var fromD = new Date();
-				  	  fromD.setDate(fromD.getDate() +2);
+				  	  fromD.setDate(fromD.getDate() +3);
 				  	  $("#fromDate").val(fromD.toISOString().substring(0,10));
 
 				  	var toD = new Date();
