@@ -228,7 +228,8 @@ boxservice.router={
           title:"Admin",
           name:"admin",
           route:function(){
-            boxservice.admin.main();
+          //  boxservice.admin.main();
+            $(window).attr('location','/box-media/admin')
           }
       },
       importSchedules:{
