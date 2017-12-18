@@ -179,10 +179,14 @@ boxservice.router={
       buildMenuItem:function(menuComponent){
             var li=$("<li></li>");
 
-            var aitem=$("<a></a>",{
-                href:menuComponent.buildPath(),
-                text:menuComponent.title
-            });
+            var aElementAttributes={
+                  href:menuComponent.buildPath(),
+                  text:menuComponent.title
+            };
+            if(menuComponent.redirect){
+                aElementAttributes.href=menuComponent.redirect;
+            }
+            var aitem=$("<a></a>",aElementAttributes);
             li.append(aitem);
             var that=this;
             li.addClass("navItem");
@@ -193,10 +197,13 @@ boxservice.router={
             }
 
             var that=this;
-            aitem.click(function(){
-                  menuComponent.onClicked();
-                  return false;
-            });
+            if(!menuComponent.redirect){
+                aitem.click(function(){
+                    menuComponent.onClicked();
+                    return false;
+                });
+            }
+
 
             return li;
       },
@@ -227,19 +234,18 @@ boxservice.router={
       admin:{
           title:"Admin",
           name:"admin",
+          redirect:'/box-media/admin',
           route:function(){
-          //  boxservice.admin.main();
-            $(window).attr('location','/box-media/admin')
+            boxservice.admin.main();
           }
       },
       importSchedules:{
           title:"Imports",
           name:"importSchedules",
           extraClasses:["box-specific"],
+          redirect:'/box-media/importSchedules',
           route:function(){
-              //boxservice.import.show();
-              $(window).attr('location','/box-media/importSchedules')
-
+              boxservice.import.show();
           }
       },
       playlists:{
@@ -259,6 +265,7 @@ boxservice.router={
       s3:{
             title:"S3",
             name:"s3",
+            redirect:"/box-media/s3-file-list",
             route:function(){
                 boxservice.s3.show();
             }
