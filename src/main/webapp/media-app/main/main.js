@@ -10,25 +10,28 @@ jQuery(document).ready(function ($) {
         };
 
         boxservice.displayLoginWindow=function(){
-            boxservice.globalInput.signout();
-            window.history.replaceState({}, "Box Media App", "/index.html");
-            if(window.path){
-                window.path.location="/index.html";
-                
-            }
-            else{
-                //window.path="/index.html";
-                $(window).attr('location','/index.html')
-            }
 
 
-            //$("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
-            ///boxservice.globalInput.connect();
+                boxservice.globalInput.signout();
+                // window.history.replaceState({}, "Box Media App", "/index.html");
+                // if(window.path){
+                //     window.path.location="/index.html";
+                //
+                // }
+                // else{
+                //     //window.path="/index.html";
+                //     $(window).attr('location','/index.html')
+                // }
 
+
+            $("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
+            boxservice.globalInput.connect();
         };
         boxservice.onLoginWindowClosed=function(){
             boxservice.globalInput.disconnect();
-            if(!boxservice.globalInput.isLoggedIn()){
+            var userinfo=boxservice.globalInput.getUserInfo();
+
+            if(!boxservice.globalInput.isUserInfoValid(userinfo)){
                 boxservice.displayLoginWindow();
             }
         };
@@ -40,14 +43,14 @@ jQuery(document).ready(function ($) {
             var username=$("#loginUSerDialog input[name=username]").val().trim();
             var password=$("#loginUSerDialog input[name=password]").val().trim();
             if(username.length>0 && password.length>0){
-                    boxservice.api.users.signinUser(username,password).done(function(){
+                    boxservice.api.users.login(username,password).done(function(userinfo){
                              $("#nav-wrapper .signinorout a").html("Sign Out");
-                             boxservice.globalInput.setCredentails(username,password);
+                             boxservice.globalInput.setUserInfo(userinfo);
                              $("#loginUSerDialog").closeModal();
                              boxservice.loadAppInfo();
                     }).fail(function(){
                              $("#nav-wrapper .signinorout a").html("Sign In");
-                             boxservice.globalInput.setCredentails("","");
+                             boxservice.globalInput.signout();
                              boxservice.setLoginErrorMessage("Login Failed");
                              boxservice.globalInput.connect();
                     });
@@ -125,7 +128,8 @@ jQuery(document).ready(function ($) {
        boxservice.signinout=function(){
     	   boxservice.displayLoginWindow();
        };
-       if(boxservice.globalInput.isLoggedIn()){
+       var userinfo=boxservice.globalInput.getUserInfo();
+       if(boxservice.globalInput.isUserInfoValid(userinfo)){
           boxservice.loadAppInfo();
        }
        else{
