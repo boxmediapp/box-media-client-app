@@ -160,7 +160,15 @@ jQuery(document).ready(function ($) {
 
 
 	boxservice.api.ajax=function(methodname,path,data){
-		 var crendentials=boxservice.globalInput.getCredentials();
+		 var userInfo=boxservice.globalInput.getUserInfo();
+		 if(!userInfo){
+
+					var deferred = $.Deferred();
+					deferred.fail("The application is logged out");
+					boxservice.util.finishWait();
+					setTimeout(function(){boxservice.displayLoginWindow();},100);
+					return deferred.promise();
+		 }
 		if(data){
 			return $.ajax({
         		type: methodname,
@@ -169,8 +177,8 @@ jQuery(document).ready(function ($) {
         		contentType:"application/json",
         		data: JSON.stringify(data),
         		beforeSend: function (xhr) {
-	        	    if(crendentials.username && crendentials.password){
-	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendentials.username+":"+crendentials.password));
+	        	    if(userInfo.clientId && userInfo.clientSecret){
+	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendentials.clientId+":"+crendentials.clientSecret));
 	        	    }
 	        	}
         		});
@@ -181,8 +189,8 @@ jQuery(document).ready(function ($) {
 			    url: path,
 			    dataType: "json",
 			    beforeSend: function (xhr) {
-	        	    if(crendentials.username && crendentials.password){
-	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendentials.username+":"+crendentials.password));
+	        	    if(userInfo.clientId && userInfo.clientSecret){
+	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(userInfo.clientId+":"+userInfo.clientSecret));
 	        	    }
 	        	}
 			   });
@@ -383,15 +391,15 @@ jQuery(document).ready(function ($) {
   };
 
   boxservice.api.bc.importcsv=function(csvContent){
-		  var crendials=boxservice.globalInput.getCredentials();
+		  var userInfo=boxservice.globalInput.getUserInfo();
 	  return $.ajax({
   		type: "POST",
   		url: apipath+"/bc/import/csv",
   		contentType:"txt/plain",
   		data:csvContent,
   		beforeSend: function (xhr) {
-      	    if(crendials.username && crendials.password){
-      	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendials.username+":"+crendials.password));
+      	    if(userInfo.clientId && userInfo.clientSecret){
+      	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(userInfo.clientId+":"+userInfo.clientSecret));
       	    }
       	}
   		});
@@ -456,18 +464,20 @@ jQuery(document).ready(function ($) {
 			return $.ajax({
 	        	type: "GET",
 	        	url: apipath+"/users",
-						async:false,        	
+						async:false,
 	        	beforeSend: function (xhr) {
 	        	    xhr.setRequestHeader ("Authorization", "Basic " + btoa("root:rootisinvalid"));
 	        	}
 	        });
 	 };
-		boxservice.api.users.signinUser=function(username,password){
+		boxservice.api.users.login=function(username,password){
 
 			return $.ajax({
-	        	type: "GET",
-	        	url: apipath+"/users",
+	        	type: "POST",
+	        	url: apipath+"/login",
 						async:false,
+						contentType:"application/json",
+        		data: JSON.stringify({username:username}),
 	        	beforeSend: function (xhr) {
 	        	    xhr.setRequestHeader ("Authorization", "Basic " + btoa(username+":"+password));
 	        	}

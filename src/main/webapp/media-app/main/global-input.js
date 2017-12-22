@@ -1,68 +1,74 @@
 var boxservice=boxservice || {};
 jQuery(document).ready(function ($) {
         boxservice.globalInput={
-               key:"DecXC8bBdTI2FxhQV",
+               key:"BAkgDYjQQFoWIOsQG",
                api:require("global-input-message"),
-
-                isLoggedIn:function(){
-                  var cred=this.getCredentials();
-                  return  cred && cred.username && cred.password;
-                },
-                setCredentails:function(username, password){
-                        if((!password) || (!password)){
-                          username="";
-                          password="";
+               isUserInfoValid:function(userinfo){
+                      if(  userinfo && userinfo.clientId && userinfo.clientSecret){
+                            var expiresAt=userinfo.expiresAt;
+                            var now=new Date();
+                            if(now.getTime()>=expiresAt){
+                              console.warn("user info is expired");
+                              this.signout();
+                              return false;
+                            }
+                            else{
+                              return true;
+                            }
+                      }
+                      else{
+                        return false;
+                      }
+                    },
+                setUserInfo:function(userinfo){
+                        if(!userinfo){
+                              localStorage.removeItem("mediaUser");
+                              boxservice.api.userinfo={};
                         }
-                        if (typeof(Storage) !== "undefined") {
-                                var cred={
-                                      username,
-                                      password,
-                                      expiredOn:new Date().getTime()+36000000
-                                };
-                                var credString=JSON.stringify(cred);
-                                var key=this.key;
-                                var mediaCred=this.api.encrypt(credString,key);
-                                localStorage.setItem('mediaCred', mediaCred);
+                        else if (typeof(Storage) !== "undefined") {
+                            var userInfoString=JSON.stringify(userinfo);
+                            var key=this.key;
+                            var cred=this.api.encrypt(userInfoString,key);
+                            localStorage.setItem('mediaUser', cred);
+                            boxservice.api.userinfo=userinfo;
                         }
-                        boxservice.api.username=username;
-                        boxservice.api.password=password;
+                        else{
+                            boxservice.api.userinfo=userinfo;
+                        }
                 },
                 signout:function(){
-                  localStorage.removeItem("mediaCred");
+                  localStorage.removeItem("mediaUser");
                 },
-                getCredentials:function(){
-                    if(boxservice.api.username && boxservice.api.password){
-                         return {
-                             username:boxservice.api.username,
-                             password:boxservice.api.password
-                         };
+                getUserInfo:function(){
+                    if(boxservice.api.userinfo){
+                         return boxservice.api.userinfo;
                     }
-                    var credentials={
-                      username:"",
-                      password:""
-                    };
                     if (typeof(Storage) !== "undefined") {
-                            var imageCred=localStorage.getItem("mediaCred");
-                            if(!imageCred){
-                              return credentials;
+                            var userCred=localStorage.getItem("mediaUser");
+                            if(!userCred){
+                              return {};
                             }
                             var key=this.key;
-                            var credString=this.api.decrypt(imageCred,key);
-                            if(!credString){
-                                return credentials;
-                            }
-                            var cred=JSON.parse(credString);
-                            if( (!cred.username) || (!cred.password) || (!cred.expiredOn)){
-                              return credentials;
-                            }
-                            var now=new Date().getTime();
-                            if(now>=cred.expiredOn){
-                              return credentials;
-                            }
-                            return cred;
+
+                            try{
+                                  var credString = this.api.decrypt(userCred,key);
+                                  if(!credString){
+                                      return {};
+                                  }
+                                  var userinfo=JSON.parse(credString);
+                                  if(!userinfo){
+                                    return {};
+                                  }
+                                  boxservice.api.userinfo= userinfo;
+                                  return userinfo;
+                              }
+                              catch(error){
+                                console.error("failed to parse the mediaUser:"+error);
+                                return {};
+                              }
                     }
                     else{
-                        return credentials;
+                        return {};
                     }
                 },
 
