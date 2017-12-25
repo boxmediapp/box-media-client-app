@@ -8,8 +8,7 @@ jQuery(document).ready(function ($) {
                             var expiresAt=userinfo.expiresAt;
                             var now=new Date();
                             if(now.getTime()>=expiresAt){
-                              console.warn("user info is expired");
-                              this.signout();
+                              console.warn("user info is expired");                              
                               return false;
                             }
                             else{
