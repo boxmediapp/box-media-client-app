@@ -215,7 +215,7 @@ boxservice.router={
               return "/index.html";
             },
             route:function(){
-                  boxservice.globalInput.signout();
+                  boxservice.globalInput.signout();                  
                   window.path.location="/index.html";
             },
             onClicked:function(){
