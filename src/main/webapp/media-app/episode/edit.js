@@ -154,6 +154,27 @@ jQuery(document).ready(function ($) {
 
                            boxservice.util.form.inputChangedCallback(boxservice.episode.editFields, function(){
                                    boxservice.episode.editpage.markEditing();
+
+
+                                   if(boxservice.appinfo.appconfig && boxservice.appinfo.appconfig.visibilityCategory){
+                                      var appconfig=boxservice.appconfig[boxservice.appinfo.appconfig.visibilityCategory];
+                                      if(appconfig){
+                                                if(appconfig.episode.title.maxLength){
+                                                      var episodeTitle=$("#episodeTitle").val();
+                                                      if(appconfig.episode.title && appconfig.episode.title.maxLength && episodeTitle.length>appconfig.episode.title.maxLength){
+                                                              $("#episodeTitle").val(episodeTitle.substring(0,appconfig.episode.title.maxLength));
+                                                      }
+                                                      if(appconfig.episode.title && appconfig.episode.title.warningLength && episodeTitle.length>appconfig.episode.title.warningLength){
+                                                              $("#episodeTitleWarningText").show();
+                                                      }
+                                                      else{
+                                                              $("#episodeTitleWarningText").hide();
+                                                      }
+
+                                                }
+
+                                      }
+                                   }
                                    boxservice.episode.checkStatus(episode);
                            });
 

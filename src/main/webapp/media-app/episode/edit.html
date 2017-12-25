@@ -4,14 +4,14 @@
 <div id="episodeEditor" class="publishedStatus">
 
 					<h4>Episode Editor</h4>
-	
+
 
 <div id="controllers">
     <a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>
-    
+
 	<a id="saveEpisode" class="waves-effect waves-light btn">Save</a>
 	<a id="cancelEditEpisode" class="waves-effect waves-light btn">Cancel</a>
-	
+
 	<a id="publishToBC" class="waves-effect waves-light btn">Create a new place holder</a>
 	<a id="updateToBC" class="waves-effect waves-light btn">Push the metadata changes</a>
 	<a id="unpublishFromBC" class="waves-effect waves-light btn">Delete the media entry</a>
@@ -26,62 +26,68 @@
 
 
  <div class="card grey lighten-5 episodeEditCard">
-    <div class="row">    	
+    <div class="row">
     	<div id="statusArea" class="input-field col s12">
-    	</div>    	
+    	</div>
     </div>
     <div class="row">
-					     	
+
 					    	<div class="input-field col s3 complianceStatus statusAction">
 								    	<table><tr><td>
 						    		<div class="trafficLight"/>
 								     <div class="actionMenuContent">
 							  			  <a href="#" class="approve">Approve</a>
 							    		  <a href="#" class="disapprove">Disapprove</a>
-							    		  <a href="#" class="approveinprogress">Approve In progress</a>							    		  
+							    		  <a href="#" class="approveinprogress">Approve In progress</a>
 							  		 </div>
-						    
+
 						            </td><td>
 						            <img src="img/s-note.png" class="editorNoteIcon"/>
-						    		</td></tr></table>	 
-						    
-					    	</div>    	
+						    		</td></tr></table>
+
+					    	</div>
 					    	<div class="input-field col s3 publishedStatus statusAction">
 					    		<div class="trafficLight twostate"/>
 						    	 <div class="actionMenuContent">
 					  			  <a href="#" class="activate">Activate</a>
-					    		  <a href="#" class="deactivate">Deactivate</a>    			
+					    		  <a href="#" class="deactivate">Deactivate</a>
 					  		 	</div>
 					    	</div>
-					    	
+
 					    	<div class="input-field col s3 availabilityStatus statusAction">
-					    		<div class="trafficLight twostate"/>	
+					    		<div class="trafficLight twostate"/>
 					    		<div class="actionMenuContent">
-					  			  <a href="#" class="addModifyAvailabilityWindows">Modify Availability Windows</a>					    		      			
-					  		 	</div>					    	 
+					  			  <a href="#" class="addModifyAvailabilityWindows">Modify Availability Windows</a>
+					  		 	</div>
 					    	</div>
 					    	   	<div class="input-field col s3 requiredFieldsStatus tooltip">
 					    		<img src="images/warning.png" class="material-icons"/>
 									<div class="tooltiptext z-depth-2">
-										Missing one or more required fields 
+										Missing one or more required fields
 									</div>
-					    	
+
 					    	</div>
-					
-    					    	
-    	     
+
+
+
     </div>
-    
- 
+
+
   </div>
 	<div class="card grey lighten-5 episodeEditCard">
 
 		<div class="row">
 			<div class="input-field col s12">
 				<input id="episodeTitle" type="text">
-				<label for="episodeTitle">EPG Title</label>
+				<label for="episodeTitle">EPG Title
+					<span id="episodeTitleWarningText">tile is too long, the optimum length is 25</span>		
+				</label>
 			</div>
-			
+
+
+
+
+
 		</div>
 
 		<div class="row">
@@ -118,7 +124,7 @@
 			You can edit the programme information in the Programme Editor by clicking on the "Edit" button on the right after you have saved
 			your changes in the current episode editor.
 					</div>
-			
+
 			</label>
 
 			</div>
@@ -131,7 +137,7 @@
 				<i class="material-icons">help_outline</i>
 				<div class="tooltiptext z-depth-2">
 					Click on the button to specify the contract number that the episode belongs to. If the such an programme exists, it will attach
-					the current episode to that programme. 
+					the current episode to that programme.
 				</div>
 			</div>
 
@@ -161,10 +167,10 @@
 				        <option value="Box Upfront">Box Upfront</option>
 				        <option value="Kerrang">Kerrang</option>
 				        <option value="Kiss">Kiss</option>
-				        <option value="Magic">Magic</option>				        
+				        <option value="Magic">Magic</option>
 				        <option value="The Box">The Box</option>
 				        <option value="None">None</option>
-		    			
+
 		    	</select>
 				<label for="txChannel">TX Channel</label>
 			</div>
@@ -179,17 +185,17 @@
 			<div class="input-field col s4">
 				<input id="supplier" type="text">
 				<label for=supplier class="tooltip">Supplier
-					
+
 					 <i class="material-icons">help_outline</i>
 					 <div class="tooltiptext z-depth-2">
 					If this field takes the value of "Box TV Network", the ingestProfile will be automatcally set to "box-plus-network-DRM-profile" if not set.
 					This result in the video is transcoded with DRM and the DRM flag will be set to true.
-					
-					
+
+
 					</div>
-					
-					
-					
+
+
+
 					</label>
 
 			</div>
@@ -206,10 +212,10 @@
 				<label for="recordedAt" class="active tooltip">Recorded At
 				 <i class="material-icons">help_outline</i>
 					 <div class="tooltiptext z-depth-2">
-					   RCS fields for recording date and time values						
+					   RCS fields for recording date and time values
 					  </div>
-				
-				
+
+
 				</label>
 			</div>
 
@@ -223,7 +229,7 @@
 				<select id="certType">
 				    	        <option value="" disabled>Choose the Certification Type</option>
 				    	        <option value="ALL_TIMES">All Times</option>
-								<option value="POST_WATERSHED">Post Watershed</option>		    			
+								<option value="POST_WATERSHED">Post Watershed</option>
 				    	</select>
 				<label for="" certType "">Certification</label>
 			</div>
@@ -241,7 +247,7 @@
 
 			<div class="input-field col s10">
 				Tags:<span class="tagslist"></span>
-				<a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a> 
+				<a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a>
 			</div>
 			<div class="col s2 tooltip">
 				<a id="admintags" class="waves-effect waves-light btn">Admin Tags</a>
@@ -253,7 +259,7 @@
                 </div>
 			</div>
 
-			
+
 
 		</div>
 
@@ -279,15 +285,15 @@
 			<div class="input-field col s4">
 				<input id="numberOfAdsPerBreak" type="text">
 				<label for="numberOfAdsPerBreak" class="tooltip">Number of Ads per break
-			
+
 			 <i class="material-icons">help_outline</i>
 			 <div class="tooltiptext z-depth-2">
 			This is the default value for the number of Ads per break when you you have not specified for each Ad break in the Cue points
 			editor.
 			</div>
-			
-			
-			
+
+
+
 			</label>
 			</div>
 
@@ -328,13 +334,13 @@
 				<input id="materialId" type="text">
 				<label for="materialId" class="tooltip">Material Id
 				 <i class="material-icons">help_outline</i>
-		   		<div class="tooltiptext z-depth-2">				
+		   		<div class="tooltiptext z-depth-2">
 						You can specify the significant part of the material id, that is used to match the video file uploaded to the s3 bucket.
 				For example, the value "232/23" will match any video file that starts with "V_232_23". In the case of multiple match,
-				the latest version will be selected. If you leave this field blank, the value of the programme number will be imported.		
+				the latest version will be selected. If you leave this field blank, the value of the programme number will be imported.
 					</div>
-				
-				
+
+
 				</label>
 			</div>
 			<div class="input-field col s4">
@@ -352,8 +358,8 @@
 					the brightcove id from the brightcove studio, and paste it in the field. After saving it, you can confirm the established
 					link by clicking on the "View in Brightcove" button located on the top of the page.
 							</div>
-							
-					
+
+
 					</label>
 			</div>
 
@@ -376,7 +382,7 @@
 					other free or commercial S3 uploader tools.
 				</div>
 			</div>
-			
+
 
 			<div class="input-field col s4">
 				<input id="ingestSource" type="text">
@@ -386,23 +392,23 @@
 					This field will be automatically filled in when a matching video is uploaded to the s3 bucket. So you do not need to fill
 					in this field unless you know what you are doing. The naming convention for the video file is V_&lt;material id&gt;.&lt;ext&gt.
 					the '/' character in material id field will be replaced with '_'.
-					
+
 				</div>
-				
+
 				</label>
 			</div>
-			
-			
+
+
 			<div class="col s3">
                 <a id="deleteSourceVideo" class="waves-effect waves-light btn">Delete Source Video</a>
             </div>
             <div class="col s1 tooltip">
                 <i class="material-icons">help_outline</i>
                 <div class="tooltiptext z-depth-2">
-                    This will permanently delete the source video from the S3 bucket. Note that this action is irreversible, please click on this button only if you know what you are doing!                    
+                    This will permanently delete the source video from the S3 bucket. Note that this action is irreversible, please click on this button only if you know what you are doing!
                 </div>
             </div>
-			
+
 
 		</div>
 
@@ -418,17 +424,17 @@
 				        <option value="box-plus-network-720p-profile">box-plus-network-720p-profile</option>
 				        <option value="box-plus-network-DRM-profile">box-plus-network-DRM-profile</option>
 				        <option value="high-resolution">high-resolution</option>
-				        				        
+
 		    	</select>
 				<label for="ingestProfile" class="tooltip">
 			Ingest Profile
 			<i class="material-icons">help_outline</i>
-	   		<div class="tooltiptext z-depth-2">				
+	   		<div class="tooltiptext z-depth-2">
 					This field is needed when you start the transcode process, which you can do it by clicking on the "Start Transcode" button
 			located on the top of the page. The "Start transcode" button along with the buttons will not be available during the editing
-			process.		
+			process.
 				</div>
-			
+
 			</label>
 			</div>
 
@@ -441,11 +447,11 @@
 						This specifies the expected duration of the video. It is used for QCing the video file uploaded. You can leave it blank if
 						you would not like to use this feature
 					</div>
-			
+
 			</label>
 			</div>
-			
-			
+
+
 			<div class="input-field col s4">
 				<input id="durationUploaded" type="text">
 				<label for="durationUploaded" class="tooltip">Duration Uploaded
@@ -454,7 +460,7 @@
 						This specifies the duration of the video thay is uploaded. When a video is uploaded, its duration will be inspected and the value will be set into this field automatically.
 						So the value in this field should be the same as in the Duration Scheduled.
 					</div>
-			
+
 			</label>
 			</div>
 
@@ -482,7 +488,7 @@
 			<div class="input-field col s3">
 				<input id="imageURL" type="text">
 				<label for="imageURL" class="tooltip">Episode Level Image
-			
+
 			 <i class="material-icons">help_outline</i>
 					<div class="tooltiptext z-depth-2">
 			This field will be automatically filled in when a matching image is uploaded to the s3 bucket. So you do not need to fill
@@ -490,8 +496,8 @@
 			the image file is &lt;contract-number&gt;_&lt;episode-number&gt;.&lt;ext&gt;
 			In order to make the image name user friendly, you can prefix the file name with the websafe title.
 					</div>
-			
-			
+
+
 			</label>
 			</div>
 			<div class="input-field col s3">
@@ -526,7 +532,7 @@
 
             <div class="input-field col s10">
                 Excluded devices:<span class="devicelist"></span>
-                <a class="addNewDevice waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a> 
+                <a class="addNewDevice waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a>
             </div>
             <div class="col s2 tooltip">
                 <a id="adminClientDevices" class="waves-effect waves-light btn">Admin Devices</a>
@@ -536,21 +542,21 @@
                 </div>
             </div>
 
-            
+
 
         </div>
-		
+
 		<div class="row">
-			
+
 			<div class="input-field col s6">
 				<input id="geoAllowedCountries" type="text">
 				<label for="geoAllowedCountries" class="tooltip">Countries
-			
+
 			 <i class="material-icons">help_outline</i>
 					<div class="tooltiptext z-depth-2">
 			Comma separate countries codes, which specifies in which countries the episode should be available to view.
 					</div>
-			
+
 			</label>
 			</div>
 
@@ -636,16 +642,16 @@
 
 	<div id="playVideoDialog" title="Play Source Video" class="modal fixed-footer">
 		<div class="modal-content">
-			
+
 			<video width="80%" height="60%" class="responsive-video" controls>
                 <source type="video/mp4">
             </video>
 			<div class="closeVideoContainer">
 			<a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
 			</div>
-			
-			
-			
+
+
+
 		</div>
 
 
@@ -665,7 +671,7 @@
 		</div>
 	</div>
 
-	
+
 	<div id="createNewTagsDialog" class="modal">
 		<div class="modal-content">
 			<h4>Create new tags</h4>
@@ -715,12 +721,12 @@
 			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
 		</div>
 	</div>
-	
+
 	<div id="confirmDeleteImageDialog" class="modal">
 		<div class="modal-content">
 			<div class="row">
 				<div class="input-field col s12">
-					Are you sure you would like to delete the episode image:<input class="filennameToDelete" type="text" disabled>					
+					Are you sure you would like to delete the episode image:<input class="filennameToDelete" type="text" disabled>
 				</div>
 			</div>
 		</div>
@@ -729,14 +735,14 @@
 			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
 		</div>
 	</div>
-	
-	
+
+
 	<div id="confirmDeleteVideoDialog" class="modal">
         <div class="modal-content">
             <div class="row">
-                <div class="input-field col s12">                   
-                    Are you sure you would like to delete this video from the S3 bucket:<input class="filennameToDelete" type="text" disabled>                   
-                    Note that this action is irreversible unless you have backup of this video! Please continue only if you know what you are doing!                                       
+                <div class="input-field col s12">
+                    Are you sure you would like to delete this video from the S3 bucket:<input class="filennameToDelete" type="text" disabled>
+                    Note that this action is irreversible unless you have backup of this video! Please continue only if you know what you are doing!
                 </div>
             </div>
         </div>
@@ -745,9 +751,9 @@
             <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
         </div>
     </div>
-	
 
-	
+
+
 
 <div class="row">
 			<div class="col s4">
@@ -759,16 +765,16 @@
 			<div class="col s4">
 				<a href="#" id="soundMouseSmurfview" class="waves-effect waves-light btn">Soundmouse Smurf file</a>
 			</div>
-			
+
 			<div class="col s4">
 				<a href="#" id="bcAnalycsData" class="waves-effect waves-light btn">BC Analytics Data</a>
 			</div>
 		</div>
-		
 
-  
+
+
 	</div>
-	
+
 	<div id="fileUploaderDialog" class="modal listableDialog">
         <div class="modal-content">
 
@@ -778,7 +784,7 @@
                  <div class="progress">
                     <div class="bar" style="width: 0%;"></div>
                 </div>
-                
+
             </div>
             <div class="statusMessage">
              </div>
@@ -786,34 +792,34 @@
 
         </div>
         <div class="modal-footer">
-            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>          
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>
        </div>
    </div>
-   
+
    <div id="playlistDialog" class="modal listableDialog">
              <div class="dialog-header">
                <h4>Add To Playlist</h4>
              </div>
         <div class="modal-content">
-                                         
+
                  <div>Choose the playlist where you want to add the selected video.</div>
                  <div>
-                 
+
 	                 <table class="controlbuttons">
 	                 <tr>
-	                 <td><input id="searchInput" type="text" placeholder="Search..">      
+	                 <td><input id="searchInput" type="text" placeholder="Search..">
 	                </td>
-	                <td>   
-	                        <a id="searchButton" class="btn-floating btn-large waves-effect waves-light blue lighten-1"><i class="material-icons">search</i></a> 
-	                </td> 
+	                <td>
+	                        <a id="searchButton" class="btn-floating btn-large waves-effect waves-light blue lighten-1"><i class="material-icons">search</i></a>
+	                </td>
 	                </tr></table>
-                 
+
                  </div>
                  <div class="listable">
 	                 <table class="playlistable">
 					       <tr>
-					           <th class="sortable sort-name">Playlist Name <span class="sort-ascending">&#9660;</span><span class="sort-descending">&#9650;</span><span class="not-sorted">&#x21D5;</span>           
-					           </th>           
+					           <th class="sortable sort-name">Playlist Name <span class="sort-ascending">&#9660;</span><span class="sort-descending">&#9650;</span><span class="not-sorted">&#x21D5;</span>
+					           </th>
 					       </tr>
 					       <tbody id="playlistContainer">
 					       </tbody>
@@ -822,13 +828,7 @@
         </div>
         <div class="modal-footer">
            <a class="addEpisodeToList modal-action modal-close btn-flat waves-effect waves-red">Add</a>
-            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>          
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
        </div>
-   
+
    </div>
-   
-   
-   
-  
-	
-	
