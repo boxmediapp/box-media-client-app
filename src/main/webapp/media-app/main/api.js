@@ -178,7 +178,7 @@ jQuery(document).ready(function ($) {
         		data: JSON.stringify(data),
         		beforeSend: function (xhr) {
 	        	    if(userInfo.clientId && userInfo.clientSecret){
-	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(crendentials.clientId+":"+crendentials.clientSecret));
+	        	    	xhr.setRequestHeader ("Authorization", "Basic " + btoa(userInfo.clientId+":"+userInfo.clientSecret));
 	        	    }
 	        	}
         		});
@@ -461,14 +461,10 @@ jQuery(document).ready(function ($) {
 	};
 
 	boxservice.api.users.signoutUser=function(){
-			return $.ajax({
-	        	type: "GET",
-	        	url: apipath+"/users",
-						async:false,
-	        	beforeSend: function (xhr) {
-	        	    xhr.setRequestHeader ("Authorization", "Basic " + btoa("root:rootisinvalid"));
-	        	}
-	        });
+			var userInfo=boxservice.globalInput.getUserInfo();
+			if(boxservice.globalInput.isUserInfoValid(userInfo)){
+					return boxservice.api.ajax("POST", apipath+"/user-logout",userInfo);
+			}
 	 };
 		boxservice.api.users.login=function(username,password){
 
@@ -483,7 +479,9 @@ jQuery(document).ready(function ($) {
 	        	}
 	            });
 		};
-
+		boxservice.api.users.refreshLogin=function(userInfo){
+			return boxservice.api.ajax("POST", apipath+"/refresh-login",userInfo);
+    };
 		boxservice.api.report.get=function(){
                     return $.ajax({
                         type: "GET",

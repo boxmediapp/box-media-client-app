@@ -37,7 +37,15 @@ jQuery(document).ready(function ($) {
                         }
                 },
                 signout:function(){
-                  localStorage.removeItem("mediaUser");
+                    if(localStorage.getItem("mediaUser")){
+                        var useinfo=this.getUserInfo();
+                        if(useinfo){
+                            boxservice.api.users.signoutUser();
+                        }
+                        localStorage.removeItem("mediaUser");
+                        this.stopRefreshLoginThread();
+                    }
+
                 },
                 getUserInfo:function(){
                     if(boxservice.api.userinfo){
@@ -72,6 +80,35 @@ jQuery(document).ready(function ($) {
                     }
                 },
 
+                refreshExpiresOfUserInfo:function(userinfo){
+                    var now=new Date();
+                    userinfo.expiresAt=now.getTime()+userinfo.durationInSeconds*1000;
+                    this.setUserInfo(userinfo);
+                    console.log("userInfo expiration time is refreshed");
+                },
+                stopRefreshLoginThread:function(){
+                    if(this.refreshLoginTimer){
+                        clearInterval(this.refreshLoginTimer);
+                        this.refreshLoginTimer=null;
+                      }
+                },
+                startRefreshLoginThread:function(){
+                      var userinfo=this.getUserInfo();
+                      if(!this.isUserInfoValid(userinfo)){
+                            return;
+                      }
+                      this.stopRefreshLoginThread();
+                      var refreshInterval=userinfo.durationInSeconds-30;
+                      if(refreshInterval<0){
+                        refreshInterval=30;
+                      }
+                      var that=this;
+                      this.refreshLoginTimer=setInterval(function(){
+                                    boxservice.api.users.refreshLogin(userinfo).done(function(respose){
+                                        that.refreshExpiresOfUserInfo(userinfo);
+                                    });
+                        },refreshInterval*1000);
+                },
                 disconnect:function(){
                               if(this.connector){
                                   this.connector.disconnect();

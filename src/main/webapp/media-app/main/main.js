@@ -30,7 +30,6 @@ jQuery(document).ready(function ($) {
         boxservice.onLoginWindowClosed=function(){
             boxservice.globalInput.disconnect();
             var userinfo=boxservice.globalInput.getUserInfo();
-
             if(!boxservice.globalInput.isUserInfoValid(userinfo)){
                 boxservice.displayLoginWindow();
             }
@@ -79,6 +78,8 @@ jQuery(document).ready(function ($) {
                boxservice.router.executeOnLoads();
                $(".button-collapse").sideNav();
                boxservice.util.finishWait();
+               boxservice.globalInput.startRefreshLoginThread();
+
              }).fail(function(err){
               boxservice.util.finishWait();
                boxservice.util.onError(err);
