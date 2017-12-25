@@ -8,7 +8,7 @@ jQuery(document).ready(function ($) {
                             var expiresAt=userinfo.expiresAt;
                             var now=new Date();
                             if(now.getTime()>=expiresAt){
-                              console.warn("user info is expired");                              
+                              console.warn("user info is expired");
                               return false;
                             }
                             else{
@@ -97,6 +97,12 @@ jQuery(document).ready(function ($) {
                             return;
                       }
                       this.stopRefreshLoginThread();
+                      if(!userinfo.durationInSeconds){
+                        return;
+                      }
+                      if(userinfo.durationInSeconds<45){
+                        return;
+                      }
                       var refreshInterval=userinfo.durationInSeconds-30;
                       if(refreshInterval<0){
                         refreshInterval=30;
