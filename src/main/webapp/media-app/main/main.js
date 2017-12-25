@@ -1,6 +1,27 @@
 boxservice=boxservice || {};
 
+boxservice.appconfig={
+    box:{
+          episode:{
+                title:{
+                      maxLength:150,
+                      warningLength:25
+                }
+          }
 
+    },
+    bebox:{
+      episode:{
+        title:{
+                  maxLength:150,
+                  warningLength:25
+        }
+      }
+
+    }
+
+
+}
 jQuery(document).ready(function ($) {
 
 
