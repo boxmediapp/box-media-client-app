@@ -463,14 +463,14 @@ jQuery(document).ready(function ($) {
 	boxservice.api.users.signoutUser=function(){
 			var userInfo=boxservice.globalInput.getUserInfo();
 			if(boxservice.globalInput.isUserInfoValid(userInfo)){
-					return boxservice.api.ajax("POST", apipath+"/user-logout",userInfo);
+					return boxservice.api.ajax("POST", apipath+"/accounts/user-logout",userInfo);
 			}
 	 };
 		boxservice.api.users.login=function(username,password){
 
 			return $.ajax({
 	        	type: "POST",
-	        	url: apipath+"/login",
+	        	url: apipath+"/accounts/login",
 						async:false,
 						contentType:"application/json",
         		data: JSON.stringify({username:username}),
@@ -480,7 +480,7 @@ jQuery(document).ready(function ($) {
 	            });
 		};
 		boxservice.api.users.refreshLogin=function(userInfo){
-			return boxservice.api.ajax("POST", apipath+"/refresh-login",userInfo);
+			return boxservice.api.ajax("POST", apipath+"/accounts/refresh-login",userInfo);
     };
 		boxservice.api.report.get=function(){
                     return $.ajax({
