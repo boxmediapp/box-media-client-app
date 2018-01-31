@@ -132,7 +132,8 @@ jQuery(document).ready(function ($) {
                              initData:{
                                  action:"input",
                                  form:{
-                                   id:"fbElBJPSaDUrA6neN@"+window.location.hostname,
+                                   id:"###username###@boxmediaapp",
+                                   label:"boxmediaapp",
                                    title:"Box Media App Sign In",
                                    fields:[{
                                              label:"Username",
