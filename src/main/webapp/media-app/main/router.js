@@ -2,11 +2,11 @@ var boxservice=boxservice || {};
 boxservice.router={
   getAllResources:function(){
         return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
-        this.importSchedules,this.admin,this.help,this.editEpisode,  this.editProgramme,this.editCollection,this.signout];
+        this.importSchedules,this.admin,this.account,this.help,this.editEpisode,  this.editProgramme,this.editCollection,this.signout];
   },
   getAllMenuComponents:function(){
       return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
-      this.importSchedules,this.admin,this.help,this.signout];
+      this.importSchedules,this.admin,this.help,this.account,this.signout];
   },
   selectMenuItem:function(menuComponent){
         if(menuComponent.menuItem){
@@ -215,7 +215,7 @@ boxservice.router={
               return "/index.html";
             },
             route:function(){
-                  boxservice.globalInput.signout();                  
+                  boxservice.globalInput.signout();
                   window.path.location="/index.html";
             },
             onClicked:function(){
@@ -235,6 +235,14 @@ boxservice.router={
           title:"Admin",
           name:"admin",
           redirect:'/box-media/admin',
+          route:function(){
+            boxservice.admin.main();
+          }
+      },
+      account:{
+          title:"Account",
+          name:"account",
+          redirect:'/box-media/account',
           route:function(){
             boxservice.admin.main();
           }
