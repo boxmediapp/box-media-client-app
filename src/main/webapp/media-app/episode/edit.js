@@ -495,18 +495,17 @@ jQuery(document).ready(function ($) {
                         }
 
                 });
-                $("#showCueEditor").click(function () {
-                        boxservice.cue.show(episode).done(function(){
-                                console.log("cue editor has called the callback on episode");
-                                boxservice.episode.edit(episode.id, deferred);
-                        }).fail(function(){
-                                boxservice.episode.edit(episode.id, deferred);
-                        });
+                // $("#showCueEditor").click(function () {
+                //         boxservice.cue.show(episode).done(function(){
+                //                 console.log("cue editor has called the callback on episode");
+                //                 boxservice.episode.edit(episode.id, deferred);
+                //         }).fail(function(){
+                //                 boxservice.episode.edit(episode.id, deferred);
+                //         });
+                // });
+                $("#showCueEditor").attr("href","/box-media/video-cues?episodeid="+episode.id)
 
-
-                });
                 var addModifyAvailabilityWindows=function () {
-
                         boxservice.availability.show(episode).done(function(){
                                 boxservice.episode.edit(episode.id, deferred);
                         }).fail(function(){
@@ -514,7 +513,7 @@ jQuery(document).ready(function ($) {
                         });
                 };
                 $("#addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
-        $(".addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
+                $(".addModifyAvailabilityWindows").click(addModifyAvailabilityWindows);
 
                 $("#uploadVideoFile").click(function () {
                         boxservice.episode.editpage.checkS3WithmaterialId(episode, boxservice.episode.editpage.videoFileName,boxservice.api.boxvideo.searchFiles,function(fileNamebase){
