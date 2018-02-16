@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.co.boxnetwork.boxmedia</groupId>
     <artifactId>box-media-client-app-pom</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <distributionManagement>
