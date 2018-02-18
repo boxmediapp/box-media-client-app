@@ -256,19 +256,12 @@ jQuery(document).ready(function ($) {
 		   boxservice.series.listdata.completeItems(seriesgroup.series);
 		   boxservice.series.seUpSeriesSortable();
 		   boxservice.series.listSeries(seriesgroup.series);
-
+/*
 			  $("#uploadImageFile").click(function () {
 					boxservice.seriesgroup.uploadImageFile(seriesgroup,deferred);
 				});
-
-
-
-
-
-
-
-
-
+*/
+				$("#manageCollectionLevelImage").attr("href","/box-media/image-manager?collectionid="+seriesgroup.id);
 
 			  $("#cancelSaveSeriesGroup").click(function(){
 				  boxservice.seriesgroup.inputDirty=false;

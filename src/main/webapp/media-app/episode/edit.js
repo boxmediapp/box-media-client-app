@@ -536,6 +536,7 @@ jQuery(document).ready(function ($) {
 
                         });
                 });
+                /*
                 $("#uploadImageFile").click(function (fileNamebase) {
                         var filenameConstructor=function(episode){
                                 return episode.materialId.replace(/\//g, "_").replace(/ /g, "-");
@@ -557,6 +558,8 @@ jQuery(document).ready(function ($) {
                                                 });
                         });
                 });
+                */
+                $("#manageEpisodeLevelImage").attr("href","/box-media/image-manager?episodeid="+episode.id);
 
                 $("#importImageFromBC").click(function () {
                         var filenameConstructor=function(episode){
