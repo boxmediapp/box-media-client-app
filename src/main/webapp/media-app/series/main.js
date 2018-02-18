@@ -232,10 +232,13 @@ jQuery(document).ready(function ($) {
 						});
 			   });
 
-
+				 /*
 				$("#uploadImageFile").click(function () {
 					boxservice.series.uploadImageFile(series);
 				});
+				*/
+				$("#manageProgrammeLevelImage").attr("href","/box-media/image-manager?programmeid="+series.id);
+
 				$("#uploadFileNameDialog .cancel").click(function () {
 
 				});
@@ -267,7 +270,7 @@ jQuery(document).ready(function ($) {
 					var seriesgroupid=series.seriesGroup.id;
 
 					boxservice.router.editCollection.onClicked(seriesgroupid).done(function(){
-							boxservice.router.editProgramme.onClicked(series.id,deferred);						
+							boxservice.router.editProgramme.onClicked(series.id,deferred);
 					});
 	  				return false;
 

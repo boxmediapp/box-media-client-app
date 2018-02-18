@@ -7,22 +7,22 @@
      <a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>
      <a id="saveSeriesGroup" class="waves-effect waves-light btn">Save</a>
      <a id="cancelSaveSeriesGroup" class="waves-effect waves-light btn">Cancel</a>
-     <a id="deleteSeriesGroup" class="waves-effect waves-light btn">Delete this programme collection</a>     
+     <a id="deleteSeriesGroup" class="waves-effect waves-light btn">Delete this programme collection</a>
 </div>
 
 <div class="card grey lighten-5 seriesEditCard">
 	<div class="row">
 		    <div class="input-field col s12">
 		    	<input  id="seriesGroupTitle" type="text">
-          		<label for="seriesGroupTitle">Programme Collection Title</label>		    
-		    </div>    			    	
+          		<label for="seriesGroupTitle">Programme Collection Title</label>
+		    </div>
 	</div>
 
 	<div class="row">
 		    <div class="input-field col s12">
-		    	<textarea  id="seriesGroupSynopsis" class="materialize-textarea"></textarea> 
-          		<label for="seriesGroupSynopsis">Programme Collection Synopsis</label>		    
-		    </div>    		
+		    	<textarea  id="seriesGroupSynopsis" class="materialize-textarea"></textarea>
+          		<label for="seriesGroupSynopsis">Programme Collection Synopsis</label>
+		    </div>
 	</div>
 </div>
 
@@ -31,57 +31,28 @@
 		    <div class="input-field col s4">
                 Tags:<span class="tagslist">
             </div>
-            
-            <div class="input-field col s4">   
-                
-                </span><a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a>                            
+
+            <div class="input-field col s4">
+
+                </span><a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a>
             </div>
 
 	</div>
 </div>
 
 
-<div class="card grey lighten-5 seriesEditCard">		
-<div class="row">
-		<div class="col 3">
-			<a id="uploadImageFile" class="waves-effect waves-light btn">Upload Image</a>
-		</div>
-		<div class="col s1 tooltip">
-	
-			<i class="material-icons">help_outline</i>
-					<div class="tooltiptext z-depth-2">
-			You can upload a image file from your local disk, and directly attached it to this programme collection. you can also upload the images
-			directly to to he s3 buckets, and the application will automatically pick up the images and attached them to the programme collection based on the naming convention.
-			The web safe title of the programme collection title will be used for naming the image uploaded.			
-
-					</div>					
-		</div>
-		
-			<div class="input-field col s3">
-				  	<input  id="imageURL" type="text">
-		            <label for="imageURL" class="tooltip">Programme Collection Level Image
-		<i class="material-icons">help_outline</i>
-					<div class="tooltiptext z-depth-2">
-			 This field will be automatically filled in when a matching image is uploaded to the s3 bucket. 
-			     So you do not need to fill in this field unless you know you would like to specify the URL to the master Image manually. 
-			     The naming convention for the image file is &lt;web-safe-title&gt.&lt;ext&lt;
-			        You can also choose to upload your image	
-					</div>
-		            
-		            
-		            </label>
-			</div>	
-		<div class="input-field col s2">
-				<a id="viewImage" class="waves-effect waves-light btn">View Images</a>
-			</div>
-		
-		<div class="input-field col s2">
-                <a id="deleteMasterImage" class="waves-effect waves-light btn">Delete</a>
-         </div>
+<div class="card grey lighten-5 seriesEditCard">
+    <div class="row">
+    			<div class="input-field col s6">
+    				  	<input  id="imageURL" type="text" readonly>
+    		            <label for="imageURL">Programme Collection Level Image</label>
+    			</div>
+    		   <div class="input-field col s6">
+    				<a id="manageCollectionLevelImage" class="waves-effect waves-light btn">Edit Collection Level Image</a>
+    			</div>
+    	</div>
 	</div>
-	   
-	</div>   
-	
+
 
 
 <div> <h5>The below is the list of programme that belongs to the programme collection that you are editing</h5></div>
@@ -92,10 +63,10 @@
    <th>programme title</th><th>Contract number</th>
   </thead>
    <tbody id="serieslist">
-		   
-   
+
+
    </tbody>
-</table>	
+</table>
 
 
 </div>
@@ -106,10 +77,10 @@
 <div id="controllers2">
  <a id="addNewSeriesToSeriesGroup" class="waves-effect waves-light btn">Add New Programme</a>
  </div>
- 
- 
- 
- 
+
+
+
+
 <div id="uploadFileNameDialog" class="modal">
         <div class="modal-content">
             <div class="row">
@@ -136,7 +107,7 @@
                  <div class="progress">
                     <div class="bar" style="width: 0%;"></div>
                 </div>
-                
+
             </div>
             <div class="statusMessage">
              </div>
@@ -144,16 +115,16 @@
 
         </div>
         <div class="modal-footer">
-            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>          
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>
        </div>
    </div>
- 
- 
+
+
  <div id="confirmDeleteImageDialog" class="modal">
         <div class="modal-content">
             <div class="row">
                 <div class="input-field col s12">
-                    Are you sure you would like to delete the episode image:<input class="filennameToDelete" type="text" disabled>                  
+                    Are you sure you would like to delete the episode image:<input class="filennameToDelete" type="text" disabled>
                 </div>
             </div>
         </div>

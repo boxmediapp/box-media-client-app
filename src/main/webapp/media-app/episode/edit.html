@@ -80,7 +80,7 @@
 			<div class="input-field col s12">
 				<input id="episodeTitle" type="text">
 				<label for="episodeTitle">EPG Title
-					<span id="episodeTitleWarningText">tile is too long, the optimum length is 25</span>		
+					<span id="episodeTitleWarningText">tile is too long, the optimum length is 25</span>
 				</label>
 			</div>
 
@@ -473,40 +473,13 @@
 
 	<div class="card grey lighten-5 episodeEditCard">
 		<div class="row">
-			<div class="col 3">
-				<a id="uploadImageFile" class="waves-effect waves-light btn">Upload Image</a>
-			</div>
-			<div class="col 1 tooltip">
-				<i class="material-icons">help_outline</i>
-				<div class="tooltiptext z-depth-2">
-					You can upload a image file from your local disk, and directly attached it to this episode. you can also upload the images
-					directly to to he s3 buckets, and the application will automatically pick up the images and attached them to the episodes,
-					programme and programme collection based on the naming conventions.
-
-				</div>
-			</div>
-			<div class="input-field col s3">
-				<input id="imageURL" type="text">
-				<label for="imageURL" class="tooltip">Episode Level Image
-
-			 <i class="material-icons">help_outline</i>
-					<div class="tooltiptext z-depth-2">
-			This field will be automatically filled in when a matching image is uploaded to the s3 bucket. So you do not need to fill
-			in this field unless you know you would like to specify the URL to the master Image manually. The naming convention for
-			the image file is &lt;contract-number&gt;_&lt;episode-number&gt;.&lt;ext&gt;
-			In order to make the image name user friendly, you can prefix the file name with the websafe title.
+					<div class="input-field col s6">
+						<input id="imageURL" type="text" readonly>
+						<label for="imageURL" class="tooltip">Episode Level Image</label>
 					</div>
-
-
-			</label>
-			</div>
-			<div class="input-field col s3">
-				<a id="viewImage" class="waves-effect waves-light btn">View Images</a>
-			</div>
-			<div class="input-field col s3">
-				<a id="deleteMasterImage" class="waves-effect waves-light btn">Delete</a>
-	   		</div>
-
+					<div class="input-field col s6">
+						<a id="manageEpisodeLevelImage" class="waves-effect waves-light btn">Edit Episode Level Image</a>
+					</div>
 		</div>
 		<div class="row">
 			<div class="input-field col s3 tooltip">

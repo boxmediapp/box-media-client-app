@@ -1,10 +1,10 @@
 <div id="seriesEditor">
 <h4>Programme Editor</h4>
 	<div id="controllers">
-		 <a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>      
+		 <a id="backButton" class="btn-floating waves-effect waves-light btn red"><i class="material-icons">arrow_back</i></a>
 	     <a id="saveSeries" class="waves-effect waves-light btn">Save</a>
-	     <a id="cancelSaveSeries" class="waves-effect waves-light btn">Cancel</a>   
-	     <a id="deleteSeries" class="waves-effect waves-light btn">Delete this programme</a>  
+	     <a id="cancelSaveSeries" class="waves-effect waves-light btn">Cancel</a>
+	     <a id="deleteSeries" class="waves-effect waves-light btn">Delete this programme</a>
 	</div>
 
 <div class="card grey lighten-5 seriesEditCard">
@@ -12,15 +12,15 @@
     <div class="row">
 		    <div class="input-field col s12">
 		    	<input  id="seriesName" type="text">
-          		<label for="seriesName">Programme Title</label>		    
-		    </div>    			    	
+          		<label for="seriesName">Programme Title</label>
+		    </div>
 	</div>
 
 	<div class="row">
 		    <div class="input-field col s12">
-		    	<textarea  id="seriesSynopsis" class="materialize-textarea"></textarea> 
-          		<label for="seriesSynopsis">Programme Synopsis</label>		    
-		    </div>    		
+		    	<textarea  id="seriesSynopsis" class="materialize-textarea"></textarea>
+          		<label for="seriesSynopsis">Programme Synopsis</label>
+		    </div>
 	</div>
 </div>
 
@@ -28,16 +28,16 @@
      <div class="row">
             <div class="input-field col s4">
                 <input  id="contractNumber" type="text">
-                <label for="contractNumber">Contract Number</label>         
+                <label for="contractNumber">Contract Number</label>
             </div>
             <div class="input-field col s4">
                 <input  id="seriesNumber" type="text">
-                <label for="seriesNumber">Series Number</label>         
+                <label for="seriesNumber">Series Number</label>
             </div>
             <div class="input-field col s4">
                 <input  id="maxNumberOfEpisodes" type="text">
-                <label for="maxNumberOfEpisodes">Maximum number of episodes</label>         
-            </div>            
+                <label for="maxNumberOfEpisodes">Maximum number of episodes</label>
+            </div>
      </div>
 </div>
 
@@ -57,45 +57,20 @@
                     Click on the button to specify the title of the programme collection that the programme belongs to.
                     If such an programme collection exist, it will attach the programme to the programme collection, otherwise, it will create an a new programme collection.
                 </div>
-            </div>     
-     </div> 
+            </div>
+     </div>
 </div>
 
 <div class="card grey lighten-5 seriesEditCard">
 
     <div class="row">
-        <div class="col 3">
-            <a id="uploadImageFile" class="waves-effect waves-light btn">Upload Image</a>
+        <div class="input-field col s6">
+                    <input  id="imageURL" type="text" readonly>
+                    <label for="imageURL">Programme level Image</label>
         </div>
-        
-        <div class="col s1 tooltip">        
-                        <i class="material-icons">help_outline</i>
-                        <div class="tooltiptext z-depth-2">
-                            You can upload a image file from your local disk, and directly attached it to this programme. you can also upload the images
-                            directly to to he s3 buckets, and the application will automatically pick up the images and attached them to the programme based on the naming convention.
-                            
-                        </div>
-        </div>      
-        <div class="input-field col s3">
-                    <input  id="imageURL" type="text">
-                    <label for="imageURL" class="tooltip">Programme level Image
-                            <i class="material-icons">help_outline</i>
-                            <div class="tooltiptext z-depth-2">
-                                This field will be automatically filled in when a matching image is uploaded to the s3 bucket. 
-                                     So you do not need to fill in this field unless you know you would like to specify the URL to the master Image manually. 
-                                     The naming convention for the image file is:
-                                        &lt;contract-number&gt;.&lt;ext&gt; In order to make the image easier to understanding you can prefix the image with the web-safe title                
-                            </div>                  
-                    </label>
-        </div>  
-        <div class="input-field col s1">
-                <a id="viewImage" class="waves-effect waves-light btn">View Images</a>
+        <div class="input-field col s6">
+                <a id="manageProgrammeLevelImage" class="waves-effect waves-light btn">Edit Programme Level Image</a>
        </div>
-       <div class="input-field col s4">
-                <a id="deleteMasterImage" class="waves-effect waves-light btn">Delete</a>
-       </div>
-        
-        
     </div>
 </div>
 
@@ -105,29 +80,29 @@
 	   	     <div class="input-field col s4">
                 Tags:<span class="tagslist">
             </div>
-            
-            <div class="input-field col s4">   
-                
-                </span><a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a>                            
+
+            <div class="input-field col s4">
+
+                </span><a id="addNewTag" class="waves-effect waves-light btn-small btn-floating red"><i class="material-icons">add</i></a>
             </div>
 	 </div>
-	   
-</div>	   
-	 		
-	   
-	 
-	   
-	   
-				 
+
+</div>
 
 
 
-    
-         
-    <div class="editsection">        
-              <h5>Episodes in this programme</h5>  
-              
-                   
+
+
+
+
+
+
+
+
+    <div class="editsection">
+              <h5>Episodes in this programme</h5>
+
+
                <table>
 		       <tr>
 		           <th class="sortable sort-title">Title <span class="sort-ascending">&#9660;</span><span class="sort-descending">&#9650;</span><span class="not-sorted">&#x21D5;</span></th>
@@ -139,17 +114,17 @@
 		           <th class="sortable availability-status">Availability Status <span class="sort-ascending">&#9660; </span><span class="sort-descending">&#9650;</span><span class="not-sorted">&#x21D5;</span></th>
 		           <th class="sortable createdat">Created at<span class="sort-ascending">&#9660; </span><span class="sort-descending">&#9650;</span><span class="not-sorted">&#x21D5;</span></th>
 		           <th class="sortable lastmodified">Last modified date <span class="sort-ascending">&#9660; </span><span class="sort-descending">&#9650;</span><span class="not-sorted">&#x21D5;</span></th>
-		           <th></th>           
+		           <th></th>
 		       </tr>
 		       <tbody id="episodelistContainer">
 		       </tbody>
 		       </table>
     </div>
-              
-            
-            
-        
-  
+
+
+
+
+
   <div class="row">
 	  <div class="input-field col s6">
  				<a id="addNewEpisodeToSeries" class="waves-effect waves-light btn">Add New Episode To this Programme</a>
@@ -158,9 +133,9 @@
  	  			<a id="importEpisodeFromBrightcove" class="waves-effect waves-light btn">Import from Brightcove</a>
  	  </div>
  </div>
- 
- 
- 
+
+
+
  <div id="uploadFileNameDialog" class="modal">
 		<div class="modal-content">
 			<div class="row">
@@ -182,7 +157,7 @@
 		<div class="modal-content">
 			<div class="row">
 				<div class="input-field col s12">
-					Are you sure you would like to delete the programme image:<input class="filennameToDelete" type="text" disabled>					
+					Are you sure you would like to delete the programme image:<input class="filennameToDelete" type="text" disabled>
 				</div>
 			</div>
 		</div>
@@ -191,7 +166,7 @@
 			<a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Cancel</a>
 		</div>
 	</div>
- 
+
 <div id="fileUploaderDialog" class="modal">
         <div class="modal-content">
 
@@ -206,10 +181,10 @@
 
         </div>
         <div class="modal-footer">
-            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>          
+            <a class="cancel modal-action modal-close btn-flat waves-effect waves-red">Close</a>
        </div>
 </div>
-   
+
 <div id="importEpisodeFromBCDialog" class="modal">
 		<div class="modal-content">
 			<div class="row">
@@ -218,10 +193,10 @@
 					<label for="brightcoveIdToImport" class="tooltip">Brightcove ID for import
 					<i class="material-icons">help_outline</i>
 							<div class="tooltiptext z-depth-2">
-								
-								The Brightcove ID is the id of the media item in the Brightcove video cloud. Please login into the brightcove video cloud, find the media item you would like to import and copy the value of the id into your clipboard, and paste it into this field.   			       
+
+								The Brightcove ID is the id of the media item in the Brightcove video cloud. Please login into the brightcove video cloud, find the media item you would like to import and copy the value of the id into your clipboard, and paste it into this field.
 							</div>
-					
+
 					</label>
 				</div>
 				<div class="input-field col s4">
@@ -238,6 +213,6 @@
 		</div>
 	</div>
 
-     
+
 
 </div>
