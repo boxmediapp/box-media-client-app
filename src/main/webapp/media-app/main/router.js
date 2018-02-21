@@ -1,5 +1,5 @@
 var boxservice=boxservice || {};
-boxservice.router={
+boxservice.router={  
   getAllResources:function(){
         return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
         this.importSchedules,this.admin,this.account,this.help,this.editEpisode,  this.editProgramme,this.editCollection,this.signout];

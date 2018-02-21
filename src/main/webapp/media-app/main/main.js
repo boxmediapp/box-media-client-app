@@ -44,9 +44,10 @@ jQuery(document).ready(function ($) {
                 //     $(window).attr('location','/index.html')
                 // }
 
+                window.location="/box-media/redirect-old-version"+window.location.search;
 
-            $("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
-            boxservice.globalInput.connect();
+            //$("#loginUSerDialog").openModal({complete:boxservice.onLoginWindowClosed});
+            //boxservice.globalInput.connect();
         };
         boxservice.onLoginWindowClosed=function(){
             boxservice.globalInput.disconnect();
@@ -148,7 +149,7 @@ jQuery(document).ready(function ($) {
 
 
        boxservice.signinout=function(){
-    	   boxservice.displayLoginWindow();
+    	     boxservice.displayLoginWindow();
        };
        var userinfo=boxservice.globalInput.getUserInfo();
        if(boxservice.globalInput.isUserInfoValid(userinfo)){
