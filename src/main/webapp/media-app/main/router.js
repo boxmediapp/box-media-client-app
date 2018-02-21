@@ -5,8 +5,15 @@ boxservice.router={
         this.importSchedules,this.admin,this.account,this.help,this.editEpisode,  this.editProgramme,this.editCollection,this.signout];
   },
   getAllMenuComponents:function(){
+    if(boxservice.appinfo && boxservice.appinfo.appconfig && boxservice.appinfo.appconfig.visibilityCategory==='bebox'){
+      return [this.episode,this.series,this.seriesgroup,this.s3,this.playlists,
+      this.admin,this.help,this.account,this.signout];
+    }
+    else{
       return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
       this.importSchedules,this.admin,this.help,this.account,this.signout];
+    }
+
   },
   selectMenuItem:function(menuComponent){
         if(menuComponent.menuItem){
