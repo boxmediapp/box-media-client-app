@@ -1,3 +1,3 @@
 source deploy/prod.sh
-echo "deploying the version 4.1.2 to dilshat@dubuntu using the property file deploy/prod.sh (for replacement of the environment specific variables) ..."
-deploy/deploy.sh dubuntu dilshat 4.1.2
+echo "deploying the version 4.1.3 to dilshat@dubuntu using the property file deploy/prod.sh (for replacement of the environment specific variables) ..."
+deploy/deploy.sh dubuntu dilshat 4.1.3
