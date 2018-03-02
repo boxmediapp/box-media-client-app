@@ -1,5 +1,5 @@
 var boxservice=boxservice || {};
-boxservice.router={  
+boxservice.router={
   getAllResources:function(){
         return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
         this.importSchedules,this.admin,this.account,this.help,this.editEpisode,  this.editProgramme,this.editCollection,this.signout];
@@ -7,11 +7,11 @@ boxservice.router={
   getAllMenuComponents:function(){
     if(boxservice.appinfo && boxservice.appinfo.appconfig && boxservice.appinfo.appconfig.visibilityCategory==='bebox'){
       return [this.episode,this.series,this.seriesgroup,this.s3,this.playlists,
-      this.admin,this.help,this.account,this.signout];
+      this.admin,this.account,this.signout];
     }
     else{
       return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
-      this.importSchedules,this.admin,this.help,this.account,this.signout];
+      this.importSchedules,this.admin,this.account,this.signout];
     }
 
   },
