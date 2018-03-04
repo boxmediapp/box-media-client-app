@@ -1,16 +1,16 @@
 var boxservice=boxservice || {};
 boxservice.router={
   getAllResources:function(){
-        return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
+        return [this.home,this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
         this.importSchedules,this.admin,this.account,this.help,this.editEpisode,  this.editProgramme,this.editCollection,this.signout];
   },
   getAllMenuComponents:function(){
     if(boxservice.appinfo && boxservice.appinfo.appconfig && boxservice.appinfo.appconfig.visibilityCategory==='bebox'){
-      return [this.episode,this.series,this.seriesgroup,this.s3,this.playlists,
+      return [this.home,this.episode,this.series,this.seriesgroup,this.s3,this.playlists,
       this.admin,this.account,this.signout];
     }
     else{
-      return [this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
+      return [this.home,this.episode,this.series,this.seriesgroup,this.s3,this.schedules,this.playlists,
       this.importSchedules,this.admin,this.account,this.signout];
     }
 
@@ -237,6 +237,14 @@ boxservice.router={
             route:function(){
                 boxservice.help();
             }
+      },
+      home:{
+        title:"Home",
+        name:"home",
+        redirect:'/',
+        route:function(){
+
+        }
       },
       admin:{
           title:"Admin",
