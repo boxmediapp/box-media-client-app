@@ -275,10 +275,13 @@ jQuery(document).ready(function ($) {
                                          window.open(url,"_blank");
                                          return false;
                                  });
-                                 $("#addToPlaylist").click(function(){
-                                     boxservice.episode.playlist.show(episode);
-                                     return false;
-                                 });
+                                 // $("#addToPlaylist").click(function(){
+                                 //     boxservice.episode.playlist.show(episode);
+                                 //     return false;
+                                 // });
+
+                                 $("#addToPlaylist").attr("href","/box-media/cms/episode-playlists?episodeid="+episode.id)
+
                                  $("#jsonview").click(function(){
                                          var url=boxservice.api.episode.getDetailsUrl(episode.id);
                                          window.open(url,"_blank");
