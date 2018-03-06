@@ -838,3 +838,7 @@ td div.scheduled{
   margin-left: 20px;
   display: none;
 }
+.episodeTitleInList{
+  min-width:200px;
+
+}

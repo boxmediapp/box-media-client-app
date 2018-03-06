@@ -1,5 +1,10 @@
  <tr class="episoderow published_${episodeStatus.publishedStatus}  video_${episodeStatus.videoStatus}  availability_${currentAvailabilityStatus} requiredFieldsStatus_${requiredFieldsStatus}" id="episode_${id}" episodeid="${id}">
-	 <td> <a class="episodlink" href="/media-app/index.html?resource=editEpisode&amp;episodeid=${id}">${title}</a></td>
+   <td>
+        <a href="/box-media/video-cues?episodeid=${id}" class="playSourceVideo">
+              <img class="episodeThumbnail" src="${thumbnailImageURL}"/>
+        </a>
+  </td>
+	 <td class="episodeTitleInList"> <a class="episodlink" href="/media-app/index.html?resource=editEpisode&amp;episodeid=${id}">${title}</a></td>
 	 <td><a class="episodlink" href="/media-app/index.html?resource=editEpisode&amp;episodeid=${id}">${programmeNumber}</a></td>
 	 <td>${episodeStatus.metadataStatus}</td>
 	 <td>${episodeStatus.videoStatus}</td>
@@ -46,9 +51,7 @@
 	 </div>
 
 	 </td>
-   <td>
-        <a href="/box-media/video-cues?episodeid=${id}" class="playSourceVideo"><img src="images/play.png"/></a>
-  </td>
+
 
 
 

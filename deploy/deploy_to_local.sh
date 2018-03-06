@@ -1,3 +1,3 @@
 source deploy/prod.sh
-echo "deploying the version 4.2.1 to local@local using the property file deploy/prod.sh (for replacement of the environment specific variables) ..."
-deploy/local.sh local local 4.2.1
+echo "deploying the version 4.2.2 to local@local using the property file deploy/prod.sh (for replacement of the environment specific variables) ..."
+deploy/local.sh local local 4.2.2

@@ -290,6 +290,10 @@ jQuery(document).ready(function ($) {
                 $(".publishChangesButton").hide();
             }
            var econfig={types:{lastModifiedAt:"datetime",createdAt:"datetime"}};
+           for(var i=0;i<episodes.length;i++){
+              var eps=episodes[i];
+              eps.thumbnailImageURL=boxservice.util.getEpisodeImage(eps);              
+           }
            boxservice.util.pageForEachRecord("episode/episode-row.html",episodes,"#episodelistContainer",econfig).done(function(){
 
                           boxservice.episode.listdata.autoScroll();
@@ -380,7 +384,7 @@ jQuery(document).ready(function ($) {
 
                       $("a.episodlink").click(function(){
                                   var deferred=boxservice.episode.listdata.getBackDeferred();
-                                  
+
                                   recordContainer=$(this).parents(".episoderow");
                                   var episodeid=recordContainer.attr("episodeid");
                                   boxservice.router.editEpisode.onClicked(episodeid,deferred);

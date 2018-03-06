@@ -875,11 +875,26 @@ boxservice.util.isArrayDifferent=function(array1, array2){
            return datevalue.getFullYear()+"-"+(month)+"-"+(day) ;
 
        };
-
-
-
-
-
+			 boxservice.util.getEpisodeImage=function(episode){
+				 	  var image=null;
+						if(episode.imageURL)
+									image=episode.imageURL;
+						if(episode.series && episode.series.imageURL){
+									image=episode.series.imageURL;
+						}
+						if(episode.series && episode.series.seriesGroup && episode.series.seriesGroup.imageURL){
+							    image=episode.series.seriesGroup.imageURL;
+						}
+						if(!image){
+									return "images/box-default.png";
+						}
+						var thumbnailimage=image;
+						var ind=image.lastIndexOf(".");
+						if(ind>0){
+									thumbnailimage=image.substring(0,ind)+"_288x162.png";
+						}
+						return boxservice.appinfo.appconfig.s3imagesURL+"/"+boxservice.appinfo.appconfig.imagePublicFolder+"/"+thumbnailimage;
+			 };
 
 
 });
