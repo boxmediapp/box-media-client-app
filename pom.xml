@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.co.boxnetwork.boxmedia</groupId>
     <artifactId>box-media-client-app-pom</artifactId>
-    <version>4.2.3</version>
+    <version>4.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <distributionManagement>
@@ -24,37 +24,37 @@
     </distributionManagement>
 
     <scm>
-        
-    
+
+
         <connection>scm:ssh://git@github.com:boxmediapp/box-media-client-app.git </connection>
     </scm>
 
-	<properties>          
+	<properties>
 	        <maven.assembly.plugin.version>2.2</maven.assembly.plugin.version>
-            
+
     </properties>
-    
-    
-    
+
+
+
     <build>
         <plugins>
          <plugin>
-            <groupId>external.atlassian.jgitflow</groupId>
-            <artifactId>jgitflow-maven-plugin</artifactId>
-            <version>1.0-m4.3</version>
+           <groupId>com.amashchenko.maven.plugin</groupId>
+          <artifactId>gitflow-maven-plugin</artifactId>
+          <version>1.9.0</version>
               <configuration>
-                 <!--     
+                 <!--
     				<enableSshAgent>true</enableSshAgent>
     				 -->
-    				<autoVersionSubmodules>true</autoVersionSubmodules> 
-    				<pushFeatures>true</pushFeatures>    
-    				<pushReleases>true</pushReleases>    
+    				<autoVersionSubmodules>true</autoVersionSubmodules>
+    				<pushFeatures>true</pushFeatures>
+    				<pushReleases>true</pushReleases>
     				<pushHotfixes>true</pushHotfixes>
-    				    		     
-    				 
+
+
     				<noDeploy>true</noDeploy>
-    				    		
-                    <flowInitContext>      
+
+                    <flowInitContext>
                        <developBranchName>develop</developBranchName>
                        <versionTagPrefix>release-</versionTagPrefix>
                        <masterBranchName>master</masterBranchName>
@@ -63,10 +63,9 @@
         </plugin>
         </plugins>
     </build>
-     
+
   <modules>
   	 <module>package</module>
  </modules>
 
 </project>
-

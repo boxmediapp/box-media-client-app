@@ -131,6 +131,7 @@ jQuery(document).ready(function ($) {
                              onSenderDisconnected:this.onSenderDisconnected.bind(this),
                              initData:{
                                  action:"input",
+                                 dataType:"form",
                                  form:{
                                    id:"###username###@boxmediaapp",
                                    label:"boxmediaapp",
